@@ -1,0 +1,21 @@
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{l l cccccccc}
+\toprule
+Method & setting & $n$ & fBD$\downarrow$ & NBF$\downarrow$ & MCFF-E & MCFF-L$\uparrow$ & FP$\uparrow$ & DLR$\downarrow$ & DAR$\downarrow$ \\
+\midrule
+\multicolumn{10}{l}{\textit{60s horizon}} \\
+CausVid & native & 23 & 8.14 & 9.29 & -- & 2.28 & 0.67 & 0.45 & 0.04 \\
+Self-Forcing & native & 23 & 11.5 & 12.7 & -- & 2.52 & 0.44 & 0.50 & 0.11 \\
+Infinite-Forcing & native & 23 & 7.72 & 3.64 & -- & 0.29 & 0.62 & 0.55 & 0.11 \\
+Rolling-Forcing & native & 23 & 16.9 & 11.2 & -- & 1.54 & 0.74 & 0.54 & 0.12 \\
+Reward-Forcing & native & 23 & 15.0 & 8.53 & -- & 0.87 & 0.50 & 0.60 & 0.10 \\
+LongLive & native & 23 & 15.7 & 13.9 & -- & 2.44 & 0.77 & 0.59 & 0.13 \\
+Causal-Forcing & native & 23 & 22.8 & 87.6 & -- & 6.89 & 0.78 & 0.94 & 0.43 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{SNF-Bench audit, T2V track, native configuration.} All systems are public external models run under their own intended configuration. Our own systems are excluded by construction. $n$ is the number of evaluated prompts. DAR is reported clipped to $[0,1]$; signed values are released.}
+\label{tab:t2v_audit}
+\end{table*}

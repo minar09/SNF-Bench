@@ -50,3 +50,10 @@ Public generators are evaluated under two explicitly separated settings, defined
 \label{sec:aggregation}
 
 Metrics are computed per item and macro-averaged across categories. Uncertainty is estimated with prompt-level paired bootstrap resampling; we report 95\% confidence intervals and treat methods whose intervals substantially overlap as statistically indistinguishable rather than assigning definitive ordinal ranks.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig2_mask_protocol.pdf}
+\caption{\textbf{Region-partition protocol.} (a)~For I2V a single mask is derived from the shared source image and applied to every system. For T2V no single spatial mask is valid across systems, since layout is generated; a mask is instead derived from \emph{each} output's own first frame under an identical frozen procedure, with no later frame visible. The partition therefore depends on generated layout but not on the failure being measured. (b)~Rain, snow and smoke transit static support, so the same pixels are simultaneously support and intended motion; a third label $\Omega_{\mathrm{overlay}}$ absorbs them and is excluded from headline static-fidelity measurement.}
+\label{fig:mask_protocol}
+\end{figure*}

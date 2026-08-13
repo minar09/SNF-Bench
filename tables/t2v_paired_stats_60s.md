@@ -55,32 +55,6 @@ Exact two-sided sign test over prompts evaluated by **both** methods.
 | Reward-Forcing | Causal-Forcing | 23 | 8.531 vs 87.643 | 22/23 | 0.0000 | **yes** |
 | LongLive | Causal-Forcing | 23 | 13.872 vs 87.643 | 22/23 | 0.0000 | **yes** |
 
-## FP (higher is better)
-
-| A | B | n paired | mean A vs B | A wins | p (sign test) | sig |
-|---|---|---|---|---|---|---|
-| CausVid | Self-Forcing | 22 | 0.670 vs 0.439 | 13/22 | 0.5235 | no |
-| CausVid | Infinite-Forcing | 22 | 0.670 vs 0.624 | 15/22 | 0.1338 | no |
-| CausVid | Rolling-Forcing | 23 | 0.670 vs 0.740 | 15/23 | 0.2100 | no |
-| CausVid | Reward-Forcing | 23 | 0.670 vs 0.502 | 17/23 | 0.0347 | **yes** |
-| CausVid | LongLive | 22 | 0.670 vs 0.766 | 12/22 | 0.8318 | no |
-| CausVid | Causal-Forcing | 23 | 0.670 vs 0.782 | 11/23 | 1.0000 | no |
-| Self-Forcing | Infinite-Forcing | 22 | 0.439 vs 0.624 | 8/22 | 0.2863 | no |
-| Self-Forcing | Rolling-Forcing | 23 | 0.439 vs 0.740 | 9/23 | 0.4049 | no |
-| Self-Forcing | Reward-Forcing | 23 | 0.439 vs 0.502 | 9/23 | 0.4049 | no |
-| Self-Forcing | LongLive | 22 | 0.439 vs 0.766 | 7/22 | 0.1338 | no |
-| Self-Forcing | Causal-Forcing | 23 | 0.439 vs 0.782 | 9/23 | 0.4049 | no |
-| Infinite-Forcing | Rolling-Forcing | 23 | 0.624 vs 0.740 | 10/23 | 0.6776 | no |
-| Infinite-Forcing | Reward-Forcing | 23 | 0.624 vs 0.502 | 10/23 | 0.6776 | no |
-| Infinite-Forcing | LongLive | 22 | 0.624 vs 0.766 | 8/22 | 0.2863 | no |
-| Infinite-Forcing | Causal-Forcing | 22 | 0.624 vs 0.782 | 10/22 | 0.8318 | no |
-| Rolling-Forcing | Reward-Forcing | 23 | 0.740 vs 0.502 | 12/23 | 1.0000 | no |
-| Rolling-Forcing | LongLive | 22 | 0.740 vs 0.766 | 13/22 | 0.5235 | no |
-| Rolling-Forcing | Causal-Forcing | 23 | 0.740 vs 0.782 | 10/23 | 0.6776 | no |
-| Reward-Forcing | LongLive | 23 | 0.502 vs 0.766 | 10/23 | 0.6776 | no |
-| Reward-Forcing | Causal-Forcing | 23 | 0.502 vs 0.782 | 9/23 | 0.4049 | no |
-| LongLive | Causal-Forcing | 23 | 0.766 vs 0.782 | 12/23 | 1.0000 | no |
-
 ## MCFF (higher is better)
 
 | A | B | n paired | mean A vs B | A wins | p (sign test) | sig |
@@ -106,6 +80,32 @@ Exact two-sided sign test over prompts evaluated by **both** methods.
 | Reward-Forcing | LongLive | 23 | 0.875 vs 2.440 | 6/23 | 0.0347 | **yes** |
 | Reward-Forcing | Causal-Forcing | 23 | 0.875 vs 6.893 | 5/23 | 0.0106 | **yes** |
 | LongLive | Causal-Forcing | 23 | 2.440 vs 6.893 | 7/23 | 0.0931 | no |
+
+## FP (higher is better)
+
+| A | B | n paired | mean A vs B | A wins | p (sign test) | sig |
+|---|---|---|---|---|---|---|
+| CausVid | Self-Forcing | 22 | 0.670 vs 0.439 | 13/22 | 0.5235 | no |
+| CausVid | Infinite-Forcing | 22 | 0.670 vs 0.624 | 15/22 | 0.1338 | no |
+| CausVid | Rolling-Forcing | 23 | 0.670 vs 0.740 | 15/23 | 0.2100 | no |
+| CausVid | Reward-Forcing | 23 | 0.670 vs 0.502 | 17/23 | 0.0347 | **yes** |
+| CausVid | LongLive | 22 | 0.670 vs 0.766 | 12/22 | 0.8318 | no |
+| CausVid | Causal-Forcing | 23 | 0.670 vs 0.782 | 11/23 | 1.0000 | no |
+| Self-Forcing | Infinite-Forcing | 22 | 0.439 vs 0.624 | 8/22 | 0.2863 | no |
+| Self-Forcing | Rolling-Forcing | 23 | 0.439 vs 0.740 | 9/23 | 0.4049 | no |
+| Self-Forcing | Reward-Forcing | 23 | 0.439 vs 0.502 | 9/23 | 0.4049 | no |
+| Self-Forcing | LongLive | 22 | 0.439 vs 0.766 | 7/22 | 0.1338 | no |
+| Self-Forcing | Causal-Forcing | 23 | 0.439 vs 0.782 | 9/23 | 0.4049 | no |
+| Infinite-Forcing | Rolling-Forcing | 23 | 0.624 vs 0.740 | 10/23 | 0.6776 | no |
+| Infinite-Forcing | Reward-Forcing | 23 | 0.624 vs 0.502 | 10/23 | 0.6776 | no |
+| Infinite-Forcing | LongLive | 22 | 0.624 vs 0.766 | 8/22 | 0.2863 | no |
+| Infinite-Forcing | Causal-Forcing | 22 | 0.624 vs 0.782 | 10/22 | 0.8318 | no |
+| Rolling-Forcing | Reward-Forcing | 23 | 0.740 vs 0.502 | 12/23 | 1.0000 | no |
+| Rolling-Forcing | LongLive | 22 | 0.740 vs 0.766 | 13/22 | 0.5235 | no |
+| Rolling-Forcing | Causal-Forcing | 23 | 0.740 vs 0.782 | 10/23 | 0.6776 | no |
+| Reward-Forcing | LongLive | 23 | 0.502 vs 0.766 | 10/23 | 0.6776 | no |
+| Reward-Forcing | Causal-Forcing | 23 | 0.502 vs 0.782 | 9/23 | 0.4049 | no |
+| LongLive | Causal-Forcing | 23 | 0.766 vs 0.782 | 12/23 | 1.0000 | no |
 
 ## DD_raw (higher is better)
 

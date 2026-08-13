@@ -1,0 +1,49 @@
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{l l cccccccc}
+\toprule
+Method & setting & $n$ & fBD$\downarrow$ & NBF$\downarrow$ & MCFF-E & MCFF-L$\uparrow$ & FP$\uparrow$ & DLR$\downarrow$ & DAR$\downarrow$ \\
+\midrule
+\multicolumn{10}{l}{\textit{5s horizon}} \\
+Causal-Forcing++ (2-step) & matched & 10 & 3.69 & 10.0 & -- & 0.65 & 0.88 & 0.67 & 0.22 \\
+Causal-Forcing++ (1-step) & matched & 10 & 5.28 & 11.4 & -- & 0.51 & 0.66 & 0.66 & 0.24 \\
+Causal-Forcing (framewise) & matched & 10 & 16.1 & 45.3 & -- & 3.28 & 0.40 & 0.68 & 0.12 \\
+Causal-Forcing++ (2-step, native nfpb=1) & native & 10 & 1.22 & 10.6 & -- & 0.83 & 0.49 & 0.68 & 0.11 \\
+Self-Forcing & matched & 10 & 9.66 & 5.74 & -- & 0.33 & 0.65 & 0.74 & 0.07 \\
+CausVid & matched & 10 & 15.2 & 10.8 & -- & 0.90 & 0.95 & 1.04 & 0.06 \\
+Wan2.1-I2V-14B-480P & native & 10 & 5.01 & 21.3 & -- & 4.84 & 1.03 & 0.52 & 0.16 \\
+Wan2.2-I2V-A14B & native & 10 & 6.31 & 25.3 & -- & 9.08 & 0.95 & 0.50 & 0.26 \\
+LTX-Video 13B-0.9.8-distilled & native & 10 & 6.65 & 17.8 & -- & 3.68 & 0.90 & 0.39 & 0.18 \\
+\midrule
+\multicolumn{10}{l}{\textit{60s horizon}} \\
+Causal-Forcing++ (2-step) & matched & 30 & 9.18 & 5.97 & -- & 0.67 & 0.86 & 0.67 & 0.15 \\
+Causal-Forcing++ (1-step) & matched & 30 & 5.34 & 7.05 & -- & 0.65 & 0.77 & 0.64 & 0.16 \\
+Causal-Forcing (framewise) & matched & 1 & 23.4 & 50.5 & -- & 1.57 & 0.65 & 0.87 & 0.30 \\
+Causal-Forcing++ (2-step, native nfpb=1) & native & 30 & 9.94 & 6.91 & -- & 0.81 & 0.98 & 0.75 & 0.11 \\
+Self-Forcing & matched & 30 & 17.3 & 5.52 & -- & 0.74 & 0.88 & 0.67 & 0.14 \\
+CausVid & matched & 1 & 24.9 & 1.45 & -- & 0.11 & 0.66 & 0.59 & 0.03 \\
+Causal-Forcing++ (1-step, native) & native & 30 & 10.4 & 5.25 & -- & 0.52 & 0.97 & 0.83 & 0.14 \\
+\midrule
+\multicolumn{10}{l}{\textit{120s horizon}} \\
+Causal-Forcing++ (2-step) & matched & 20 & 9.65 & 8.81 & -- & 0.93 & 0.91 & 0.58 & 0.14 \\
+Causal-Forcing++ (1-step) & matched & 20 & 7.26 & 9.39 & -- & 0.83 & 0.84 & 0.62 & 0.16 \\
+Causal-Forcing (framewise) & matched & 1 & 19.4 & 16.7 & -- & 0.99 & 1.59 & 0.86 & 0.31 \\
+Causal-Forcing++ (2-step, native nfpb=1) & native & 20 & 11.4 & 17.3 & -- & 1.54 & 0.96 & 0.75 & 0.06 \\
+Self-Forcing & matched & 20 & 23.0 & 10.3 & -- & 0.78 & 0.44 & 0.66 & 0.20 \\
+CausVid & matched & 1 & 20.7 & 2.57 & -- & 0.20 & 0.89 & 0.61 & 0.00 \\
+Causal-Forcing++ (1-step, native) & native & 20 & 13.6 & 7.39 & -- & 0.43 & 0.68 & 0.77 & 0.20 \\
+\midrule
+\multicolumn{10}{l}{\textit{240s horizon}} \\
+Causal-Forcing++ (2-step) & matched & 5 & 10.4 & 4.83 & -- & 0.63 & 1.03 & 0.55 & 0.09 \\
+Causal-Forcing++ (1-step) & matched & 1 & 0.98 & 3.58 & -- & 0.12 & 0.39 & 0.86 & 0.40 \\
+Causal-Forcing (framewise) & matched & 5 & 19.8 & 31.5 & -- & 2.86 & 0.76 & 0.69 & 0.33 \\
+Causal-Forcing++ (2-step, native nfpb=1) & native & 5 & 6.32 & 3.95 & -- & 0.69 & 0.66 & 0.83 & 0.01 \\
+Self-Forcing & matched & 5 & 22.3 & 5.74 & -- & 1.66 & 0.79 & 0.71 & 0.05 \\
+CausVid & matched & 5 & 18.4 & 2.08 & -- & 0.83 & 0.83 & 0.44 & 0.07 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Complete I2V audit, all horizons.} Main-paper Table~\ref{tab:i2v_audit} reproduces the 60\,s and 120\,s panels.}
+\label{tab:i2v_audit_full}
+\end{table*}

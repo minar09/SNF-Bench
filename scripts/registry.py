@@ -158,6 +158,7 @@ METRICS = {
     "fBD_mean":            ("-", "fBD",        "feature-aligned background drift, % of frame diagonal"),
     "NBF_mean":            ("-", "NBF",        "static-region flow magnitude, x1e3 frame-widths per SECOND"),
     "FP_mean":             ("+", "FP",         "drift-compensated flow persistence, late/early"),
+    "MCFF_early_mean":     ("~", "MCFF-E",     "compensated dynamic-region motion, early window (the FP reference)"),
     "MCFF_late_mean":      ("~", "MCFF",       "drift-removed late dynamic-region motion magnitude"),
     "DD_raw_late_mean":    ("~", "DD_raw",     "raw (uncompensated) late dynamic-region motion"),
     "DLR_mean":            ("-", "DLR",        "static-region flow / raw dynamic-region flow, late window; >1 = background outmoves subject"),
@@ -180,8 +181,8 @@ METRICS = {
     "dynamic_degree":         ("~", "VB-DD",     "VBench dynamic degree - THE metric SNF-Bench audits"),
 }
 
-SNF_TASK_KEYS = ["fBD_mean", "NBF_mean", "FP_mean", "MCFF_late_mean",
-                 "DD_raw_late_mean", "DLR_mean", "DAR_mean"]
+SNF_TASK_KEYS = ["fBD_mean", "NBF_mean", "MCFF_early_mean", "MCFF_late_mean",
+                 "FP_mean", "DD_raw_late_mean", "DLR_mean", "DAR_mean"]
 
 # --- Temporal normalization for NBF -----------------------------------------
 # CORRECTED 2026-08-13 (second pass). The metric does NOT measure flow between

@@ -31,7 +31,7 @@ import traceback
 
 import numpy as np
 
-SPEC_VERSION = "1.0"
+DEFAULT_SPEC = "1.1"
 SNF_EVAL = "/home/minar/region-forcing/snf_eval"
 sys.path.insert(0, SNF_EVAL)
 
@@ -39,6 +39,8 @@ sys.path.insert(0, SNF_EVAL)
 # ~/.cache/vbench, which does not exist on this machine. Pin it so the worker is
 # not silently dependent on the caller's environment.
 os.environ.setdefault("VBENCH_CACHE_DIR", "/home/minar/ckpt/vbench")
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # Windows the frozen metrics actually read; only these need persisting.
 PERSIST_POINTS = 4000        # subsampled pixels per region per frame
@@ -135,6 +137,10 @@ def main():
     ap.add_argument("--staging", required=True)
     ap.add_argument("--gpu", default="0")
     ap.add_argument("--persist", default="")
+    ap.add_argument("--spec", default=DEFAULT_SPEC, choices=["1.0", "1.1"],
+                    help="1.1 = robust similarity compensation (METRIC_SPEC v1.1 s.3); "
+                         "1.0 = the legacy median-translation estimator, kept only "
+                         "so a v1.0 number can be reproduced on demand.")
     args = ap.parse_args()
 
     os.environ.setdefault("CUDA_VISIBLE_DEVICES", args.gpu)
@@ -145,6 +151,12 @@ def main():
     model = S.load_raft(device)
     os.makedirs(args.staging, exist_ok=True)
 
+    if args.spec == "1.1":
+        import snf_metrics_v11 as V11
+        process = V11.process_video
+    else:
+        process = S.process_video
+
     todo = [l.strip() for l in open(args.videos) if l.strip()]
     for v in todo:
         name = os.path.basename(v)
@@ -153,20 +165,17 @@ def main():
         if os.path.exists(done):
             continue
         try:
-            r = S.process_video(model, v, device)
+            r = process(model, v, device)
             if not r:
                 raise RuntimeError("process_video returned empty")
             r.update(video_meta(v))
-            r["metric_spec_version"] = SPEC_VERSION
+            r.setdefault("metric_spec_version", args.spec)
             r["flow_backbone"] = "RAFT"
             r["feature_backbone"] = "ORB"
             r["mask_version"] = "pre-overlay-v0"
-            # METRIC_SPEC v1.1 sec.3: compensation is still translation-only,
-            # so every compensation-dependent field below is provisional and
-            # will be recomputed when similarity compensation lands.
-            r["compensation_mode"] = "translation_median"
-            r["compensation_provisional"] = True
-            r["provisional_fields"] = ["FP", "MCFF_late", "drift_frac_late"]
+            if args.spec == "1.0":
+                r["compensation_mode"] = "translation_median"
+                r["compensation_provisional"] = True
             for k, val in list(r.items()):
                 if isinstance(val, float) and not np.isfinite(val):
                     raise ValueError(f"non-finite {k}={val}")

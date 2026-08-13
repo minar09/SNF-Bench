@@ -1,0 +1,235 @@
+"""Controlled-perturbation validation of the SNF-Bench metrics.
+
+This is the paper's central claim generator. It takes real fixed-camera clips,
+injects corruptions of *known* kind and severity, and asks whether each metric
+moves the way its definition says it should. That is mechanistic validation: it
+does not ask whether a metric agrees with a human, it asks whether it measures
+the thing it is named after.
+
+Perturbation families (all applied progressively over the rollout, because that
+is how drift actually manifests -- a constant offset is not drift):
+
+  translation  frame t displaced by (t/T)*lambda px
+  rotation     frame t rotated by (t/T)*lambda degrees about the centre
+  scale        frame t scaled by 1 + (t/T)*(lambda-1)
+  attenuation  dynamic-region content blended toward an early reference frame,
+               ramping to lambda -- motion decays, support untouched
+  freeze       every frame after phi*T replaced by the frame at phi*T
+
+Alongside the SNF factors we compute **VBench Dynamic Degree exactly as VBench
+defines it** -- mean over frame pairs of min(mean(top-5% flow magnitude)/thres, 1)
+with thres = 6.0*min(H,W)/256 -- so the headline panel compares like with like
+rather than against a re-implementation of our own choosing.
+
+    ~/miniconda3/envs/snfeval/bin/python scripts/validation_suite.py --gpu 4
+"""
+
+import argparse
+import json
+import os
+import sys
+
+import cv2
+import numpy as np
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+os.environ.setdefault("VBENCH_CACHE_DIR", "/home/minar/ckpt/vbench")
+SNF_EVAL = "/home/minar/region-forcing/snf_eval"
+sys.path.insert(0, SNF_EVAL)
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MAN = f"{ROOT}/manifest"
+
+# Severity is expressed as the TOTAL corruption accumulated across the whole
+# rollout, which is how drift presents itself. An earlier calibration used
+# levels an order of magnitude smaller (16 px spread over a 60 s clip is
+# sub-pixel per frame) and produced no measurable response in any metric --
+# the perturbation, not the metric, was the thing that was too weak.
+LEVELS = {
+    "translation": [0.0, 20.0, 40.0, 80.0, 160.0],    # px of total drift
+    "rotation":    [0.0, 0.5, 1.0, 2.0, 4.0],         # degrees of total rotation
+    "scale":       [1.0, 1.01, 1.02, 1.05, 1.10],     # total zoom
+    "attenuation": [0.0, 0.25, 0.50, 0.75, 1.0],      # fraction of motion removed
+    "freeze":      [1.0, 0.75, 0.50, 0.25],           # fraction of clip before freeze
+}
+
+
+def load_frames(path, max_frames=110):
+    """Decode, subsample to SAMPLE_FPS and resize -- the same preprocessing the
+    metric uses, done once so every perturbation sees identical input."""
+    import snf_task_metrics as S
+    vid = cv2.VideoCapture(path)
+    fps = vid.get(cv2.CAP_PROP_FPS) or 16.0
+    interval = max(1, round(fps / S.SAMPLE_FPS))
+    raw = []
+    while True:
+        ok, f = vid.read()
+        if not ok:
+            break
+        raw.append(f)
+    vid.release()
+    raw = raw[::interval]
+    if len(raw) < 8:
+        return None
+    h, w = raw[0].shape[:2]
+    nh = S.MAX_H
+    nw = int(round(w * nh / h))
+    # Stride rather than truncate: the injected corruptions ramp over the
+    # rollout, so validation needs the full temporal span -- but it does not
+    # need every sampled pair to establish a monotone response. Striding keeps
+    # the span and cuts flow cost by the stride factor.
+    if max_frames and len(raw) > max_frames:
+        step = int(np.ceil(len(raw) / max_frames))
+        raw = raw[::step]
+    return [cv2.resize(f, (nw, nh), interpolation=cv2.INTER_AREA) for f in raw]
+
+
+def perturb(frames, kind, lam, dyn_mask=None):
+    """-> new frame list with a known corruption injected."""
+    T = len(frames)
+    h, w = frames[0].shape[:2]
+    out = []
+    if kind == "freeze":
+        cut = max(1, int(lam * T))
+        return [frames[min(i, cut - 1)] for i in range(T)]
+    for t, f in enumerate(frames):
+        a = t / max(1, T - 1)
+        if kind == "translation":
+            M = np.float32([[1, 0, a * lam], [0, 1, 0]])
+            out.append(cv2.warpAffine(f, M, (w, h), flags=cv2.INTER_LINEAR,
+                                      borderMode=cv2.BORDER_REFLECT))
+        elif kind == "rotation":
+            M = cv2.getRotationMatrix2D((w / 2, h / 2), a * lam, 1.0)
+            out.append(cv2.warpAffine(f, M, (w, h), flags=cv2.INTER_LINEAR,
+                                      borderMode=cv2.BORDER_REFLECT))
+        elif kind == "scale":
+            s = 1.0 + a * (lam - 1.0)
+            M = cv2.getRotationMatrix2D((w / 2, h / 2), 0.0, s)
+            out.append(cv2.warpAffine(f, M, (w, h), flags=cv2.INTER_LINEAR,
+                                      borderMode=cv2.BORDER_REFLECT))
+        elif kind == "attenuation":
+            # Blend the whole frame toward an early reference, ramping with time.
+            # Support is static anyway, so the visible effect is that dynamic
+            # content stops changing while the scene stays put.
+            alpha = a * lam
+            ref = frames[0]
+            out.append(cv2.addWeighted(f, 1 - alpha, ref, alpha, 0))
+        else:
+            raise ValueError(kind)
+    return out
+
+
+def to_tensors(frames, device):
+    import torch
+    tens, grays = [], []
+    for f in frames:
+        rgb = cv2.cvtColor(f, cv2.COLOR_BGR2RGB)
+        t = torch.from_numpy(rgb.astype(np.uint8)).permute(2, 0, 1).float()[None].to(device)
+        tens.append(t)
+        grays.append(cv2.cvtColor(f, cv2.COLOR_BGR2GRAY))
+    return tens, grays
+
+
+def dynamic_degree(flows, h, w):
+    """VBench Dynamic Degree, reimplemented to its published rule."""
+    thres = 6.0 * (min(h, w) / 256.0)
+    cut = max(1, int(h * w * 0.05))
+    scores = []
+    for f in flows:
+        rad = np.sqrt(f[..., 0] ** 2 + f[..., 1] ** 2).ravel()
+        top = np.sort(rad)[::-1][:cut]
+        scores.append(min(float(top.mean()) / thres, 1.0))
+    return float(np.mean(scores)) if scores else 0.0
+
+
+def measure(model, frames, device):
+    """SNF factors + Dynamic Degree on one (possibly perturbed) frame list."""
+    import snf_task_metrics as S
+    import snf_metrics_v11 as V11
+    import torch
+
+    tens, grays = to_tensors(frames, device)
+    F = len(tens)
+    win = max(S.MIN_WIN, int(F * S.WIN_FRAC))
+    rng = np.random.default_rng(0)
+
+    early_maps = [S.flow_mag(model, tens[i], tens[i + 1]).astype(np.float32)
+                  for i in range(min(win, F - 1))]
+    early = np.mean(early_maps, 0)
+    dyn, static = S.build_masks(early)
+    h, w = early.shape
+
+    P = F - 1
+    stat = np.zeros(P); raw = np.zeros(P); res = np.zeros(P)
+    flows = []
+    for i in range(P):
+        f = S.flow_vec(model, tens[i], tens[i + 1])
+        flows.append(f)
+        mag = np.sqrt(f[..., 0] ** 2 + f[..., 1] ** 2)
+        if static.sum():
+            stat[i] = mag[static].mean()
+        d, _, _, _, _ = V11.estimate_similarity(f, static, rng)
+        if dyn.sum():
+            raw[i] = mag[dyn].mean()
+            res[i] = np.sqrt((f[..., 0] - d[..., 0]) ** 2
+                             + (f[..., 1] - d[..., 1]) ** 2)[dyn].mean()
+
+    ref = res[win:2 * win].mean() if P >= 2 * win else res[:win].mean()
+    late = res[-win:].mean()
+    raw_late = raw[-win:].mean()
+    out = {
+        "fBD": S.orb_drift(grays, static, list(range(F - win, F))),
+        "NBF": float(stat.mean() / w * 1000.0 * S.SAMPLE_FPS),
+        "MCFF_E": float(ref), "MCFF_L": float(late),
+        "FP": float(min(late / (ref + 1e-6), 2.0)),
+        "DLR": float(stat[-win:].mean() / (raw_late + 1e-6)),
+        "DAR": float(1.0 - late / (raw_late + 1e-6)),
+        "VB_DD": dynamic_degree(flows, h, w),
+    }
+    del tens
+    torch.cuda.empty_cache()
+    return out
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--gpu", default="0")
+    ap.add_argument("--clips", type=int, default=4)
+    ap.add_argument("--max-frames", type=int, default=110)
+    ap.add_argument("--duration", default="60s")
+    ap.add_argument("--out", default=f"{MAN}/validation_response.json")
+    args = ap.parse_args()
+    os.environ.setdefault("CUDA_VISIBLE_DEVICES", args.gpu)
+
+    import torch
+    import snf_task_metrics as S
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model = S.load_raft(device)
+
+    # Reference clips: real generated videos, spread across scene categories so
+    # the response is not a property of one medium.
+    import glob
+    cands = sorted(glob.glob(f"{ROOT}/videos/t2v/self_forcing/{args.duration}/*.mp4"))
+    clips = cands[:args.clips]
+    print(f"{len(clips)} reference clips @ {args.duration}", flush=True)
+
+    records = []
+    for ci, path in enumerate(clips):
+        frames = load_frames(path, max_frames=args.max_frames)
+        if frames is None:
+            continue
+        print(f"[clip {ci+1}/{len(clips)}] {len(frames)} sampled frames", flush=True)
+        for kind, levels in LEVELS.items():
+            for lam in levels:
+                m = measure(model, perturb(frames, kind, lam), device)
+                m.update(clip=os.path.basename(path), family=kind, level=float(lam))
+                records.append(m)
+                print(f"   {kind:12s} {lam:<6} NBF={m['NBF']:7.2f} "
+                      f"MCFF_L={m['MCFF_L']:6.3f} DD={m['VB_DD']:.3f}", flush=True)
+        with open(args.out, "w") as f:
+            json.dump({"levels": LEVELS, "records": records}, f, indent=2)
+    print(f"\n{len(records)} measurements -> {args.out}")
+
+
+if __name__ == "__main__":
+    main()

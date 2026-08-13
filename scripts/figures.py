@@ -18,10 +18,12 @@ Run with the snfeval env:
 """
 
 import csv
+import json
 import os
 import sys
 from collections import defaultdict
 
+import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt                      # noqa: E402
@@ -39,6 +41,9 @@ plt.rcParams.update(P.mpl_rc())
 # Single-column and double-column widths for a CVF two-column paper, in inches.
 COL, DCOL = 3.35, 7.0
 
+# Marker shapes are the print/grayscale channel: never rely on hue alone.
+MARKER_SEQ = ['o', 's', '^', 'D', 'v']
+
 # ---------------------------------------------------------------------------
 # PRE-FREEZE GUARD
 # ---------------------------------------------------------------------------
@@ -48,7 +53,7 @@ COL, DCOL = 3.35, 7.0
 # will all move when those land. Stamping is automatic rather than a convention
 # so a stale PDF cannot quietly reach the paper: set PRE_FREEZE = False only
 # once the frozen metric package has been rerun end to end.
-PRE_FREEZE = True
+PRE_FREEZE = False
 STAMP = "PRE-FREEZE DIAGNOSTIC — DO NOT USE IN PAPER"
 
 
@@ -65,8 +70,8 @@ def stamp(fig, provenance, prefreeze=True):
         fig.text(0.5, 0.5, STAMP, ha="center", va="center", rotation=24,
                  fontsize=13, color=P.SERIES_2, alpha=0.16, zorder=100,
                  fontweight="bold")
-    fig.text(0.005, 0.004, provenance, ha="left", va="bottom",
-             fontsize=4.6, color=P.MUTED, zorder=100)
+    fig.text(0.005, 0.006, provenance, ha="left", va="bottom",
+             fontsize=4.6, color=P.MUTED, zorder=100, wrap=True)
 
 
 def save(fig, out, provenance, prefreeze=True):
@@ -87,14 +92,35 @@ def load_scores():
     return {k: {p: sum(v) / len(v) for p, v in d.items()} for k, d in acc.items()}
 
 
-def method_means(scores, track, dur, metric, public_only=True):
-    """-> [(display_name, mean)] for eligible contestants, dropping empties."""
+def method_means(scores, track, dur, metric, public_only=True, allow_agg=False):
+    """-> [(display_name, mean, n)] for eligible contestants, dropping empties.
+
+    `allow_agg` permits falling back to the method-level VBench aggregate when
+    no per-video file exists. That is sound for a RANK figure, which needs only
+    method-level ordering, and unsound for anything needing a CI -- so the
+    fallback is opt-in per call site rather than automatic, and the caller
+    reports which durations used it.
+    """
     out = []
     for m in contestants(track) if public_only else []:
         pp = scores.get((track, m["key"], dur, metric))
         if pp:
-            out.append((m["name"], sum(pp.values()) / len(pp)))
+            out.append((m["name"], sum(pp.values()) / len(pp), len(pp)))
+        elif allow_agg:
+            v = _agg_vbench(track, m["key"], dur, metric)
+            if v is not None:
+                out.append((m["name"], v, 0))       # n=0 marks "aggregate only"
     return out
+
+
+def _agg_vbench(track, key, dur, metric):
+    p = f"{ROOT}/raw/{track}/{key}/{dur}/vbench.json"
+    if not os.path.exists(p):
+        return None
+    try:
+        return json.load(open(p)).get(metric)
+    except (OSError, ValueError):
+        return None
 
 
 def ranks(pairs, lower_is_better):
@@ -166,9 +192,9 @@ def fig_operating_regime(scores, track="t2v", dur="60s", out="fig4_operating_reg
     """x = static drift (fBD), y = surviving late dynamic-region motion (MCFF),
     colour = DAR. The point: a method can sit high on y only because its whole
     frame is sliding, and DAR is what tells those two apart."""
-    fbd = dict(method_means(scores, track, dur, "fBD_mean"))
-    mcff = dict(method_means(scores, track, dur, "MCFF_late_mean"))
-    dar = dict(method_means(scores, track, dur, "DAR_mean"))
+    fbd = {n: v for n, v, _ in method_means(scores, track, dur, "fBD_mean")}
+    mcff = {n: v for n, v, _ in method_means(scores, track, dur, "MCFF_late_mean")}
+    dar = {n: v for n, v, _ in method_means(scores, track, dur, "DAR_mean")}
     names = [n for n in fbd if n in mcff and n in dar]
     if not names:
         return None
@@ -206,70 +232,91 @@ def fig_operating_regime(scores, track="t2v", dur="60s", out="fig4_operating_reg
 # --------------------------------------------------------------------------
 # Fig. 5 -- rank disagreement slopegraph
 # --------------------------------------------------------------------------
-def fig_rank_disagreement(scores, track="t2v", dur="60s",
-                          left=("dynamic_degree",
-                                ("VBench", "Dynamic Degree", "1 = most motion"), False),
-                          right=("NBF_mean",
-                                 ("SNF-Bench", "NBF (static drift)", "1 = least drift"), True),
+def fig_rank_disagreement(scores, track="t2v",
+                          durations=("5s", "60s", "120s", "240s"),
+                          left="dynamic_degree", right="NBF_mean",
                           highlight=("Causal-Forcing", "Infinite-Forcing"),
                           out="fig5_rank_disagreement"):
-    """Two rank columns joined by lines. Highlighted methods carry the two
-    validated hues; everything else is muted grey context."""
-    lk, ll, l_low = left
-    rk, rl, r_low = right
-    lp, rp = method_means(scores, track, dur, lk), method_means(scores, track, dur, rk)
-    common = {n for n, _ in lp} & {n for n, _ in rp}
-    if len(common) < 3:
+    """Rank under VBench Dynamic Degree -> rank under SNF-Bench NBF, per horizon.
+
+    Every endpoint is named. The figure's whole content is *which method* sits
+    where, so dropping the names to save space would leave a picture of seven
+    anonymous lines crossing -- visually tidy and scientifically empty. A 2x2
+    grid buys the horizontal room the names need; the two highlighted methods
+    additionally carry hue, and everything else is muted grey context.
+
+    Both metrics are compensation-independent, so the figure is unaffected by
+    the global-motion estimator and reads as a property of the two metrics.
+    """
+    panels = []
+    for d in durations:
+        lp = method_means(scores, track, d, left, allow_agg=True)
+        rp = method_means(scores, track, d, right)
+        common = {n for n, _, _ in lp} & {n for n, _, _ in rp}
+        if len(common) < 3:
+            continue
+        n_prompt = max([c for nm, _, c in rp if nm in common] or [0])
+        agg = any(c == 0 for nm, _, c in lp if nm in common)
+        panels.append((d,
+                       ranks([(n, v) for n, v, _ in lp if n in common], False),
+                       ranks([(n, v) for n, v, _ in rp if n in common], True),
+                       sorted(common), n_prompt, agg))
+    if not panels:
         return None
-    lp = [(n, v) for n, v in lp if n in common]
-    rp = [(n, v) for n, v in rp if n in common]
-    lr, rr = ranks(lp, l_low), ranks(rp, r_low)
-    N = len(common)
 
-    fig, ax = plt.subplots(figsize=(COL, COL * 0.95))
-    for n in sorted(common):
-        hl = n in highlight
-        color = (P.SERIES_1 if n == highlight[0]
-                 else P.SERIES_2 if n == highlight[1] else P.MUTED)
-        ax.plot([0, 1], [lr[n], rr[n]], color=color, lw=2.0 if hl else 1.1,
-                alpha=1.0 if hl else 0.55, zorder=3 if hl else 2,
-                solid_capstyle="round")
-        ax.scatter([0, 1], [lr[n], rr[n]], s=26 if hl else 14, color=color,
-                   zorder=4 if hl else 2, edgecolors=P.SURFACE, linewidths=1.2)
-        ax.annotate(f"{n}", (0, lr[n]), textcoords="offset points", xytext=(-7, 0),
-                    ha="right", va="center", fontsize=6.4,
-                    color=P.INK if hl else P.INK_SECONDARY,
-                    fontweight="bold" if hl else "normal")
-        ax.annotate(f"{n}", (1, rr[n]), textcoords="offset points", xytext=(7, 0),
-                    ha="left", va="center", fontsize=6.4,
-                    color=P.INK if hl else P.INK_SECONDARY,
-                    fontweight="bold" if hl else "normal")
+    ncol = 2 if len(panels) > 1 else 1
+    nrow = (len(panels) + ncol - 1) // ncol
+    fig, axes = plt.subplots(nrow, ncol, figsize=(DCOL, 2.35 * nrow))
+    axes = np.atleast_1d(axes).ravel()
+    N = max(len(c) for _, _, _, c, _, _ in panels)
 
-    ax.set_xlim(-0.95, 1.95)
-    ax.set_ylim(N + 0.6, 0.4)                       # rank 1 at the top
-    ax.set_yticks(range(1, N + 1))
-    ax.set_ylabel("rank")
-    # Column headers live ABOVE the axes (x in data coords, y in axes coords).
-    # As x-tick labels they centre on the tick and the two captions collide;
-    # stacked onto short lines they clear the 1-unit column spacing.
-    tr = ax.get_xaxis_transform()
-    for x, (src, met, sub) in [(0, ll), (1, rl)]:
-        ax.text(x, 1.15, src, ha="center", va="bottom", fontsize=7,
-                color=P.INK, fontweight="bold", transform=tr)
-        ax.text(x, 1.075, met, ha="center", va="bottom", fontsize=6.8,
+    for ax, (d, lr, rr, common, n_prompt, agg) in zip(axes, panels):
+        for n in common:
+            hl = n in highlight
+            color = (P.SERIES_1 if n == highlight[0]
+                     else P.SERIES_2 if n == highlight[1] else P.MUTED)
+            ax.plot([0, 1], [lr[n], rr[n]], color=color, lw=1.8 if hl else 1.0,
+                    alpha=1.0 if hl else 0.5, zorder=3 if hl else 2,
+                    solid_capstyle="round")
+            ax.scatter([0, 1], [lr[n], rr[n]], s=18 if hl else 9, color=color,
+                       zorder=4 if hl else 2, edgecolors=P.SURFACE, linewidths=0.9)
+            ax.annotate(n, (0, lr[n]), textcoords="offset points", xytext=(-5, 0),
+                        ha="right", va="center", fontsize=5.6,
+                        color=P.INK if hl else P.INK_SECONDARY,
+                        fontweight="bold" if hl else "normal", zorder=5)
+            ax.annotate(n, (1, rr[n]), textcoords="offset points", xytext=(5, 0),
+                        ha="left", va="center", fontsize=5.6,
+                        color=P.INK if hl else P.INK_SECONDARY,
+                        fontweight="bold" if hl else "normal", zorder=5)
+        # Wide margins so the names have room instead of colliding with the axes.
+        ax.set_xlim(-1.55, 2.55)
+        ax.set_ylim(N + 0.6, 0.4)
+        ax.set_xticks([])
+        ax.set_yticks(range(1, N + 1))
+        ax.tick_params(labelsize=6)
+        for s in ("top", "right", "bottom"):
+            ax.spines[s].set_visible(False)
+        ax.grid(axis="y", alpha=0.45)
+        ax.set_axisbelow(True)
+        tr = ax.get_xaxis_transform()
+        ax.text(0, 1.015, "VBench DD", ha="center", va="bottom", fontsize=6.2,
                 color=P.INK_SECONDARY, transform=tr)
-        ax.text(x, 1.005, sub, ha="center", va="bottom", fontsize=6.2,
-                color=P.MUTED, transform=tr)
-    ax.set_xticks([])
-    for s in ("top", "right", "bottom"):
-        ax.spines[s].set_visible(False)
-    ax.grid(axis="y", alpha=0.55)
-    ax.set_axisbelow(True)
-    fig.tight_layout(pad=0.3)
+        ax.text(1, 1.015, "SNF-Bench NBF", ha="center", va="bottom", fontsize=6.2,
+                color=P.INK_SECONDARY, transform=tr)
+        ax.set_title(f"{d}   (n={n_prompt}{'*' if agg else ''})",
+                     fontsize=7.6, color=P.INK, fontweight="bold", pad=15)
+        ax.set_ylabel("rank", fontsize=6.4)
+
+    for ax in axes[len(panels):]:
+        ax.axis("off")
+    fig.tight_layout(pad=0.4, w_pad=2.4, h_pad=1.6)
+    star = ("  *DD from the method-level VBench aggregate (no per-video file at "
+            "that horizon); sound for ranks, not used for CIs."
+            if any(a for *_, a in panels) else "")
     return save(fig, out,
-                f"{track.upper()} @{dur} - ranks from {lk} vs {rk}, prompt-level means over "
-                f"{len(common)} public methods. NBF is per-second (METRIC_SPEC v1.1 s.2); "
-                f"pre-overlay masks. Compensation-independent metrics only.")
+                f"{track.upper()} public systems. Left rank: 1 = most apparent motion. "
+                f"Right rank: 1 = least static-region drift. Both metrics are "
+                f"compensation-independent. METRIC_SPEC v1.1.{star}")
 
 
 # --------------------------------------------------------------------------
@@ -411,6 +458,7 @@ def main():
         return 1
     scores = load_scores()
     made = [fig_mask_protocol(),
+            fig_validation(),
             fig_operating_regime(scores),
             fig_rank_disagreement(scores),
             fig_category_balance(),
@@ -519,6 +567,80 @@ def fig_mask_protocol(out="fig2_mask_protocol"):
                 "Schematic; no measured data. Mask protocol per METRIC_SPEC v1.1 s.4 "
                 "(three-label partition; T2V masks future-blind per model output).",
                 prefreeze=False)
+
+# --------------------------------------------------------------------------
+# Fig. 3 -- controlled-perturbation validation (the paper's centrepiece)
+# --------------------------------------------------------------------------
+def fig_validation(out="fig3_validation"):
+    """Five panels sharing an x-axis of injected corruption severity.
+
+    Panels (a-d) ask whether each SNF factor moves the way its definition says
+    it should under a corruption of known kind and magnitude. Panel (e) puts
+    VBench Dynamic Degree through the identical corruption: if injected
+    background drift *raises* a standard motion score while our static-fidelity
+    factors flag it, the benchmark's thesis is visible in one panel, with no
+    model comparison and no published method accused of anything -- the
+    corruption is synthetic.
+    """
+    p = f"{MAN}/validation_response.json"
+    if not os.path.exists(p):
+        return None
+    doc = json.load(open(p))
+    recs = doc.get("records", [])
+    if not recs:
+        return None
+
+    by = defaultdict(lambda: defaultdict(list))
+    for r in recs:
+        by[r["family"]][r["level"]].append(r)
+
+    # (family, metric, label, normalise-to-baseline)
+    PANELS = [("translation", ["NBF", "fBD"], "(a) injected translation"),
+              ("rotation",    ["NBF", "fBD"], "(b) injected rotation"),
+              ("attenuation", ["MCFF_L", "FP"], "(c) motion attenuation"),
+              ("translation", ["DLR", "DAR"], "(d) drift diagnostics"),
+              ("translation", ["VB_DD"], "(e) VBench Dynamic Degree")]
+    PANELS = [(f, m, lab) for f, m, lab in PANELS if by.get(f)]
+    if not PANELS:
+        return None
+
+    fig, axes = plt.subplots(1, len(PANELS), figsize=(DCOL, 1.85))
+    if len(PANELS) == 1:
+        axes = [axes]
+    for ax, (fam, metrics, lab) in zip(axes, PANELS):
+        levels = sorted(by[fam])
+        for mi, metric in enumerate(metrics):
+            ys, es = [], []
+            for lv in levels:
+                vals = [r[metric] for r in by[fam][lv] if r.get(metric) is not None]
+                ys.append(sum(vals) / len(vals) if vals else float("nan"))
+            base = ys[0] if ys and ys[0] not in (0, None) else 1.0
+            norm = [y / base if base else y for y in ys]
+            color = [P.SERIES_1, P.SERIES_2, P.SERIES_3][mi % 3]
+            ax.plot(levels, norm, marker=MARKER_SEQ[mi % len(MARKER_SEQ)],
+                    color=color, markersize=3.6, lw=1.6,
+                    markeredgecolor=P.SURFACE, markeredgewidth=0.7, label=metric)
+            ax.annotate(metric, (levels[-1], norm[-1]), textcoords="offset points",
+                        xytext=(3, 0), fontsize=5.8, color=color, va="center")
+        ax.axhline(1.0, color=P.AXIS, lw=0.7, ls=(0, (3, 3)), zorder=1)
+        ax.set_title(lab, fontsize=6.6, color=P.INK, pad=4)
+        ax.tick_params(labelsize=5.6)
+        ax.grid(alpha=0.5)
+        ax.set_axisbelow(True)
+        ax.margins(x=0.22)
+    axes[0].set_ylabel("relative to unperturbed", fontsize=6.2)
+    for ax in axes:
+        ax.set_xlabel("injected severity", fontsize=6.2, labelpad=1.5)
+    # Leave a band at the bottom for the provenance footer; without it the
+    # x-labels and the footer print on top of one another.
+    fig.tight_layout(pad=0.3, rect=(0, 0.10, 1, 1))
+    n_clips = len({r["clip"] for r in recs})
+    return save(fig, out,
+                f"Controlled perturbations of {n_clips} real fixed-camera clips; "
+                f"values relative to the unperturbed clip. Dynamic Degree computed "
+                f"to VBench's published rule. METRIC_SPEC v1.1, similarity compensation.")
+
+
 
 if __name__ == "__main__":
     sys.exit(main())

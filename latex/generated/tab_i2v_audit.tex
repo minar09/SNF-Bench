@@ -1,0 +1,30 @@
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{l l cccccccc}
+\toprule
+Method & setting & $n$ & fBD$\downarrow$ & NBF$\downarrow$ & MCFF-E & MCFF-L$\uparrow$ & FP$\uparrow$ & DLR$\downarrow$ & DAR$\downarrow$ \\
+\midrule
+\multicolumn{10}{l}{\textit{60s horizon}} \\
+Causal-Forcing++ (2-step) & matched & 30 & 9.18 & 5.97 & -- & 0.67 & 0.86 & 0.67 & 0.15 \\
+Causal-Forcing++ (1-step) & matched & 30 & 5.34 & 7.05 & -- & 0.65 & 0.77 & 0.64 & 0.16 \\
+Causal-Forcing (framewise) & matched & 1 & 23.4 & 50.5 & -- & 1.57 & 0.65 & 0.87 & 0.30 \\
+Causal-Forcing++ (2-step, native nfpb=1) & native & 30 & 9.94 & 6.91 & -- & 0.81 & 0.98 & 0.75 & 0.11 \\
+Self-Forcing & matched & 30 & 17.3 & 5.52 & -- & 0.74 & 0.88 & 0.67 & 0.14 \\
+CausVid & matched & 1 & 24.9 & 1.45 & -- & 0.11 & 0.66 & 0.59 & 0.03 \\
+Causal-Forcing++ (1-step, native) & native & 30 & 10.4 & 5.25 & -- & 0.52 & 0.97 & 0.83 & 0.14 \\
+\midrule
+\multicolumn{10}{l}{\textit{120s horizon}} \\
+Causal-Forcing++ (2-step) & matched & 20 & 9.65 & 8.81 & -- & 0.93 & 0.91 & 0.58 & 0.14 \\
+Causal-Forcing++ (1-step) & matched & 20 & 7.26 & 9.39 & -- & 0.83 & 0.84 & 0.62 & 0.16 \\
+Causal-Forcing (framewise) & matched & 1 & 19.4 & 16.7 & -- & 0.99 & 1.59 & 0.86 & 0.31 \\
+Causal-Forcing++ (2-step, native nfpb=1) & native & 20 & 11.4 & 17.3 & -- & 1.54 & 0.96 & 0.75 & 0.06 \\
+Self-Forcing & matched & 20 & 23.0 & 10.3 & -- & 0.78 & 0.44 & 0.66 & 0.20 \\
+CausVid & matched & 1 & 20.7 & 2.57 & -- & 0.20 & 0.89 & 0.61 & 0.00 \\
+Causal-Forcing++ (1-step, native) & native & 20 & 13.6 & 7.39 & -- & 0.43 & 0.68 & 0.77 & 0.20 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{SNF-Bench audit, I2V track.} Setting is stated per row: \emph{native} systems run under their authors' configuration, \emph{matched} systems under the common long-horizon wrapper and are read as a deployment stress test rather than as the published method's performance.}
+\label{tab:i2v_audit}
+\end{table*}

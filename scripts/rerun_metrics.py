@@ -68,7 +68,7 @@ def videos_for(entry):
     return sorted(glob.glob(f"{ROOT}/videos/{track}/{key}/{dur}/*.mp4"))
 
 
-def run_entry(entry, gpu, persist=True):
+def run_entry(entry, gpu, persist=True, spec="1.1"):
     track, key, dur = entry.split("/")
     stage = f"{STAGE}/{track}/{key}/{dur}"
     pdir = f"{ROOT}/.flow_fields/{track}/{key}/{dur}" if persist else ""
@@ -88,7 +88,8 @@ def run_entry(entry, gpu, persist=True):
         with open(listfile, "w") as f:
             f.write("\n".join(todo))
         print(f"   [{entry}] attempt {attempt}: {len(todo)} remaining", flush=True)
-        cmd = [PY, WORKER, "--videos", listfile, "--staging", stage, "--gpu", str(gpu)]
+        cmd = [PY, WORKER, "--videos", listfile, "--staging", stage,
+               "--gpu", str(gpu), "--spec", spec]
         if pdir:
             cmd += ["--persist", pdir]
         rc = subprocess.call(cmd)
@@ -112,6 +113,7 @@ def assemble(entry, ok, bad):
     import numpy as np
     track, key, dur = entry.split("/")
     outp = f"{RAW}/{track}/{key}/{dur}/snf_task_metrics.json"
+    os.makedirs(os.path.dirname(outp), exist_ok=True)
     prev = {}
     if os.path.exists(outp):
         try:
@@ -162,6 +164,7 @@ def main():
     ap.add_argument("--entry", action="append", default=[])
     ap.add_argument("--gpu", default="0")
     ap.add_argument("--no-persist", action="store_true")
+    ap.add_argument("--spec", default="1.1")
     args = ap.parse_args()
 
     entries = list(args.entry)
@@ -175,7 +178,7 @@ def main():
 
     results, failed_any = {}, False
     for e in entries:
-        r = run_entry(e, args.gpu, persist=not args.no_persist)
+        r = run_entry(e, args.gpu, persist=not args.no_persist, spec=args.spec)
         if r is None:
             failed_any = True
             continue

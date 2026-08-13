@@ -33,21 +33,6 @@ Exact two-sided sign test over prompts evaluated by **both** methods.
 | Causal-Forcing++ (2-step, native nfpb=1) | CausVid | 5 | 3.946 vs 2.081 | 1/5 | 0.3750 | no |
 | Self-Forcing | CausVid | 5 | 5.735 vs 2.081 | 0/5 | 0.0625 | no |
 
-## FP (higher is better)
-
-| A | B | n paired | mean A vs B | A wins | p (sign test) | sig |
-|---|---|---|---|---|---|---|
-| Causal-Forcing++ (2-step) | Causal-Forcing (framewise) | 5 | 1.028 vs 0.757 | 3/5 | 1.0000 | no |
-| Causal-Forcing++ (2-step) | Causal-Forcing++ (2-step, native nfpb=1) | 5 | 1.028 vs 0.665 | 4/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step) | Self-Forcing | 5 | 1.028 vs 0.794 | 4/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step) | CausVid | 5 | 1.028 vs 0.831 | 4/5 | 0.3750 | no |
-| Causal-Forcing (framewise) | Causal-Forcing++ (2-step, native nfpb=1) | 5 | 0.757 vs 0.665 | 4/5 | 0.3750 | no |
-| Causal-Forcing (framewise) | Self-Forcing | 5 | 0.757 vs 0.794 | 3/5 | 1.0000 | no |
-| Causal-Forcing (framewise) | CausVid | 5 | 0.757 vs 0.831 | 1/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step, native nfpb=1) | Self-Forcing | 5 | 0.665 vs 0.794 | 2/5 | 1.0000 | no |
-| Causal-Forcing++ (2-step, native nfpb=1) | CausVid | 5 | 0.665 vs 0.831 | 1/5 | 0.3750 | no |
-| Self-Forcing | CausVid | 5 | 0.794 vs 0.831 | 2/5 | 1.0000 | no |
-
 ## MCFF (higher is better)
 
 | A | B | n paired | mean A vs B | A wins | p (sign test) | sig |
@@ -62,6 +47,21 @@ Exact two-sided sign test over prompts evaluated by **both** methods.
 | Causal-Forcing++ (2-step, native nfpb=1) | Self-Forcing | 5 | 0.688 vs 1.655 | 2/5 | 1.0000 | no |
 | Causal-Forcing++ (2-step, native nfpb=1) | CausVid | 5 | 0.688 vs 0.825 | 3/5 | 1.0000 | no |
 | Self-Forcing | CausVid | 5 | 1.655 vs 0.825 | 5/5 | 0.0625 | no |
+
+## FP (higher is better)
+
+| A | B | n paired | mean A vs B | A wins | p (sign test) | sig |
+|---|---|---|---|---|---|---|
+| Causal-Forcing++ (2-step) | Causal-Forcing (framewise) | 5 | 1.028 vs 0.757 | 3/5 | 1.0000 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (2-step, native nfpb=1) | 5 | 1.028 vs 0.665 | 4/5 | 0.3750 | no |
+| Causal-Forcing++ (2-step) | Self-Forcing | 5 | 1.028 vs 0.794 | 4/5 | 0.3750 | no |
+| Causal-Forcing++ (2-step) | CausVid | 5 | 1.028 vs 0.831 | 4/5 | 0.3750 | no |
+| Causal-Forcing (framewise) | Causal-Forcing++ (2-step, native nfpb=1) | 5 | 0.757 vs 0.665 | 4/5 | 0.3750 | no |
+| Causal-Forcing (framewise) | Self-Forcing | 5 | 0.757 vs 0.794 | 3/5 | 1.0000 | no |
+| Causal-Forcing (framewise) | CausVid | 5 | 0.757 vs 0.831 | 1/5 | 0.3750 | no |
+| Causal-Forcing++ (2-step, native nfpb=1) | Self-Forcing | 5 | 0.665 vs 0.794 | 2/5 | 1.0000 | no |
+| Causal-Forcing++ (2-step, native nfpb=1) | CausVid | 5 | 0.665 vs 0.831 | 1/5 | 0.3750 | no |
+| Self-Forcing | CausVid | 5 | 0.794 vs 0.831 | 2/5 | 1.0000 | no |
 
 ## DD_raw (higher is better)
 

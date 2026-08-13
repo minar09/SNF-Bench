@@ -30,6 +30,7 @@ os.makedirs(TAB, exist_ok=True)
 # they are historical artifacts and are not rewritten. The rename to NBF/DAR
 # happens here, on the way into the tables. See registry.METRICS for why.
 PV2AGG = {"fBD": "fBD_mean", "BFR": "NBF_mean", "FP": "FP_mean",
+          "MCFF_early": "MCFF_early_mean",          # v1.1 only; absent in v1.0 records
           "MCFF_late": "MCFF_late_mean", "DD_raw_late": "DD_raw_late_mean",
           "drift_frac_late": "DLR_mean"}
 AGG2PV = {v: k for k, v in PV2AGG.items()}
@@ -94,14 +95,19 @@ def load_all():
                                 rows.append(dict(track=track, model=k, duration=d,
                                                  prompt_id=prompt_id(v["video"], track),
                                                  metric=ak, value=val))
-                        # DAR is DERIVED, not stored: the shipped drift_frac_late
-                        # is a different quantity (now DLR). See registry.METRICS.
-                        raw, comp = v.get("DD_raw_late"), v.get("MCFF_late")
-                        if raw is not None and comp is not None and abs(raw) > 1e-9:
+                        # DAR: v1.1 stores it signed as DAR_signed. v1.0 records
+                        # predate the metric, so it is derived there from the two
+                        # stored magnitudes -- the shipped drift_frac_late is a
+                        # different quantity (now DLR). See registry.METRICS.
+                        dar = v.get("DAR_signed")
+                        if dar is None:
+                            raw, comp = v.get("DD_raw_late"), v.get("MCFF_late")
+                            if raw is not None and comp is not None and abs(raw) > 1e-9:
+                                dar = 1.0 - float(comp) / float(raw)
+                        if dar is not None:
                             rows.append(dict(track=track, model=k, duration=d,
                                              prompt_id=prompt_id(v["video"], track),
-                                             metric="DAR_mean",
-                                             value=1.0 - float(comp) / float(raw)))
+                                             metric="DAR_mean", value=float(dar)))
                 # cv2 extra metrics
                 p = f"{base}/snf_extra_metrics.json"
                 if os.path.exists(p):
@@ -448,7 +454,7 @@ def valid_task_records():
     return out
 
 
-def coverage_matrix():
+def coverage_matrix(public_only=False):
     cov = json.load(open(f"{MAN}/coverage.json"))
     nv = json.load(open(f"{MAN}/video_counts.json"))
     valid = valid_task_records()
@@ -472,6 +478,8 @@ def coverage_matrix():
                 "| Method | status | setting | " + " | ".join(DURATIONS) + " |",
                 "|---|---|---|" + "|".join(["---"] * len(DURATIONS)) + "|"]
         for k, m in reg.items():
+            if public_only and m["status"] != "public":
+                continue
             cells = []
             for d in DURATIONS:
                 have = cov.get(track, {}).get(k, {}).get(d, [])
@@ -572,6 +580,7 @@ def main():
             written.append(f"i2v_paired_stats_{d}.md")
 
     write("coverage_matrix.md", coverage_matrix())
+    write("coverage_matrix_public.md", coverage_matrix(public_only=True))
     write("model_config_table.md", config_table())
     written += ["coverage_matrix.md", "model_config_table.md"]
 

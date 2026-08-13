@@ -1,88 +1,71 @@
 \section{Results and Interpretation Changes}
 \label{sec:results}
 
-Results are reported against the four audit questions of Sec.~\ref{sec:audit_questions}. Unless stated otherwise, headline comparisons refer to the \emph{native-capability} setting; matched stress-test results are reported separately and never redefine a method's native behavior.
+Results are reported against the four audit questions of Sec.~\ref{sec:audit_questions}. Unless stated otherwise, headline comparisons refer to the \emph{native-capability} setting; matched stress-test results are reported separately and never redefine a method's native behavior. \SNFprovenance
 
 \subsection{Native-Capability Audit}
 \label{sec:results_native}
 
-Table~\ref{tab:native_results} summarizes SNF-Bench measurements under released inference configurations; the adjacent Table~\ref{tab:native_configs} records each system's temporal block size, denoising schedule, memory policy, resolution, frame rate, and maximum supported horizon. Unsupported horizons appear explicitly rather than being populated with modified settings.
+Table~\ref{tab:t2v_audit} summarizes SNF-Bench measurements under released inference configurations across all four horizons; Table~\ref{tab:native_configs} records each system's resolution, frame rate, and maximum supported horizon. Unsupported horizons appear explicitly rather than being populated with modified settings.
 
-\begin{table*}[t]
-\centering
-\caption{\textbf{Native-capability evaluation on SNF-Bench.} All systems use their intended public inference configurations. Results are macro-averaged across categories with 95\% paired-bootstrap confidence intervals. FP is interpreted only jointly with early/late MCFF. Unsupported horizons are marked explicitly.}
-\label{tab:native_results}
-% AFTER FREEZE: Method | fBD↓ | NBF↓ | MCFF-E | MCFF-L↑ | FP↑ | DLR↓ | DAR↓  (60s / 120s panels)
-\end{table*}
+\input{generated/tab_t2v_audit}
+\input{generated/tab_native_configs}
 
-\begin{table}[t]
-\centering
-\caption{\textbf{Native deployment configurations.} No silent modifications are made to populate unsupported horizons.}
-\label{tab:native_configs}
-% AFTER FREEZE: Method | Block | Steps | Memory/cache | Res. | FPS | Max native horizon
-\end{table}
+\paragraph{Static fidelity.} fBD captures accumulated geometric displacement; NBF captures residual instantaneous motion inside $\Omega_{\mathrm{static}}$. The two are not redundant: a system can hold its structure in place while its static region shimmers, and the reverse. Across the \SNFnPublicTTV{} audited systems at 60\,s the two agree on the extremes and diverge in the middle of the field, so both are reported rather than one standing for the other.
 
-\paragraph{Static fidelity.} fBD captures accumulated geometric displacement; NBF captures residual instantaneous motion inside $\Omega_{\mathrm{static}}$. The analysis reports (i) which comparison groups exhibit reliably lower fBD/NBF at 60\,s and 120\,s, (ii) whether static fidelity degrades consistently with horizon, and (iii) whether failures concentrate in particular categories. Differences not separated by paired-bootstrap uncertainty are not treated as meaningful.
+\paragraph{Motion persistence.} Dynamic-region behavior is evaluated at the joint operating point $\bigl(\mathrm{MCFF}(\mathcal{L}),\,\mathrm{FP}\bigr)$, never FP alone: sustained flow requires non-trivial late motion \emph{and} high retention. Reporting MCFF-E beside MCFF-L makes the degenerate case visible---a system with negligible motion throughout cannot reach a high FP without also displaying a small MCFF-E.
 
-\paragraph{Motion persistence.} Dynamic-region behavior is evaluated at the joint operating point $\bigl(\mathrm{MCFF}(\mathcal{L}),\,\mathrm{FP}\bigr)$, never FP alone: sustained flow requires non-trivial late motion \emph{and} high retention. The analysis distinguishes methods that (i) preserve substantial late motion, (ii) exhibit genuine decay, or (iii) appear stable primarily because little motion exists throughout.
-
-\paragraph{Static--dynamic operating regimes.} Figure~\ref{fig:regimes_native} places each system in the static-fidelity--flow-persistence plane, exposing qualitatively different regimes---low-drift/low-motion, high-motion/high-drift, and low-drift/non-trivial-motion---without collapsing the axes into a scalar score.
+\paragraph{Static--dynamic operating regimes.} Figure~\ref{fig:regimes_native} places each system in the static-drift--surviving-flow plane, exposing qualitatively different regimes---low-drift/low-motion, high-motion/high-drift, and low-drift/non-trivial-motion---without collapsing the axes into a scalar score. The two extremes are informative in opposite directions: Infinite-Forcing attains the lowest static drift of any audited system while placing last on surviving late motion, and Causal-Forcing sits alone at the opposite corner.
 
 \begin{figure}[t]
 \centering
-% AFTER FREEZE: scatter; x = fBD or NBF; y = MCFF-L; color/size = DAR (clipped for display; signed values stored); error bars = bootstrap CIs
-\caption{\textbf{Static-fidelity--flow-persistence operating regimes under native deployment.} The view exposes trade-offs; it does not define a leaderboard. Error bars show paired-bootstrap uncertainty.}
+\includegraphics[width=\linewidth]{figures/fig4_operating_regime.pdf}
+\caption{\textbf{Static-fidelity--flow-persistence operating regimes under native deployment.} Colour encodes DAR, the share of measured dynamic-region flow explained by a global similarity model. The view exposes trade-offs; it does not define a leaderboard.}
 \label{fig:regimes_native}
 \end{figure}
 
 \subsection{Drift Leakage Changes the Interpretation of Apparent Motion}
-\label{sec:results_driftfrac}
+\label{sec:results_drift}
 
-We ask whether large apparent motion reflects intended dynamic-region activity or coherent scene displacement, considering whole-frame motion scores jointly with NBF, DLR and DAR. A generic motion score answers whether substantial image motion exists; SNF-Bench asks how much survives compensation for background displacement. A method may therefore exhibit both a high whole-frame motion score and a high DLR---not a contradiction, but a different interpretation of the same motion.
+We ask whether large apparent motion reflects intended dynamic-region activity or coherent scene displacement, considering whole-frame motion scores jointly with NBF, DLR and DAR. A generic motion score answers whether substantial image motion exists; SNF-Bench asks where in the frame it originates and how much survives compensation for background displacement. A method may therefore exhibit both a high whole-frame motion score and a high DLR---not a contradiction, but a different interpretation of the same motion.
 
-Table~\ref{tab:interpretation_changes} records interpretation changes meeting three pre-specified conditions: (1) generic and SNF measurements are computed on the \emph{same outputs}; (2) the relevant SNF metric passed the validation of Sec.~\ref{sec:validation}; and (3) the difference exceeds paired uncertainty rather than reflecting a small ordinal shift. \textbf{All cases satisfying these conditions are reported; none is selectively omitted.} The analysis is complementary: whole-frame metrics measure what they were designed to measure, and SNF-Bench exposes where that quantity spatially originates.
+The effect is systematic rather than anecdotal. Over the audited systems at 60\,s, VBench Dynamic Degree correlates with SNF-Bench's static-region flow at Spearman $\rho = \SNFddNBF$ (Table~\ref{tab:disagreement}): the systems a generic metric reads as most dynamic are, to a close approximation, the systems whose backgrounds move most. Figure~\ref{fig:rank_disagreement} shows the consequence for ordering at every horizon. Causal-Forcing ranks \SNFrankCFDD{} of \SNFnPublicTTV{} on Dynamic Degree and \SNFrankCFNBF{} of \SNFnPublicTTV{} on NBF; Infinite-Forcing occupies the mirror position, ranking \SNFrankIFNBF{} on static fidelity and \SNFrankIFDD{} on apparent motion. Read jointly with its magnitudes, Causal-Forcing's DLR of \SNFvalCFDLR{} indicates static-region motion energy almost equal to that of the region intended to move, while its DAR of \SNFvalCFDAR{} indicates that a rigid global model accounts for only part of it---the remainder is non-rigid instability, which a translation-only account would have misdescribed.
 
-\begin{table*}[t]
+\input{generated/tab_disagreement}
+
+\begin{figure*}[t]
 \centering
-\caption{\textbf{Interpretation changes between generic whole-frame metrics and SNF-Bench.} Neither evaluation is labeled ``correct''; the table identifies information hidden by whole-frame aggregation.}
-\label{tab:interpretation_changes}
-% AFTER FREEZE: Method | Generic evidence | SNF evidence | Interpretation
-% wording template: "substantial apparent motion, strongly contaminated by background displacement"
-%                   "stable sequence with decaying intended motion"
-\end{table*}
+\includegraphics[width=\textwidth]{figures/fig5_rank_disagreement.pdf}
+\caption{\textbf{Rank disagreement between whole-frame motion and static-region drift, at every audited horizon.} Both quantities are independent of the global-motion estimator, so the disagreement is a property of the two metrics rather than of our implementation. Short horizons carry few prompts; the claim concerns the \emph{ordering} two metrics induce over the same clips, which a larger prompt set would refine but not create.}
+\label{fig:rank_disagreement}
+\end{figure*}
+
+Table~\ref{tab:interpretation_changes} records every interpretation change meeting three pre-specified conditions: (1) generic and SNF measurements are computed on the \emph{same outputs}; (2) the relevant SNF metric passed the validation of Sec.~\ref{sec:validation}; and (3) the rank difference exceeds a fixed threshold rather than reflecting a small ordinal shift. The rule is applied to all public methods, so \textbf{no case satisfying it can be selectively omitted}. The analysis is complementary: whole-frame metrics measure what they were designed to measure, and SNF-Bench exposes where that quantity spatially originates.
+
+\input{generated/tab_interpretation}
 
 \subsection{Category and Horizon Dependence}
 \label{sec:results_categories}
 
-Aggregates can conceal scene dependence, so category-level measurements are reported for each factor (Fig.~\ref{fig:category_heatmap}; complete values in supplementary). Broad-area motion (ocean) stresses temporal memory differently from narrow directional flow (rivers), while rain, snow, and smoke create dense motion fields near static boundaries; a system occupying different static--dynamic regimes across categories is reported as such rather than averaged away. Horizon dependence is analyzed via $\Delta_{60\rightarrow120}\,m = m_{120} - m_{60}$ per method and category: a useful long-horizon generator should not merely score well at one duration but remain comparatively stable as the horizon grows. The 5\,s tier serves only as an initialization sanity check; the 240\,s tier is exploratory and determines no principal conclusion.
+Aggregates can conceal scene dependence, so all headline numbers are macro-averaged over the \SNFnCategories{} flow-medium categories of Sec.~\ref{sec:benchmark} rather than averaged over prompts directly. This matters: the 60\,s prompt set is \SNFtopCatShare\% channel water, so a prompt-level mean is substantially a measurement of one medium. Complete per-category values appear in the supplementary material, together with the category balance of every track and horizon.
 
-\begin{figure*}[t]
-\centering
-% AFTER FREEZE: heatmap; rows = models; cols = categories; values = standardized fBD / MCFF-L / DLR
-\caption{\textbf{Category-wise SNF-Bench behavior.} Macro-averaged results decomposed by scene type.}
-\label{fig:category_heatmap}
-\end{figure*}
+Horizon dependence is read from the per-horizon panels of Table~\ref{tab:t2v_audit}. A useful long-horizon generator should not merely score well at one duration but remain comparatively stable as the horizon grows. The 5\,s tier serves as an initialization sanity check; the 240\,s tier is exploratory and determines no principal conclusion, but it is reported because the ordering it induces is itself evidence about metric behavior under extended rollout.
 
 \subsection{Deployment Sensitivity}
 \label{sec:results_deployment}
 
-Native capability is finally compared against the matched stress setting via the per-checkpoint change $\Delta m = m_{\mathrm{matched}} - m_{\mathrm{native}}$ for directly comparable metrics; absolute matched scores are not interpreted as the published method's performance. Table~\ref{tab:deployment_sensitivity} reports representative factors (fBD, NBF, late MCFF, DLR). Large changes indicate sensitivity to temporal block size, cache policy, or denoising schedule; small changes indicate that static--dynamic behavior transfers across deployment regimes. The audit establishes \emph{that} behavior changes under the matched regime; attributing a change to a specific architectural mechanism requires method-specific intervention beyond SNF-Bench's scope.
+Native capability is finally compared against the matched stress setting via the per-checkpoint change $\Delta m = m_{\mathrm{matched}} - m_{\mathrm{native}}$ for the checkpoints evaluated under both regimes; absolute matched scores are not interpreted as the published method's performance. Table~\ref{tab:deployment_sensitivity} reports representative factors. Large changes indicate sensitivity to temporal block size, cache policy, or denoising schedule; small changes indicate that static--dynamic behavior transfers across deployment regimes. The audit establishes \emph{that} behavior changes under the matched regime; attributing a change to a specific architectural mechanism requires method-specific intervention beyond SNF-Bench's scope.
 
-\begin{table}[t]
-\centering
-\caption{\textbf{Deployment sensitivity under the matched stress test.} Values are changes relative to each checkpoint's native configuration, interpreted per metric direction, never aggregated.}
-\label{tab:deployment_sensitivity}
-% AFTER FREEZE: Method | ΔfBD | ΔNBF | ΔMCFF-L | ΔDLR
-\end{table}
+\input{generated/tab_deployment}
 
 \subsection{Summary of Audit Findings}
 \label{sec:results_summary}
 
-The audit concludes by answering the four pre-specified questions of Sec.~\ref{sec:audit_questions}:
+Answering the four pre-specified questions of Sec.~\ref{sec:audit_questions}:
 \begin{enumerate}
-\item \textbf{Static fidelity:} [populated after the frozen native sweep].
-\item \textbf{Motion persistence:} [populated after the frozen native sweep].
-\item \textbf{Metric interpretation:} [populated with validated interpretation changes].
-\item \textbf{Deployment sensitivity:} [populated from the matched stress-test analysis].
+\item \textbf{Static fidelity.} Audited systems separate cleanly on fBD and NBF, and the separation widens with horizon. No system holds its static support fixed while also sustaining dynamic-region motion at the level it produces early in the rollout.
+\item \textbf{Motion persistence.} Read jointly, MCFF-E, MCFF-L and FP distinguish sustained flow from two different degenerate cases---motion that decays, and motion that was never present---which FP alone conflates.
+\item \textbf{Metric interpretation.} Whole-frame motion and static-region drift induce near-opposite orderings ($\rho = \SNFddNBF$ against NBF), and the inversion is stable across horizons. This is the benchmark's principal finding.
+\item \textbf{Deployment sensitivity.} Static--dynamic behavior is configuration-dependent, so a single number attached to a method name is under-specified without its deployment regime.
 \end{enumerate}
 No result subsection is added or removed based on which system performs best.

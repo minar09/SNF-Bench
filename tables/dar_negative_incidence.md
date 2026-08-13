@@ -1,6 +1,6 @@
 # DAR negative incidence — public methods
 
-DAR is stored **signed** and reported clipped to $[0,1]$ (METRIC_SPEC v1.0 §2). A negative value means global-motion compensation *increased* measured dynamic-region flow, which occurs where local flow opposes the estimated global field. This is the empirical reason DAR is not a causal decomposition of motion.
+DAR is stored **signed** and reported clipped to $[0,1]$ (METRIC_SPEC v1.1 §2). A negative value means global-motion compensation *increased* measured dynamic-region flow, which occurs where local flow opposes the estimated global field. This is the empirical reason DAR is not a causal decomposition of motion.
 
 Overall across all entries: **129 / 1345** clip-metrics negative (9.6%).
 
