@@ -4,24 +4,24 @@ Spearman rank correlation between each **generic** video metric and each **SNF-B
 computed over method-level means. Values near 0 or of the *wrong sign* mean the generic metric
 does not carry the information SNF-Bench measures.
 
-| generic metric | fBD | BFR/NBF | FP | MCFF | DD_raw | DriftFrac |
-|---|---|---|---|---|---|---|
-| VB-DD | 0.75 | 0.93 | 0.36 | 0.89 | 0.89 | 0.36 |
-| VB-bg | -0.64 | -0.71 | -0.11 | -0.75 | -0.75 | -0.50 |
-| VB-smooth | -0.96 | -0.82 | -0.71 | -0.61 | -0.61 | -0.64 |
-| VB-flick | -0.96 | -0.82 | -0.71 | -0.61 | -0.61 | -0.64 |
+| generic metric | fBD | NBF | FP | MCFF | DD_raw | DLR | DAR |
+|---|---|---|---|---|---|---|---|
+| VB-DD | 0.75 | 0.93 | 0.36 | 0.89 | 0.89 | 0.36 | 0.50 |
+| VB-bg | -0.64 | -0.71 | -0.11 | -0.75 | -0.75 | -0.50 | -0.29 |
+| VB-smooth | -0.96 | -0.82 | -0.71 | -0.61 | -0.61 | -0.64 | -0.61 |
+| VB-flick | -0.96 | -0.82 | -0.71 | -0.61 | -0.61 | -0.64 | -0.61 |
 
 ## Per-method ranks
 
 Directed metrics (↓/↑) are ranked 1 = best. Context metrics marked `(1=most)` have no intrinsic
 "better" and are ranked 1 = most motion — the conventional reading SNF-Bench audits.
 
-| Method | VB-DD(1=most) | VB-bg↑ | VB-smooth↑ | VB-flick↑ | fBD↓ | BFR/NBF↓ | FP↑ | MCFF(1=most) | DD_raw(1=most) | DriftFrac↓ |
-|---|---|---|---|---|---|---|---|---|---|---|
-| CausVid | 6 | 2 | 2 | 2 | 2 | 3 | 4 | 4 | 4 | 1 |
-| Self-Forcing | 2 | 6 | 3 | 3 | 3 | 5 | 7 | 2 | 2 | 2 |
-| Infinite-Forcing | 7 | 1 | 1 | 1 | 1 | 1 | 5 | 7 | 7 | 4 |
-| Rolling-Forcing | 4 | 3 | 5 | 5 | 6 | 4 | 3 | 5 | 5 | 3 |
-| Reward-Forcing | 5 | 5 | 4 | 4 | 4 | 2 | 6 | 6 | 6 | 6 |
-| LongLive | 3 | 4 | 6 | 6 | 5 | 6 | 2 | 3 | 3 | 5 |
-| Causal-Forcing | 1 | 7 | 7 | 7 | 7 | 7 | 1 | 1 | 1 | 7 |
+| Method | VB-DD(1=most) | VB-bg↑ | VB-smooth↑ | VB-flick↑ | fBD↓ | NBF↓ | FP↑ | MCFF(1=most) | DD_raw(1=most) | DLR↓ | DAR↓ |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| CausVid | 6 | 2 | 2 | 2 | 2 | 3 | 4 | 4 | 4 | 1 | 1 |
+| Self-Forcing | 2 | 6 | 3 | 3 | 3 | 5 | 7 | 2 | 2 | 2 | 3 |
+| Infinite-Forcing | 7 | 1 | 1 | 1 | 1 | 1 | 5 | 7 | 7 | 4 | 5 |
+| Rolling-Forcing | 4 | 3 | 5 | 5 | 6 | 4 | 3 | 5 | 5 | 3 | 4 |
+| Reward-Forcing | 5 | 5 | 4 | 4 | 4 | 2 | 6 | 6 | 6 | 6 | 2 |
+| LongLive | 3 | 4 | 6 | 6 | 5 | 6 | 2 | 3 | 3 | 5 | 6 |
+| Causal-Forcing | 1 | 7 | 7 | 7 | 7 | 7 | 1 | 1 | 1 | 7 | 7 |

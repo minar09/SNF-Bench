@@ -1,0 +1,52 @@
+\section{SNF-Bench Design}
+\label{sec:benchmark}
+
+SNF-Bench evaluates long-horizon generation under a deliberately constrained setting: a \textbf{fixed camera observing a scene containing both stationary structure and persistent natural motion}. This isolates two failure modes that are difficult to separate in unconstrained video: \emph{static drift}, where nominally stationary structure moves over time, and \emph{flow decay}, where intended dynamics weaken or disappear. Every sequence is treated as a composition of two spatial roles,
+\begin{equation}
+\Omega_{\mathrm{static}} \quad\text{and}\quad \Omega_{\mathrm{flow}},
+\end{equation}
+where $\Omega_{\mathrm{static}}$ denotes regions expected to remain geometrically stationary and $\Omega_{\mathrm{flow}}$ regions expected to exhibit sustained motion. This partition defines an \emph{evaluation role}, not a semantic ontology: a riverbank is static support while the river surface is flow; buildings are static support in a rainfall scene while falling rain is flow. SNF-Bench does not require dynamics inside $\Omega_{\mathrm{flow}}$ to follow any particular physical model---it measures whether motion stays localized to appropriate regions and persists over time without contaminating static support.
+
+\subsection{T2V and I2V Tracks}
+\label{sec:tracks}
+
+\paragraph{SNF-T2V.} The model receives only a text prompt describing a fixed-camera nature-flow scene. With no visual reference, the opening of the sequence establishes the scene's static support; evaluation asks whether that support remains stable over the rollout while flow remains active. All methods receive identical prompts per item.
+
+\paragraph{SNF-I2V.} The model receives a shared source image and a text prompt describing intended motion. The image specifies initial scene structure explicitly; the same image, prompt, and static-region mask are used for every method. The I2V track additionally permits direct comparison between late frames and the input image inside $\Omega_{\mathrm{static}}$.
+
+The tracks differ only in how static support is established---generated internally (T2V) or externally specified (I2V)---and share one evaluation question: does intended motion persist without inducing motion in static regions?
+
+\subsection{Scene Categories and Horizons}
+\label{sec:categories}
+
+The benchmark is category-balanced across representative fixed-camera natural processes---rivers and canals, waterfalls, ocean waves, rainfall, snowfall, fire and lava, smoke and clouds, and storm-driven motion---with categories fixed before the final sweep and all aggregates macro-averaged across categories so no scene type dominates. Four temporal regimes are used: \textbf{5\,s} (sanity check), \textbf{60\,s} and \textbf{120\,s} (primary evaluation), and \textbf{240\,s} (diagnostic stress test). Principal conclusions rest on the 60\,s and 120\,s tiers. A method that cannot reach a horizon under its native public configuration is reported as \emph{unsupported} rather than silently modified.
+
+\subsection{Method-Independent Region Masks}
+\label{sec:masks}
+
+Region definitions must not depend on the temporal behavior of the model under evaluation: deriving masks from a generated video's own motion field would be circular, since background drift could itself be classified as evidence that the affected region is dynamic. SNF-Bench therefore excludes every evaluated model's motion field from its own scoring mask, using the strongest mask protocol each track admits.
+
+\paragraph{I2V.} The shared input image provides a common reference. One static/flow mask is constructed per benchmark item---independently of any model output---and reused across all methods. This is the strictest form of method independence: the mask is identical for every evaluated system.
+
+\paragraph{T2V.} No shared reference exists: each method authors its own scene layout from the prompt, so a single spatial mask cannot align across methods. The T2V protocol instead annotates \emph{each generated video's first frame, blind to all subsequent frames}. Automated segmentation proposals on the first frame are human-verified into static/flow regions before any later frame is inspected. This procedure is method-independent with respect to the quantity being measured: the mask necessarily reflects the method's spatial layout, but it cannot be contaminated by the method's \emph{temporal} failures, because drift and flow decay have not yet occurred at the first frame.
+
+Annotation agreement is quantified on an independently double-labeled subset via region overlap and inter-annotator agreement, and Section~\ref{sec:validation} tests whether conclusions remain stable under systematic mask erosion and dilation. Masks are stored at reference resolution and resampled to each video with nearest-neighbor interpolation; a small ignored transition band around static--flow boundaries prevents boundary pixels from dominating either region, with its width frozen in the benchmark specification and included in the sensitivity analysis.
+
+\subsection{Frozen Manifest and Failure Handling}
+\label{sec:manifest}
+
+SNF-Bench is defined by a versioned manifest frozen before the final public-model sweep, recording per item: identifier and category, conditioning modality, exact prompt, source-image identifier (I2V), region mask, target horizons, resolution and frame-rate metadata, and provenance information. After freezing, items are never removed because a method performs poorly; corrections require a new benchmark version. A failure taxonomy---unsupported horizon, out-of-memory, runtime crash, numerical corruption, invalid output---is likewise frozen in advance; failures are reported alongside successful generations, never silently excluded.
+
+\subsection{Native Capability and Matched Stress-Test Settings}
+\label{sec:settings}
+
+Public generators are evaluated under two explicitly separated settings, defined here so the audit protocol cannot appear post hoc.
+
+\paragraph{Native capability (primary).} Each method runs under its intended public inference configuration. We record checkpoint, temporal block size, denoising schedule, guidance, cache and memory policy, resolution, frame rate, and the longest horizon the released implementation supports. Long-video generators differ substantially in temporal chunking and cache design; SNF-Bench treats these differences as part of native capability rather than assuming any common wrapper is neutral for every checkpoint.
+
+\paragraph{Matched stress test (secondary).} Compatible checkpoints are additionally evaluated under a common fixed-camera long-horizon protocol. This setting asks how behavior changes under a shared deployment regime; it is \emph{not} interpreted as a native ranking, and its results are reported separately.
+
+\subsection{Aggregation and Uncertainty}
+\label{sec:aggregation}
+
+Metrics are computed per item and macro-averaged across categories. Uncertainty is estimated with prompt-level paired bootstrap resampling; we report 95\% confidence intervals and treat methods whose intervals substantially overlap as statistically indistinguishable rather than assigning definitive ordinal ranks.

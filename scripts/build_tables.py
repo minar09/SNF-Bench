@@ -17,18 +17,40 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from registry import (ALL, DURATIONS, EXTRA_KEYS, METRICS, SNF_TASK_KEYS,  # noqa: E402
-                      VBENCH_KEYS, by_key, contestants)
+from registry import (ALL, DURATIONS, EXTRA_KEYS, FPS_DEFAULT, METRICS,  # noqa: E402
+                      SNF_TASK_KEYS, VBENCH_KEYS, by_key, contestants)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RAW, TAB, MAN = f"{ROOT}/raw", f"{ROOT}/tables", f"{ROOT}/manifest"
 os.makedirs(TAB, exist_ok=True)
 
-# per-video key -> aggregate key used in the summary tables
-PV2AGG = {"fBD": "fBD_mean", "BFR": "BFR_mean", "FP": "FP_mean",
+# per-video key -> aggregate key used in the summary tables.
+# The raw JSONs still carry the ORIGINAL metric names (BFR, drift_frac_late);
+# they are historical artifacts and are not rewritten. The rename to NBF/DAR
+# happens here, on the way into the tables. See registry.METRICS for why.
+PV2AGG = {"fBD": "fBD_mean", "BFR": "NBF_mean", "FP": "FP_mean",
           "MCFF_late": "MCFF_late_mean", "DD_raw_late": "DD_raw_late_mean",
-          "drift_frac_late": "drift_frac_late_mean"}
+          "drift_frac_late": "DLR_mean"}
 AGG2PV = {v: k for k, v in PV2AGG.items()}
+
+# NBF is per-second, the raw BFR is per-frame -> scale by each video's own fps.
+_FPS = {}
+
+
+def load_fps():
+    """(track, model, duration, video) -> fps, from manifest/video_meta.csv."""
+    p = f"{MAN}/video_meta.csv"
+    if not os.path.exists(p):
+        print(f"WARNING: {p} missing -- NBF will fall back to {FPS_DEFAULT} fps for "
+              "every video, which silently reintroduces the frame-rate confound. "
+              "Run scripts/video_meta.py.", file=sys.stderr)
+        return {}
+    return {(r["track"], r["model"], r["duration"], r["video"]): float(r["fps"])
+            for r in csv.DictReader(open(p))}
+
+
+def fps_of(track, model, duration, video):
+    return _FPS.get((track, model, duration, video), FPS_DEFAULT)
 
 _TS = re.compile(r"-\d+-\d+\.\d+\.mp4$")
 
@@ -54,11 +76,23 @@ def load_all():
                 if os.path.exists(p):
                     j = json.load(open(p))
                     for v in j.get("per_video", []):
+                        fps = fps_of(track, k, d, v["video"])
                         for pk, ak in PV2AGG.items():
                             if v.get(pk) is not None:
+                                val = float(v[pk])
+                                if ak == "NBF_mean":
+                                    val *= fps       # per-frame -> per-second
                                 rows.append(dict(track=track, model=k, duration=d,
                                                  prompt_id=prompt_id(v["video"], track),
-                                                 metric=ak, value=float(v[pk])))
+                                                 metric=ak, value=val))
+                        # DAR is DERIVED, not stored: the shipped drift_frac_late
+                        # is a different quantity (now DLR). See registry.METRICS.
+                        raw, comp = v.get("DD_raw_late"), v.get("MCFF_late")
+                        if raw is not None and comp is not None and abs(raw) > 1e-9:
+                            rows.append(dict(track=track, model=k, duration=d,
+                                             prompt_id=prompt_id(v["video"], track),
+                                             metric="DAR_mean",
+                                             value=1.0 - float(comp) / float(raw)))
                 # cv2 extra metrics
                 p = f"{base}/snf_extra_metrics.json"
                 if os.path.exists(p):
@@ -195,6 +229,58 @@ def write(name, body):
         f.write(body.rstrip() + "\n")
 
 
+def dar_negative_incidence(rows):
+    """How often global compensation INCREASED measured dynamic-region flow.
+
+    DAR < 0 is the empirical form of the caveat that DAR is not a causal
+    decomposition: where local flow opposes the estimated global field,
+    subtracting that field raises the residual magnitude. Reporting the rate
+    turns a reviewer's objection into demonstrated rigor, so it is tabulated
+    per (track, model, duration) rather than mentioned in passing.
+    """
+    acc = {}
+    for r in rows:
+        if r["metric"] != "DAR_mean":
+            continue
+        k = (r["track"], r["model"], r["duration"])
+        a = acc.setdefault(k, {"n": 0, "neg": 0, "min": None})
+        a["n"] += 1
+        if r["value"] < 0:
+            a["neg"] += 1
+        a["min"] = r["value"] if a["min"] is None else min(a["min"], r["value"])
+
+    reg = {m["key"]: m for m in ALL}
+    out, body = {}, []
+    tot_n = tot_neg = 0
+    for (track, model, dur), a in sorted(acc.items()):
+        m = reg.get(model, {})
+        rate = a["neg"] / a["n"] if a["n"] else 0.0
+        out[f"{track}/{model}/{dur}"] = dict(n=a["n"], negative=a["neg"],
+                                             rate=round(rate, 4),
+                                             most_negative=round(a["min"], 4))
+        tot_n += a["n"]
+        tot_neg += a["neg"]
+        if m.get("status") == "public":
+            body.append([m.get("name", model), track, dur, a["n"], a["neg"],
+                         f"{100 * rate:.1f}%", fmt(a["min"])])
+    with open(f"{MAN}/dar_negative_incidence.json", "w") as f:
+        json.dump({"overall": dict(n=tot_n, negative=tot_neg,
+                                   rate=round(tot_neg / max(1, tot_n), 4)),
+                   "by_entry": out}, f, indent=2)
+
+    doc = ["# DAR negative incidence — public methods", "",
+           "DAR is stored **signed** and reported clipped to $[0,1]$ "
+           "(METRIC_SPEC v1.0 §2). A negative value means global-motion "
+           "compensation *increased* measured dynamic-region flow, which occurs "
+           "where local flow opposes the estimated global field. This is the "
+           "empirical reason DAR is not a causal decomposition of motion.", "",
+           f"Overall across all entries: **{tot_neg} / {tot_n}** clip-metrics "
+           f"negative ({100 * tot_neg / max(1, tot_n):.1f}%).", "",
+           md_table(["Method", "track", "dur", "n", "negative", "rate", "most negative"], body)]
+    write("dar_negative_incidence.md", "\n".join(doc))
+    return out
+
+
 # =========================================================================
 def snf_leaderboard(ix, track, dur, keys, title, note, only_public=True):
     models = [m for m in ALL if m["track"] == track]
@@ -211,6 +297,12 @@ def snf_leaderboard(ix, track, dur, keys, title, note, only_public=True):
         cells, lcells = [], []
         for k in keys:
             xs = list(vals[k].values())
+            if k == "DAR_mean":
+                # METRIC_SPEC v1.0 sec.2: storage is signed, reporting is
+                # clipped, validation uses signed. Clipping only here means the
+                # released per-video CSV keeps the negatives that make the
+                # "compensation can increase magnitude" caveat checkable.
+                xs = [min(1.0, max(0.0, x)) for x in xs]
             mu = mean(xs)
             lo, hi = boot_ci(xs) if xs else (None, None)
             cells.append(f"{fmt(mu)} <sub>[{fmt(lo)}, {fmt(hi)}]</sub>" if mu is not None else "--")
@@ -325,12 +417,46 @@ def pairwise_stats(ix, track, dur, keys):
     return "\n".join(out) if any_rows else None
 
 
+def valid_task_records():
+    """(track, key, dur) -> (n_valid, n_total) per-video SNF task records.
+
+    A metrics FILE existing is not the same as the metrics being there. Several
+    runs died mid-sweep on CUDA OOM / cuDNN init and wrote per-video entries
+    holding only {'video', 'error'}. Counting files marked those entries as
+    covered, which is how two public I2V baselines came to look complete at 60s
+    while holding one usable record each. Coverage is counted from records.
+    """
+    out = {}
+    for p in glob.glob(f"{RAW}/*/*/*/snf_task_metrics.json"):
+        parts = p.split(os.sep)
+        track, key, dur = parts[-4], parts[-3], parts[-2]
+        try:
+            pv = json.load(open(p)).get("per_video", [])
+        except (OSError, ValueError):
+            continue
+        good = sum(1 for v in pv if "error" not in v and v.get("fBD") is not None)
+        out[(track, key, dur)] = (good, len(pv))
+    return out
+
+
 def coverage_matrix():
     cov = json.load(open(f"{MAN}/coverage.json"))
     nv = json.load(open(f"{MAN}/video_counts.json"))
+    valid = valid_task_records()
+    broken = {k: v for k, v in valid.items() if v[0] < v[1]}
     out = ["# Asset & score coverage matrix", "",
            "`V` = generated videos present · `T` = SNF task metrics (RAFT+ORB) · "
-           "`X` = cv2 extra metrics · `B` = VBench", ""]
+           "`X` = cv2 extra metrics · `B` = VBench", "",
+           "`T` is counted from **valid per-video records**, not from the presence of a "
+           "metrics file. `T3/30` means the file exists but only 3 of 30 videos hold "
+           "usable measurements; the rest carry an error payload.", ""]
+    if broken:
+        out += ["> **Incomplete metric runs detected.** "
+                + "; ".join(f"`{t}/{k}/{d}` {g}/{n}"
+                            for (t, k, d), (g, n) in sorted(broken.items()))
+                + ". Cause: CUDA OOM / `CUDNN_STATUS_NOT_INITIALIZED` during the "
+                  "metric sweep, not generation failure — the videos exist, so these "
+                  "are re-runnable without regeneration.", ""]
     for track in ("t2v", "i2v"):
         reg = by_key(track)
         out += [f"## {track.upper()} track", "",
@@ -345,7 +471,12 @@ def coverage_matrix():
                 if n:
                     tag += f"V{n}"
                 for flag, name in (("T", "snf_task_metrics"), ("X", "snf_extra_metrics"), ("B", "vbench")):
-                    if name in have:
+                    if name not in have:
+                        continue
+                    if flag == "T":
+                        good, tot = valid.get((track, k, d), (0, 0))
+                        tag += f" T{good}" + (f"/{tot}" if good < tot else "")
+                    else:
                         tag += " " + flag
                 cells.append(tag or "·")
             out.append(f"| {m['name']} | {m['status']} | {m['setting']} | " + " | ".join(cells) + " |")
@@ -368,6 +499,8 @@ def config_table():
 
 # =========================================================================
 def main():
+    global _FPS
+    _FPS = load_fps()
     rows = load_all()
     ix = index(rows)
 
@@ -376,7 +509,8 @@ def main():
         w.writeheader()
         w.writerows(rows)
 
-    written = []
+    written = ["dar_negative_incidence.md"]
+    dar_negative_incidence(rows)
 
     # --- T2V ---
     body, _ = snf_leaderboard(

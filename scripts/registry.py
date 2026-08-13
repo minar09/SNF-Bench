@@ -27,7 +27,7 @@ T2V = [
          r1="self_forcing", note=""),
     dict(key="infinite_forcing", name="Infinite-Forcing", track="t2v", status="public", setting="native",
          ckpt="(baseline repo)", r1="infinite_forcing",
-         note="lowest BFR at 60s but lowest MCFF -> freeze-not-stability, the key confound case"),
+         note="lowest NBF at 60s but lowest MCFF -> freeze-not-stability, the key confound case"),
     dict(key="rolling_forcing", name="Rolling-Forcing", track="t2v", status="public", setting="native",
          ckpt="ckpt/RollingForcing", r1="rolling_forcing", note=""),
     dict(key="reward_forcing", name="Reward-Forcing", track="t2v", status="public", setting="native",
@@ -127,12 +127,41 @@ DURATIONS = ["5s", "60s", "120s", "240s"]
 # Metric direction + display name.  '+' = higher better, '-' = lower better, '~' = context only
 METRICS = {
     # --- SNF task metrics (RAFT + ORB) ---
+    # NAMING (P0#3, 2026-08-13). Two renames, both because the old name asserted
+    # something the mathematics does not:
+    #   BFR "Background Flow Ratio" -> NBF "Normalized Background Flow".
+    #       It was never a ratio -- there is no denominator that is itself a
+    #       measured flow. It is a normalized magnitude, and it is now normalized
+    #       in TIME as well as space (see FPS note below).
+    #   DriftFrac -> SPLIT INTO TWO METRICS. The reviews assumed DriftFrac was
+    #       1 - F_comp/F_raw and objected only to its name. Reading
+    #       metric_code/snf_task_metrics.py:200 shows it is not that at all:
+    #
+    #           drift_frac_late = mean|u|_static(late) / mean|u|_dyn_raw(late)
+    #
+    #       -- a static-to-dynamic flow ratio that never touches the compensated
+    #       flow dyn_res. It is unbounded above (it exceeds 1 on 20 of 161 T2V
+    #       60s clips, impossible for a "fraction"), so no causal reading of it
+    #       is defensible. It is, however, a good measure of the paper's third
+    #       axis, drift LEAKAGE. So:
+    #
+    #   DLR "Drift Leakage Ratio"  = the shipped quantity, honestly named.
+    #       Static-region flow relative to intended dynamic-region flow.
+    #       Unbounded; DLR > 1 means the background moves more than the subject.
+    #   DAR "Drift Attenuation Ratio" = 1 - MCFF_late / DD_raw_late, the
+    #       quantity §4 actually describes. Derived from fields already stored
+    #       per video, so it costs no recompute. Report it as "global
+    #       compensation removes X% of measured dynamic-region flow under this
+    #       estimator", never "X% of the motion is drift" -- where local flow
+    #       opposes the global drift field, compensation can *increase*
+    #       magnitude, and DAR is empirically negative on 22 of 161 clips.
     "fBD_mean":            ("-", "fBD",        "feature-aligned background drift, % of frame diagonal"),
-    "BFR_mean":            ("-", "BFR/NBF",    "mean RAFT flow inside static mask, x1e3 frame-widths"),
+    "NBF_mean":            ("-", "NBF",        "static-region flow magnitude, x1e3 frame-widths per SECOND"),
     "FP_mean":             ("+", "FP",         "drift-compensated flow persistence, late/early"),
     "MCFF_late_mean":      ("~", "MCFF",       "drift-removed late dynamic-region motion magnitude"),
     "DD_raw_late_mean":    ("~", "DD_raw",     "raw (uncompensated) late dynamic-region motion"),
-    "drift_frac_late_mean": ("-", "DriftFrac", "relative reduction in dynamic-region flow after drift compensation"),
+    "DLR_mean":            ("-", "DLR",        "static-region flow / raw dynamic-region flow, late window; >1 = background outmoves subject"),
+    "DAR_mean":            ("-", "DAR",        "1 - MCFF/DD_raw: relative reduction in measured dynamic-region flow after global drift compensation"),
     # --- cv2 extra metrics ---
     "sharp_ratio":  ("+", "sharp_ratio", "late/early Laplacian sharpness (<1 = blur grows)"),
     "sharp_mean":   ("~", "sharp_mean",  "absolute Laplacian sharpness"),
@@ -151,8 +180,16 @@ METRICS = {
     "dynamic_degree":         ("~", "VB-DD",     "VBench dynamic degree - THE metric SNF-Bench audits"),
 }
 
-SNF_TASK_KEYS = ["fBD_mean", "BFR_mean", "FP_mean", "MCFF_late_mean",
-                 "DD_raw_late_mean", "drift_frac_late_mean"]
+SNF_TASK_KEYS = ["fBD_mean", "NBF_mean", "FP_mean", "MCFF_late_mean",
+                 "DD_raw_late_mean", "DLR_mean", "DAR_mean"]
+
+# The audit preserves each method's NATIVE frame rate, which makes FPS a hidden
+# confound in any per-frame flow statistic. Measured from the containers
+# (manifest/video_meta.csv): everything runs at 16 fps except LTX-Video at 24.
+# Left uncorrected, LTX's per-frame static flow reads 1.5x lower than its true
+# rate and it ranks 6th of 9 on I2V-5s; per-second it ranks 8th, behind both Wan
+# models. Hence NBF = BFR_per_frame * fps.
+FPS_DEFAULT = 16.0
 EXTRA_KEYS = ["sharp_ratio", "sharp_mean", "dE_static", "dL_static",
               "idPSNR_late", "FDP", "stag_onset"]
 VBENCH_KEYS = ["background_consistency", "subject_consistency", "motion_smoothness",

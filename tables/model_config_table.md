@@ -9,7 +9,7 @@ configuration it was actually run under. **Setting A = native**, **Setting B = m
 |---|---|---|---|---|
 | CausVid | public | native | `ckpt/CausVid/autoregressive_checkpoint/model.pt` | autoregressive DMD distillation of Wan2.1-T2V-1.3B |
 | Self-Forcing | public | native | `ckpt/Self-Forcing/checkpoints/self_forcing_dmd.pt` |  |
-| Infinite-Forcing | public | native | `(baseline repo)` | lowest BFR at 60s but lowest MCFF -> freeze-not-stability, the key confound case |
+| Infinite-Forcing | public | native | `(baseline repo)` | lowest NBF at 60s but lowest MCFF -> freeze-not-stability, the key confound case |
 | Rolling-Forcing | public | native | `ckpt/RollingForcing` |  |
 | Reward-Forcing | public | native | `ckpt/rewardforcing.pt` |  |
 | LongLive | public | native | `ckpt/longlive_models` |  |

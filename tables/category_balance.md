@@ -1,7 +1,7 @@
 # Scene-category balance audit
 
 SNF-Bench macro-averages by **flow medium** — what the dynamic region physically is —
-because every task metric (BFR, MCFF, FP, DriftFrac) measures optical flow inside the
+because every task metric (NBF, MCFF, FP, DAR) measures optical flow inside the
 dynamic mask, and media differ structurally in flow signature. Per-prompt assignments,
 with the rule that fired and the text that triggered it, are in
 `manifest/prompt_categories.csv` (all rows, hand-checkable).

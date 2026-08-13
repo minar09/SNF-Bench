@@ -1,0 +1,17 @@
+\section{Limitations and Conclusion}
+\label{sec:limitations}
+
+\paragraph{Scope.}
+SNF-Bench is intentionally narrow: long-horizon fixed-camera nature-flow generation, where static support and dynamic flow can be meaningfully separated. It does not rank general-purpose generation across moving-camera cinematography, articulated action, narrative scene change, or interactive simulation, and results should be read as evidence about this controlled regime.
+
+\paragraph{Persistence is not realism.}
+The benchmark measures whether motion occurs in expected regions, remains non-trivial over time, and is uncontaminated by background displacement. It does not determine whether water, smoke, or fire obey physically correct dynamics: a sequence can be drift-free and persistent while remaining implausible or repetitive. Human perceptual evaluation and physics-aware diagnostics are complementary, not superseded.
+
+\paragraph{Masks and estimators are approximate.}
+The static--flow partition is imperfect near reflections, spray, foliage, and smoke boundaries; method-independent construction, agreement measurement, transition bands, and erosion--dilation analysis bound this uncertainty but do not remove it, and conclusions unstable under mask perturbation are not reported as headline claims. Likewise, all measurements inherit the failure modes of optical-flow and feature estimators under severe degradation; controlled validation establishes their behavior over the benchmark's operating range, and they should be treated as calibrated diagnostic proxies, not exact physical decompositions.
+
+\paragraph{Two settings, two questions.}
+The native audit preserves each released system's deployment regime because that regime is part of the system; the matched stress test deliberately perturbs it. The settings must not be merged into one leaderboard, and matched-setting degradation must not be attributed to a specific architectural cause without intervention beyond this benchmark's scope.
+
+\paragraph{Conclusion.}
+We introduced SNF-Bench (Static--Natural Flow), an evaluation framework for long-horizon fixed-camera video generation built on one distinction: some regions of a scene must hold still, and others must not stop moving. The framework measures Static Fidelity, Flow Persistence with absolute magnitude, and Drift Leakage; validates every measurement against known corruptions before any model comparison; and audits public systems under both their native configurations and a matched stress test, separating released-system capability from deployment sensitivity. Whole-frame metrics answer whether a video moves and whether it is consistent. SNF-Bench answers the question those aggregates cannot: \emph{where} the motion comes from, and whether it lasts. As generation horizons extend from seconds to minutes, that spatial accounting becomes the difference between a scene that flows and a scene that merely drifts---and it is precisely what long-horizon evaluation now needs to measure.

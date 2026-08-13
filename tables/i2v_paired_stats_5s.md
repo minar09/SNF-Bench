@@ -44,46 +44,46 @@ Exact two-sided sign test over prompts evaluated by **both** methods.
 | Wan2.1-I2V-14B-480P | LTX-Video 13B-0.9.8-distilled | 10 | 5.014 vs 6.646 | 7/10 | 0.3438 | no |
 | Wan2.2-I2V-A14B | LTX-Video 13B-0.9.8-distilled | 10 | 6.308 vs 6.646 | 5/10 | 1.0000 | no |
 
-## BFR/NBF (lower is better)
+## NBF (lower is better)
 
 | A | B | n paired | mean A vs B | A wins | p (sign test) | sig |
 |---|---|---|---|---|---|---|
-| Causal-Forcing++ (2-step) | Causal-Forcing++ (1-step) | 10 | 1.251 vs 1.429 | 8/10 | 0.1094 | no |
-| Causal-Forcing++ (2-step) | Causal-Forcing (framewise) | 10 | 1.251 vs 5.666 | 10/10 | 0.0020 | **yes** |
-| Causal-Forcing++ (2-step) | Causal-Forcing++ (2-step, native nfpb=1) | 10 | 1.251 vs 1.327 | 3/10 | 0.3438 | no |
-| Causal-Forcing++ (2-step) | Self-Forcing | 10 | 1.251 vs 0.718 | 3/10 | 0.3438 | no |
-| Causal-Forcing++ (2-step) | CausVid | 10 | 1.251 vs 1.344 | 4/10 | 0.7539 | no |
-| Causal-Forcing++ (2-step) | Wan2.1-I2V-14B-480P | 10 | 1.251 vs 2.661 | 4/10 | 0.7539 | no |
-| Causal-Forcing++ (2-step) | Wan2.2-I2V-A14B | 10 | 1.251 vs 3.162 | 7/10 | 0.3438 | no |
-| Causal-Forcing++ (2-step) | LTX-Video 13B-0.9.8-distilled | 10 | 1.251 vs 2.227 | 7/10 | 0.3438 | no |
-| Causal-Forcing++ (1-step) | Causal-Forcing (framewise) | 10 | 1.429 vs 5.666 | 10/10 | 0.0020 | **yes** |
-| Causal-Forcing++ (1-step) | Causal-Forcing++ (2-step, native nfpb=1) | 10 | 1.429 vs 1.327 | 2/10 | 0.1094 | no |
-| Causal-Forcing++ (1-step) | Self-Forcing | 10 | 1.429 vs 0.718 | 1/10 | 0.0215 | **yes** |
-| Causal-Forcing++ (1-step) | CausVid | 10 | 1.429 vs 1.344 | 2/10 | 0.1094 | no |
-| Causal-Forcing++ (1-step) | Wan2.1-I2V-14B-480P | 10 | 1.429 vs 2.661 | 4/10 | 0.7539 | no |
-| Causal-Forcing++ (1-step) | Wan2.2-I2V-A14B | 10 | 1.429 vs 3.162 | 7/10 | 0.3438 | no |
-| Causal-Forcing++ (1-step) | LTX-Video 13B-0.9.8-distilled | 10 | 1.429 vs 2.227 | 5/10 | 1.0000 | no |
-| Causal-Forcing (framewise) | Causal-Forcing++ (2-step, native nfpb=1) | 10 | 5.666 vs 1.327 | 0/10 | 0.0020 | **yes** |
-| Causal-Forcing (framewise) | Self-Forcing | 10 | 5.666 vs 0.718 | 0/10 | 0.0020 | **yes** |
-| Causal-Forcing (framewise) | CausVid | 10 | 5.666 vs 1.344 | 0/10 | 0.0020 | **yes** |
-| Causal-Forcing (framewise) | Wan2.1-I2V-14B-480P | 10 | 5.666 vs 2.661 | 1/10 | 0.0215 | **yes** |
-| Causal-Forcing (framewise) | Wan2.2-I2V-A14B | 10 | 5.666 vs 3.162 | 1/10 | 0.0215 | **yes** |
-| Causal-Forcing (framewise) | LTX-Video 13B-0.9.8-distilled | 10 | 5.666 vs 2.227 | 2/10 | 0.1094 | no |
-| Causal-Forcing++ (2-step, native nfpb=1) | Self-Forcing | 10 | 1.327 vs 0.718 | 4/10 | 0.7539 | no |
-| Causal-Forcing++ (2-step, native nfpb=1) | CausVid | 10 | 1.327 vs 1.344 | 5/10 | 1.0000 | no |
-| Causal-Forcing++ (2-step, native nfpb=1) | Wan2.1-I2V-14B-480P | 10 | 1.327 vs 2.661 | 4/10 | 0.7539 | no |
-| Causal-Forcing++ (2-step, native nfpb=1) | Wan2.2-I2V-A14B | 10 | 1.327 vs 3.162 | 8/10 | 0.1094 | no |
-| Causal-Forcing++ (2-step, native nfpb=1) | LTX-Video 13B-0.9.8-distilled | 10 | 1.327 vs 2.227 | 6/10 | 0.7539 | no |
-| Self-Forcing | CausVid | 10 | 0.718 vs 1.344 | 7/10 | 0.3438 | no |
-| Self-Forcing | Wan2.1-I2V-14B-480P | 10 | 0.718 vs 2.661 | 5/10 | 1.0000 | no |
-| Self-Forcing | Wan2.2-I2V-A14B | 10 | 0.718 vs 3.162 | 9/10 | 0.0215 | **yes** |
-| Self-Forcing | LTX-Video 13B-0.9.8-distilled | 10 | 0.718 vs 2.227 | 7/10 | 0.3438 | no |
-| CausVid | Wan2.1-I2V-14B-480P | 10 | 1.344 vs 2.661 | 3/10 | 0.3438 | no |
-| CausVid | Wan2.2-I2V-A14B | 10 | 1.344 vs 3.162 | 7/10 | 0.3438 | no |
-| CausVid | LTX-Video 13B-0.9.8-distilled | 10 | 1.344 vs 2.227 | 7/10 | 0.3438 | no |
-| Wan2.1-I2V-14B-480P | Wan2.2-I2V-A14B | 10 | 2.661 vs 3.162 | 8/10 | 0.1094 | no |
-| Wan2.1-I2V-14B-480P | LTX-Video 13B-0.9.8-distilled | 10 | 2.661 vs 2.227 | 7/10 | 0.3438 | no |
-| Wan2.2-I2V-A14B | LTX-Video 13B-0.9.8-distilled | 10 | 3.162 vs 2.227 | 5/10 | 1.0000 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (1-step) | 10 | 20.010 vs 22.863 | 8/10 | 0.1094 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing (framewise) | 10 | 20.010 vs 90.659 | 10/10 | 0.0020 | **yes** |
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (2-step, native nfpb=1) | 10 | 20.010 vs 21.227 | 3/10 | 0.3438 | no |
+| Causal-Forcing++ (2-step) | Self-Forcing | 10 | 20.010 vs 11.484 | 3/10 | 0.3438 | no |
+| Causal-Forcing++ (2-step) | CausVid | 10 | 20.010 vs 21.502 | 4/10 | 0.7539 | no |
+| Causal-Forcing++ (2-step) | Wan2.1-I2V-14B-480P | 10 | 20.010 vs 42.577 | 4/10 | 0.7539 | no |
+| Causal-Forcing++ (2-step) | Wan2.2-I2V-A14B | 10 | 20.010 vs 50.584 | 7/10 | 0.3438 | no |
+| Causal-Forcing++ (2-step) | LTX-Video 13B-0.9.8-distilled | 10 | 20.010 vs 53.448 | 7/10 | 0.3438 | no |
+| Causal-Forcing++ (1-step) | Causal-Forcing (framewise) | 10 | 22.863 vs 90.659 | 10/10 | 0.0020 | **yes** |
+| Causal-Forcing++ (1-step) | Causal-Forcing++ (2-step, native nfpb=1) | 10 | 22.863 vs 21.227 | 2/10 | 0.1094 | no |
+| Causal-Forcing++ (1-step) | Self-Forcing | 10 | 22.863 vs 11.484 | 1/10 | 0.0215 | **yes** |
+| Causal-Forcing++ (1-step) | CausVid | 10 | 22.863 vs 21.502 | 2/10 | 0.1094 | no |
+| Causal-Forcing++ (1-step) | Wan2.1-I2V-14B-480P | 10 | 22.863 vs 42.577 | 4/10 | 0.7539 | no |
+| Causal-Forcing++ (1-step) | Wan2.2-I2V-A14B | 10 | 22.863 vs 50.584 | 7/10 | 0.3438 | no |
+| Causal-Forcing++ (1-step) | LTX-Video 13B-0.9.8-distilled | 10 | 22.863 vs 53.448 | 7/10 | 0.3438 | no |
+| Causal-Forcing (framewise) | Causal-Forcing++ (2-step, native nfpb=1) | 10 | 90.659 vs 21.227 | 0/10 | 0.0020 | **yes** |
+| Causal-Forcing (framewise) | Self-Forcing | 10 | 90.659 vs 11.484 | 0/10 | 0.0020 | **yes** |
+| Causal-Forcing (framewise) | CausVid | 10 | 90.659 vs 21.502 | 0/10 | 0.0020 | **yes** |
+| Causal-Forcing (framewise) | Wan2.1-I2V-14B-480P | 10 | 90.659 vs 42.577 | 1/10 | 0.0215 | **yes** |
+| Causal-Forcing (framewise) | Wan2.2-I2V-A14B | 10 | 90.659 vs 50.584 | 1/10 | 0.0215 | **yes** |
+| Causal-Forcing (framewise) | LTX-Video 13B-0.9.8-distilled | 10 | 90.659 vs 53.448 | 2/10 | 0.1094 | no |
+| Causal-Forcing++ (2-step, native nfpb=1) | Self-Forcing | 10 | 21.227 vs 11.484 | 4/10 | 0.7539 | no |
+| Causal-Forcing++ (2-step, native nfpb=1) | CausVid | 10 | 21.227 vs 21.502 | 5/10 | 1.0000 | no |
+| Causal-Forcing++ (2-step, native nfpb=1) | Wan2.1-I2V-14B-480P | 10 | 21.227 vs 42.577 | 4/10 | 0.7539 | no |
+| Causal-Forcing++ (2-step, native nfpb=1) | Wan2.2-I2V-A14B | 10 | 21.227 vs 50.584 | 8/10 | 0.1094 | no |
+| Causal-Forcing++ (2-step, native nfpb=1) | LTX-Video 13B-0.9.8-distilled | 10 | 21.227 vs 53.448 | 8/10 | 0.1094 | no |
+| Self-Forcing | CausVid | 10 | 11.484 vs 21.502 | 7/10 | 0.3438 | no |
+| Self-Forcing | Wan2.1-I2V-14B-480P | 10 | 11.484 vs 42.577 | 5/10 | 1.0000 | no |
+| Self-Forcing | Wan2.2-I2V-A14B | 10 | 11.484 vs 50.584 | 9/10 | 0.0215 | **yes** |
+| Self-Forcing | LTX-Video 13B-0.9.8-distilled | 10 | 11.484 vs 53.448 | 8/10 | 0.1094 | no |
+| CausVid | Wan2.1-I2V-14B-480P | 10 | 21.502 vs 42.577 | 3/10 | 0.3438 | no |
+| CausVid | Wan2.2-I2V-A14B | 10 | 21.502 vs 50.584 | 7/10 | 0.3438 | no |
+| CausVid | LTX-Video 13B-0.9.8-distilled | 10 | 21.502 vs 53.448 | 8/10 | 0.1094 | no |
+| Wan2.1-I2V-14B-480P | Wan2.2-I2V-A14B | 10 | 42.577 vs 50.584 | 8/10 | 0.1094 | no |
+| Wan2.1-I2V-14B-480P | LTX-Video 13B-0.9.8-distilled | 10 | 42.577 vs 53.448 | 7/10 | 0.3438 | no |
+| Wan2.2-I2V-A14B | LTX-Video 13B-0.9.8-distilled | 10 | 50.584 vs 53.448 | 6/10 | 0.7539 | no |
 
 ## FP (higher is better)
 
@@ -208,7 +208,7 @@ Exact two-sided sign test over prompts evaluated by **both** methods.
 | Wan2.1-I2V-14B-480P | LTX-Video 13B-0.9.8-distilled | 10 | 5.707 vs 3.945 | 4/10 | 0.7539 | no |
 | Wan2.2-I2V-A14B | LTX-Video 13B-0.9.8-distilled | 10 | 9.819 vs 3.945 | 5/10 | 1.0000 | no |
 
-## DriftFrac (lower is better)
+## DLR (lower is better)
 
 | A | B | n paired | mean A vs B | A wins | p (sign test) | sig |
 |---|---|---|---|---|---|---|
@@ -248,3 +248,44 @@ Exact two-sided sign test over prompts evaluated by **both** methods.
 | Wan2.1-I2V-14B-480P | Wan2.2-I2V-A14B | 10 | 0.524 vs 0.496 | 5/10 | 1.0000 | no |
 | Wan2.1-I2V-14B-480P | LTX-Video 13B-0.9.8-distilled | 10 | 0.524 vs 0.388 | 3/10 | 0.3438 | no |
 | Wan2.2-I2V-A14B | LTX-Video 13B-0.9.8-distilled | 10 | 0.496 vs 0.388 | 4/10 | 0.7539 | no |
+
+## DAR (lower is better)
+
+| A | B | n paired | mean A vs B | A wins | p (sign test) | sig |
+|---|---|---|---|---|---|---|
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (1-step) | 10 | 0.212 vs 0.243 | 6/10 | 0.7539 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing (framewise) | 10 | 0.212 vs 0.117 | 3/10 | 0.3438 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (2-step, native nfpb=1) | 10 | 0.212 vs 0.092 | 3/10 | 0.3438 | no |
+| Causal-Forcing++ (2-step) | Self-Forcing | 10 | 0.212 vs 0.071 | 2/10 | 0.1094 | no |
+| Causal-Forcing++ (2-step) | CausVid | 10 | 0.212 vs -0.057 | 2/10 | 0.1094 | no |
+| Causal-Forcing++ (2-step) | Wan2.1-I2V-14B-480P | 10 | 0.212 vs 0.133 | 3/10 | 0.3438 | no |
+| Causal-Forcing++ (2-step) | Wan2.2-I2V-A14B | 10 | 0.212 vs 0.213 | 4/10 | 0.7539 | no |
+| Causal-Forcing++ (2-step) | LTX-Video 13B-0.9.8-distilled | 10 | 0.212 vs 0.179 | 2/10 | 0.1094 | no |
+| Causal-Forcing++ (1-step) | Causal-Forcing (framewise) | 10 | 0.243 vs 0.117 | 1/10 | 0.0215 | **yes** |
+| Causal-Forcing++ (1-step) | Causal-Forcing++ (2-step, native nfpb=1) | 10 | 0.243 vs 0.092 | 2/10 | 0.1094 | no |
+| Causal-Forcing++ (1-step) | Self-Forcing | 10 | 0.243 vs 0.071 | 2/10 | 0.1094 | no |
+| Causal-Forcing++ (1-step) | CausVid | 10 | 0.243 vs -0.057 | 2/10 | 0.1094 | no |
+| Causal-Forcing++ (1-step) | Wan2.1-I2V-14B-480P | 10 | 0.243 vs 0.133 | 4/10 | 0.7539 | no |
+| Causal-Forcing++ (1-step) | Wan2.2-I2V-A14B | 10 | 0.243 vs 0.213 | 4/10 | 0.7539 | no |
+| Causal-Forcing++ (1-step) | LTX-Video 13B-0.9.8-distilled | 10 | 0.243 vs 0.179 | 2/10 | 0.1094 | no |
+| Causal-Forcing (framewise) | Causal-Forcing++ (2-step, native nfpb=1) | 10 | 0.117 vs 0.092 | 7/10 | 0.3438 | no |
+| Causal-Forcing (framewise) | Self-Forcing | 10 | 0.117 vs 0.071 | 5/10 | 1.0000 | no |
+| Causal-Forcing (framewise) | CausVid | 10 | 0.117 vs -0.057 | 3/10 | 0.3438 | no |
+| Causal-Forcing (framewise) | Wan2.1-I2V-14B-480P | 10 | 0.117 vs 0.133 | 7/10 | 0.3438 | no |
+| Causal-Forcing (framewise) | Wan2.2-I2V-A14B | 10 | 0.117 vs 0.213 | 7/10 | 0.3438 | no |
+| Causal-Forcing (framewise) | LTX-Video 13B-0.9.8-distilled | 10 | 0.117 vs 0.179 | 4/10 | 0.7539 | no |
+| Causal-Forcing++ (2-step, native nfpb=1) | Self-Forcing | 10 | 0.092 vs 0.071 | 3/10 | 0.3438 | no |
+| Causal-Forcing++ (2-step, native nfpb=1) | CausVid | 10 | 0.092 vs -0.057 | 4/10 | 0.7539 | no |
+| Causal-Forcing++ (2-step, native nfpb=1) | Wan2.1-I2V-14B-480P | 10 | 0.092 vs 0.133 | 5/10 | 1.0000 | no |
+| Causal-Forcing++ (2-step, native nfpb=1) | Wan2.2-I2V-A14B | 10 | 0.092 vs 0.213 | 5/10 | 1.0000 | no |
+| Causal-Forcing++ (2-step, native nfpb=1) | LTX-Video 13B-0.9.8-distilled | 10 | 0.092 vs 0.179 | 2/10 | 0.1094 | no |
+| Self-Forcing | CausVid | 10 | 0.071 vs -0.057 | 3/10 | 0.3438 | no |
+| Self-Forcing | Wan2.1-I2V-14B-480P | 10 | 0.071 vs 0.133 | 5/10 | 1.0000 | no |
+| Self-Forcing | Wan2.2-I2V-A14B | 10 | 0.071 vs 0.213 | 5/10 | 1.0000 | no |
+| Self-Forcing | LTX-Video 13B-0.9.8-distilled | 10 | 0.071 vs 0.179 | 4/10 | 0.7539 | no |
+| CausVid | Wan2.1-I2V-14B-480P | 10 | -0.057 vs 0.133 | 7/10 | 0.3438 | no |
+| CausVid | Wan2.2-I2V-A14B | 10 | -0.057 vs 0.213 | 7/10 | 0.3438 | no |
+| CausVid | LTX-Video 13B-0.9.8-distilled | 10 | -0.057 vs 0.179 | 6/10 | 0.7539 | no |
+| Wan2.1-I2V-14B-480P | Wan2.2-I2V-A14B | 10 | 0.133 vs 0.213 | 4/10 | 0.7539 | no |
+| Wan2.1-I2V-14B-480P | LTX-Video 13B-0.9.8-distilled | 10 | 0.133 vs 0.179 | 3/10 | 0.3438 | no |
+| Wan2.2-I2V-A14B | LTX-Video 13B-0.9.8-distilled | 10 | 0.213 vs 0.179 | 3/10 | 0.3438 | no |

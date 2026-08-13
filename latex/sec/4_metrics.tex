@@ -1,0 +1,91 @@
+\section{Drift--Motion Evaluation Protocol}
+\label{sec:metrics}
+
+SNF-Bench evaluates fixed-camera generation along three complementary factors: \textbf{Static Fidelity}, \textbf{Flow Persistence}, and \textbf{Drift Leakage}. No individual score is sufficient: low background motion can be achieved by freezing the entire video, and high foreground motion can be produced by drifting the entire scene. We therefore always report static-region stability jointly with both the \emph{relative persistence} and \emph{absolute magnitude} of dynamic-region motion.
+
+Let $I_t$ denote frame $t$ of a $T$-frame sequence, $\Omega_{\mathrm{static}}$ and $\Omega_{\mathrm{flow}}$ the fixed region masks of Sec.~\ref{sec:masks}, and $\mathbf{u}_t(\mathbf{x})$ the optical flow from $I_t$ to $I_{t+1}$ at pixel $\mathbf{x}$. Each sequence defines an early window $\mathcal{E}$ and a late window $\mathcal{L}$ of equal duration; $\mathcal{E}$ begins after a short warm-up interval so that initial generation transients do not define the motion reference. Window extents are fixed in the benchmark specification.
+
+\subsection{Static Fidelity}
+\label{sec:static_metrics}
+
+\paragraph{Feature-aligned Background Drift (fBD).}
+We extract repeatable local features inside $\Omega_{\mathrm{static}}$ from the first frame and match them against each frame $I_t$ in the late window, applying robust geometric filtering to reject outlier correspondences. For the resulting matched pairs $\mathcal{M}_t$,
+\begin{equation}
+D_{\mathrm{feat}}(t) = \operatorname{median}_{(p,q)\in\mathcal{M}_t} \lVert p-q \rVert_2,
+\qquad
+\mathrm{fBD} = \frac{100}{d}\cdot\frac{1}{|\mathcal{L}|}\sum_{t\in\mathcal{L}} D_{\mathrm{feat}}(t)
+\;\;(\downarrow),
+\end{equation}
+where $d$ is the frame diagonal, so fBD is expressed as a percentage of image size. fBD captures accumulated geometric displacement of persistent structure and is intentionally insensitive to fine-scale flicker that moves no structure.
+
+\paragraph{Normalized Background Flow (NBF).}
+Complementing accumulated drift, NBF measures instantaneous motion energy inside the static mask:
+\begin{equation}
+\mathrm{NBF} = \frac{10^3}{W\,\Delta t}\cdot\frac{1}{T-1}\sum_{t=1}^{T-1}
+\frac{1}{|\Omega_{\mathrm{static}}|}\sum_{\mathbf{x}\in\Omega_{\mathrm{static}}}
+\lVert \mathbf{u}_t(\mathbf{x}) \rVert_2
+\;\;(\downarrow),
+\end{equation}
+normalized by frame width $W$ for resolution invariance and by the inter-frame interval $\Delta t = 1/f$ for frame-rate invariance, giving units of $10^{-3}$ frame widths per second. The temporal term is load-bearing rather than cosmetic: the audit evaluates each method at its \emph{native} frame rate (Sec.~\ref{sec:audit}), so a per-frame flow statistic would systematically understate the background motion of higher-frame-rate methods. In our roster the native rates differ by a factor of $1.5$, and adopting the per-second convention changes the static-fidelity ordering of the image-conditioned baselines.
+
+NBF is a normalized magnitude, not a ratio: we deliberately do \emph{not} divide by whole-frame flow, since that would couple background leakage to foreground behavior and inflate the measure for methods whose dynamic motion decays.
+
+\paragraph{I2V source fidelity.}
+For SNF-I2V, we additionally report feature-space similarity between the source image and late frames restricted to $\Omega_{\mathrm{static}}$, measuring whether static regions preserve source appearance rather than merely remaining internally stationary.
+
+\subsection{Flow Persistence}
+\label{sec:flow_metrics}
+
+\paragraph{Global-motion compensation.}
+Coherent scene displacement is removed before dynamic-region motion is evaluated. A single translation vector is insufficient: under rotation or zoom the static-region flow field is not constant, and its component-wise median is near zero for a centered rotation, so a translation-only estimate would leave exactly the corruptions Sec.~\ref{sec:validation} injects uncompensated. We therefore estimate a robust global \emph{similarity} transform $T_t(\mathbf{x}) = s_t R_t \mathbf{x} + \mathbf{b}_t$ from static-region correspondences $\mathbf{x}\mapsto\mathbf{x}+\mathbf{u}_t(\mathbf{x})$ under RANSAC, define the induced global displacement field $\mathbf{d}_t(\mathbf{x}) = T_t(\mathbf{x})-\mathbf{x}$, and compensate pointwise:
+\begin{equation}
+\tilde{\mathbf{u}}_t(\mathbf{x}) = \mathbf{u}_t(\mathbf{x}) - \mathbf{d}_t(\mathbf{x}).
+\end{equation}
+We restrict to similarity rather than unrestricted affine because fixed-camera generation failures plausibly manifest as translation, slight rotation and zoom, whereas affine shear can absorb legitimate local deformation and over-correct. When correspondences are insufficient or the robust fit fails, we fall back to median translation and record the fallback per video; fallback rates are reported per category.
+
+\paragraph{Motion-Compensated Foreground Flow (MCFF).}
+For a temporal window $\mathcal{W}$,
+\begin{equation}
+\mathrm{MCFF}(\mathcal{W}) = \frac{1}{|\mathcal{W}|}\sum_{t\in\mathcal{W}}
+\frac{1}{|\Omega_{\mathrm{flow}}|}\sum_{\mathbf{x}\in\Omega_{\mathrm{flow}}}
+\lVert \tilde{\mathbf{u}}_t(\mathbf{x}) \rVert_2
+\;\;(\uparrow).
+\end{equation}
+We report $\mathrm{MCFF}(\mathcal{E})$ and $\mathrm{MCFF}(\mathcal{L})$, so a method with uniformly negligible motion cannot appear strong through relative measures alone.
+
+\paragraph{Flow Persistence (FP).}
+\begin{equation}
+\mathrm{FP} = \min\!\left(\frac{\mathrm{MCFF}(\mathcal{L})}{\mathrm{MCFF}(\mathcal{E})+\epsilon},\, c\right)
+\;\;(\uparrow),
+\end{equation}
+clipped at a fixed constant $c$ to prevent unstable ratios when early motion is small. FP near one indicates retained motion; substantially smaller values indicate decay; values above one are not automatically better. \textbf{FP is never reported without its MCFF magnitudes.}
+
+\subsection{Drift Leakage and Attenuation}
+\label{sec:drift_leakage}
+
+Whole-frame metrics cannot determine whether apparent dynamic-region motion arises from intended flow or from coherent displacement of the whole scene. We report two distinct diagnostics for this, because they answer different questions and neither subsumes the other. Let $F_{\mathrm{static}}$ denote mean flow magnitude over $\Omega_{\mathrm{static}}$, and $F_{\mathrm{raw}}$, $F_{\mathrm{comp}}$ the mean raw and compensated flow magnitude over $\Omega_{\mathrm{flow}}$, all in the late window; the late window is used because drift accumulates over the rollout.
+
+\paragraph{Drift Leakage Ratio (DLR).}
+\begin{equation}
+\mathrm{DLR} = \frac{F_{\mathrm{static}}}{F_{\mathrm{raw}}+\epsilon}
+\;\;(\downarrow)
+\end{equation}
+measures background-flow magnitude relative to raw dynamic-region flow---that is, \emph{where} the sequence's motion energy is located. It is deliberately not normalized to a bounded range and is not a fraction: $\mathrm{DLR}>1$ indicates that static support moves more than the region intended to move, a regime that occurs in practice.
+
+\paragraph{Drift Attenuation Ratio (DAR).}
+\begin{equation}
+\mathrm{DAR} = 1 - \frac{F_{\mathrm{comp}}}{F_{\mathrm{raw}}+\epsilon}
+\;\;(\downarrow)
+\end{equation}
+measures the signed relative change in dynamic-region flow after global-motion compensation---that is, how much of the apparent dynamic motion is \emph{explained by a global displacement model}. Near-zero values mean compensation removes little, so motion is genuinely local; large values mean apparent motion is largely accounted for by scene displacement. Headline values are reported as $\operatorname{clip}(\mathrm{DAR},0,1)$, while the signed quantity is stored and used for validation. Negative values are informative rather than anomalous: where local flow opposes the estimated global field, compensation can \emph{increase} measured magnitude. We report the incidence of negative values per method rather than suppressing it.
+
+\paragraph{Interpretation.}
+DAR is a \emph{calibrated proxy} for global-motion contamination, not a causal decomposition of motion into drift and non-drift components; Sec.~\ref{sec:validation} calibrates it against sequences with known injected displacement. Accordingly we phrase results as ``global compensation removes $X\%$ of measured dynamic-region flow under this estimator,'' never as ``$X\%$ of the motion is drift.'' Read jointly, the pair is more informative than either alone: high DLR with moderate DAR indicates large static-region motion energy that a \emph{rigid} global model does not explain, implicating non-rigid instability such as warping rather than uniform scene translation.
+
+\subsection{Joint Interpretation}
+\label{sec:metric_interpretation}
+
+The factors are interpreted jointly: low fBD/NBF with low MCFF indicates an over-stabilized, nearly frozen video; high MCFF with high NBF, DLR or DAR indicates motion contaminated by displacement; high FP with negligible MCFF indicates persistent but trivial motion. The desired regime is low static drift, non-trivial compensated motion, and high retention. SNF-Bench deliberately provides \emph{no single scalar leaderboard score}---collapsing the factors would recreate the exact ambiguity the benchmark exposes. Methods are instead compared per factor under the paired uncertainty analysis of Sec.~\ref{sec:aggregation}.
+
+\paragraph{Implementation convention.}
+Videos are normalized to the benchmark evaluation resolution before measurement. Frame rate is \emph{not} resampled: each method is measured at its native rate, and frame-rate dependence is handled analytically by the $\Delta t$ term in NBF rather than by interpolation, which would itself alter the flow field being measured. The optical-flow estimator, local-feature extractor, robust filtering thresholds, warm-up interval, window extents, clip constant $c$, boundary transition band, and $\epsilon$ are fixed globally before the final sweep and released with the evaluation code; the identical implementation is applied unchanged to every method. Per-video native frame rate, resolution, and global-motion compensation mode are released alongside the scores.

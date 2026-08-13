@@ -1,0 +1,52 @@
+\section{Controlled Validation}
+\label{sec:validation}
+
+Before SNF-Bench is used to compare generators, we validate that its measurements respond to the failure modes they target. A benchmark is not justified merely because its metrics produce different rankings; each metric must change \emph{selectively}, \emph{monotonically}, and in the expected direction under known corruptions. We therefore construct controlled variants of fixed-camera reference clips with known corruption type and severity. Validation is performed independently of the audit in Sec.~\ref{sec:audit}: perturbation strengths, masks, temporal windows, and metric hyperparameters are fixed before the final baseline results are inspected.
+
+\subsection{Mechanistic Perturbations}
+\label{sec:mechanistic_validation}
+
+Given a reference sequence $V=\{I_t\}_{t=1}^{T}$, we generate variants isolating individual components of the static--dynamic decomposition.
+
+\paragraph{Geometric drift.} Temporally increasing global transformations
+\begin{equation}
+I_t'(\mathbf{x}) = I_t\!\left(A_t\mathbf{x}+\mathbf{b}_t\right)
+\end{equation}
+simulate camera-like background displacement, with $A_t$ (rotation, scale) and $\mathbf{b}_t$ (translation) growing progressively to match the accumulated nature of long-horizon errors. Translation, rotation, and scale drift are evaluated independently across severity levels. Static-fidelity metrics should increase monotonically; after compensation, MCFF and FP should remain comparatively stable, since the local dynamic process is unchanged.
+
+\paragraph{Photometric drift.} Gradual low-frequency changes in brightness, contrast, and color temperature preserve geometry and motion. Geometric drift measures should remain comparatively insensitive; because optical-flow estimation is not perfectly photometrically invariant, we \emph{measure} rather than assume the residual sensitivity of flow-based quantities and report it as an operating bound. For I2V, this perturbation also verifies that source-fidelity measurements detect appearance change that displacement metrics cannot.
+
+\paragraph{Motion attenuation and freezing.} Motion inside $\Omega_{\mathrm{flow}}$ is progressively attenuated or frozen after predetermined fractions of the sequence, with static support untouched---known instances of decaying persistence without background drift. MCFF should decrease with attenuation and FP with late-stage decay; fBD and NBF should remain approximately unchanged.
+
+\paragraph{Temporal repetition.} Late dynamic-region content is replaced with short repeated cycles, producing persistent apparent activity without genuine progression. We include this control to verify that static-drift metrics are unaffected and to \emph{document explicitly} that persistence and magnitude cannot resolve repetition: a looping flow can maintain both FP and MCFF. This is a scope boundary of SNF-Bench, consistent with its stated exclusion of motion naturalness.
+
+\subsection{Selectivity, Monotonicity, and Low-Motion Stability}
+\label{sec:selectivity}
+
+For each perturbation family we quantify: \textbf{monotonic response}---Spearman's $\rho$ between ordered severity $\lambda_1<\cdots<\lambda_K$ and metric response, with expected signs fixed in advance; \textbf{selectivity}---normalized metric change under the target perturbation compared against changes under unrelated perturbations (e.g., fBD should react strongly to translation but weakly to freezing; MCFF the reverse); and \textbf{low-motion stability}---explicit tests on low-amplitude and progressively attenuated clips verifying that the clip constant $c$, together with mandatory joint reporting of early/late MCFF, prevents small denominators from producing misleading persistence conclusions.
+
+\subsection{Calibration of Drift Leakage and Attenuation}
+\label{sec:drift_calibration}
+
+DLR and DAR are the most interpretive quantities in SNF-Bench, so both are calibrated against sequences with \emph{known} global-motion contributions, and neither is designated the primary drift diagnostic in advance of this test. Starting from a reference clip with local dynamic motion, we superimpose a controlled global displacement on the \emph{entire frame}---as genuine drift manifests---so that the static-region estimate observes the same displacement that contaminates $\Omega_{\mathrm{flow}}$. Varying injected magnitude relative to original foreground flow yields clips with known drift-to-local-motion mixtures. With $r_{\mathrm{inj}}$ the known relative global-motion contribution and $\widehat{m}$ the estimate produced by metric $m\in\{\mathrm{DLR},\mathrm{DAR}\}$, we report
+\begin{equation}
+\rho_{m} = \rho_{\mathrm{Spearman}}\!\left(r_{\mathrm{inj}},\, \widehat{m}\right),
+\end{equation}
+together with mean absolute calibration error, monotonicity violations across injection levels, cross-category variance, and---for DAR---the incidence of negative values. DAR is calibrated in its \emph{signed} form, since clipping would conceal precisely the cases where compensation increases measured magnitude.
+
+We do not expect exact recovery of a physical decomposition on arbitrary generated video; the claim established here is narrower---that these quantities behave as \emph{calibrated proxies} whose values increase predictably as coherent displacement contributes more to apparent motion. A metric that fails monotonicity, proves unstable across categories, or depends materially on the flow backbone is reported as a supplementary diagnostic rather than a headline factor.
+
+\subsection{Generation-Like Corruptions}
+\label{sec:generation_validation}
+
+Idealized perturbations do not reproduce all generator-side artifacts. A second validation layer applies controlled corruptions closer to observed failures: repeated VAE encode--decode degradation; chunk-boundary spatial and photometric discontinuities; progressive low-frequency color drift; localized texture sharpening in static regions; periodic temporal jitter; and late-stage detail loss. These define no new metrics; they test whether the measurements remain interpretable on realistic artifacts. Geometric metrics should not misread texture sharpening as displacement; background-flow measures \emph{should} respond to jitter, which genuinely moves static pixels---a correct detection, not a false positive.
+
+\subsection{Mask Agreement and Sensitivity}
+\label{sec:mask_validation}
+
+Region masks are treated as measured quantities, not exact ground truth. On an independently double-annotated subset---labeled under the same blindness constraints as the benchmark protocol---we report mean IoU and inter-annotator agreement. All evaluation masks are then systematically eroded and dilated by fixed offsets and every measurement recomputed; we assess both absolute score variation and stability of pairwise method ordering across perturbation radii. A conclusion is reported as robust only when its qualitative interpretation persists under reasonable boundary variation; mask-sensitive results are labeled as such and excluded from headline ranking claims.
+
+\subsection{Validation Criteria}
+\label{sec:validation_criteria}
+
+A metric is admitted to the public-model audit only if, under pre-specified criteria: (1) its response direction matches expectation under the target perturbation; (2) the response is monotonic across severity within statistical uncertainty; (3) unrelated perturbations produce substantially smaller changes; (4) ratio-based quantities remain interpretable under low-motion controls; and (5) conclusions are stable under mask perturbation. Metrics or configurations failing these checks are revised or excluded \emph{before} the final sweep. The validation suite is thus an independent gate on the benchmark specification, not a post-hoc explanation of model rankings.

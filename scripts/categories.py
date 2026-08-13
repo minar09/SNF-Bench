@@ -8,8 +8,8 @@ and the text span that triggered it, so a reviewer can check all 100 of them by
 hand rather than trusting a regex.
 
 Category axis = **flow medium**, i.e. what the dynamic region physically is.
-That is the right axis for this benchmark because the metrics (BFR, MCFF, FP,
-DriftFrac) all measure optical flow inside the dynamic mask, and different
+That is the right axis for this benchmark because the metrics (NBF, MCFF, FP,
+DAR) all measure optical flow inside the dynamic mask, and different
 media have structurally different flow signatures: channel water is coherent
 and directional, precipitation is sparse and high-frequency, smoke and lava are
 slow and non-rigid, windborne particles are chaotic and low-density. Grouping
@@ -256,7 +256,7 @@ def _md_table(header, body):
 def write_report(rows, report, unmatched):
     L = ["# Scene-category balance audit", "",
          "SNF-Bench macro-averages by **flow medium** — what the dynamic region physically is —",
-         "because every task metric (BFR, MCFF, FP, DriftFrac) measures optical flow inside the",
+         "because every task metric (NBF, MCFF, FP, DAR) measures optical flow inside the",
          "dynamic mask, and media differ structurally in flow signature. Per-prompt assignments,",
          "with the rule that fired and the text that triggered it, are in",
          "`manifest/prompt_categories.csv` (all rows, hand-checkable).", "",
