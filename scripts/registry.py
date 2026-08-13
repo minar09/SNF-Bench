@@ -183,13 +183,34 @@ METRICS = {
 SNF_TASK_KEYS = ["fBD_mean", "NBF_mean", "FP_mean", "MCFF_late_mean",
                  "DD_raw_late_mean", "DLR_mean", "DAR_mean"]
 
-# The audit preserves each method's NATIVE frame rate, which makes FPS a hidden
-# confound in any per-frame flow statistic. Measured from the containers
-# (manifest/video_meta.csv): everything runs at 16 fps except LTX-Video at 24.
-# Left uncorrected, LTX's per-frame static flow reads 1.5x lower than its true
-# rate and it ranks 6th of 9 on I2V-5s; per-second it ranks 8th, behind both Wan
-# models. Hence NBF = BFR_per_frame * fps.
+# --- Temporal normalization for NBF -----------------------------------------
+# CORRECTED 2026-08-13 (second pass). The metric does NOT measure flow between
+# native frames: snf_task_metrics.read_frames() subsamples with
+#     interval = max(1, round(native_fps / SAMPLE_FPS)),  SAMPLE_FPS = 8
+# so flow is computed between *sampled* frames. In this corpus native rates are
+# 16 and 24 fps, giving intervals 2 and 3 and an effective rate of exactly
+# 8.000 fps for every one of the 1881 videos.
+#
+# Consequence: there was never a frame-rate confound in the flow magnitudes --
+# the subsampling already equalized the temporal rate by construction. An
+# earlier fix here scaled by NATIVE fps, which multiplied LTX-Video by 24 and
+# everything else by 16 and thereby INTRODUCED a 1.5x error, together with a
+# spurious "LTX moves rank 6 -> 8" finding. That finding is retracted.
+#
+# The per-second unit is still correct and is kept, because it makes NBF
+# physically meaningful and stays right for a future model whose native rate is
+# not a clean multiple of SAMPLE_FPS (e.g. 30 fps -> interval 4 -> 7.5 fps).
+# For the present corpus it is a uniform x8 rescale that changes no ranking.
+SAMPLE_FPS = 8.0
 FPS_DEFAULT = 16.0
+
+
+def effective_fps(native_fps):
+    """Temporal rate at which flow is actually measured, after subsampling."""
+    if not native_fps or native_fps <= 0:
+        native_fps = FPS_DEFAULT
+    interval = max(1, round(native_fps / SAMPLE_FPS))
+    return native_fps / interval
 EXTRA_KEYS = ["sharp_ratio", "sharp_mean", "dE_static", "dL_static",
               "idPSNR_late", "FDP", "stag_onset"]
 VBENCH_KEYS = ["background_consistency", "subject_consistency", "motion_smoothness",

@@ -1,14 +1,26 @@
-# SNF-Bench — METRIC SPEC v1.0 (FROZEN 2026-08-13)
+# SNF-Bench — METRIC SPEC v1.1 (FROZEN 2026-08-13)
 
 **The metric family is closed at six names. No further renames are permitted.**
 
     fBD · NBF · MCFF-E / MCFF-L · FP · DLR · DAR
 
-This document is the single authority. Where it disagrees with `latex/`,
-`scripts/`, or `metric_code/`, this document wins and the other is a bug.
+This document is the single authority and supersedes v1.0 in full. Where it
+disagrees with `latex/`, `scripts/`, or `metric_code/`, this document wins and
+the other is a bug.
 
 Definitions may still be *removed* before the Aug 20 freeze if validation
-(§5.6) fails them. They may not be renamed or silently redefined.
+(§5.6 of the paper) fails them. They may not be renamed or silently redefined.
+
+**v1.0 → v1.1 changelog.** No per-video measurement semantics changed, so
+records stamped `metric_spec_version: 1.0` remain valid as written.
+1. §2 NBF — the temporal factor is the **effective sampled rate**, not the
+   native container rate. The v1.0 claim of a frame-rate confound (and the
+   "LTX rank 6→8" finding) is **retracted**; see §2.
+2. §6 — the DLR/DAR tiebreak is **pre-committed**, before any validation
+   numbers exist.
+3. §8 (new) — sweep integrity contract: failure stream, resumability,
+   provenance fields, and the schema scan.
+4. §9 (new) — pre-registered decision rules for the Aug 14–18 gates.
 
 ---
 
@@ -21,7 +33,7 @@ All three were validity defects, not presentation issues:
 | # | prose said | code did | consequence |
 |---|---|---|---|
 | 1 | `DriftFrac = clip(1 − F_comp/F_raw, 0, 1)` | `stat_mag/dyn_raw` — a **static-to-dynamic leakage ratio** that never touches the compensated flow | unbounded above; >1 on 20/161 clips; every causal reading void |
-| 2 | "normalized to the benchmark evaluation resolution **and frame rate** before measurement" | no resampling; native FPS preserved | 16 vs 24 fps confound survived undetected; LTX-Video's static drift understated 1.5× |
+| 2 | "normalized to the benchmark evaluation resolution **and frame rate** before measurement" | no *container* resampling, but `read_frames` subsamples to `SAMPLE_FPS=8` before computing flow | prose and code describe different mechanisms; the metric is time-normalized by subsampling, which the prose never states |
 | 3 | drift compensation described as removing "coherent global displacement" | per-component **median** of static flow — pure translation | rotation/scale validation would fail against our own estimator |
 
 Defect 1 is why the family has six names instead of five: the shipped quantity
@@ -59,7 +71,9 @@ $$\mathrm{NBF} = \frac{10^3}{W\,\Delta t}\cdot\frac{1}{T-1}\sum_{t}\ \operatorna
 Units: $10^{-3}$ frame-widths **per second**.
 
 - Formerly "BFR / Background Flow Ratio". **It was never a ratio** — there is no denominator that is itself a measured flow. The name asserted a relationship that does not exist.
-- The $\Delta t$ term is not cosmetic. The audit preserves each method's native frame rate, so per-frame flow is a 1.5× confound between 16 and 24 fps methods. Measured (`manifest/video_meta.csv`): all methods 16 fps **except LTX-Video at 24**. Per-second normalization moves LTX from rank 6 to rank 8 on I2V-5s, past both Wan models.
+- $\Delta t$ is the **effective** inter-frame interval of the measurement, not the container's. `read_frames` subsamples with `interval = max(1, round(f_native / 8))`, so flow is measured between *sampled* frames. In this corpus native rates are 16 and 24 fps -> intervals 2 and 3 -> **exactly 8.000 Hz for all 1881 videos**.
+- **Retraction (2026-08-13, second pass).** An earlier version of this spec scaled by *native* fps and reported that LTX-Video moved from rank 6 to rank 8 on I2V-5s. That was wrong in both directions: the subsampling had already equalized the temporal rate, so scaling by native fps *introduced* a 1.5x error rather than removing one. LTX ranks 6th, ahead of both Wan models, as it always did. There was never a frame-rate confound in these flow magnitudes.
+- The per-second unit is nevertheless kept: it makes NBF physically meaningful, and it stays correct for a future model whose native rate is not a clean multiple of `SAMPLE_FPS` (30 fps -> interval 4 -> 7.5 Hz). For this corpus it is a uniform x8 rescale that changes no ranking.
 - Do **not** normalize by whole-frame flow: that couples background leakage to foreground behaviour and inflates NBF for methods whose dynamic motion decays.
 - Independent of drift compensation — **not** recomputed when §3 changes.
 
@@ -190,14 +204,15 @@ and overlay fraction. Two annotators are not required on every frame.
 | convention | value |
 |---|---|
 | resolution | normalized to benchmark evaluation resolution before measurement |
-| **frame rate** | **native, preserved — NOT resampled.** Time-dependence is handled by the $\Delta t$ term in NBF. |
+| **frame rate** | container rate preserved; the metric subsamples to `SAMPLE_FPS = 8` before flow. $\Delta t$ in NBF is the **effective** sampled interval (`f_native / max(1, round(f_native/8))`), which is 8.000 Hz for every video in this corpus. |
 | flow estimator | fixed globally, released with code; second backbone on a 10–20% stratified subset for robustness |
 | feature extractor, robust thresholds, warm-up, window extents, $c$, transition band, $\epsilon$ | fixed globally before the final sweep |
 | aggregation | prompt-level; category **macro**-average; bootstrap 95% CI, 10k resamples, seed 0 |
 | storage | signed DAR; per-video `compensation_mode`; per-video fps |
 
 The frame-rate row is a **change** from `sec/4_metrics.tex` line 74, which
-claimed frame-rate normalization that the code never performed.
+claimed a frame-rate normalization the code performs by a different mechanism
+(subsampling) than the prose implies (resampling).
 
 ---
 
@@ -215,6 +230,47 @@ Keep a metric in the **main** family only if:
 
 Otherwise it moves to supplementary as a diagnostic. **Do not force the
 prettier formula to become the paper metric.**
+
+### Pre-committed tiebreak (written 2026-08-13, before any numbers exist)
+
+> **The headline drift-leakage metric is whichever of DLR and DAR passes
+> selectivity and calibration with the stronger margin. The other is reported
+> alongside it in Tab. 3 regardless.**
+
+Margin is the *minimum* across the three admission criteria, each normalized to
+its own threshold, so a metric cannot win by excelling on one axis while barely
+clearing another:
+
+    margin(m) = min( rho_calib(m) / 0.80,
+                     selectivity(m) / 2.0,
+                     (1 - cross_category_CV(m)) / 0.70 )
+
+with `rho_calib` the Spearman correlation against injected global-motion
+strength, `selectivity` the ratio of response under the targeted perturbation to
+the largest response under an unrelated one, and `cross_category_CV` the
+coefficient of variation of the metric's response slope across scene categories.
+Thresholds are the admission bar; a metric with `margin < 1` on any term does not
+enter the main family at all. Ties within 10% on margin resolve to **DLR**,
+because it is compensation-independent and therefore cannot be invalidated by a
+later change to the estimator.
+
+Written now this is protocol. Written on Aug 18 it would be curve-fitting.
+
+### DLR's own validation obligation
+
+DLR now ships as a headline *candidate*, so it passes the same gate as every
+other metric and gets **its own row in Tab. 2**, not a mention. Its expected
+perturbation responses, fixed in advance:
+
+| perturbation | expected DLR response |
+|---|---|
+| global translation / rotation / scale, increasing | **increase**, monotone |
+| dynamic-region attenuation (static untouched) | **increase** — the denominator shrinks. This is a *confound*, not a success: DLR rises for a frozen video and for a drifting one alike, and Tab. 2 must show it, since it is the strongest argument for reading DLR jointly with MCFF. |
+| late freeze | increase, for the same reason |
+| zero-motion floor (duplicated frames) | undefined / dominated by estimator noise — report the floor, do not report a ratio |
+
+That second row is the reason DLR is not automatically the safer choice despite
+being compensation-independent.
 
 ---
 
@@ -235,3 +291,66 @@ Historical artifacts under `raw/_internal_ablations/` and the verbatim
 `metric_code/` are **provenance records and are not rewritten**; they carry
 supersession headers instead. Raw metric JSONs keep their original keys; the
 rename happens on the way into tables (`scripts/build_tables.py`).
+
+
+---
+
+## 8. Sweep integrity contract
+
+Added in v1.1 after the CausVid gap: 29 of 30 videos were lost to one cascading
+CUDA fault, and because failures were written *as records*, a coverage tool
+counting records reported the entry complete.
+
+1. **Failures never enter the results stream.** A failed video is written to
+   `failures/<track>/<key>/<dur>.jsonl`, never to `per_video`. A metrics file
+   therefore contains only measurements, so counting its records is the same as
+   counting valid data. `scripts/rerun_metrics.py` exits non-zero if any failure
+   survives, so a broken sweep cannot pass silently.
+2. **Crash isolation with resume.** Each video's result is written atomically
+   the moment it is computed; a worker that dies is restarted on the remainder
+   (`scripts/metric_worker.py`). A context fault exits the process deliberately
+   rather than failing every remaining video for the same dead reason.
+3. **Provenance on every record**: `metric_spec_version`, `fps`, `n_frames`,
+   `width`, `height`, `mask_version`, `compensation_mode`,
+   `compensation_provisional`, `flow_backbone`, `feature_backbone`.
+4. **Mechanical validity scan** (`scripts/schema_scan.py`) over every artifact:
+   required keys, finite values, non-degenerate masks, sampled-frame count
+   consistent with container frames and `SAMPLE_FPS`, and every video on disk
+   accounted for. Exits non-zero on any blocking problem. Coverage claims cite
+   this scan, not an anecdote.
+5. **Coverage counts measurements, not files** (`valid_task_records()`), and the
+   matrix prints `T<n>/<total>` whenever they disagree.
+
+## 9. Pre-registered decision rules
+
+Fixed in advance so the gates are mechanical rather than narrative.
+
+**Aug 16 — I2V track.** The gate is ">= 3 distinct *published* public I2V
+baselines with valid 60 s data", counting distinct published models rather than
+configuration variants of one family.
+
+- *Resolved 2026-08-13:* the CausVid and Causal-Forcing-framewise 60 s/120 s
+  videos were verified intact on disk (30/30 and 20/20 readable, uniform frame
+  counts). The gap is a **metric** failure, not a generation failure, and is
+  therefore re-runnable. Had the videos been corrupt it would have counted as a
+  generation failure under the frozen taxonomy: gate fails at 2/3, I2V moves to
+  supplementary, the paper states the frozen outcome, and **no regeneration
+  sprint is undertaken**.
+- The gate reads **coverage**, not final values, so it does **not** wait on the
+  affine merge. Compensation-dependent fields in the re-run records are stamped
+  `compensation_provisional: true` and are recomputed sweep-wide afterwards.
+
+**Aug 14 — masks.** If any of the seven pilot categories cannot be labelled
+under the three-label schema without ambiguity that annotators cannot resolve
+consistently, the affected category moves to a stress-test subset rather than
+the headline set, and the mask definition is not stretched to cover it.
+
+**Aug 18 — metric admission.** A metric failing §6 moves to supplementary. If
+*both* DLR and DAR fail, the drift-leakage factor is reported as fBD + NBF only
+and the paper's third axis is scoped down accordingly. That outcome is
+acceptable and pre-approved; a benchmark may not ship a metric it could not
+validate.
+
+**Any date — a figure without a spec-versioned provenance footer does not enter
+the LaTeX**, and the red-team checklist verifies no `PRE-FREEZE DIAGNOSTIC`
+watermark survives in the submitted PDF.

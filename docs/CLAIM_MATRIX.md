@@ -27,7 +27,7 @@ claim is cut, not softened.** There is no rebuttal round.
 | **C16** | Methods are not being penalised for semantic failure misread as flow behaviour. | Tab. 3 semantic-context column | **BLOCKED** — P0#6 |
 | **C17** | The audit is fair: public models, native configuration, our own systems excluded. | `tables/model_config_table.md`; `scripts/registry.py` status/setting fields; `docs/EXCLUSIONS.md` | **BUILT** except EXCLUSIONS.md |
 | **C18** | Deployment configuration changes the conclusions. | Tab. 4 Δ-table | **BUILT**, needs compression |
-| **C19** | Frame rate is a hidden confound in per-frame flow statistics, and normalizing changes rankings. | `manifest/video_meta.csv`; LTX-Video @24 fps vs all others @16 → NBF rank **6→8** on I2V-5s, passing both Wan models | **BUILT** |
+| **C19** | ~~Frame rate is a hidden confound and normalizing changes rankings.~~ **RETRACTED 2026-08-13.** The metric subsamples to `SAMPLE_FPS=8` before computing flow, so all 1881 videos are already measured at exactly 8.000 Hz. Scaling by native fps *introduced* a 1.5× error; LTX ranks 6th as it always did. NBF keeps per-second units (uniform ×8, no ranking change) for physical meaning and future-proofing. | `manifest/video_meta.csv`; `registry.effective_fps` | **RETRACTED — do not claim** |
 | **C20** | Results are reproducible from the released artifacts. | `manifest/video_index.csv` (SHA fingerprints), `per_video_scores.csv`, `video_meta.csv`, `prompt_categories.csv`, verbatim `metric_code/` | **BUILT** |
 | **C21** | Coverage is counted from valid measurements, not from the presence of a metrics file. | `tables/coverage_matrix.md` — `T<n>/<total>` notation; 13 entries have incomplete metric runs (CUDA OOM / cuDNN init), incl. **two public I2V baselines holding 1/30 usable records at 60 s** | **BUILT** |
 
@@ -58,8 +58,8 @@ claim is cut, not softened.** There is no rebuttal round.
 |---|---|---|
 | Rolling-Forcing fBD @60s | 16.91 here vs **16.27** published in the Steady-Forcing rebuttal. It has 24 clips over 23 prompts; prompt-level averaging of the duplicate gives 16.91. Prompt-level is the correct unit. | reconcile against rebuttal text; state the unit explicitly |
 | Every DAR value ever quoted | Pre-2026-08-13 DAR/DriftFrac numbers are DLR, not DAR. | re-quote from current `per_video_scores.csv` |
-| **DAR was "zero recompute"** | True only under the *old* translation-only compensation. Once similarity compensation lands (METRIC_SPEC v1.0 §3), stored `MCFF_late`/`dyn_res` are obsolete and **MCFF-E, MCFF-L, FP and DAR must all be recomputed**. fBD, NBF and DLR are unaffected. | recompute on merge, Aug 16 |
+| **DAR was "zero recompute"** | True only under the *old* translation-only compensation. Once similarity compensation lands (METRIC_SPEC v1.1 §3), stored `MCFF_late`/`dyn_res` are obsolete and **MCFF-E, MCFF-L, FP and DAR must all be recomputed**. fBD, NBF and DLR are unaffected. | recompute on merge, Aug 16 |
 | **Two public I2V baselines at 60 s** | CausVid and Causal-Forcing (framewise) hold **1 of 30** valid task records; the sweep died on CUDA OOM. Counting distinct published models, only **2** (Self-Forcing, Causal-Forcing++) currently clear the Aug-16 gate of ≥3. | re-run metrics — videos exist, no regeneration needed |
-| Every NBF value ever quoted | Pre-2026-08-13 BFR numbers are per-frame; NBF is per-second (×fps). | re-quote; T2V unaffected in *rank* (all 16 fps), I2V-5s **is** affected |
+| Every NBF value ever quoted | NBF = BFR × **effective** sampled rate = ×8.000 uniformly. No ranking changes on any track. Any quoted "×16"/"×24" figure or LTX rank-change is from the retracted first pass. | re-quote from current tables |
 | T2V SNF metrics at 5 s / 120 s / 240 s | do not exist — VBench only | metric re-run over videos already on disk, or scope the claim to 60 s |
 | T2V 240 s per-video VBench | aggregate only; contributes no rows, so no CIs at 240 s | state, or re-run per-video |

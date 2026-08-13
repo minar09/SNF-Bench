@@ -43,7 +43,7 @@ COL, DCOL = 3.35, 7.0
 # PRE-FREEZE GUARD
 # ---------------------------------------------------------------------------
 # Every figure rendered before the Aug-20 metric freeze is a DIAGNOSTIC, not a
-# result. Global-motion compensation (METRIC_SPEC v1.0 sec.3) is still
+# result. Global-motion compensation (METRIC_SPEC v1.1 sec.3) is still
 # translation-only and the T2V masks are still pre-overlay, so MCFF, FP and DAR
 # will all move when those land. Stamping is automatic rather than a convention
 # so a stale PDF cannot quietly reach the paper: set PRE_FREEZE = False only
@@ -52,11 +52,16 @@ PRE_FREEZE = True
 STAMP = "PRE-FREEZE DIAGNOSTIC — DO NOT USE IN PAPER"
 
 
-def stamp(fig, provenance):
+def stamp(fig, provenance, prefreeze=True):
     """Watermark + provenance line. `provenance` names exactly which metrics and
     which spec version produced the numbers, so a figure can never be accused of
-    surviving from a superseded table."""
-    if PRE_FREEZE:
+    surviving from a superseded table.
+
+    `prefreeze=False` is for figures with NO measured-data dependency (protocol
+    schematics): nothing in them can move when the metrics are refrozen, so
+    watermarking them would train the eye to ignore the watermark.
+    """
+    if PRE_FREEZE and prefreeze:
         fig.text(0.5, 0.5, STAMP, ha="center", va="center", rotation=24,
                  fontsize=13, color=P.SERIES_2, alpha=0.16, zorder=100,
                  fontweight="bold")
@@ -64,8 +69,8 @@ def stamp(fig, provenance):
              fontsize=4.6, color=P.MUTED, zorder=100)
 
 
-def save(fig, out, provenance):
-    stamp(fig, provenance)
+def save(fig, out, provenance, prefreeze=True):
+    stamp(fig, provenance, prefreeze)
     for ext in ("pdf", "png"):
         fig.savefig(f"{FIG}/{out}.{ext}")
     plt.close(fig)
@@ -195,7 +200,7 @@ def fig_operating_regime(scores, track="t2v", dur="60s", out="fig4_operating_reg
     fig.tight_layout(pad=0.3)
     return save(fig, out,
                 f"{track.upper()} @{dur} - x=fBD, y=MCFF-L, colour=DAR (clipped for display; "
-                f"stored signed). METRIC_SPEC v1.0; translation-only compensation, pre-overlay masks.")
+                f"stored signed). METRIC_SPEC v1.1; translation-only compensation, pre-overlay masks.")
 
 
 # --------------------------------------------------------------------------
@@ -263,7 +268,7 @@ def fig_rank_disagreement(scores, track="t2v", dur="60s",
     fig.tight_layout(pad=0.3)
     return save(fig, out,
                 f"{track.upper()} @{dur} - ranks from {lk} vs {rk}, prompt-level means over "
-                f"{len(common)} public methods. NBF is per-second (METRIC_SPEC v1.0 s.2); "
+                f"{len(common)} public methods. NBF is per-second (METRIC_SPEC v1.1 s.2); "
                 f"pre-overlay masks. Compensation-independent metrics only.")
 
 
@@ -405,7 +410,8 @@ def main():
             print("   ", r, file=sys.stderr)
         return 1
     scores = load_scores()
-    made = [fig_operating_regime(scores),
+    made = [fig_mask_protocol(),
+            fig_operating_regime(scores),
             fig_rank_disagreement(scores),
             fig_category_balance(),
             teaser_exemplars(scores)]
@@ -413,6 +419,106 @@ def main():
         print("  wrote figures/" + m if m else "  SKIPPED (no data)")
     return 0
 
+
+
+# --------------------------------------------------------------------------
+# Fig. 2 -- mask protocol and the two settings (schematic; no data dependency)
+# --------------------------------------------------------------------------
+def fig_mask_protocol(out="fig2_mask_protocol"):
+    """Panel (a): where the partition comes from, and why it cannot be
+    contaminated by the failure being measured. Panel (b): why the partition is
+    three-way rather than binary.
+
+    Drawn rather than photographed on purpose -- the claim is about the
+    *protocol*, and a schematic states it without inviting the reader to argue
+    about one particular frame.
+    """
+    from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Rectangle
+
+    C_STATIC, C_FLOW, C_OVER = P.MUTED, P.SERIES_1, P.SERIES_2
+    fig, (axa, axb) = plt.subplots(1, 2, figsize=(DCOL, 2.35),
+                                   gridspec_kw=dict(width_ratios=[1.32, 1.0]))
+
+    def box(ax, x, y, w, h, label, fc="none", ec=P.AXIS, fs=6.0, bold=False, tc=None):
+        ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.012",
+                                    linewidth=0.9, edgecolor=ec, facecolor=fc,
+                                    zorder=2))
+        ax.text(x + w / 2, y + h / 2, label, ha="center", va="center", fontsize=fs,
+                color=tc or P.INK, zorder=3,
+                fontweight="bold" if bold else "normal")
+
+    def arrow(ax, p0, p1, color=P.AXIS):
+        ax.add_patch(FancyArrowPatch(p0, p1, arrowstyle="-|>", mutation_scale=7,
+                                     linewidth=0.9, color=color, zorder=2,
+                                     shrinkA=1, shrinkB=1))
+
+    # ---- (a) provenance of the mask -------------------------------------
+    axa.set_xlim(0, 1); axa.set_ylim(0, 1); axa.axis("off")
+    axa.text(0.0, 0.955, "(a)  where the partition comes from", fontsize=7.4,
+             fontweight="bold", color=P.INK)
+
+    axa.text(0.0, 0.845, "I2V", fontsize=6.8, fontweight="bold", color=C_FLOW)
+    box(axa, 0.10, 0.78, 0.24, 0.115, "source image", fc="#eef4fd", ec=C_FLOW)
+    box(axa, 0.42, 0.78, 0.20, 0.115, "ONE mask", fc="#eef4fd", ec=C_FLOW, bold=True)
+    box(axa, 0.70, 0.78, 0.28, 0.115, "every model scored\nagainst it", fs=5.6)
+    arrow(axa, (0.34, 0.8375), (0.42, 0.8375)); arrow(axa, (0.62, 0.8375), (0.70, 0.8375))
+
+    axa.text(0.0, 0.615, "T2V", fontsize=6.8, fontweight="bold", color=C_OVER)
+    for i, yy in enumerate((0.47, 0.325, 0.18)):
+        lbl = "model $k$" if i == 2 else f"model {i + 1}"
+        box(axa, 0.10, yy, 0.20, 0.105, lbl, fs=5.8)
+        box(axa, 0.38, yy, 0.24, 0.105, "its OWN\nframe 0", fs=5.4, fc="#fdf1ec", ec=C_OVER)
+        box(axa, 0.70, yy, 0.24, 0.105, "its own mask", fs=5.6, fc="#fdf1ec",
+            ec=C_OVER, bold=True)
+        arrow(axa, (0.30, yy + 0.052), (0.38, yy + 0.052))
+        arrow(axa, (0.62, yy + 0.052), (0.70, yy + 0.052))
+    axa.text(0.5, 0.115, "annotator never sees a later frame", ha="center",
+             fontsize=6.0, color=P.INK, style="italic")
+    axa.text(0.5, 0.048,
+             "layout-dependent, but FAILURE-independent:\n"
+             "long-horizon drift cannot contaminate the mask",
+             ha="center", fontsize=5.7, color=P.INK_SECONDARY)
+
+    # ---- (b) three labels, not two --------------------------------------
+    axb.set_xlim(0, 1); axb.set_ylim(0, 1); axb.axis("off")
+    axb.text(0.0, 0.955, "(b)  three labels, not two", fontsize=7.4,
+             fontweight="bold", color=P.INK)
+
+    fx, fy, fw, fh = 0.045, 0.30, 0.62, 0.56
+    axb.add_patch(Rectangle((fx, fy), fw, fh, facecolor="#f4f4f1",
+                            edgecolor=P.AXIS, linewidth=0.9, zorder=1))
+    # static support: buildings
+    for bx, bw, bh in ((0.07, 0.13, 0.34), (0.22, 0.10, 0.26), (0.34, 0.15, 0.40)):
+        axb.add_patch(Rectangle((fx + bx, fy + 0.10), bw, bh, facecolor=C_STATIC,
+                                edgecolor="none", alpha=0.55, zorder=2))
+    # dynamic flow: water band
+    axb.add_patch(Rectangle((fx, fy), fw, 0.10, facecolor=C_FLOW, edgecolor="none",
+                            alpha=0.55, zorder=2))
+    # overlay: rain crossing BOTH
+    for i in range(16):
+        x0 = fx + 0.02 + i * 0.037
+        axb.plot([x0, x0 - 0.022], [fy + fh - 0.03, fy + 0.13], color=C_OVER,
+                 linewidth=1.0, alpha=0.85, zorder=3, solid_capstyle="round")
+
+    for yy, c, lab in ((0.225, C_STATIC, r"$\Omega_{\mathrm{static}}$  support"),
+                       (0.135, C_FLOW, r"$\Omega_{\mathrm{flow}}$  intended motion"),
+                       (0.045, C_OVER, r"$\Omega_{\mathrm{overlay}}$  transits both")):
+        axb.add_patch(Rectangle((0.045, yy), 0.035, 0.045, facecolor=c,
+                                edgecolor=P.SURFACE, linewidth=0.8, alpha=0.75))
+        axb.text(0.095, yy + 0.022, lab, va="center", fontsize=6.0, color=P.INK)
+
+    axb.text(0.70, 0.74, "rain crosses\nstatic support:\nthe same pixels\nare BOTH",
+             fontsize=5.8, color=P.INK_SECONDARY, va="top")
+    axb.text(0.70, 0.44,
+             r"$\Omega_{\mathrm{overlay}}$ is excluded"
+             "\nfrom headline\nfBD and NBF",
+             fontsize=5.8, color=P.INK, va="top", fontweight="bold")
+
+    fig.tight_layout(pad=0.35)
+    return save(fig, out,
+                "Schematic; no measured data. Mask protocol per METRIC_SPEC v1.1 s.4 "
+                "(three-label partition; T2V masks future-blind per model output).",
+                prefreeze=False)
 
 if __name__ == "__main__":
     sys.exit(main())

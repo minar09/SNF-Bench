@@ -8,6 +8,7 @@ Status vocabulary used throughout:
 | tag | meaning |
 |---|---|
 | **BUILT** | rendered from current data; regenerate with `scripts/figures.py` / `build_tables.py` |
+| **DIAGNOSTIC** | rendered, but watermarked `PRE-FREEZE` — the numbers will move at the Aug 14/16 gates |
 | **BLOCKED** | inputs do not exist yet; blocking item and gate date named |
 | **AUTHORED** | hand-drawn/hand-written asset, no data dependency |
 
@@ -70,7 +71,7 @@ Form: frame strip + grouped bars. Double column. Frames exported at the four tim
 ---
 
 ### Fig. 2 — Mask protocol and the two settings
-**Status: BLOCKED** on Ω_overlay (P0#2, gate **Aug 14**). Diagram is **AUTHORED** — no data dependency, can be drawn the moment the label set is frozen.
+**Status: BUILT and FINAL** — `figures/fig2_mask_protocol.pdf`. No measured-data dependency, so it carries **no** pre-freeze watermark: nothing in it can move when the metrics are refrozen, and watermarking it would train the eye to ignore the watermark. Annotation still lands Aug 14; the *protocol* it depicts is frozen.
 
 Two panels:
 
@@ -236,3 +237,32 @@ Aug 28  submit (no rebuttal)
 ```
 
 Fig. 3(b) is the tripwire: rendered against the current translation-only compensation it would **fail and indict our own estimator**, because the median of a rotational static-region flow field is near zero. That is why P0#1 precedes the sweep rather than following it.
+
+
+---
+
+## 7. Enforcement (added 2026-08-13)
+
+Three mechanisms now make the plan self-policing rather than aspirational:
+
+1. **`scripts/gate_status.py`** — the pipeline's refusal mechanism. Thirteen gates,
+   computed where computable, printing a single bottom line:
+
+       FINAL_SWEEP_ALLOWED = FALSE
+
+   It turns TRUE only when every required gate passes. Table builders consult
+   `final_sweep_allowed()`, so "final" tables cannot be produced from an
+   instrument that has not been validated. Every defect found on 2026-08-13
+   shared one property: nothing in the pipeline was capable of noticing it.
+
+2. **Automatic figure stamping** — `figures.save()` applies the `PRE-FREEZE
+   DIAGNOSTIC` watermark and a spec-versioned provenance footer naming the exact
+   metrics, spec version, mask version and compensation mode. A figure cannot
+   reach the LaTeX without one, and the red-team checklist verifies no watermark
+   survives in the submitted PDF. Schematics with no data dependency (Fig. 2)
+   opt out of the watermark only.
+
+3. **Sweep integrity contract** (METRIC_SPEC v1.1 §8) — failures write to
+   `failures/`, never into `per_video`; each video's result is written
+   atomically so a crash cannot cascade; `scripts/schema_scan.py` validates every
+   artifact mechanically; coverage counts measurements, not files.

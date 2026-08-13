@@ -1,0 +1,83 @@
+{
+  "final_sweep_allowed": false,
+  "gates": [
+    {
+      "name": "Metric spec v1.1 parity",
+      "status": "PASS",
+      "detail": "v1.1, six metrics defined",
+      "required": true
+    },
+    {
+      "name": "Banned terms purged (paper)",
+      "status": "PASS",
+      "detail": "paper clean of DriftFrac/BFR",
+      "required": true
+    },
+    {
+      "name": "FPS/size metadata",
+      "status": "PASS",
+      "detail": "1881 videos, fps+size present",
+      "required": true
+    },
+    {
+      "name": "Artifact schema scan",
+      "status": "FAIL",
+      "detail": "13 entries blocking (115 error records, 6 missing-key records)",
+      "required": true
+    },
+    {
+      "name": "Valid-record coverage",
+      "status": "FAIL",
+      "detail": "13 entries incomplete; worst: i2v/cf_framewise/60s 1/30, i2v/causvid/60s 1/30, i2v/cf_framewise/120s 1/20",
+      "required": true
+    },
+    {
+      "name": "I2V >=3 published models @60s",
+      "status": "FAIL",
+      "detail": "2/3 families >= 27 valid (CausVid:1, Causal-Forcing:1, Causal-Forcing++:30, Self-Forcing:30)",
+      "required": true
+    },
+    {
+      "name": "Similarity compensation",
+      "status": "FAIL",
+      "detail": "still translation-only (median of static flow)",
+      "required": true
+    },
+    {
+      "name": "Compensation unit tests",
+      "status": "PENDING",
+      "detail": "tests/test_compensation.py not written",
+      "required": true
+    },
+    {
+      "name": "Mask schema frozen",
+      "status": "PENDING",
+      "detail": "MASK_SPEC_v1.0.md not written (gate Aug 14)",
+      "required": true
+    },
+    {
+      "name": "Overlay masks built",
+      "status": "PENDING",
+      "detail": "no overlay masks built (Aug 14)",
+      "required": true
+    },
+    {
+      "name": "Zero-motion floor",
+      "status": "PENDING",
+      "detail": "not run (P0#5)",
+      "required": true
+    },
+    {
+      "name": "Validation suite",
+      "status": "PENDING",
+      "detail": "not run (Aug 18)",
+      "required": true
+    },
+    {
+      "name": "Figure provenance footers",
+      "status": "PASS",
+      "detail": "4 figures; footer enforced by figures.save()",
+      "required": false
+    }
+  ]
+}

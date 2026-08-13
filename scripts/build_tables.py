@@ -18,7 +18,8 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from registry import (ALL, DURATIONS, EXTRA_KEYS, FPS_DEFAULT, METRICS,  # noqa: E402
-                      SNF_TASK_KEYS, VBENCH_KEYS, by_key, contestants)
+                      SNF_TASK_KEYS, VBENCH_KEYS, by_key, contestants,
+                      effective_fps)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RAW, TAB, MAN = f"{ROOT}/raw", f"{ROOT}/tables", f"{ROOT}/manifest"
@@ -33,7 +34,8 @@ PV2AGG = {"fBD": "fBD_mean", "BFR": "NBF_mean", "FP": "FP_mean",
           "drift_frac_late": "DLR_mean"}
 AGG2PV = {v: k for k, v in PV2AGG.items()}
 
-# NBF is per-second, the raw BFR is per-frame -> scale by each video's own fps.
+# NBF is per-second; raw BFR is per SAMPLED frame pair -> scale by the
+# EFFECTIVE sampled rate, not the native rate (see registry.effective_fps).
 _FPS = {}
 
 
@@ -50,7 +52,14 @@ def load_fps():
 
 
 def fps_of(track, model, duration, video):
-    return _FPS.get((track, model, duration, video), FPS_DEFAULT)
+    """Effective temporal rate of the flow measurement, in Hz.
+
+    NOT the container frame rate: the metric subsamples to SAMPLE_FPS before
+    computing flow, so a 16 fps and a 24 fps clip are both measured at 8 Hz.
+    Scaling by the native rate would introduce a confound rather than remove
+    one -- see registry.effective_fps.
+    """
+    return effective_fps(_FPS.get((track, model, duration, video), FPS_DEFAULT))
 
 _TS = re.compile(r"-\d+-\d+\.\d+\.mp4$")
 
@@ -81,7 +90,7 @@ def load_all():
                             if v.get(pk) is not None:
                                 val = float(v[pk])
                                 if ak == "NBF_mean":
-                                    val *= fps       # per-frame -> per-second
+                                    val *= fps       # per sampled pair -> per second
                                 rows.append(dict(track=track, model=k, duration=d,
                                                  prompt_id=prompt_id(v["video"], track),
                                                  metric=ak, value=val))
@@ -270,7 +279,7 @@ def dar_negative_incidence(rows):
 
     doc = ["# DAR negative incidence — public methods", "",
            "DAR is stored **signed** and reported clipped to $[0,1]$ "
-           "(METRIC_SPEC v1.0 §2). A negative value means global-motion "
+           "(METRIC_SPEC v1.1 §2). A negative value means global-motion "
            "compensation *increased* measured dynamic-region flow, which occurs "
            "where local flow opposes the estimated global field. This is the "
            "empirical reason DAR is not a causal decomposition of motion.", "",
@@ -298,7 +307,7 @@ def snf_leaderboard(ix, track, dur, keys, title, note, only_public=True):
         for k in keys:
             xs = list(vals[k].values())
             if k == "DAR_mean":
-                # METRIC_SPEC v1.0 sec.2: storage is signed, reporting is
+                # METRIC_SPEC v1.1 sec.2: storage is signed, reporting is
                 # clipped, validation uses signed. Clipping only here means the
                 # released per-video CSV keeps the negatives that make the
                 # "compensation can increase magnitude" caveat checkable.

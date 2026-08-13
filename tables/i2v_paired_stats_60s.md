@@ -22,16 +22,16 @@ Exact two-sided sign test over prompts evaluated by **both** methods.
 
 | A | B | n paired | mean A vs B | A wins | p (sign test) | sig |
 |---|---|---|---|---|---|---|
-| Causal-Forcing++ (2-step) | Causal-Forcing++ (1-step) | 30 | 11.935 vs 14.103 | 22/30 | 0.0161 | **yes** |
-| Causal-Forcing++ (2-step) | Causal-Forcing++ (2-step, native nfpb=1) | 30 | 11.935 vs 13.826 | 12/30 | 0.3616 | no |
-| Causal-Forcing++ (2-step) | Self-Forcing | 30 | 11.935 vs 11.041 | 13/30 | 0.5847 | no |
-| Causal-Forcing++ (2-step) | Causal-Forcing++ (1-step, native) | 30 | 11.935 vs 10.493 | 10/30 | 0.0987 | no |
-| Causal-Forcing++ (1-step) | Causal-Forcing++ (2-step, native nfpb=1) | 30 | 14.103 vs 13.826 | 12/30 | 0.3616 | no |
-| Causal-Forcing++ (1-step) | Self-Forcing | 30 | 14.103 vs 11.041 | 9/30 | 0.0428 | **yes** |
-| Causal-Forcing++ (1-step) | Causal-Forcing++ (1-step, native) | 30 | 14.103 vs 10.493 | 11/30 | 0.2005 | no |
-| Causal-Forcing++ (2-step, native nfpb=1) | Self-Forcing | 30 | 13.826 vs 11.041 | 15/30 | 1.0000 | no |
-| Causal-Forcing++ (2-step, native nfpb=1) | Causal-Forcing++ (1-step, native) | 30 | 13.826 vs 10.493 | 13/30 | 0.5847 | no |
-| Self-Forcing | Causal-Forcing++ (1-step, native) | 30 | 11.041 vs 10.493 | 12/30 | 0.3616 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (1-step) | 30 | 5.967 vs 7.051 | 22/30 | 0.0161 | **yes** |
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (2-step, native nfpb=1) | 30 | 5.967 vs 6.913 | 12/30 | 0.3616 | no |
+| Causal-Forcing++ (2-step) | Self-Forcing | 30 | 5.967 vs 5.520 | 13/30 | 0.5847 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (1-step, native) | 30 | 5.967 vs 5.247 | 10/30 | 0.0987 | no |
+| Causal-Forcing++ (1-step) | Causal-Forcing++ (2-step, native nfpb=1) | 30 | 7.051 vs 6.913 | 12/30 | 0.3616 | no |
+| Causal-Forcing++ (1-step) | Self-Forcing | 30 | 7.051 vs 5.520 | 9/30 | 0.0428 | **yes** |
+| Causal-Forcing++ (1-step) | Causal-Forcing++ (1-step, native) | 30 | 7.051 vs 5.247 | 11/30 | 0.2005 | no |
+| Causal-Forcing++ (2-step, native nfpb=1) | Self-Forcing | 30 | 6.913 vs 5.520 | 15/30 | 1.0000 | no |
+| Causal-Forcing++ (2-step, native nfpb=1) | Causal-Forcing++ (1-step, native) | 30 | 6.913 vs 5.247 | 13/30 | 0.5847 | no |
+| Self-Forcing | Causal-Forcing++ (1-step, native) | 30 | 5.520 vs 5.247 | 12/30 | 0.3616 | no |
 
 ## FP (higher is better)
 
