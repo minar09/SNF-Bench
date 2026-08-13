@@ -46,10 +46,20 @@ was a real and useful measurement wearing the wrong name.
 $I_t$ is frame $t$ of a $T$-frame sequence at native frame rate $f$, $\Delta t = 1/f$.
 $W$ is frame width in pixels, $d$ the frame diagonal.
 $\mathbf{u}_t(\mathbf{x})$ is optical flow $I_t \to I_{t+1}$.
-$\Omega_{\text{static}}$, $\Omega_{\text{flow}}$, $\Omega_{\text{overlay}}$ are the three mask labels (§4).
+$\Omega_{\text{static}}$, $\Omega_{\text{flow}}$ are the two mask labels (§4).
 $\mathcal{E}$, $\mathcal{L}$ are equal-duration early and late windows; $\mathcal{E}$ starts after warm-up.
 
-**All region metrics are computed over $\Omega_{\bullet} \setminus \Omega_{\text{overlay}}$.**
+**Region status (corrected 2026-08-13, third pass).** The implemented partition
+is **two-way**: `build_masks()` thresholds early-window flow by Otsu into
+dynamic and static, erodes the static region and drops a 4% border as the
+ignored transition band. There is **no $\Omega_{\text{overlay}}$ label in the
+metric code**, and no source-image mask for I2V -- both tracks derive the
+partition from each generated sequence. Any earlier text in this spec or the
+paper describing a three-label partition, human-verified first-frame
+annotation, or inter-annotator agreement described an intended protocol rather
+than the implemented one, and has been corrected. The consequence for layered
+content (rain/snow over support) is stated as a limitation and quantified by
+the mask erosion/dilation study rather than solved.
 
 ---
 

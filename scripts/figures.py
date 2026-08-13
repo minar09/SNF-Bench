@@ -18,6 +18,7 @@ Run with the snfeval env:
 """
 
 import csv
+import glob
 import json
 import os
 import sys
@@ -223,10 +224,11 @@ def fig_operating_regime(scores, track="t2v", dur="60s", out="fig4_operating_reg
                               (1.0, f"DAR {hi:.2f} (most)")]]
     ax.legend(handles=handles, loc="upper left", fontsize=6.2,
               handletextpad=0.4, borderpad=0.2)
-    fig.tight_layout(pad=0.3)
+    fig.tight_layout(pad=0.3, rect=(0, 0.055, 1, 1))
     return save(fig, out,
-                f"{track.upper()} @{dur} - x=fBD, y=MCFF-L, colour=DAR (clipped for display; "
-                f"stored signed). METRIC_SPEC v1.1; translation-only compensation, pre-overlay masks.")
+                f"{track.upper()} @{dur} public systems. x=fBD, y=MCFF-L, colour=DAR "
+                f"(clipped for display; stored signed). METRIC_SPEC v1.1, robust "
+                f"similarity compensation.")
 
 
 # --------------------------------------------------------------------------
@@ -473,104 +475,97 @@ def main():
 # Fig. 2 -- mask protocol and the two settings (schematic; no data dependency)
 # --------------------------------------------------------------------------
 def fig_mask_protocol(out="fig2_mask_protocol"):
-    """Panel (a): where the partition comes from, and why it cannot be
-    contaminated by the failure being measured. Panel (b): why the partition is
-    three-way rather than binary.
+    """How the static/dynamic partition is actually obtained, and what it cannot
+    represent.
 
-    Drawn rather than photographed on purpose -- the claim is about the
-    *protocol*, and a schematic states it without inviting the reader to argue
-    about one particular frame.
+    Drawn to the implementation, not to an idealised protocol: the mask comes
+    from an automatic Otsu threshold on early-window flow, identically for both
+    tracks. Panel (b) states the known failure of a two-way partition rather
+    than depicting a third label the metrics do not compute.
     """
     from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Rectangle
 
     C_STATIC, C_FLOW, C_OVER = P.MUTED, P.SERIES_1, P.SERIES_2
-    fig, (axa, axb) = plt.subplots(1, 2, figsize=(DCOL, 2.35),
-                                   gridspec_kw=dict(width_ratios=[1.32, 1.0]))
+    fig, (axa, axb) = plt.subplots(1, 2, figsize=(DCOL, 2.15),
+                                   gridspec_kw=dict(width_ratios=[1.42, 1.0]))
 
-    def box(ax, x, y, w, h, label, fc="none", ec=P.AXIS, fs=6.0, bold=False, tc=None):
+    def box(ax, x, y, w, h, label, fc="none", ec=P.AXIS, fs=5.9, bold=False):
         ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.012",
-                                    linewidth=0.9, edgecolor=ec, facecolor=fc,
-                                    zorder=2))
+                                    linewidth=0.9, edgecolor=ec, facecolor=fc, zorder=2))
         ax.text(x + w / 2, y + h / 2, label, ha="center", va="center", fontsize=fs,
-                color=tc or P.INK, zorder=3,
-                fontweight="bold" if bold else "normal")
+                color=P.INK, zorder=3, fontweight="bold" if bold else "normal")
 
-    def arrow(ax, p0, p1, color=P.AXIS):
+    def arrow(ax, p0, p1):
         ax.add_patch(FancyArrowPatch(p0, p1, arrowstyle="-|>", mutation_scale=7,
-                                     linewidth=0.9, color=color, zorder=2,
+                                     linewidth=0.9, color=P.AXIS, zorder=2,
                                      shrinkA=1, shrinkB=1))
 
-    # ---- (a) provenance of the mask -------------------------------------
+    # ---- (a) how the partition is derived --------------------------------
     axa.set_xlim(0, 1); axa.set_ylim(0, 1); axa.axis("off")
-    axa.text(0.0, 0.955, "(a)  where the partition comes from", fontsize=7.4,
+    axa.text(0.0, 0.93, "(a)  how the partition is derived", fontsize=7.4,
              fontweight="bold", color=P.INK)
 
-    axa.text(0.0, 0.845, "I2V", fontsize=6.8, fontweight="bold", color=C_FLOW)
-    box(axa, 0.10, 0.78, 0.24, 0.115, "source image", fc="#eef4fd", ec=C_FLOW)
-    box(axa, 0.42, 0.78, 0.20, 0.115, "ONE mask", fc="#eef4fd", ec=C_FLOW, bold=True)
-    box(axa, 0.70, 0.78, 0.28, 0.115, "every model scored\nagainst it", fs=5.6)
-    arrow(axa, (0.34, 0.8375), (0.42, 0.8375)); arrow(axa, (0.62, 0.8375), (0.70, 0.8375))
+    y = 0.60
+    box(axa, 0.02, y, 0.20, 0.15, "generated\nsequence", fs=5.8)
+    box(axa, 0.26, y, 0.22, 0.15, "EARLY window\nfirst 12% of pairs", fc="#eef4fd",
+        ec=C_FLOW, fs=5.5, bold=True)
+    box(axa, 0.52, y, 0.20, 0.15, "mean flow\nmagnitude", fs=5.8)
+    box(axa, 0.76, y, 0.22, 0.15, "Otsu threshold", fs=5.8)
+    for x0, x1 in ((0.22, 0.26), (0.48, 0.52), (0.72, 0.76)):
+        arrow(axa, (x0, y + 0.075), (x1, y + 0.075))
 
-    axa.text(0.0, 0.615, "T2V", fontsize=6.8, fontweight="bold", color=C_OVER)
-    for i, yy in enumerate((0.47, 0.325, 0.18)):
-        lbl = "model $k$" if i == 2 else f"model {i + 1}"
-        box(axa, 0.10, yy, 0.20, 0.105, lbl, fs=5.8)
-        box(axa, 0.38, yy, 0.24, 0.105, "its OWN\nframe 0", fs=5.4, fc="#fdf1ec", ec=C_OVER)
-        box(axa, 0.70, yy, 0.24, 0.105, "its own mask", fs=5.6, fc="#fdf1ec",
-            ec=C_OVER, bold=True)
-        arrow(axa, (0.30, yy + 0.052), (0.38, yy + 0.052))
-        arrow(axa, (0.62, yy + 0.052), (0.70, yy + 0.052))
-    axa.text(0.5, 0.115, "annotator never sees a later frame", ha="center",
-             fontsize=6.0, color=P.INK, style="italic")
-    axa.text(0.5, 0.048,
-             "layout-dependent, but FAILURE-independent:\n"
-             "long-horizon drift cannot contaminate the mask",
-             ha="center", fontsize=5.7, color=P.INK_SECONDARY)
+    y2 = 0.30
+    box(axa, 0.30, y2, 0.19, 0.14, r"$\Omega_{\rm flow}$", fc="#eef4fd", ec=C_FLOW,
+        fs=7, bold=True)
+    box(axa, 0.53, y2, 0.19, 0.14, r"$\Omega_{\rm static}$", fc="#f2f2ef",
+        ec=C_STATIC, fs=7, bold=True)
+    arrow(axa, (0.87, y), (0.62, y2 + 0.14))
+    arrow(axa, (0.87, y), (0.40, y2 + 0.14))
+    axa.text(0.5, 0.215, "erode static + drop 4% border  =  ignored transition band",
+             ha="center", va="center", fontsize=5.6, color=P.INK_SECONDARY)
+    axa.text(0.5, 0.145,
+             "the window precedes drift accumulation, so the partition is not\n"
+             "defined by the temporal failure being measured\n"
+             "(automatic, not human-verified \u2014 see limitations)",
+             ha="center", va="top", fontsize=5.5, color=P.INK_SECONDARY)
 
-    # ---- (b) three labels, not two --------------------------------------
+    # ---- (b) what a two-way partition cannot represent -------------------
     axb.set_xlim(0, 1); axb.set_ylim(0, 1); axb.axis("off")
-    axb.text(0.0, 0.955, "(b)  three labels, not two", fontsize=7.4,
+    axb.text(0.0, 0.93, "(b)  limitation: layered content", fontsize=7.4,
              fontweight="bold", color=P.INK)
 
-    fx, fy, fw, fh = 0.045, 0.30, 0.62, 0.56
+    fx, fy, fw, fh = 0.05, 0.34, 0.60, 0.50
     axb.add_patch(Rectangle((fx, fy), fw, fh, facecolor="#f4f4f1",
                             edgecolor=P.AXIS, linewidth=0.9, zorder=1))
-    # static support: buildings
-    for bx, bw, bh in ((0.07, 0.13, 0.34), (0.22, 0.10, 0.26), (0.34, 0.15, 0.40)):
-        axb.add_patch(Rectangle((fx + bx, fy + 0.10), bw, bh, facecolor=C_STATIC,
+    for bx, bw, bh in ((0.07, 0.13, 0.30), (0.22, 0.10, 0.23), (0.34, 0.15, 0.35)):
+        axb.add_patch(Rectangle((fx + bx, fy + 0.09), bw, bh, facecolor=C_STATIC,
                                 edgecolor="none", alpha=0.55, zorder=2))
-    # dynamic flow: water band
-    axb.add_patch(Rectangle((fx, fy), fw, 0.10, facecolor=C_FLOW, edgecolor="none",
+    axb.add_patch(Rectangle((fx, fy), fw, 0.09, facecolor=C_FLOW, edgecolor="none",
                             alpha=0.55, zorder=2))
-    # overlay: rain crossing BOTH
-    for i in range(16):
-        x0 = fx + 0.02 + i * 0.037
-        axb.plot([x0, x0 - 0.022], [fy + fh - 0.03, fy + 0.13], color=C_OVER,
+    for i in range(15):
+        x0 = fx + 0.02 + i * 0.038
+        axb.plot([x0, x0 - 0.020], [fy + fh - 0.03, fy + 0.10], color=C_OVER,
                  linewidth=1.0, alpha=0.85, zorder=3, solid_capstyle="round")
 
-    for yy, c, lab in ((0.225, C_STATIC, r"$\Omega_{\mathrm{static}}$  support"),
-                       (0.135, C_FLOW, r"$\Omega_{\mathrm{flow}}$  intended motion"),
-                       (0.045, C_OVER, r"$\Omega_{\mathrm{overlay}}$  transits both")):
-        axb.add_patch(Rectangle((0.045, yy), 0.035, 0.045, facecolor=c,
+    for yy, c, lab in ((0.235, C_STATIC, r"$\Omega_{\rm static}$  support"),
+                       (0.150, C_FLOW, r"$\Omega_{\rm flow}$  intended motion"),
+                       (0.065, C_OVER, "rain: assigned to one region by flow")):
+        axb.add_patch(Rectangle((0.05, yy), 0.032, 0.042, facecolor=c,
                                 edgecolor=P.SURFACE, linewidth=0.8, alpha=0.75))
-        axb.text(0.095, yy + 0.022, lab, va="center", fontsize=6.0, color=P.INK)
+        axb.text(0.10, yy + 0.021, lab, va="center", fontsize=5.8, color=P.INK)
 
-    axb.text(0.70, 0.74, "rain crosses\nstatic support:\nthe same pixels\nare BOTH",
-             fontsize=5.8, color=P.INK_SECONDARY, va="top")
-    axb.text(0.70, 0.44,
-             r"$\Omega_{\mathrm{overlay}}$ is excluded"
-             "\nfrom headline\nfBD and NBF",
-             fontsize=5.8, color=P.INK, va="top", fontweight="bold")
+    axb.text(0.70, 0.74, "rain crosses static\nsupport, so the same\npixels are BOTH",
+             fontsize=5.7, color=P.INK_SECONDARY, va="top")
+    axb.text(0.70, 0.47, "a two-way partition\ncannot separate them;\nprecipitation results\ncarry this caveat",
+             fontsize=5.7, color=P.INK, va="top", fontweight="bold")
 
-    fig.tight_layout(pad=0.35)
+    fig.tight_layout(pad=0.35, rect=(0, 0.045, 1, 1))
     return save(fig, out,
-                "Schematic; no measured data. Mask protocol per METRIC_SPEC v1.1 s.4 "
-                "(three-label partition; T2V masks future-blind per model output).",
+                "Schematic of the implemented procedure; no measured data. Masks are "
+                "automatic (Otsu on early-window flow), identical for both tracks.",
                 prefreeze=False)
 
-# --------------------------------------------------------------------------
-# Fig. 3 -- controlled-perturbation validation (the paper's centrepiece)
-# --------------------------------------------------------------------------
+
 def fig_validation(out="fig3_validation"):
     """Five panels sharing an x-axis of injected corruption severity.
 
@@ -582,11 +577,14 @@ def fig_validation(out="fig3_validation"):
     model comparison and no published method accused of anything -- the
     corruption is synthetic.
     """
-    p = f"{MAN}/validation_response.json"
-    if not os.path.exists(p):
-        return None
-    doc = json.load(open(p))
-    recs = doc.get("records", [])
+    # Validation runs in several passes (families split across GPUs), so merge
+    # every response file rather than depending on one.
+    recs = []
+    for p in sorted(glob.glob(f"{MAN}/validation_response*.json")):
+        try:
+            recs += json.load(open(p)).get("records", [])
+        except (OSError, ValueError):
+            continue
     if not recs:
         return None
 
@@ -598,8 +596,9 @@ def fig_validation(out="fig3_validation"):
     PANELS = [("translation", ["NBF", "fBD"], "(a) injected translation"),
               ("rotation",    ["NBF", "fBD"], "(b) injected rotation"),
               ("attenuation", ["MCFF_L", "FP"], "(c) motion attenuation"),
-              ("translation", ["DLR", "DAR"], "(d) drift diagnostics"),
-              ("translation", ["VB_DD"], "(e) VBench Dynamic Degree")]
+              ("photometric", ["NBF", "fBD"], "(d) photometric drift"),
+              ("mask_radius", ["NBF", "MCFF_L"], "(e) mask erosion/dilation"),
+              ("translation", ["VB_DD", "DAR"], "(f) VBench DD vs SNF-Bench")]
     PANELS = [(f, m, lab) for f, m, lab in PANELS if by.get(f)]
     if not PANELS:
         return None

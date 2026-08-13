@@ -317,6 +317,69 @@ def deployment_table(ix, label="tab:deployment_sensitivity"):
     return "\n".join(lines)
 
 
+def validation_table(label="tab:validation"):
+    """Spearman response of every factor to every perturbation family.
+
+    This is the table the benchmark's admissibility rests on. It is reported
+    exhaustively -- including the cells where a factor responds weakly or
+    non-monotonically -- because a validation suite that only showed its
+    successes would not be a validation suite.
+    """
+    recs = []
+    for f in sorted(glob.glob(f"{MAN}/validation_response*.json")):
+        try:
+            recs += json.load(open(f)).get("records", [])
+        except (OSError, ValueError):
+            continue
+    if not recs:
+        return None
+
+    fams, metrics = [], ["fBD", "NBF", "MCFF_L", "FP", "DLR", "DAR", "VB_DD"]
+    seen = set()
+    for r in recs:
+        if r["family"] not in seen:
+            seen.add(r["family"])
+            fams.append(r["family"])
+
+    NICE = {"fBD": r"fBD", "NBF": r"NBF", "MCFF_L": r"MCFF-L", "FP": r"FP",
+            "DLR": r"DLR", "DAR": r"DAR", "VB_DD": r"VB-DD"}
+    rows = []
+    for fam in fams:
+        sub = [r for r in recs if r["family"] == fam]
+        cells = []
+        for m in metrics:
+            pts = [(r["level"], r[m]) for r in sub if r.get(m) is not None]
+            if len({p[0] for p in pts}) < 3:
+                cells.append("--")
+                continue
+            byl = defaultdict(list)
+            for lv, v in pts:
+                byl[lv].append(v)
+            xs = sorted(byl)
+            ys = [sum(byl[x]) / len(byl[x]) for x in xs]
+            rho = BT.spearman(xs, ys)
+            cells.append(f"{rho:+.2f}" if rho is not None else "--")
+        rows.append([esc(fam.replace("_", " ")), str(len({r["clip"] for r in sub}))] + cells)
+
+    lines = [r"\begin{table}[t]", r"\centering", r"\small",
+             r"\setlength{\tabcolsep}{3.5pt}",
+             r"\begin{tabular}{l c" + "c" * len(metrics) + "}", r"\toprule",
+             r"perturbation & clips & " + " & ".join(NICE[m] for m in metrics) + r" \\",
+             r"\midrule"]
+    for r_ in rows:
+        lines.append(" & ".join(r_) + r" \\")
+    lines += [r"\bottomrule", r"\end{tabular}",
+              r"\caption{\textbf{Mechanistic validation.} Spearman correlation between "
+              r"injected severity and each factor's response, over controlled "
+              r"perturbations of real fixed-camera clips. Signs are fixed in advance by "
+              r"each definition. \emph{mask radius} perturbs the region partition rather "
+              r"than the video, so near-zero entries indicate the desired insensitivity. "
+              r"Cells where a factor responds weakly or non-monotonically are reported "
+              r"rather than omitted.}",
+              r"\label{%s}" % label, r"\end{table}"]
+    return "\n".join(lines)
+
+
 # --------------------------------------------------------------------- macros
 def macros(ix, rows):
     """Every number the prose quotes, as a \\newcommand."""
@@ -444,7 +507,8 @@ def main():
             open(f"{OUT}/{name}", "w").write(s)
             written.append(name)
 
-    for fn, name in ((config_table(), "tab_native_configs.tex"),
+    for fn, name in ((validation_table(), "tab_validation.tex"),
+                     (config_table(), "tab_native_configs.tex"),
                      (interpretation_table(ix), "tab_interpretation.tex"),
                      (deployment_table(ix), "tab_deployment.tex")):
         if fn:

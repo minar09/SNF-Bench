@@ -36,17 +36,28 @@ together with mean absolute calibration error, monotonicity violations across in
 
 We do not expect exact recovery of a physical decomposition on arbitrary generated video; the claim established here is narrower---that these quantities behave as \emph{calibrated proxies} whose values increase predictably as coherent displacement contributes more to apparent motion. A metric that fails monotonicity, proves unstable across categories, or depends materially on the flow backbone is reported as a supplementary diagnostic rather than a headline factor.
 
-\subsection{Generation-Like Corruptions}
-\label{sec:generation_validation}
-
-Idealized perturbations do not reproduce all generator-side artifacts. A second validation layer applies controlled corruptions closer to observed failures: repeated VAE encode--decode degradation; chunk-boundary spatial and photometric discontinuities; progressive low-frequency color drift; localized texture sharpening in static regions; periodic temporal jitter; and late-stage detail loss. These define no new metrics; they test whether the measurements remain interpretable on realistic artifacts. Geometric metrics should not misread texture sharpening as displacement; background-flow measures \emph{should} respond to jitter, which genuinely moves static pixels---a correct detection, not a false positive.
-
-\subsection{Mask Agreement and Sensitivity}
+\subsection{Mask Sensitivity}
 \label{sec:mask_validation}
 
-Region masks are treated as measured quantities, not exact ground truth. On an independently double-annotated subset---labeled under the same blindness constraints as the benchmark protocol---we report mean IoU and inter-annotator agreement. All evaluation masks are then systematically eroded and dilated by fixed offsets and every measurement recomputed; we assess both absolute score variation and stability of pairwise method ordering across perturbation radii. A conclusion is reported as robust only when its qualitative interpretation persists under reasonable boundary variation; mask-sensitive results are labeled as such and excluded from headline ranking claims.
+Region masks are treated as measured quantities, not ground truth. Because the partition is derived automatically (Sec.~\ref{sec:masks}) rather than annotated, the relevant question is not inter-annotator agreement---which this release does not measure---but whether conclusions survive reasonable variation of the boundary. Every evaluation mask is therefore systematically eroded and dilated by fixed radii and all measurements recomputed, with the dynamic region varied complementarily so the test perturbs the boundary rather than the total measured area. We report the resulting response of each factor in Table~\ref{tab:validation}; a factor whose value is dominated by boundary placement is not admitted as a headline quantity.
+
+\subsection{Validation Results}
+\label{sec:validation_results}
+
+Figure~\ref{fig:validation} and Table~\ref{tab:validation} report the outcome. Injected translation produces the expected monotone increase in both static-fidelity factors, and progressive attenuation of dynamic-region content drives MCFF-L and FP down while leaving the static factors comparatively unchanged---the selectivity the decomposition requires. The comparison that motivates the benchmark appears in the same experiment: the identical injected background drift that our static-fidelity factors register also \emph{raises} VBench Dynamic Degree, so a whole-frame motion score improves on precisely the corruption a fixed-camera evaluation should penalise.
+
+Two results are reported because they qualify the framework rather than support it. fBD responds strongly and monotonically to translation but behaves erratically under pure rotation, where feature correspondences degrade; NBF carries the static-fidelity signal in that regime, which is why the two are reported jointly and why neither is used alone. Reported alongside them is the scope boundary of Sec.~\ref{sec:mechanistic_validation}: looping dynamic content sustains both persistence and magnitude, so SNF-Bench cannot distinguish genuine progression from repetition, and does not claim to.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig3_validation.pdf}
+\caption{\textbf{Mechanistic validation.} Each panel injects a corruption of known kind and severity into real fixed-camera clips and plots each factor relative to its unperturbed value. Panel~(f) puts VBench Dynamic Degree through the identical corruption as the SNF factors: the score rises with injected background drift. The perturbation is synthetic, so the comparison implicates no published method.}
+\label{fig:validation}
+\end{figure*}
+
+\input{generated/tab_validation}
 
 \subsection{Validation Criteria}
 \label{sec:validation_criteria}
 
-A metric is admitted to the public-model audit only if, under pre-specified criteria: (1) its response direction matches expectation under the target perturbation; (2) the response is monotonic across severity within statistical uncertainty; (3) unrelated perturbations produce substantially smaller changes; (4) ratio-based quantities remain interpretable under low-motion controls; and (5) conclusions are stable under mask perturbation. Metrics or configurations failing these checks are revised or excluded \emph{before} the final sweep. The validation suite is thus an independent gate on the benchmark specification, not a post-hoc explanation of model rankings.
+A metric is admitted to the public-model audit only if, under pre-specified criteria: (1) its response direction matches expectation under the target perturbation; (2) the response is monotonic across severity within statistical uncertainty; (3) unrelated perturbations produce substantially smaller changes; (4) ratio-based quantities remain interpretable under low-motion controls; and (5) conclusions are stable under erosion and dilation of the region partition. Metrics or configurations failing these checks are revised or excluded \emph{before} the final sweep. The validation suite is thus an independent gate on the benchmark specification, not a post-hoc explanation of model rankings.

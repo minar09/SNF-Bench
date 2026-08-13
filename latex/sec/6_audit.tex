@@ -7,14 +7,11 @@ We apply SNF-Bench to publicly available long-horizon video generators. The goal
 \label{sec:audit_models}
 
 The audit includes publicly released autoregressive or streaming generators with accessible checkpoints and reproducible inference code, frozen as a set before the baseline sweep. Unpublished or internal systems, and methods whose outputs cannot be independently reproduced, are excluded. The I2V track evaluates public models with a documented image-conditioned generation pathway. All checkpoints, code revisions, and inference settings are recorded in the benchmark manifest.
-% NOTE (remove before submission): final model lists and the I2V main/supp placement
-% are inserted after the Aug-16 gate and Aug-20 freeze. The paper states the frozen
-% outcome; it does not describe the gate.
 
 \subsection{Setting A: Native-Capability Evaluation}
 \label{sec:native_eval}
 
-The primary audit runs each method in the deployment regime its public release intends, answering a capability question: \emph{what behavior does the released system exhibit when used as its authors intended?} For every method we record: public checkpoint and code revision; conditioning mode; temporal block or chunk size; denoising-step schedule; guidance configuration; KV-cache, rolling-window, or memory policy; positional-encoding or horizon-extension mechanism; output resolution and frame rate; and the longest horizon supported without modifying the released temporal-generation policy. Efficiency measurements accompany these records (Sec.~\ref{sec:audit_capability}).
+The primary audit runs each method in the deployment regime its public release intends, answering a capability question: \emph{what behavior does the released system exhibit when used as its authors intended?} For every method we record: public checkpoint and code revision; conditioning mode; temporal block or chunk size; denoising-step schedule; guidance configuration; KV-cache, rolling-window, or memory policy; positional-encoding or horizon-extension mechanism; output resolution and frame rate; and the longest horizon supported without modifying the released temporal-generation policy. Operational limits are recorded alongside these settings (Sec.~\ref{sec:audit_capability}).
 
 Method-specific differences in block size, schedule, and memory policy are preserved deliberately: they are part of the released system, not nuisance variables. Native results are therefore comparisons of \emph{deployed systems}, not iso-compute comparisons of isolated checkpoints. A method that cannot reach a target horizon without changing a mechanism central to its released procedure is marked \emph{unsupported} at that horizon; we never silently substitute its block size, cache policy, or schedule to populate a table entry. Crashes, numerical failures, and invalid outputs follow the frozen taxonomy of Sec.~\ref{sec:manifest}.
 
@@ -40,10 +37,10 @@ Scores are computed per benchmark item and macro-averaged across categories. Unc
 
 To test whether the static--dynamic decomposition changes interpretation, the same outputs are additionally scored with established whole-frame metrics, and we compare the ordering they induce against the factor-level behavior exposed by SNF-Bench. The focus is \emph{interpretation change}, not declaring existing metrics incorrect. In a representative case, a model receives a strong whole-frame motion score while exhibiting high NBF, DLR or DAR: the generic metric correctly confirms that substantial image motion exists, while SNF-Bench reveals that part of it occurs in regions expected to remain stationary. Conversely, strong temporal-consistency scores may coexist with weak late MCFF and low FP, indicating stability partly achieved through motion decay. Both cases motivate joint reporting rather than replacement.
 
-\subsection{Capability, Failure, and Efficiency Reporting}
+\subsection{Capability and Failure Reporting}
 \label{sec:audit_capability}
 
-For each system we report the operational boundary of its released implementation---unsupported horizons, failed generations, memory exhaustion, numerical corruption, invalid outputs---as rates against the frozen manifest, never removed after inspection. Efficiency statistics (measured throughput, peak accelerator memory, denoising evaluations per generated frame) are reported as contextual quantities outside the SNF metric family, distinguishing quality differences from budget differences and making the audit reproducible.
+For each system we report the operational boundary of its released implementation---unsupported horizons, failed generations, memory exhaustion, numerical corruption, invalid outputs---as rates against the frozen manifest, never removed after inspection. Coverage is counted from valid per-video measurements rather than from the presence of a results file, so an entry whose measurement run terminated early is reported as partial rather than complete.
 
 \subsection{Audit Questions}
 \label{sec:audit_questions}

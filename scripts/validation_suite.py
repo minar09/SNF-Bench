@@ -50,8 +50,23 @@ LEVELS = {
     "rotation":    [0.0, 0.5, 1.0, 2.0, 4.0],         # degrees of total rotation
     "scale":       [1.0, 1.01, 1.02, 1.05, 1.10],     # total zoom
     "attenuation": [0.0, 0.25, 0.50, 0.75, 1.0],      # fraction of motion removed
-    "freeze":      [1.0, 0.75, 0.50, 0.25],           # fraction of clip before freeze
+    "freeze":      [0.0, 0.25, 0.50, 0.75],           # FRACTION OF CLIP FROZEN
+    # Photometric drift: geometry and motion are untouched, so geometric factors
+    # should be comparatively insensitive. Flow estimation is not perfectly
+    # photometrically invariant, so the residual sensitivity is measured rather
+    # than assumed, and reported as an operating bound.
+    "photometric": [0.0, 0.05, 0.10, 0.20, 0.35],     # total brightness/colour shift
+    # Temporal repetition: late dynamic content replaced by a short repeated
+    # cycle. Included to DOCUMENT a scope boundary -- persistence and magnitude
+    # cannot resolve looping, and the paper says so rather than hiding it.
+    "repetition":  [0.0, 24.0, 12.0, 6.0],            # cycle length in frames (0 = none)
+    # Mask sensitivity: not a corruption of the video at all, but of the
+    # partition. Level is a morphological radius, negative = erode.
+    "mask_radius": [0, -4, -2, 2, 4],
 }
+
+FRAME_FAMILIES = {"translation", "rotation", "scale", "attenuation", "freeze",
+                  "photometric", "repetition"}
 
 
 def load_frames(path, max_frames=110):
@@ -85,13 +100,37 @@ def load_frames(path, max_frames=110):
 
 
 def perturb(frames, kind, lam, dyn_mask=None):
-    """-> new frame list with a known corruption injected."""
+    """-> new frame list with a known corruption injected.
+
+    `dyn_mask` is the dynamic-region mask computed ONCE from the unperturbed
+    clip. Region-restricted corruptions need it: attenuating the whole frame
+    would also still the static support, and the suite would then be unable to
+    demonstrate that any factor is selective.
+    """
     T = len(frames)
     h, w = frames[0].shape[:2]
+    dyn3 = None
+    if dyn_mask is not None:
+        m = cv2.resize(dyn_mask.astype(np.uint8), (w, h),
+                       interpolation=cv2.INTER_NEAREST).astype(bool)
+        dyn3 = np.repeat(m[:, :, None], 3, axis=2)
     out = []
     if kind == "freeze":
-        cut = max(1, int(lam * T))
+        # lam = fraction of the clip that is frozen, so severity increases with lam.
+        cut = max(1, int((1.0 - lam) * T))
         return [frames[min(i, cut - 1)] for i in range(T)]
+    if kind == "repetition":
+        if lam <= 0:
+            return list(frames)
+        cyc = int(lam)
+        half = T // 2
+        out = list(frames[:half])
+        for i in range(half, T):
+            src = frames[half + ((i - half) % cyc)] if half + cyc < T else frames[i]
+            out.append(np.where(dyn3, src, frames[i]) if dyn3 is not None else src)
+        return out
+    if kind == "mask_radius":
+        return list(frames)          # the partition is perturbed, not the video
     for t, f in enumerate(frames):
         a = t / max(1, T - 1)
         if kind == "translation":
@@ -107,13 +146,19 @@ def perturb(frames, kind, lam, dyn_mask=None):
             M = cv2.getRotationMatrix2D((w / 2, h / 2), 0.0, s)
             out.append(cv2.warpAffine(f, M, (w, h), flags=cv2.INTER_LINEAR,
                                       borderMode=cv2.BORDER_REFLECT))
+        elif kind == "photometric":
+            # Ramped gain + colour-temperature shift; geometry untouched.
+            g = 1.0 + a * lam
+            f2 = f.astype(np.float32)
+            f2[..., 0] *= g                      # blue up
+            f2[..., 2] *= max(0.0, 2.0 - g)      # red down
+            out.append(np.clip(f2 * (1.0 + 0.5 * a * lam), 0, 255).astype(np.uint8))
         elif kind == "attenuation":
-            # Blend the whole frame toward an early reference, ramping with time.
-            # Support is static anyway, so the visible effect is that dynamic
-            # content stops changing while the scene stays put.
+            # Blend toward an early reference INSIDE the dynamic region only, so
+            # motion decays while static support is left exactly as it was.
             alpha = a * lam
-            ref = frames[0]
-            out.append(cv2.addWeighted(f, 1 - alpha, ref, alpha, 0))
+            blend = cv2.addWeighted(f, 1 - alpha, frames[0], alpha, 0)
+            out.append(np.where(dyn3, blend, f) if dyn3 is not None else blend)
         else:
             raise ValueError(kind)
     return out
@@ -142,7 +187,34 @@ def dynamic_degree(flows, h, w):
     return float(np.mean(scores)) if scores else 0.0
 
 
-def measure(model, frames, device):
+def morph(mask, radius):
+    """Erode (radius<0) or dilate (radius>0) a boolean mask."""
+    if not radius:
+        return mask
+    k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,
+                                  (2 * abs(radius) + 1, 2 * abs(radius) + 1))
+    m = mask.astype(np.uint8)
+    m = cv2.dilate(m, k) if radius > 0 else cv2.erode(m, k)
+    return m.astype(bool)
+
+
+def reference_masks(model, frames, device):
+    """Masks from the UNPERTURBED clip, so every variant is judged on the same
+    partition and region-restricted corruptions know where to act."""
+    import snf_task_metrics as S
+    import torch
+    tens, _ = to_tensors(frames, device)
+    F = len(tens)
+    win = max(S.MIN_WIN, int(F * S.WIN_FRAC))
+    early = np.mean([S.flow_mag(model, tens[i], tens[i + 1]).astype(np.float32)
+                     for i in range(min(win, F - 1))], 0)
+    dyn, static = S.build_masks(early)
+    del tens
+    torch.cuda.empty_cache()
+    return dyn, static
+
+
+def measure(model, frames, device, mask_radius=0):
     """SNF factors + Dynamic Degree on one (possibly perturbed) frame list."""
     import snf_task_metrics as S
     import snf_metrics_v11 as V11
@@ -157,6 +229,13 @@ def measure(model, frames, device):
                   for i in range(min(win, F - 1))]
     early = np.mean(early_maps, 0)
     dyn, static = S.build_masks(early)
+    if mask_radius:
+        # Dilating the static mask necessarily erodes the dynamic one and vice
+        # versa; keeping them complementary is what makes the test a boundary
+        # perturbation rather than a change of total measured area.
+        static = morph(static, mask_radius)
+        dyn = morph(dyn, -mask_radius)
+        static &= ~dyn
     h, w = early.shape
 
     P = F - 1
@@ -198,6 +277,8 @@ def main():
     ap.add_argument("--max-frames", type=int, default=110)
     ap.add_argument("--duration", default="60s")
     ap.add_argument("--out", default=f"{MAN}/validation_response.json")
+    ap.add_argument("--families", default="",
+                    help="comma-separated subset of LEVELS to run")
     args = ap.parse_args()
     os.environ.setdefault("CUDA_VISIBLE_DEVICES", args.gpu)
 
@@ -219,9 +300,16 @@ def main():
         if frames is None:
             continue
         print(f"[clip {ci+1}/{len(clips)}] {len(frames)} sampled frames", flush=True)
-        for kind, levels in LEVELS.items():
+        ref_dyn, _ = reference_masks(model, frames, device)
+        fams = ([f for f in args.families.split(",") if f]
+                if args.families else list(LEVELS))
+        for kind in fams:
+            levels = LEVELS[kind]
             for lam in levels:
-                m = measure(model, perturb(frames, kind, lam), device)
+                if kind == "mask_radius":
+                    m = measure(model, frames, device, mask_radius=int(lam))
+                else:
+                    m = measure(model, perturb(frames, kind, lam, ref_dyn), device)
                 m.update(clip=os.path.basename(path), family=kind, level=float(lam))
                 records.append(m)
                 print(f"   {kind:12s} {lam:<6} NBF={m['NBF']:7.2f} "

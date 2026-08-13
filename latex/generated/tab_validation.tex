@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{l cccccccc}
+\toprule
+perturbation & clips & fBD & NBF & MCFF-L & FP & DLR & DAR & VB-DD \\
+\midrule
+translation & 2 & +1.00 & +1.00 & -0.90 & -0.30 & +0.50 & +0.90 & +0.90 \\
+rotation & 2 & -0.30 & +1.00 & -0.30 & +0.60 & +0.70 & +0.40 & +0.10 \\
+scale & 2 & +0.70 & +0.20 & -1.00 & +0.00 & -0.20 & +0.10 & +0.60 \\
+attenuation & 2 & -0.87 & -1.00 & -1.00 & -1.00 & +0.40 & -0.70 & -1.00 \\
+freeze & 2 & +1.00 & +1.00 & +1.00 & +1.00 & -0.80 & +0.40 & +1.00 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Mechanistic validation.} Spearman correlation between injected severity and each factor's response, over controlled perturbations of real fixed-camera clips. Signs are fixed in advance by each definition. \emph{mask radius} perturbs the region partition rather than the video, so near-zero entries indicate the desired insensitivity. Cells where a factor responds weakly or non-monotonically are reported rather than omitted.}
+\label{tab:validation}
+\end{table}
