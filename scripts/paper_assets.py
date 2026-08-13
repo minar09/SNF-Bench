@@ -83,23 +83,27 @@ def spec_versions():
 
 
 # --------------------------------------------------------------------- tables
-def audit_table(ix, track, durations, label, caption):
+def audit_table(ix, track, durations, label, caption, wide=False):
+    """Audit table with constant columns folded into the caption.
+
+    `setting` and `n` are frequently identical for every row (the whole T2V
+    public roster is native, and each duration panel evaluates the same prompt
+    set). Printing a column of one repeated value costs horizontal space that
+    the metric columns need in order to fit a single page column, so a column
+    that never varies is stated once in the caption instead, and `n` -- constant
+    within a panel but not across panels -- moves into the panel header.
+    """
     models = [m for m in ALL if m["track"] == track and m["status"] == "public"]
-    keys = [k for k in MAIN_KEYS]
-    lines = [r"\begin{table*}[t]", r"\centering", r"\small",
-             r"\setlength{\tabcolsep}{4pt}",
-             r"\begin{tabular}{l l " + "c" * (len(keys) + 1) + "}",
-             r"\toprule",
-             r"Method & setting & $n$ & " + " & ".join(HDR[k] for k in keys) + r" \\"]
-    any_row = False
+    keys = list(MAIN_KEYS)
+
+    # Collect rows first so we can see which columns are degenerate.
+    panels = []
     for dur in durations:
         present = [m for m in models
                    if any(ix.get((track, m["key"], dur, k)) for k in keys)]
         if not present:
             continue
-        lines.append(r"\midrule")
-        lines.append(r"\multicolumn{%d}{l}{\textit{%s horizon}} \\"
-                     % (len(keys) + 3, dur))
+        rows = []
         for m in present:
             vals = {k: ix.get((track, m["key"], dur, k), {}) for k in keys}
             n = max((len(v) for v in vals.values()), default=0)
@@ -109,14 +113,49 @@ def audit_table(ix, track, durations, label, caption):
                 if k == "DAR_mean":
                     xs = [min(1.0, max(0.0, x)) for x in xs]
                 cells.append(fmt(BT.mean(xs)) if xs else "--")
-            lines.append(f"{esc(m['name'])} & {m['setting']} & {n} & "
-                         + " & ".join(cells) + r" \\")
-            any_row = True
-    if not any_row:
+            rows.append((m, n, cells))
+        panels.append((dur, rows))
+    if not panels:
         return None
+
+    settings = {m["setting"] for _, rows in panels for m, _, _ in rows}
+    show_setting = len(settings) > 1
+    ns = {dur: {n for _, n, _ in rows} for dur, rows in panels}
+    show_n = any(len(v) > 1 for v in ns.values())
+
+    ncols = 1 + (1 if show_setting else 0) + (1 if show_n else 0) + len(keys)
+    env = "table*" if wide else "table"
+    size = r"\small" if wide else r"\scriptsize"
+    lines = [r"\begin{%s}[t]" % env, r"\centering", size,
+             r"\setlength{\tabcolsep}{%s}" % ("4pt" if wide else "2.6pt"),
+             r"\begin{tabular}{l" + ("l" if show_setting else "")
+             + ("c" if show_n else "") + "c" * len(keys) + "}",
+             r"\toprule",
+             "Method" + (" & setting" if show_setting else "")
+             + (" & $n$" if show_n else "") + " & "
+             + " & ".join(HDR[k] for k in keys) + r" \\"]
+    for dur, rows in panels:
+        lines.append(r"\midrule")
+        n_here = sorted(ns[dur])
+        hdr = f"{dur} horizon" + ("" if show_n else f"  ($n={n_here[0]}$)")
+        lines.append(r"\multicolumn{%d}{l}{\textit{%s}} \\" % (ncols, hdr))
+        for m, n, cells in rows:
+            pre = esc(m["name"])
+            if show_setting:
+                pre += " & " + m["setting"]
+            if show_n:
+                pre += f" & {n}"
+            lines.append(pre + " & " + " & ".join(cells) + r" \\")
+
+    extra = ""
+    if not show_setting:
+        extra += (r" All systems are evaluated in the \emph{%s} setting."
+                  % settings.pop())
+    if not show_n:
+        extra += r" $n$ is stated per horizon and is common to every row of that panel."
     lines += [r"\bottomrule", r"\end{tabular}",
-              r"\caption{%s}" % caption, r"\label{%s}" % label,
-              r"\end{table*}"]
+              r"\caption{%s%s}" % (caption, extra), r"\label{%s}" % label,
+              r"\end{%s}" % env]
     return "\n".join(lines)
 
 
@@ -361,8 +400,8 @@ def validation_table(label="tab:validation"):
             cells.append(f"{rho:+.2f}" if rho is not None else "--")
         rows.append([esc(fam.replace("_", " ")), str(len({r["clip"] for r in sub}))] + cells)
 
-    lines = [r"\begin{table}[t]", r"\centering", r"\small",
-             r"\setlength{\tabcolsep}{3.5pt}",
+    lines = [r"\begin{table}[t]", r"\centering", r"\scriptsize",
+             r"\setlength{\tabcolsep}{2.6pt}",
              r"\begin{tabular}{l c" + "c" * len(metrics) + "}", r"\toprule",
              r"perturbation & clips & " + " & ".join(NICE[m] for m in metrics) + r" \\",
              r"\midrule"]
@@ -452,7 +491,7 @@ def macros(ix, rows):
              r"propagates into the text instead of silently diverging from it.",
              ""]
     for k, v in sorted(M.items()):
-        lines.append(r"\newcommand{\%s}{%s}" % (k, v))
+        lines.append(r"\providecommand{\%s}{%s}" % (k, v))
     return "\n".join(lines), M
 
 
@@ -468,13 +507,14 @@ def main():
                     r"\textbf{SNF-Bench audit, T2V track, native configuration.} "
                     r"All systems are public external models run under their own "
                     r"intended configuration. Our own systems are excluded by "
-                    r"construction. $n$ is the number of evaluated prompts. "
-                    r"DAR is reported clipped to $[0,1]$; signed values are released.")
+                    r"construction. DAR is reported clipped to $[0,1]$; signed "
+                    r"values are released.")
     if t:
         open(f"{OUT}/tab_t2v_audit.tex", "w").write(t)
         written.append("tab_t2v_audit.tex")
 
-    t = audit_table(ix, "i2v", ["60s", "120s"], "tab:i2v_audit",
+    t = audit_table(ix, "i2v", ["60s", "120s"], "tab:i2v_audit", wide=True,
+                    caption=
                     r"\textbf{SNF-Bench audit, I2V track.} Setting is stated per row: "
                     r"\emph{native} systems run under their authors' configuration, "
                     r"\emph{matched} systems under the common long-horizon wrapper and "
@@ -517,7 +557,8 @@ def main():
 
     # Full four-horizon versions live in the supplement.
     for trk, nm in (("t2v", "tab_t2v_audit_full.tex"), ("i2v", "tab_i2v_audit_full.tex")):
-        s = audit_table(ix, trk, DURATIONS, f"tab:{trk}_audit_full",
+        s = audit_table(ix, trk, DURATIONS, f"tab:{trk}_audit_full", wide=True,
+                        caption=
                         r"\textbf{Complete %s audit, all horizons.} Main-paper "
                         r"Table~\ref{tab:%s_audit} reproduces the 60\,s and 120\,s "
                         r"panels." % (trk.upper(), trk))
@@ -531,7 +572,7 @@ def main():
 
     sv = spec_versions()
     prov = [r"% AUTO-GENERATED provenance", ""]
-    prov.append(r"\newcommand{\SNFprovenance}{%")
+    prov.append(r"\providecommand{\SNFprovenance}{%")
     prov.append(r"Metrics computed under METRIC\_SPEC v%s with the %s flow backbone "
                 r"and %s features.}" % (M.get("SNFspecVersions", "1.1"),
                                         M["SNFflowBackbone"], M["SNFfeatBackbone"]))

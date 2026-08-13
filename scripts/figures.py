@@ -266,9 +266,12 @@ def fig_rank_disagreement(scores, track="t2v",
     if not panels:
         return None
 
-    ncol = 2 if len(panels) > 1 else 1
-    nrow = (len(panels) + ncol - 1) // ncol
-    fig, axes = plt.subplots(nrow, ncol, figsize=(DCOL, 2.35 * nrow))
+    # Single page column, panels stacked vertically. A 2x2 grid at this width
+    # would give each panel ~1.6in, which is not enough for method names at
+    # either end -- and the names are the figure's content, so the layout bends
+    # to them rather than the other way round.
+    ncol, nrow = 1, len(panels)
+    fig, axes = plt.subplots(nrow, ncol, figsize=(COL, 1.28 * nrow))
     axes = np.atleast_1d(axes).ravel()
     N = max(len(c) for _, _, _, c, _, _ in panels)
 
@@ -290,8 +293,9 @@ def fig_rank_disagreement(scores, track="t2v",
                         ha="left", va="center", fontsize=5.6,
                         color=P.INK if hl else P.INK_SECONDARY,
                         fontweight="bold" if hl else "normal", zorder=5)
-        # Wide margins so the names have room instead of colliding with the axes.
-        ax.set_xlim(-1.55, 2.55)
+        # Just enough margin for the longest method name at either end; the
+        # slope region keeps the remainder so the crossing stays legible.
+        ax.set_xlim(-1.18, 2.18)
         ax.set_ylim(N + 0.6, 0.4)
         ax.set_xticks([])
         ax.set_yticks(range(1, N + 1))
@@ -301,24 +305,25 @@ def fig_rank_disagreement(scores, track="t2v",
         ax.grid(axis="y", alpha=0.45)
         ax.set_axisbelow(True)
         tr = ax.get_xaxis_transform()
-        ax.text(0, 1.015, "VBench DD", ha="center", va="bottom", fontsize=6.2,
+        ax.text(0, 1.015, "VBench DD", ha="center", va="bottom", fontsize=5.8,
                 color=P.INK_SECONDARY, transform=tr)
-        ax.text(1, 1.015, "SNF-Bench NBF", ha="center", va="bottom", fontsize=6.2,
+        ax.text(1, 1.015, "SNF-Bench NBF", ha="center", va="bottom", fontsize=5.8,
                 color=P.INK_SECONDARY, transform=tr)
         ax.set_title(f"{d}   (n={n_prompt}{'*' if agg else ''})",
-                     fontsize=7.6, color=P.INK, fontweight="bold", pad=15)
-        ax.set_ylabel("rank", fontsize=6.4)
+                     fontsize=7.0, color=P.INK, fontweight="bold", pad=11)
+        ax.set_ylabel("rank", fontsize=6.0)
 
     for ax in axes[len(panels):]:
         ax.axis("off")
-    fig.tight_layout(pad=0.4, w_pad=2.4, h_pad=1.6)
+    # The footer is a fixed physical height, so it eats a larger fraction of a
+    # short figure; scale the reserved band by panel count instead of fixing it.
+    fig.tight_layout(pad=0.3, h_pad=1.1, rect=(0, 0.13 / nrow, 1, 1))
     star = ("  *DD from the method-level VBench aggregate (no per-video file at "
             "that horizon); sound for ranks, not used for CIs."
             if any(a for *_, a in panels) else "")
     return save(fig, out,
-                f"{track.upper()} public systems. Left rank: 1 = most apparent motion. "
-                f"Right rank: 1 = least static-region drift. Both metrics are "
-                f"compensation-independent. METRIC_SPEC v1.1.{star}")
+                f"{track.upper()} public systems. Left 1 = most apparent motion; "
+                f"right 1 = least static drift. METRIC_SPEC v1.1.{star}")
 
 
 # --------------------------------------------------------------------------

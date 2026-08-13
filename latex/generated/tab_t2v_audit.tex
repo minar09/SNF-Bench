@@ -1,21 +1,25 @@
-\begin{table*}[t]
+\begin{table}[t]
 \centering
-\small
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{l l cccccccc}
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\begin{tabular}{lccccccc}
 \toprule
-Method & setting & $n$ & fBD$\downarrow$ & NBF$\downarrow$ & MCFF-E & MCFF-L$\uparrow$ & FP$\uparrow$ & DLR$\downarrow$ & DAR$\downarrow$ \\
+Method & fBD$\downarrow$ & NBF$\downarrow$ & MCFF-E & MCFF-L$\uparrow$ & FP$\uparrow$ & DLR$\downarrow$ & DAR$\downarrow$ \\
 \midrule
-\multicolumn{10}{l}{\textit{60s horizon}} \\
-CausVid & native & 23 & 8.08 & 9.27 & 2.87 & 1.96 & 0.67 & 0.45 & 0.14 \\
-Self-Forcing & native & 23 & 11.4 & 12.7 & 10.4 & 2.54 & 0.44 & 0.50 & 0.14 \\
-Infinite-Forcing & native & 23 & 7.75 & 3.65 & 1.17 & 0.29 & 0.63 & 0.55 & 0.14 \\
-Rolling-Forcing & native & 23 & 16.8 & 11.2 & 3.18 & 1.57 & 0.75 & 0.54 & 0.18 \\
-Reward-Forcing & native & 23 & 14.8 & 8.51 & 3.81 & 0.80 & 0.49 & 0.60 & 0.17 \\
-LongLive & native & 23 & 15.9 & 13.9 & 6.46 & 2.41 & 0.75 & 0.59 & 0.17 \\
-Causal-Forcing & native & 23 & 22.4 & 87.6 & 9.84 & 7.21 & 0.83 & 0.94 & 0.43 \\
+\multicolumn{8}{l}{\textit{60s horizon  ($n=23$)}} \\
+CausVid & 8.08 & 9.27 & 2.87 & 1.96 & 0.67 & 0.45 & 0.14 \\
+Self-Forcing & 11.4 & 12.7 & 10.4 & 2.54 & 0.44 & 0.50 & 0.14 \\
+Infinite-Forcing & 7.75 & 3.65 & 1.17 & 0.29 & 0.63 & 0.55 & 0.14 \\
+Rolling-Forcing & 16.8 & 11.2 & 3.18 & 1.57 & 0.75 & 0.54 & 0.18 \\
+Reward-Forcing & 14.8 & 8.51 & 3.81 & 0.80 & 0.49 & 0.60 & 0.17 \\
+LongLive & 15.9 & 13.9 & 6.46 & 2.41 & 0.75 & 0.59 & 0.17 \\
+Causal-Forcing & 22.4 & 87.6 & 9.84 & 7.21 & 0.83 & 0.94 & 0.43 \\
+\midrule
+\multicolumn{8}{l}{\textit{120s horizon  ($n=6$)}} \\
+CausVid & 6.15 & 3.42 & 0.36 & 0.52 & 1.06 & 0.41 & 0.13 \\
+Self-Forcing & 21.2 & 6.80 & 4.85 & 0.82 & 0.85 & 0.75 & 0.15 \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{SNF-Bench audit, T2V track, native configuration.} All systems are public external models run under their own intended configuration. Our own systems are excluded by construction. $n$ is the number of evaluated prompts. DAR is reported clipped to $[0,1]$; signed values are released.}
+\caption{\textbf{SNF-Bench audit, T2V track, native configuration.} All systems are public external models run under their own intended configuration. Our own systems are excluded by construction. DAR is reported clipped to $[0,1]$; signed values are released. All systems are evaluated in the \emph{native} setting. $n$ is stated per horizon and is common to every row of that panel.}
 \label{tab:t2v_audit}
-\end{table*}
+\end{table}

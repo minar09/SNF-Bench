@@ -2,23 +2,38 @@
 \centering
 \small
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{l l cccccccc}
+\begin{tabular}{lccccccc}
 \toprule
-Method & setting & $n$ & fBD$\downarrow$ & NBF$\downarrow$ & MCFF-E & MCFF-L$\uparrow$ & FP$\uparrow$ & DLR$\downarrow$ & DAR$\downarrow$ \\
+Method & fBD$\downarrow$ & NBF$\downarrow$ & MCFF-E & MCFF-L$\uparrow$ & FP$\uparrow$ & DLR$\downarrow$ & DAR$\downarrow$ \\
 \midrule
-\multicolumn{10}{l}{\textit{60s horizon}} \\
-CausVid & native & 23 & 8.08 & 9.27 & 2.87 & 1.96 & 0.67 & 0.45 & 0.14 \\
-Self-Forcing & native & 23 & 11.4 & 12.7 & 10.4 & 2.54 & 0.44 & 0.50 & 0.14 \\
-Infinite-Forcing & native & 23 & 7.75 & 3.65 & 1.17 & 0.29 & 0.63 & 0.55 & 0.14 \\
-Rolling-Forcing & native & 23 & 16.8 & 11.2 & 3.18 & 1.57 & 0.75 & 0.54 & 0.18 \\
-Reward-Forcing & native & 23 & 14.8 & 8.51 & 3.81 & 0.80 & 0.49 & 0.60 & 0.17 \\
-LongLive & native & 23 & 15.9 & 13.9 & 6.46 & 2.41 & 0.75 & 0.59 & 0.17 \\
-Causal-Forcing & native & 23 & 22.4 & 87.6 & 9.84 & 7.21 & 0.83 & 0.94 & 0.43 \\
+\multicolumn{8}{l}{\textit{5s horizon  ($n=6$)}} \\
+CausVid & 2.08 & 6.56 & 1.44 & 2.91 & 1.24 & 0.26 & 0.07 \\
+Reward-Forcing & 1.10 & 5.21 & 0.63 & 0.58 & 1.37 & 0.44 & 0.28 \\
+LongLive & 1.91 & 7.31 & 1.25 & 2.27 & 1.16 & 0.59 & 0.32 \\
 \midrule
-\multicolumn{10}{l}{\textit{240s horizon}} \\
-CausVid & native & 4 & 7.23 & 13.4 & 0.42 & 0.87 & 0.99 & 0.85 & 0.08 \\
+\multicolumn{8}{l}{\textit{60s horizon  ($n=23$)}} \\
+CausVid & 8.08 & 9.27 & 2.87 & 1.96 & 0.67 & 0.45 & 0.14 \\
+Self-Forcing & 11.4 & 12.7 & 10.4 & 2.54 & 0.44 & 0.50 & 0.14 \\
+Infinite-Forcing & 7.75 & 3.65 & 1.17 & 0.29 & 0.63 & 0.55 & 0.14 \\
+Rolling-Forcing & 16.8 & 11.2 & 3.18 & 1.57 & 0.75 & 0.54 & 0.18 \\
+Reward-Forcing & 14.8 & 8.51 & 3.81 & 0.80 & 0.49 & 0.60 & 0.17 \\
+LongLive & 15.9 & 13.9 & 6.46 & 2.41 & 0.75 & 0.59 & 0.17 \\
+Causal-Forcing & 22.4 & 87.6 & 9.84 & 7.21 & 0.83 & 0.94 & 0.43 \\
+\midrule
+\multicolumn{8}{l}{\textit{120s horizon  ($n=6$)}} \\
+CausVid & 6.15 & 3.42 & 0.36 & 0.52 & 1.06 & 0.41 & 0.13 \\
+Self-Forcing & 21.2 & 6.80 & 4.85 & 0.82 & 0.85 & 0.75 & 0.15 \\
+\midrule
+\multicolumn{8}{l}{\textit{240s horizon  ($n=4$)}} \\
+CausVid & 7.23 & 13.4 & 0.42 & 0.87 & 0.99 & 0.85 & 0.08 \\
+Self-Forcing & 20.0 & 17.4 & 3.09 & 0.50 & 0.15 & 2.26 & 0.20 \\
+Infinite-Forcing & 20.0 & 4.15 & 0.33 & 0.23 & 1.02 & 1.08 & 0.15 \\
+Rolling-Forcing & 23.7 & 15.4 & 2.15 & 0.97 & 0.46 & 0.78 & 0.18 \\
+Reward-Forcing & 26.4 & 11.4 & 1.09 & 3.55 & 1.53 & 0.50 & 0.07 \\
+LongLive & 23.1 & 11.8 & 1.52 & 1.32 & 1.20 & 1.38 & 0.31 \\
+Causal-Forcing & 18.9 & 102 & 4.72 & 6.90 & 1.21 & 0.73 & 0.58 \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{Complete T2V audit, all horizons.} Main-paper Table~\ref{tab:t2v_audit} reproduces the 60\,s and 120\,s panels.}
+\caption{\textbf{Complete T2V audit, all horizons.} Main-paper Table~\ref{tab:t2v_audit} reproduces the 60\,s and 120\,s panels. All systems are evaluated in the \emph{native} setting. $n$ is stated per horizon and is common to every row of that panel.}
 \label{tab:t2v_audit_full}
 \end{table*}

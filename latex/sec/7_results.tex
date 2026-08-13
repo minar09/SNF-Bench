@@ -6,7 +6,7 @@ Results are reported against the four audit questions of Sec.~\ref{sec:audit_que
 \subsection{Native-Capability Audit}
 \label{sec:results_native}
 
-Table~\ref{tab:t2v_audit} summarizes SNF-Bench measurements under released inference configurations across all four horizons; Table~\ref{tab:native_configs} records each system's resolution, frame rate, and maximum supported horizon. Unsupported horizons appear explicitly rather than being populated with modified settings.
+Table~\ref{tab:t2v_audit} summarizes SNF-Bench measurements under released inference configurations at the two principal horizons, with all four reported in the supplementary material; Table~\ref{tab:native_configs} records each system's resolution, frame rate, and maximum supported horizon. Unsupported horizons appear explicitly rather than being populated with modified settings.
 
 \input{generated/tab_t2v_audit}
 \input{generated/tab_native_configs}
@@ -33,12 +33,12 @@ The effect is systematic rather than anecdotal. Over the audited systems at 60\,
 
 \input{generated/tab_disagreement}
 
-\begin{figure*}[t]
+\begin{figure}[t]
 \centering
-\includegraphics[width=\textwidth]{figures/fig5_rank_disagreement.pdf}
+\includegraphics[width=\linewidth]{figures/fig5_rank_disagreement.pdf}
 \caption{\textbf{Rank disagreement between whole-frame motion and static-region drift, at every audited horizon.} Both quantities are independent of the global-motion estimator, so the disagreement is a property of the two metrics rather than of our implementation. Short horizons carry few prompts; the claim concerns the \emph{ordering} two metrics induce over the same clips, which a larger prompt set would refine but not create.}
 \label{fig:rank_disagreement}
-\end{figure*}
+\end{figure}
 
 Table~\ref{tab:interpretation_changes} records every interpretation change meeting three pre-specified conditions: (1) generic and SNF measurements are computed on the \emph{same outputs}; (2) the relevant SNF metric passed the validation of Sec.~\ref{sec:validation}; and (3) the rank difference exceeds a fixed threshold rather than reflecting a small ordinal shift. The rule is applied to all public methods, so \textbf{no case satisfying it can be selectively omitted}. The analysis is complementary: whole-frame metrics measure what they were designed to measure, and SNF-Bench exposes where that quantity spatially originates.
 

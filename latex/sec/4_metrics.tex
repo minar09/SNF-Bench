@@ -10,12 +10,10 @@ Let $I_t$ denote frame $t$ of a $T$-frame sequence, $\Omega_{\mathrm{static}}$ a
 
 \paragraph{Feature-aligned Background Drift (fBD).}
 We extract repeatable local features inside $\Omega_{\mathrm{static}}$ from the first frame and match them against each frame $I_t$ in the late window, applying robust geometric filtering to reject outlier correspondences. For the resulting matched pairs $\mathcal{M}_t$,
-\begin{equation}
-D_{\mathrm{feat}}(t) = \operatorname{median}_{(p,q)\in\mathcal{M}_t} \lVert p-q \rVert_2,
-\qquad
-\mathrm{fBD} = \frac{100}{d}\cdot\frac{1}{|\mathcal{L}|}\sum_{t\in\mathcal{L}} D_{\mathrm{feat}}(t)
-\;\;(\downarrow),
-\end{equation}
+\begin{align}
+D_{\mathrm{feat}}(t) &= \operatorname*{median}_{(p,q)\in\mathcal{M}_t} \lVert p-q \rVert_2, \nonumber\\
+\mathrm{fBD} &= \frac{100}{d}\cdot\frac{1}{|\mathcal{L}|}\sum_{t\in\mathcal{L}} D_{\mathrm{feat}}(t) \;\;(\downarrow),
+\end{align}
 where $d$ is the frame diagonal, so fBD is expressed as a percentage of image size. fBD captures accumulated geometric displacement of persistent structure and is intentionally insensitive to fine-scale flicker that moves no structure.
 
 \paragraph{Normalized Background Flow (NBF).}
