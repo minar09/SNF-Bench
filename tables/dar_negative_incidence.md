@@ -2,22 +2,22 @@
 
 DAR is stored **signed** and reported clipped to $[0,1]$ (METRIC_SPEC v1.1 §2). A negative value means global-motion compensation *increased* measured dynamic-region flow, which occurs where local flow opposes the estimated global field. This is the empirical reason DAR is not a causal decomposition of motion.
 
-Overall across all entries: **144 / 1463** clip-metrics negative (9.8%).
+Overall across all entries: **145 / 1578** clip-metrics negative (9.2%).
 
 | Method | track | dur | n | negative | rate | most negative |
 |---|---|---|---|---|---|---|
-| CausVid | i2v | 120s | 1 | 1 | 100.0% | -0.076 |
+| CausVid | i2v | 120s | 20 | 1 | 5.0% | -0.055 |
 | CausVid | i2v | 240s | 5 | 0 | 0.0% | 0.000 |
 | CausVid | i2v | 5s | 10 | 6 | 60.0% | -0.450 |
-| CausVid | i2v | 60s | 1 | 0 | 0.0% | 0.028 |
+| CausVid | i2v | 60s | 30 | 2 | 6.7% | -0.084 |
 | Causal-Forcing++ (1-step) | i2v | 120s | 20 | 1 | 5.0% | -0.012 |
-| Causal-Forcing++ (1-step) | i2v | 240s | 1 | 0 | 0.0% | 0.403 |
+| Causal-Forcing++ (1-step) | i2v | 240s | 5 | 0 | 0.0% | 0.175 |
 | Causal-Forcing++ (1-step) | i2v | 5s | 10 | 0 | 0.0% | 0.041 |
-| Causal-Forcing++ (1-step) | i2v | 60s | 30 | 0 | 0.0% | 0.035 |
-| Causal-Forcing (framewise) | i2v | 120s | 1 | 0 | 0.0% | 0.311 |
+| Causal-Forcing++ (1-step) | i2v | 60s | 30 | 0 | 0.0% | 0.013 |
+| Causal-Forcing (framewise) | i2v | 120s | 20 | 3 | 15.0% | -0.171 |
 | Causal-Forcing (framewise) | i2v | 240s | 5 | 0 | 0.0% | 0.046 |
 | Causal-Forcing (framewise) | i2v | 5s | 10 | 2 | 20.0% | -0.043 |
-| Causal-Forcing (framewise) | i2v | 60s | 1 | 0 | 0.0% | 0.297 |
+| Causal-Forcing (framewise) | i2v | 60s | 30 | 0 | 0.0% | 0.008 |
 | Causal-Forcing++ (2-step) | i2v | 120s | 20 | 0 | 0.0% | 0.008 |
 | Causal-Forcing++ (2-step) | i2v | 240s | 5 | 0 | 0.0% | 0.053 |
 | Causal-Forcing++ (2-step) | i2v | 5s | 10 | 1 | 10.0% | -0.102 |

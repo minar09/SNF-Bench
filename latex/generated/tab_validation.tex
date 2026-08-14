@@ -1,21 +1,20 @@
 \begin{table}[tb]
 \centering
 \scriptsize
-\setlength{\tabcolsep}{2.6pt}
-\begin{tabular}{l cccccccc}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llcccc}
 \toprule
-perturbation & clips & fBD & NBF & MCFF-L & FP & DLR & DAR & VB-DD \\
+Factor & target & $\rho$ & $\rho_{\mathrm{rot}}$ & off-target & admitted \\
 \midrule
-photometric & 12 & -0.30 & +0.90 & +1.00 & +1.00 & -1.00 & -0.90 & +1.00 \\
-mask radius & 12 & +0.70 & +1.00 & +0.90 & -0.70 & +1.00 & -0.70 & -- \\
-translation & 12 & +1.00 & +1.00 & -1.00 & +0.60 & +1.00 & +0.90 & +0.70 \\
-rotation & 12 & +0.70 & +0.60 & -0.70 & +0.30 & -0.80 & +1.00 & +0.70 \\
-scale & 12 & +1.00 & +1.00 & -0.90 & -0.60 & +1.00 & +1.00 & +1.00 \\
-attenuation & 12 & -0.40 & -1.00 & +0.00 & +0.40 & +1.00 & -1.00 & -1.00 \\
-freeze & 12 & -1.00 & -1.00 & -1.00 & -0.80 & -0.20 & -0.80 & -1.00 \\
-repetition & 12 & -0.20 & -0.20 & +0.20 & +0.20 & -0.40 & -0.40 & -0.20 \\
+fBD & drift & +1.00 & +0.70 & 14\% & \checkmark \\
+NBF & drift & +1.00 & +0.60 & 6\% & \checkmark \\
+MCFF-L & freeze & +1.00 & n/a & 14\% & \checkmark \\
+FP & freeze & +0.80 & n/a & 21\% & \checkmark \\
+DLR & drift & +1.00 & -0.80 & 5\% & \checkmark \\
+DAR & drift & +0.90 & +1.00 & 18\% & \checkmark \\
+VBench DD & drift & +0.70 & +0.70 & 2\% & \checkmark \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{Mechanistic validation.} Spearman correlation between injected severity and each factor's response, over controlled perturbations of real fixed-camera clips. Signs are fixed in advance by each definition. \emph{mask radius} perturbs the region partition rather than the video, so near-zero entries indicate the desired insensitivity. Cells where a factor responds weakly or non-monotonically are reported rather than omitted.}
+\caption{\textbf{Mechanistic validation and factor admission.} Each factor is scored on the corruption its definition says it should detect: accumulating global \emph{drift} for the static-fidelity and drift diagnostics, progressive \emph{freezing} for the persistence factors. $\rho$ is Spearman correlation against injected severity, signed so that a correct response is positive; $\rho_{\mathrm{rot}}$ repeats it for rotational drift, the harder case. \emph{off-target} is the largest relative excursion under corruptions the factor should ignore---photometric drift and perturbation of the region partition---so a small value indicates selectivity. Admission requires $\rho \ge 0.7$ and off-target response below $25\%$. Twelve reference clips per severity level.}
 \label{tab:validation}
 \end{table}

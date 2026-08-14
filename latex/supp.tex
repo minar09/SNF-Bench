@@ -93,6 +93,43 @@ resolution.
 
 \input{generated/tab_disagreement}
 
+\section{Complementary Perceptual Checks}
+\label{sup:perceptual}
+
+Neither check is aggregated into a factor, and neither is a preference study.
+Both answer one question: does an independent judge, with no access to our
+factors, order the same clip pairs the same way?
+
+\paragraph{Pair selection.}
+Pairs are chosen by rule rather than by eye. For each axis, candidate pairs of
+systems on a shared prompt are binned by the \emph{relative gap} in the relevant
+factor and sampled across three bands ($0.05$--$0.20$, $0.20$--$0.50$,
+$0.50$--$1.00$), so agreement is measured over the whole operating range rather
+than only where any metric would look good. Thirty pairs per axis are drawn.
+
+\paragraph{Human study.}
+Raters answer exactly two forced-choice questions---which video's background
+moves more, and in which video the moving content slows or stops more---and are
+never asked which video is better, since ``better'' conflates the two failures
+the benchmark separates. Trial order and left/right presentation are randomised
+per rater, choices are resolved back to system identities server-side, and
+system names are never shown. Ties are permitted: forcing a choice on an
+indistinguishable pair manufactures noise. Twenty-four trials per rater, three raters.
+
+\paragraph{Vision--language judge.}
+The same pairs, with the same wording, are put to an open-weight
+vision--language model~\cite{qwen3vl2025}. Each pair is asked twice with the
+clips swapped; a judge answering by position rather than by content disagrees
+with itself, so agreement is computed only over self-consistent trials and the
+self-consistency rate is reported beside it. A judge that contradicts itself on
+a pair has expressed no opinion about that pair.
+
+\paragraph{Reporting.}
+Per axis we report the agreement rate with a binomial interval, the tie rate,
+and agreement resolved by metric gap. The last matters: a factor that agrees
+with observers only on large gaps is a weaker result than one that agrees
+throughout, and pooling hides the difference.
+
 \section{Evaluation-Set Composition}
 \label{sup:categories}
 
@@ -193,5 +230,11 @@ entirely by $t=30$\,s.}
 are prompts per category at each track and horizon.}
 \label{sup:fig_categories}
 \end{figure*}
+
+{
+    \small
+    \bibliographystyle{ieeenat_fullname}
+    \bibliography{main}
+}
 
 \end{document}

@@ -1,0 +1,237 @@
+{
+  "n_per_axis": 12,
+  "track": "t2v",
+  "duration": "60s",
+  "axes": [
+    {
+      "axis": "drift",
+      "metric": "fBD_mean",
+      "question": "Which video's background (buildings, banks, ground, horizon) moves or warps more?",
+      "pairs": [
+        {
+          "prompt": "An_alpine_meadow_below_snowline_featuring_a_multi-tiered_waterfall_gliding_swiftly_with_dark,_deep_c",
+          "a": "CausVid",
+          "b": "reward_forcing",
+          "a_name": "CausVid",
+          "b_name": "Reward-Forcing",
+          "gap": 0.847,
+          "metric_says": "CausVid"
+        },
+        {
+          "prompt": "A_dangerous_South_Korean_hilly_forest_storm_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+          "a": "longlive",
+          "b": "rolling_forcing",
+          "a_name": "LongLive",
+          "b_name": "Rolling-Forcing",
+          "gap": 0.18,
+          "metric_says": "rolling_forcing"
+        },
+        {
+          "prompt": "A_high_desert_canyon_scene_featuring_a_wide_river_sweeping_forward_carrying_foam_and_debris,_recorde",
+          "a": "infinite_forcing",
+          "b": "reward_forcing",
+          "a_name": "Infinite-Forcing",
+          "b_name": "Reward-Forcing",
+          "gap": 0.827,
+          "metric_says": "reward_forcing"
+        },
+        {
+          "prompt": "A_continuous_South_Korean_rainy_city_street_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+          "a": "longlive",
+          "b": "reward_forcing",
+          "a_name": "LongLive",
+          "b_name": "Reward-Forcing",
+          "gap": 0.7,
+          "metric_says": "longlive"
+        },
+        {
+          "prompt": "A_dangerous_South_Korean_hilly_forest_storm_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+          "a": "infinite_forcing",
+          "b": "reward_forcing",
+          "a_name": "Infinite-Forcing",
+          "b_name": "Reward-Forcing",
+          "gap": 0.952,
+          "metric_says": "reward_forcing"
+        },
+        {
+          "prompt": "A_continuous_South_Korean_urban_town_street_scene_during_snowfall,_recorded_by_a_completely_fixed,_s",
+          "a": "CausVid",
+          "b": "self_forcing",
+          "a_name": "CausVid",
+          "b_name": "Self-Forcing",
+          "gap": 0.172,
+          "metric_says": "self_forcing"
+        },
+        {
+          "prompt": "A_serene_woodland_stream_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_c",
+          "a": "causal_forcing",
+          "b": "reward_forcing",
+          "a_name": "Causal-Forcing",
+          "b_name": "Reward-Forcing",
+          "gap": 0.279,
+          "metric_says": "reward_forcing"
+        },
+        {
+          "prompt": "A_South_Korean_countryside_scene_featuring_a_wide_river_streaming_endlessly_in_one_direction,_record",
+          "a": "longlive",
+          "b": "self_forcing",
+          "a_name": "LongLive",
+          "b_name": "Self-Forcing",
+          "gap": 0.078,
+          "metric_says": "self_forcing"
+        },
+        {
+          "prompt": "A_stunning_tranquil_river_scene_beneath_a_concrete_bridge,_recorded_by_a_completely_fixed,_static,_t",
+          "a": "causal_forcing",
+          "b": "reward_forcing",
+          "a_name": "Causal-Forcing",
+          "b_name": "Reward-Forcing",
+          "gap": 0.293,
+          "metric_says": "causal_forcing"
+        },
+        {
+          "prompt": "A_stunning_tranquil_river_scene_beneath_a_concrete_bridge,_recorded_by_a_completely_fixed,_static,_t",
+          "a": "CausVid",
+          "b": "infinite_forcing",
+          "a_name": "CausVid",
+          "b_name": "Infinite-Forcing",
+          "gap": 0.482,
+          "metric_says": "infinite_forcing"
+        },
+        {
+          "prompt": "A_storm-swollen_rural_stream,_recorded_by_a_fixed_tripod_camera._The_solid_paved_road_and_motionless",
+          "a": "longlive",
+          "b": "reward_forcing",
+          "a_name": "LongLive",
+          "b_name": "Reward-Forcing",
+          "gap": 0.286,
+          "metric_says": "reward_forcing"
+        },
+        {
+          "prompt": "A_dangerous_rural_South_Korean_river_scene_at_night,_recorded_by_a_completely_fixed,_static,_tripod-",
+          "a": "CausVid",
+          "b": "self_forcing",
+          "a_name": "CausVid",
+          "b_name": "Self-Forcing",
+          "gap": 0.135,
+          "metric_says": "self_forcing"
+        }
+      ]
+    },
+    {
+      "axis": "decay",
+      "metric": "MCFF_late_mean",
+      "question": "In which video does the moving content (water, fire, rain, smoke) slow down or stop more by the end?",
+      "pairs": [
+        {
+          "prompt": "A_continuous_South_Korean_rainy_city_street_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+          "a": "reward_forcing",
+          "b": "self_forcing",
+          "a_name": "Reward-Forcing",
+          "b_name": "Self-Forcing",
+          "gap": 0.49,
+          "metric_says": "reward_forcing"
+        },
+        {
+          "prompt": "A_tranquil_mountain_stream_in_a_rural_South_Korean_valley,_recorded_by_a_completely_fixed,_static,_t",
+          "a": "infinite_forcing",
+          "b": "longlive",
+          "a_name": "Infinite-Forcing",
+          "b_name": "LongLive",
+          "gap": 0.182,
+          "metric_says": "infinite_forcing"
+        },
+        {
+          "prompt": "A_dangerous_South_Korean_hilly_forest_storm_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+          "a": "causal_forcing",
+          "b": "infinite_forcing",
+          "a_name": "Causal-Forcing",
+          "b_name": "Infinite-Forcing",
+          "gap": 0.38,
+          "metric_says": "causal_forcing"
+        },
+        {
+          "prompt": "An_alpine_meadow_below_snowline_featuring_a_multi-tiered_waterfall_gliding_swiftly_with_dark,_deep_c",
+          "a": "CausVid",
+          "b": "reward_forcing",
+          "a_name": "CausVid",
+          "b_name": "Reward-Forcing",
+          "gap": 0.187,
+          "metric_says": "CausVid"
+        },
+        {
+          "prompt": "A_high_desert_canyon_scene_featuring_a_wide_river_sweeping_forward_carrying_foam_and_debris,_recorde",
+          "a": "causal_forcing",
+          "b": "self_forcing",
+          "a_name": "Causal-Forcing",
+          "b_name": "Self-Forcing",
+          "gap": 0.985,
+          "metric_says": "causal_forcing"
+        },
+        {
+          "prompt": "An_urban_storm_drain_canal,_recorded_by_a_static_tripod_camera._The_heavy_concrete_walls_and_immovab",
+          "a": "longlive",
+          "b": "self_forcing",
+          "a_name": "LongLive",
+          "b_name": "Self-Forcing",
+          "gap": 0.384,
+          "metric_says": "longlive"
+        },
+        {
+          "prompt": "A_stormy_sea_cliff_in_South_Korea,_recorded_by_a_static_tripod_camera._The_heavy_stone_cliffs_and_im",
+          "a": "causal_forcing",
+          "b": "infinite_forcing",
+          "a_name": "Causal-Forcing",
+          "b_name": "Infinite-Forcing",
+          "gap": 0.113,
+          "metric_says": "causal_forcing"
+        },
+        {
+          "prompt": "A_beautiful_South_Korean_empty_sea_beach_scene,_recorded_by_a_completely_fixed,_static,_tripod-mount",
+          "a": "reward_forcing",
+          "b": "self_forcing",
+          "a_name": "Reward-Forcing",
+          "b_name": "Self-Forcing",
+          "gap": 0.168,
+          "metric_says": "self_forcing"
+        },
+        {
+          "prompt": "A_storm-swollen_rural_stream,_recorded_by_a_fixed_tripod_camera._The_solid_paved_road_and_motionless",
+          "a": "CausVid",
+          "b": "longlive",
+          "a_name": "CausVid",
+          "b_name": "LongLive",
+          "gap": 0.309,
+          "metric_says": "longlive"
+        },
+        {
+          "prompt": "A_Pacific_Northwest_old-growth_forest_scene_featuring_a_cascading_mountain_waterfall_gliding_swiftly",
+          "a": "causal_forcing",
+          "b": "longlive",
+          "a_name": "Causal-Forcing",
+          "b_name": "LongLive",
+          "gap": 0.855,
+          "metric_says": "causal_forcing"
+        },
+        {
+          "prompt": "A_tropical_jungle_clearing_featuring_a_broad_lowland_river_coursing_powerfully_through_the_channel,_",
+          "a": "CausVid",
+          "b": "rolling_forcing",
+          "a_name": "CausVid",
+          "b_name": "Rolling-Forcing",
+          "gap": 0.85,
+          "metric_says": "CausVid"
+        },
+        {
+          "prompt": "An_ancient_stone_city_waterway_featuring_fast-moving_rapids_streaming_endlessly_in_one_direction,_re",
+          "a": "causal_forcing",
+          "b": "reward_forcing",
+          "a_name": "Causal-Forcing",
+          "b_name": "Reward-Forcing",
+          "gap": 0.97,
+          "metric_says": "causal_forcing"
+        }
+      ]
+    }
+  ]
+}
