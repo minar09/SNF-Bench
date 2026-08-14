@@ -327,7 +327,9 @@ def interpretation_table(ix, track="t2v", dur="60s", label="tab:interpretation_c
     if not body:
         return None
     lines = [r"\begin{table*}[t]", r"\centering", r"\small",
-             r"\begin{tabular}{l l l p{0.42\textwidth}}", r"\toprule",
+             # 0.42\textwidth overflowed the full-width float by ~30pt once the
+             # three label columns were set; 0.38 clears it with margin.
+             r"\begin{tabular}{l l l p{0.38\textwidth}}", r"\toprule",
              r"Method & Generic evidence & SNF-Bench evidence & Interpretation \\",
              r"\midrule"]
     for b in body:
@@ -364,8 +366,10 @@ def deployment_table(ix, label="tab:deployment_sensitivity"):
                 rows.append([esc(name), dur] + cells)
     if not rows:
         return None
-    lines = [r"\begin{table}[t]", r"\centering", r"\scriptsize",
-             r"\setlength{\tabcolsep}{4pt}",
+    # Supplement-only and six columns wide: it overflows a single column by
+    # ~35pt, so it is set across both.
+    lines = [r"\begin{table*}[tb]", r"\centering", r"\small",
+             r"\setlength{\tabcolsep}{6pt}",
              r"\begin{tabular}{l c c c c c}", r"\toprule",
              r"Checkpoint & horizon & $\Delta$fBD & $\Delta$NBF & $\Delta$MCFF-L & "
              r"$\Delta$DLR \\", r"\midrule"]
@@ -376,7 +380,7 @@ def deployment_table(ix, label="tab:deployment_sensitivity"):
               r"checkpoint's native configuration to the common long-horizon "
               r"wrapper, for the two checkpoints evaluated both ways. Absolute "
               r"matched scores are never read as the published method's "
-              r"performance.}", r"\label{%s}" % label, r"\end{table}"]
+              r"performance.}", r"\label{%s}" % label, r"\end{table*}"]
     return "\n".join(lines)
 
 

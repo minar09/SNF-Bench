@@ -1,5 +1,11 @@
 {
   "model": "Qwen/Qwen3-VL-8B-Instruct",
+  "controls": {
+    "identity_same": 5,
+    "identity_n": 6,
+    "swap_correct": 3,
+    "swap_n": 6
+  },
   "records": [
     {
       "axis": "drift",
@@ -8,11 +14,11 @@
       "b": "reward_forcing",
       "gap": 0.847,
       "metric_says": "CausVid",
-      "vlm_order1": "reward_forcing",
+      "vlm_order1": "same",
       "vlm_order2": "same",
-      "pos1": "second",
+      "pos1": "same",
       "pos2": "same",
-      "consistent": false
+      "consistent": true
     },
     {
       "axis": "drift",
@@ -35,10 +41,10 @@
       "gap": 0.827,
       "metric_says": "reward_forcing",
       "vlm_order1": "reward_forcing",
-      "vlm_order2": "infinite_forcing",
+      "vlm_order2": "reward_forcing",
       "pos1": "second",
-      "pos2": "second",
-      "consistent": false
+      "pos2": "first",
+      "consistent": true
     },
     {
       "axis": "drift",
@@ -47,10 +53,10 @@
       "b": "reward_forcing",
       "gap": 0.7,
       "metric_says": "longlive",
-      "vlm_order1": "same",
-      "vlm_order2": "longlive",
-      "pos1": "same",
-      "pos2": "second",
+      "vlm_order1": "reward_forcing",
+      "vlm_order2": "same",
+      "pos1": "second",
+      "pos2": "same",
       "consistent": false
     },
     {
@@ -60,11 +66,11 @@
       "b": "reward_forcing",
       "gap": 0.952,
       "metric_says": "reward_forcing",
-      "vlm_order1": "reward_forcing",
+      "vlm_order1": "infinite_forcing",
       "vlm_order2": "infinite_forcing",
-      "pos1": "second",
+      "pos1": "first",
       "pos2": "second",
-      "consistent": false
+      "consistent": true
     },
     {
       "axis": "drift",
@@ -73,10 +79,10 @@
       "b": "self_forcing",
       "gap": 0.172,
       "metric_says": "self_forcing",
-      "vlm_order1": "self_forcing",
-      "vlm_order2": "same",
-      "pos1": "second",
-      "pos2": "same",
+      "vlm_order1": "same",
+      "vlm_order2": "self_forcing",
+      "pos1": "same",
+      "pos2": "first",
       "consistent": false
     },
     {
@@ -112,9 +118,9 @@
       "b": "reward_forcing",
       "gap": 0.293,
       "metric_says": "causal_forcing",
-      "vlm_order1": "reward_forcing",
+      "vlm_order1": "same",
       "vlm_order2": "causal_forcing",
-      "pos1": "second",
+      "pos1": "same",
       "pos2": "second",
       "consistent": false
     },
@@ -151,11 +157,11 @@
       "b": "self_forcing",
       "gap": 0.135,
       "metric_says": "self_forcing",
-      "vlm_order1": "self_forcing",
+      "vlm_order1": "same",
       "vlm_order2": "same",
-      "pos1": "second",
+      "pos1": "same",
       "pos2": "same",
-      "consistent": false
+      "consistent": true
     },
     {
       "axis": "decay",
@@ -178,9 +184,9 @@
       "gap": 0.182,
       "metric_says": "infinite_forcing",
       "vlm_order1": "longlive",
-      "vlm_order2": "infinite_forcing",
+      "vlm_order2": "same",
       "pos1": "second",
-      "pos2": "second",
+      "pos2": "same",
       "consistent": false
     },
     {
@@ -191,9 +197,9 @@
       "gap": 0.38,
       "metric_says": "causal_forcing",
       "vlm_order1": "infinite_forcing",
-      "vlm_order2": "causal_forcing",
+      "vlm_order2": "same",
       "pos1": "second",
-      "pos2": "second",
+      "pos2": "same",
       "consistent": false
     },
     {
@@ -203,11 +209,11 @@
       "b": "reward_forcing",
       "gap": 0.187,
       "metric_says": "CausVid",
-      "vlm_order1": "reward_forcing",
+      "vlm_order1": "CausVid",
       "vlm_order2": "CausVid",
-      "pos1": "second",
+      "pos1": "first",
       "pos2": "second",
-      "consistent": false
+      "consistent": true
     },
     {
       "axis": "decay",
@@ -242,11 +248,11 @@
       "b": "infinite_forcing",
       "gap": 0.113,
       "metric_says": "causal_forcing",
-      "vlm_order1": "infinite_forcing",
-      "vlm_order2": "causal_forcing",
-      "pos1": "second",
-      "pos2": "second",
-      "consistent": false
+      "vlm_order1": "same",
+      "vlm_order2": "same",
+      "pos1": "same",
+      "pos2": "same",
+      "consistent": true
     },
     {
       "axis": "decay",
@@ -255,10 +261,10 @@
       "b": "self_forcing",
       "gap": 0.168,
       "metric_says": "self_forcing",
-      "vlm_order1": "self_forcing",
-      "vlm_order2": "reward_forcing",
-      "pos1": "second",
-      "pos2": "second",
+      "vlm_order1": "reward_forcing",
+      "vlm_order2": "self_forcing",
+      "pos1": "first",
+      "pos2": "first",
       "consistent": false
     },
     {
@@ -268,11 +274,11 @@
       "b": "longlive",
       "gap": 0.309,
       "metric_says": "longlive",
-      "vlm_order1": "longlive",
+      "vlm_order1": "CausVid",
       "vlm_order2": "CausVid",
-      "pos1": "second",
+      "pos1": "first",
       "pos2": "second",
-      "consistent": false
+      "consistent": true
     },
     {
       "axis": "decay",
@@ -282,9 +288,9 @@
       "gap": 0.855,
       "metric_says": "causal_forcing",
       "vlm_order1": "longlive",
-      "vlm_order2": "causal_forcing",
+      "vlm_order2": "same",
       "pos1": "second",
-      "pos2": "second",
+      "pos2": "same",
       "consistent": false
     },
     {
@@ -308,9 +314,9 @@
       "gap": 0.97,
       "metric_says": "causal_forcing",
       "vlm_order1": "reward_forcing",
-      "vlm_order2": "causal_forcing",
+      "vlm_order2": "same",
       "pos1": "second",
-      "pos2": "second",
+      "pos2": "same",
       "consistent": false
     }
   ]

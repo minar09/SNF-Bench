@@ -173,11 +173,37 @@ asked twice with the clips swapped; a judge answering by position rather than by
 content disagrees with itself, so agreement is computed only over
 self-consistent trials and the self-consistency rate is reported beside it.
 
-\paragraph{Reporting.}
-Per axis we report the agreement rate with a binomial interval, the tie rate,
-and agreement resolved by metric gap. The last matters: a factor that agrees
-with observers only on large gaps is a weaker result than one that agrees
-throughout, and pooling hides the difference.
+\paragraph{Reporting the human study.}
+For the human study we report, per axis, the agreement rate with a binomial
+interval, the tie rate, and agreement resolved by metric gap. The last matters:
+a factor that agrees with observers only on large gaps is a weaker result than
+one that agrees throughout, and pooling hides the difference. The same format
+is defined for the vision--language judge, but as set out below its trials did
+not meet the precondition for reporting an agreement rate at all.
+
+\paragraph{Outcome of the vision--language check: negative.}
+We report this check as a negative result. Before reading any agreement rate we
+required the judge to pass two controls. Shown one clip against itself, where
+the only correct answer is that the two are the same, it answered correctly on
+five of six pairs. Shown a frozen single frame against a real sequence, where
+the moving sequence must be chosen and the choice must follow the clip when the
+two are swapped, it succeeded on three of six. On the audited pairs it was
+self-consistent under swapping on seven of twenty-four, which is what a
+three-way choice made at random would produce. An agreement rate computed over
+so few self-consistent trials describes the judge's presentation bias rather
+than the videos, so we do not report one, and no number from this check enters
+any factor, table or figure elsewhere in this work.
+
+We record the outcome because it is informative about the task rather than only
+about the model. The distinction the benchmark draws---between a background
+that drifts and intended motion that decays---lies below the discrimination
+threshold of a current open-weight judge at this scale, even though the same
+judge reliably detects that a clip is identical to itself. This is consistent
+with the main finding that whole-frame motion scores do not separate these two
+failures either, and it is the reason the benchmark rests on mechanistic
+validation under injected corruptions rather than on a model's preferences. We
+report the protocol and its controls in full so the check can be repeated at a
+larger scale; we do not present it as evidence for the factors.
 
 \section{Additional Qualitative Material}
 \label{sup:qualitative}

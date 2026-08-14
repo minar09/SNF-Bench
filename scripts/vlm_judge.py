@@ -51,19 +51,32 @@ QUESTIONS = {
         "Question: in which clip does the BACKGROUND move more? The background "
         "is everything that should stay perfectly still: buildings, banks, "
         "rocks, the ground, the horizon. Ignore the water, fire, rain or smoke. "
-        "Ignore sharpness, colour and overall quality.\n"
-        "Answer with exactly one word: FIRST, SECOND, or SAME."),
+        "Ignore sharpness, colour and overall quality."),
     "decay": (
         "You are shown two short clips of the same scene, recorded by a camera "
         "that never moves.\n"
         "Question: in which clip does the MOVING CONTENT slow down or stop more "
         "by the end? The moving content is the water, fire, rain or smoke. "
         "Ignore whether the background is stable. Ignore sharpness, colour and "
-        "overall quality.\n"
-        "Answer with exactly one word: FIRST, SECOND, or SAME."),
+        "overall quality."),
 }
 
 SAMPLE_FRAMES = 8          # uniformly spaced; enough for a drift/decay judgement
+
+# Forcing an immediate one-word verdict makes this judge answer by slot: an
+# earlier version chose SECOND on 43 of 48 queries and was self-consistent on
+# none, while still correctly answering SAME when shown one clip against
+# itself. Describing each clip before committing separates what the judge
+# observes from which slot it prefers, and 'SAME' is stated as a legitimate
+# answer so an indistinguishable pair need not be broken arbitrarily.
+RUBRIC = (
+    "Describe what you actually observe in ONE short sentence per clip, then "
+    "give your verdict. If the two clips are indistinguishable on this "
+    "question, SAME is the correct answer -- do not guess. Use exactly this "
+    "format:\n"
+    "FIRST clip: <observation>\n"
+    "SECOND clip: <observation>\n"
+    "ANSWER: FIRST or SECOND or SAME")
 
 
 def video_for(key, prompt_id, dur="60s"):
@@ -93,9 +106,18 @@ def load_frames(path, n=SAMPLE_FRAMES, max_h=336):
 
 
 def parse_verdict(text):
+    """Take the LAST verdict token, not the first.
+
+    The judge is asked to describe each clip before committing, and those
+    descriptions routinely contain the words 'first' and 'second' as ordinals.
+    Reading the first match would score the preamble instead of the answer.
+    """
     t = (text or "").strip().upper()
-    m = re.search(r"\b(FIRST|SECOND|SAME)\b", t)
-    return m.group(1).lower() if m else None
+    m = re.search(r"ANSWER\s*:?\s*\**\s*(FIRST|SECOND|SAME)", t)
+    if m:
+        return m.group(1).lower()
+    ms = re.findall(r"\b(FIRST|SECOND|SAME)\b", t)
+    return ms[-1].lower() if ms else None
 
 
 class QwenJudge:
@@ -119,20 +141,55 @@ class QwenJudge:
         trained on.
         """
         import torch
-        content = [{"type": "text", "text": question},
-                   {"type": "text", "text": "\nFIRST clip:"},
+        content = [{"type": "text", "text": "\nFIRST clip:"},
                    {"type": "video"},
                    {"type": "text", "text": "\nSECOND clip:"},
-                   {"type": "video"}]
+                   {"type": "video"},
+                   {"type": "text", "text": question + "\n" + RUBRIC}]
         msgs = [{"role": "user", "content": content}]
         prompt = self.proc.apply_chat_template(msgs, add_generation_prompt=True,
                                                tokenize=False)
         inputs = self.proc(text=[prompt], videos=[frames_a, frames_b],
                            return_tensors="pt").to(self.model.device)
         with torch.no_grad():
-            out = self.model.generate(**inputs, max_new_tokens=8, do_sample=False)
+            out = self.model.generate(**inputs, max_new_tokens=160,
+                                      do_sample=False)
         gen = out[0][inputs["input_ids"].shape[1]:]
         return self.proc.decode(gen, skip_special_tokens=True)
+
+
+def run_controls(judge, trials, n=6):
+    """Two sanity controls the judge must pass before its numbers mean anything.
+
+    A. The same clip on both sides. The only correct answer is SAME; anything
+       else is the judge answering by slot rather than by content.
+    B. A frozen first frame against the real clip. A still image cannot have
+       background motion, so the real clip must be chosen -- and the choice has
+       to follow the clip when the two are swapped, not stay in one slot.
+
+    These are cheap and they are the difference between an agreement rate that
+    means something and one that merely looks healthy.
+    """
+    q = QUESTIONS["drift"]
+    ident = []
+    for t in trials[:n]:
+        f = load_frames(t["video_a"])
+        ident.append(parse_verdict(judge.ask(f, f, q)))
+    n_same = sum(1 for v in ident if v == "same")
+
+    swap_ok = 0
+    for t in trials[:n]:
+        f = load_frames(t["video_a"])
+        still = [f[0]] * len(f)
+        a = parse_verdict(judge.ask(still, f, q))
+        b = parse_verdict(judge.ask(f, still, q))
+        if a == "second" and b == "first":
+            swap_ok += 1
+
+    print(f"\ncontrol A (same clip twice -> SAME): {n_same}/{len(ident)}")
+    print(f"control B (still vs real, verdict follows the swap): {swap_ok}/{n}")
+    return {"identity_same": n_same, "identity_n": len(ident),
+            "swap_correct": swap_ok, "swap_n": n}
 
 
 def main():
@@ -143,6 +200,8 @@ def main():
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--dry-run", action="store_true",
                     help="resolve videos and print the plan without loading the model")
+    ap.add_argument("--controls", action="store_true",
+                    help="run the identity and swap controls as well")
     args = ap.parse_args()
 
     study = json.load(open(args.pairs))
@@ -167,6 +226,7 @@ def main():
         return 0
 
     judge = QwenJudge(args.model)
+    controls = run_controls(judge, trials) if args.controls else None
     records = []
     for i, t in enumerate(trials):
         fa, fb = load_frames(t["video_a"]), load_frames(t["video_b"])
@@ -187,10 +247,12 @@ def main():
         if (i + 1) % 10 == 0:
             print(f"  {i+1}/{len(trials)}", flush=True)
             with open(args.out, "w") as f:
-                json.dump({"model": args.model, "records": records}, f, indent=2)
+                json.dump({"model": args.model, "controls": controls,
+                           "records": records}, f, indent=2)
 
     with open(args.out, "w") as f:
-        json.dump({"model": args.model, "records": records}, f, indent=2)
+        json.dump({"model": args.model, "controls": controls,
+                           "records": records}, f, indent=2)
 
     # Agreement is computed only on self-consistent trials: a judge that
     # contradicts itself on a pair has expressed no opinion about it.
