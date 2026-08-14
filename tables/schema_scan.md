@@ -4,8 +4,8 @@ Mechanical validity check over every `snf_task_metrics.json`. Exists because the
 
 | statistic | count |
 |---|---|
-| records | 1460 |
-| valid | 1339 |
+| records | 1578 |
+| valid | 1457 |
 | error_records | 115 |
 | missing_keys | 6 |
 | non_finite | 0 |

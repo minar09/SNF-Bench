@@ -2,7 +2,7 @@
 
 DAR is stored **signed** and reported clipped to $[0,1]$ (METRIC_SPEC v1.1 §2). A negative value means global-motion compensation *increased* measured dynamic-region flow, which occurs where local flow opposes the estimated global field. This is the empirical reason DAR is not a causal decomposition of motion.
 
-Overall across all entries: **126 / 1349** clip-metrics negative (9.3%).
+Overall across all entries: **144 / 1463** clip-metrics negative (9.8%).
 
 | Method | track | dur | n | negative | rate | most negative |
 |---|---|---|---|---|---|---|
@@ -35,11 +35,31 @@ Overall across all entries: **126 / 1349** clip-metrics negative (9.3%).
 | Self-Forcing | i2v | 60s | 30 | 8 | 26.7% | -0.569 |
 | Wan2.1-I2V-14B-480P | i2v | 5s | 10 | 1 | 10.0% | -0.242 |
 | Wan2.2-I2V-A14B | i2v | 5s | 10 | 1 | 10.0% | -0.490 |
+| CausVid | t2v | 120s | 6 | 0 | 0.0% | 0.047 |
 | CausVid | t2v | 240s | 4 | 1 | 25.0% | -0.384 |
+| CausVid | t2v | 5s | 6 | 2 | 33.3% | -0.093 |
 | CausVid | t2v | 60s | 23 | 0 | 0.0% | 0.005 |
+| Causal-Forcing | t2v | 120s | 6 | 0 | 0.0% | 0.175 |
+| Causal-Forcing | t2v | 240s | 4 | 0 | 0.0% | 0.158 |
+| Causal-Forcing | t2v | 5s | 6 | 2 | 33.3% | -0.273 |
 | Causal-Forcing | t2v | 60s | 23 | 3 | 13.0% | -0.640 |
+| Infinite-Forcing | t2v | 120s | 6 | 0 | 0.0% | 0.023 |
+| Infinite-Forcing | t2v | 240s | 4 | 1 | 25.0% | -0.158 |
+| Infinite-Forcing | t2v | 5s | 6 | 0 | 0.0% | 0.031 |
 | Infinite-Forcing | t2v | 60s | 23 | 4 | 17.4% | -0.359 |
+| LongLive | t2v | 120s | 6 | 1 | 16.7% | -1.076 |
+| LongLive | t2v | 240s | 4 | 0 | 0.0% | 0.022 |
+| LongLive | t2v | 5s | 6 | 1 | 16.7% | -0.139 |
 | LongLive | t2v | 60s | 23 | 2 | 8.7% | -0.051 |
+| Reward-Forcing | t2v | 120s | 6 | 1 | 16.7% | -0.116 |
+| Reward-Forcing | t2v | 240s | 4 | 0 | 0.0% | 0.002 |
+| Reward-Forcing | t2v | 5s | 12 | 2 | 16.7% | -0.145 |
 | Reward-Forcing | t2v | 60s | 23 | 3 | 13.0% | -0.317 |
+| Rolling-Forcing | t2v | 120s | 6 | 3 | 50.0% | -0.353 |
+| Rolling-Forcing | t2v | 240s | 4 | 0 | 0.0% | 0.043 |
+| Rolling-Forcing | t2v | 5s | 6 | 1 | 16.7% | -0.068 |
 | Rolling-Forcing | t2v | 60s | 24 | 2 | 8.3% | -0.038 |
+| Self-Forcing | t2v | 120s | 6 | 2 | 33.3% | -0.130 |
+| Self-Forcing | t2v | 240s | 4 | 1 | 25.0% | -0.153 |
+| Self-Forcing | t2v | 5s | 6 | 1 | 16.7% | -0.046 |
 | Self-Forcing | t2v | 60s | 23 | 4 | 17.4% | -1.117 |

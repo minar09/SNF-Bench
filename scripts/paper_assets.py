@@ -17,6 +17,12 @@ Outputs (all under latex/generated/, all regenerated from scratch):
     provenance.tex          spec version, backbones, run stamp
 
     ~/miniconda3/envs/snfeval/bin/python scripts/paper_assets.py
+
+HARD RULE: the conference template files -- latex/wacv.sty, latex/preamble.tex,
+and the formatting of latex/main.tex -- are NEVER edited. This script writes
+only into latex/generated/ and latex/figures/, and the paper loads those from
+latex/sec/0_abstract.tex (the first file the document body inputs). Macros are
+emitted with \providecommand so a repeated load is harmless.
 """
 
 import csv

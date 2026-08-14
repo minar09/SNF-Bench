@@ -1,1 +1,89 @@
 [08:40:39] waiting for metric workers and validation to finish...
+[10:53:06] metric sweep drained
+[10:53:06] validation drained
+[10:53:06] rebuilding derived artifacts
+scanned 1578 records; 1457 valid
+  !! error_records: 115
+  !! missing_keys: 6
+entries with blocking problems: 13
+  schema_scan   -> 1
+  categories    -> ok
+  build_tables  -> ok
+  wrote figures/fig2_mask_protocol.pdf
+  wrote figures/fig3_validation.pdf
+  wrote figures/fig4_operating_regime.pdf
+  wrote figures/fig5_rank_disagreement.pdf
+  wrote figures/figS_category_balance.pdf
+  wrote figures/fig1_teaser_exemplars.md
+  figures       -> ok
+    tab_i2v_audit_full.tex
+    macros.tex
+    provenance.tex
+copied 5 figures into latex/figures/
+macros defined: 25
+     \SNFddNBF = +0.93
+     \SNFrankCFDD = 1
+     \SNFrankCFNBF = 7
+     \SNFvalCFDLR = 0.94
+     \SNFvalCFDAR = 0.40
+     \SNFdarNegPct = 9.8
+     \SNFtopCatShare = 61
+
+SNF PRE-FREEZE GATE
+===========================================================
+Metric spec v1.1 parity ........ PASS     v1.1, six metrics defined
+Banned terms purged (paper) .... PASS     paper clean of DriftFrac/BFR
+FPS/size metadata .............. PASS     1881 videos, fps+size present
+Artifact schema scan ........... FAIL     13 entries blocking (115 error records, 6 missing-key records)
+Valid-record coverage .......... FAIL     13 entries incomplete; worst: i2v/cf_framewise/60s 1/30, i2v/causvid/60s 1/30, i2v/cf_framewise/120s 1/20
+I2V >=3 published models @60s .. FAIL     2/3 families >= 27 valid (CausVid:1, Causal-Forcing:1, Causal-Forcing++:30, Self-Forcing:30)
+Similarity compensation ........ FAIL     still translation-only (median of static flow)
+Compensation unit tests ........ PASS     translation/rotation/scale recovered
+Mask schema frozen ............. PENDING  MASK_SPEC_v1.0.md not written (gate Aug 14)
+Overlay masks built ............ PENDING  no overlay masks built (Aug 14)
+Zero-motion floor .............. PENDING  not run (P0#5)
+Validation suite ............... PENDING  not run (Aug 18)
+Figure provenance footers ...... PASS     5 figures; footer enforced by figures.save()  (advisory)
+===========================================================
+FINAL_SWEEP_ALLOWED = FALSE
+
+blocked by 8: Artifact schema scan; Valid-record coverage; I2V >=3 published models @60s; Similarity compensation; Mask schema frozen; Overlay masks built; Zero-motion floor; Validation suite
+
+  gate_status   -> 1
+[10:53:42] compiling paper
+note: "version 2" Tectonic command-line interface activated
+note: Running TeX ...
+warning: lineno.sty:296: Invalid UTF-8 byte or sequence at line 296 replaced by U+FFFD.
+warning: generated/tab_validation:19: Overfull \hbox (28.32332pt too wide) in paragraph at lines 5--19
+warning: generated/tab_t2v_audit:28: Overfull \hbox (21.66667pt too wide) in paragraph at lines 5--28
+warning: generated/tab_interpretation:16: Overfull \hbox (30.52457pt too wide) in paragraph at lines 4--16
+warning: generated/tab_deployment:17: Overfull \hbox (35.47307pt too wide) in paragraph at lines 5--17
+note: Running BibTeX on main.aux ...
+note: Rerunning TeX because bibtex was run ...
+warning: lineno.sty:296: Invalid UTF-8 byte or sequence at line 296 replaced by U+FFFD.
+warning: generated/tab_validation:19: Overfull \hbox (28.32332pt too wide) in paragraph at lines 5--19
+warning: generated/tab_t2v_audit:28: Overfull \hbox (21.66667pt too wide) in paragraph at lines 5--28
+warning: generated/tab_interpretation:16: Overfull \hbox (30.52457pt too wide) in paragraph at lines 4--16
+warning: generated/tab_deployment:17: Overfull \hbox (35.47307pt too wide) in paragraph at lines 5--17
+note: Rerunning TeX because "main.aux" changed ...
+warning: lineno.sty:296: Invalid UTF-8 byte or sequence at line 296 replaced by U+FFFD.
+warning: generated/tab_validation:19: Overfull \hbox (28.32332pt too wide) in paragraph at lines 5--19
+warning: generated/tab_t2v_audit:28: Overfull \hbox (21.66667pt too wide) in paragraph at lines 5--28
+warning: generated/tab_interpretation:16: Overfull \hbox (30.52457pt too wide) in paragraph at lines 4--16
+warning: generated/tab_deployment:17: Overfull \hbox (35.47307pt too wide) in paragraph at lines 5--17
+note: Rerunning TeX because "main.aux" changed ...
+warning: lineno.sty:296: Invalid UTF-8 byte or sequence at line 296 replaced by U+FFFD.
+warning: generated/tab_validation:19: Overfull \hbox (28.32332pt too wide) in paragraph at lines 5--19
+warning: generated/tab_t2v_audit:28: Overfull \hbox (21.66667pt too wide) in paragraph at lines 5--28
+warning: generated/tab_interpretation:16: Overfull \hbox (30.52457pt too wide) in paragraph at lines 4--16
+warning: generated/tab_deployment:17: Overfull \hbox (35.47307pt too wide) in paragraph at lines 5--17
+warning: warnings were issued by the TeX engine; use --print and/or --keep-logs for details.
+note: Running xdvipdfmx ...
+note: Writing `../.texbuild/main.pdf` (250.205078125 KiB)
+note: Writing `../.texbuild/main.log` (17.2890625 KiB)
+note: Writing `../.texbuild/main.blg` (196 B)
+note: Skipped writing 4 intermediate files (use --keep-intermediates to keep them)
+  compile OK
+Output written on main.xdv (14 pages
+  latex/main.pdf updated
+[10:53:44] done
