@@ -1,48 +1,16 @@
 \section{Public-Model Audit}
 \label{sec:audit}
 
-We apply SNF-Bench to publicly available long-horizon video generators. The goal is not a single universal leaderboard, but a determination of how deployed systems occupy the static-fidelity--flow-persistence space under conditions both \emph{faithful to each released method} and \emph{comparable under a common stress test}. Two evaluation settings are therefore separated throughout and their scores are never merged.
+We apply SNF-Bench to publicly released long-horizon generators. The goal is not a universal leaderboard but a determination of how deployed systems occupy the static-fidelity/flow-persistence space when used as their authors intended.
 
-\subsection{Evaluated Models}
-\label{sec:audit_models}
+\paragraph{Systems and setting.}
+The audit covers \SNFnPublicTTV{} publicly released autoregressive or streaming generators with accessible checkpoints and reproducible inference code, frozen as a set before the sweep. Unpublished and internal systems are excluded by construction, as are systems whose outputs cannot be independently reproduced. Each is run in the deployment regime its release intends, answering a capability question: what behaviour does the released system exhibit when used as documented? Differences in temporal block size, denoising schedule, and memory policy are preserved deliberately---they are part of the released system, not nuisance variables---so the results compare deployed systems rather than isolated checkpoints under matched compute. The audited systems share a deployment envelope: all generate $832\times480$ at $16$\,fps and all reach the $240$\,s horizon without modification to their released temporal policy. A system unable to reach a horizon without altering a mechanism central to its released procedure would be marked unsupported there; we never substitute a block size, cache policy, or schedule to populate a table entry.
 
-The audit includes publicly released autoregressive or streaming generators with accessible checkpoints and reproducible inference code, frozen as a set before the baseline sweep. Unpublished or internal systems, and methods whose outputs cannot be independently reproduced, are excluded. The I2V track evaluates public models with a documented image-conditioned generation pathway. All checkpoints, code revisions, and inference settings are recorded in the benchmark manifest.
+A secondary analysis evaluates checkpoints under a common long-horizon wrapper, measuring sensitivity to deployment regime rather than capability. Those scores are never used to redefine native behaviour or attributed to the published system, and are reported in the supplementary material.
 
-\subsection{Setting A: Native-Capability Evaluation}
-\label{sec:native_eval}
+\paragraph{Controls and statistics.}
+Within each benchmark item every system receives identical conditioning, and the seed set is fixed before the sweep. Seed control guarantees reproducibility within a system; because implementations consume randomness differently, identical seeds do not induce matched noise draws across systems, so cross-system comparison rests on the paired-item design rather than on paired noise. Generated videos are retained in native form, and the normalisation of Sec.~\ref{sec:metrics} is applied unchanged to every system.
 
-The primary audit runs each method in the deployment regime its public release intends, answering a capability question: \emph{what behavior does the released system exhibit when used as its authors intended?} For every method we record: public checkpoint and code revision; conditioning mode; temporal block or chunk size; denoising-step schedule; guidance configuration; KV-cache, rolling-window, or memory policy; positional-encoding or horizon-extension mechanism; output resolution and frame rate; and the longest horizon supported without modifying the released temporal-generation policy. Operational limits are recorded alongside these settings (Sec.~\ref{sec:audit_capability}).
+Scores are computed per item and macro-averaged across categories. Uncertainty is estimated by percentile bootstrap over items, and we report $95\%$ intervals. Exact ordinal ranks are avoided where uncertainty does not support them: systems whose intervals overlap substantially are not described as separated. Operational limits---unsupported horizons, failed generations, memory exhaustion, invalid outputs---are reported as rates against the frozen manifest and never removed after inspection.
 
-Method-specific differences in block size, schedule, and memory policy are preserved deliberately: they are part of the released system, not nuisance variables. Native results are therefore comparisons of \emph{deployed systems}, not iso-compute comparisons of isolated checkpoints. A method that cannot reach a target horizon without changing a mechanism central to its released procedure is marked \emph{unsupported} at that horizon; we never silently substitute its block size, cache policy, or schedule to populate a table entry. Crashes, numerical failures, and invalid outputs follow the frozen taxonomy of Sec.~\ref{sec:manifest}.
-
-\subsection{Setting B: Matched Long-Horizon Stress Test}
-\label{sec:matched_eval}
-
-Native evaluation cannot isolate how a checkpoint responds to a shared long-horizon regime, since released systems differ in chunking and budget. A second, explicitly secondary setting therefore tests compatible checkpoints under a common fixed-camera protocol, answering a different question: \emph{how does the checkpoint behave under the same deployment constraint?} The matched protocol fixes resolution, frame rate, horizon, prompt set, and evaluation windows; where technically compatible, the temporal generation budget is harmonized, and every departure from a method's native configuration is documented per checkpoint.
-
-Matched scores are never used to redefine native capability or attributed to the original published system. They measure \emph{deployment sensitivity}: whether conclusions about drift and persistence survive moving a checkpoint away from its intended temporal regime. This matters especially for autoregressive generators, whose behavior can depend strongly on framewise versus chunkwise rollout and cache structure. Native and matched results appear in separate tables, and disagreement between them is analyzed as an evaluation finding, never averaged away.
-
-\subsection{Common Inputs and Reproducibility Controls}
-\label{sec:audit_inputs}
-
-Within each benchmark item, all methods receive identical semantic conditioning: the same frozen text prompt (T2V), or the same source image and prompt subject only to each implementation's required preprocessing (I2V). Prompts are never rewritten per method. The manifest fixes the seed set before the final sweep. Seed control guarantees reproducibility \emph{within} each method; because implementations consume randomness differently, identical seeds do not induce matched noise draws \emph{across} methods, and cross-method comparison relies on the paired-item design rather than paired noise. Methods that remain nondeterministic under seed control are documented and given additional repetitions for variance estimation. Generated videos are retained in native form; metric computation applies the common normalization of Sec.~\ref{sec:metrics} unchanged to every method.
-
-\subsection{Statistical Comparison}
-\label{sec:audit_statistics}
-
-Scores are computed per benchmark item and macro-averaged across categories. Uncertainty is estimated by paired bootstrap resampling over items, preserving category membership; we report 95\% confidence intervals and pairwise effect estimates. Exact ordinal ranks are avoided where uncertainty does not support them---methods whose paired differences are not reliably distinguishable are reported as one comparison group. Category-wise results are reported alongside aggregates: a method may preserve static geometry in rain scenes yet fail on broad ocean motion, and such category dependence is a benchmark result, not noise.
-
-\subsection{Comparison with Generic Video Metrics}
-\label{sec:vbench_comparison}
-
-To test whether the static--dynamic decomposition changes interpretation, the same outputs are additionally scored with established whole-frame metrics, and we compare the ordering they induce against the factor-level behavior exposed by SNF-Bench. The focus is \emph{interpretation change}, not declaring existing metrics incorrect. In a representative case, a model receives a strong whole-frame motion score while exhibiting high NBF, DLR or DAR: the generic metric correctly confirms that substantial image motion exists, while SNF-Bench reveals that part of it occurs in regions expected to remain stationary. Conversely, strong temporal-consistency scores may coexist with weak late MCFF and low FP, indicating stability partly achieved through motion decay. Both cases motivate joint reporting rather than replacement.
-
-\subsection{Capability and Failure Reporting}
-\label{sec:audit_capability}
-
-For each system we report the operational boundary of its released implementation---unsupported horizons, failed generations, memory exhaustion, numerical corruption, invalid outputs---as rates against the frozen manifest, never removed after inspection. Coverage is counted from valid per-video measurements rather than from the presence of a results file, so an entry whose measurement run terminated early is reported as partial rather than complete.
-
-\subsection{Audit Questions}
-\label{sec:audit_questions}
-
-The audit is organized around four questions fixed before the final sweep: (1) \textbf{static fidelity}---which systems best preserve stationary regions as horizon increases; (2) \textbf{motion persistence}---which maintain non-trivial drift-compensated motion in $\Omega_{\mathrm{flow}}$ from early to late rollout; (3) \textbf{metric interpretation}---when generic whole-frame metrics and SNF-Bench yield materially different conclusions about the same videos; and (4) \textbf{deployment sensitivity}---how stable those conclusions are between native and matched settings. Results in Sec.~\ref{sec:results} are reported as answers to these questions, not as post-hoc narratives around any preferred model.
+To test whether the decomposition changes interpretation, the same outputs are additionally scored with established whole-frame metrics and we compare the orderings they induce. The focus is interpretation change, not a claim that existing metrics are incorrect.

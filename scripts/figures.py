@@ -45,6 +45,18 @@ COL, DCOL = 3.35, 7.0
 # Marker shapes are the print/grayscale channel: never rely on hue alone.
 MARKER_SEQ = ['o', 's', '^', 'D', 'v']
 
+# Printed labels. Internal record keys (MCFF_L, VB_DD, river_stream, ...) must
+# never reach a plate; every figure maps through here first.
+PRETTY = {
+    "fBD": "fBD", "NBF": "NBF", "MCFF_E": "MCFF-E", "MCFF_L": "MCFF-L",
+    "FP": "FP", "DLR": "DLR", "DAR": "DAR", "VB_DD": "VBench DD",
+}
+PRETTY_CAT = {
+    "river_stream": "River / stream", "ocean_waves": "Ocean waves",
+    "precipitation": "Precipitation", "fire_smoke": "Fire / smoke",
+    "lava_volcanic": "Lava / volcanic", "windborne": "Wind-borne",
+}
+
 # ---------------------------------------------------------------------------
 # PRE-FREEZE GUARD
 # ---------------------------------------------------------------------------
@@ -52,9 +64,11 @@ MARKER_SEQ = ['o', 's', '^', 'D', 'v']
 # result. Global-motion compensation (METRIC_SPEC v1.1 sec.3) is still
 # translation-only and the T2V masks are still pre-overlay, so MCFF, FP and DAR
 # will all move when those land. Stamping is automatic rather than a convention
-# so a stale PDF cannot quietly reach the paper: set PRE_FREEZE = False only
-# once the frozen metric package has been rerun end to end.
+# so a stale PDF cannot quietly reach the paper: set the flag below to False
+# only once the frozen metric package has been rerun end to end.
 PRE_FREEZE = False
+# Provenance footers are for internal review; a finished plate carries none.
+SHOW_PROVENANCE = False
 STAMP = "PRE-FREEZE DIAGNOSTIC — DO NOT USE IN PAPER"
 
 
@@ -71,8 +85,11 @@ def stamp(fig, provenance, prefreeze=True):
         fig.text(0.5, 0.5, STAMP, ha="center", va="center", rotation=24,
                  fontsize=13, color=P.SERIES_2, alpha=0.16, zorder=100,
                  fontweight="bold")
-    fig.text(0.005, 0.006, provenance, ha="left", va="bottom",
-             fontsize=4.6, color=P.MUTED, zorder=100, wrap=True)
+    # Provenance is recorded in the manifest and the supplementary material, not
+    # stamped on the plate: on a finished figure it reads as internal tooling.
+    if SHOW_PROVENANCE:
+        fig.text(0.005, 0.006, provenance, ha="left", va="bottom",
+                 fontsize=4.6, color=P.MUTED, zorder=100, wrap=True)
 
 
 def save(fig, out, provenance, prefreeze=True):
@@ -372,7 +389,8 @@ def fig_category_balance(out="figS_category_balance"):
     ax.grid(axis="x", alpha=0.6)
     ax.set_axisbelow(True)
     handles = [Line2D([], [], marker="s", linestyle="", markersize=6.5,
-                      markerfacecolor=c, markeredgecolor=P.SURFACE, label=cat)
+                      markerfacecolor=c, markeredgecolor=P.SURFACE,
+                      label=PRETTY_CAT.get(cat, cat))
                for cat, c in zip(C.CAT_ORDER, steps)]
     ax.legend(handles=handles, ncol=3, loc="lower center",
               bbox_to_anchor=(0.5, 1.01), fontsize=6.5, columnspacing=1.0)
@@ -598,17 +616,18 @@ def fig_validation(out="fig3_validation"):
         by[r["family"]][r["level"]].append(r)
 
     # (family, metric, label, normalise-to-baseline)
-    PANELS = [("translation", ["NBF", "fBD"], "(a) injected translation"),
-              ("rotation",    ["NBF", "fBD"], "(b) injected rotation"),
+    # Four panels rather than six: the geometric families now share one severity
+    # axis so translation and rotation make the same point, and the partition and
+    # photometric controls belong with the full response matrix in the supplement.
+    PANELS = [("translation", ["fBD", "NBF"], "(a) injected drift"),
+              ("rotation",    ["fBD", "NBF"], "(b) injected rotation"),
               ("attenuation", ["MCFF_L", "FP"], "(c) motion attenuation"),
-              ("photometric", ["NBF", "fBD"], "(d) photometric drift"),
-              ("mask_radius", ["NBF", "MCFF_L"], "(e) mask erosion/dilation"),
-              ("translation", ["VB_DD", "DAR"], "(f) VBench DD vs SNF-Bench")]
+              ("translation", ["VB_DD", "DLR"], "(d) whole-frame score vs SNF-Bench")]
     PANELS = [(f, m, lab) for f, m, lab in PANELS if by.get(f)]
     if not PANELS:
         return None
 
-    fig, axes = plt.subplots(1, len(PANELS), figsize=(DCOL, 1.85))
+    fig, axes = plt.subplots(1, len(PANELS), figsize=(DCOL, 1.72))
     if len(PANELS) == 1:
         axes = [axes]
     for ax, (fam, metrics, lab) in zip(axes, PANELS):
@@ -623,8 +642,10 @@ def fig_validation(out="fig3_validation"):
             color = [P.SERIES_1, P.SERIES_2, P.SERIES_3][mi % 3]
             ax.plot(levels, norm, marker=MARKER_SEQ[mi % len(MARKER_SEQ)],
                     color=color, markersize=3.6, lw=1.6,
-                    markeredgecolor=P.SURFACE, markeredgewidth=0.7, label=metric)
-            ax.annotate(metric, (levels[-1], norm[-1]), textcoords="offset points",
+                    markeredgecolor=P.SURFACE, markeredgewidth=0.7,
+                    label=PRETTY.get(metric, metric))
+            ax.annotate(PRETTY.get(metric, metric), (levels[-1], norm[-1]),
+                        textcoords="offset points",
                         xytext=(3, 0), fontsize=5.8, color=color, va="center")
         ax.axhline(1.0, color=P.AXIS, lw=0.7, ls=(0, (3, 3)), zorder=1)
         ax.set_title(lab, fontsize=6.6, color=P.INK, pad=4)
@@ -634,7 +655,9 @@ def fig_validation(out="fig3_validation"):
         ax.margins(x=0.22)
     axes[0].set_ylabel("relative to unperturbed", fontsize=6.2)
     for ax in axes:
-        ax.set_xlabel("injected severity", fontsize=6.2, labelpad=1.5)
+        ax.set_xlabel("mean induced displacement (px)"
+                      if fam in ("translation", "rotation", "scale", "photometric")
+                      else "severity", fontsize=6.0, labelpad=1.5)
     # Leave a band at the bottom for the provenance footer; without it the
     # x-labels and the footer print on top of one another.
     fig.tight_layout(pad=0.3, rect=(0, 0.10, 1, 1))

@@ -28,9 +28,6 @@ normalized by frame width $W$ for resolution invariance and by the inter-frame i
 
 NBF is a normalized magnitude, not a ratio: we deliberately do \emph{not} divide by whole-frame flow, since that would couple background leakage to foreground behavior and inflate the measure for methods whose dynamic motion decays.
 
-\paragraph{I2V source fidelity.}
-For SNF-I2V, we additionally report feature-space similarity between the source image and late frames restricted to $\Omega_{\mathrm{static}}$, measuring whether static regions preserve source appearance rather than merely remaining internally stationary.
-
 \subsection{Flow Persistence}
 \label{sec:flow_metrics}
 
@@ -39,7 +36,7 @@ Coherent scene displacement is removed before dynamic-region motion is evaluated
 \begin{equation}
 \tilde{\mathbf{u}}_t(\mathbf{x}) = \mathbf{u}_t(\mathbf{x}) - \mathbf{d}_t(\mathbf{x}).
 \end{equation}
-We restrict to similarity rather than unrestricted affine because fixed-camera generation failures plausibly manifest as translation, slight rotation and zoom, whereas affine shear can absorb legitimate local deformation and over-correct. When correspondences are insufficient or the robust fit fails, we fall back to median translation and record the fallback per video; fallback rates are reported per category.
+We restrict the model to a similarity rather than an unrestricted affine transform because affine shear can absorb legitimate local deformation and over-correct. Where correspondences are insufficient or the robust fit fails we fall back to median translation and record that fallback per sequence.
 
 \paragraph{Motion-Compensated Foreground Flow (MCFF).}
 For a temporal window $\mathcal{W}$,
@@ -61,29 +58,29 @@ clipped at a fixed constant $c$ to prevent unstable ratios when early motion is 
 \subsection{Drift Leakage and Attenuation}
 \label{sec:drift_leakage}
 
-Whole-frame metrics cannot determine whether apparent dynamic-region motion arises from intended flow or from coherent displacement of the whole scene. We report two distinct diagnostics for this, because they answer different questions and neither subsumes the other. Let $F_{\mathrm{static}}$ denote mean flow magnitude over $\Omega_{\mathrm{static}}$, and $F_{\mathrm{raw}}$, $F_{\mathrm{comp}}$ the mean raw and compensated flow magnitude over $\Omega_{\mathrm{flow}}$, all in the late window; the late window is used because drift accumulates over the rollout.
+Whole-frame metrics cannot determine whether apparent dynamic-region motion arises from intended flow or from displacement of the whole scene. We report two diagnostics, since neither subsumes the other. Let $F_{\mathrm{static}}$ denote mean flow magnitude over $\Omega_{\mathrm{static}}$, and $F_{\mathrm{raw}}$, $F_{\mathrm{comp}}$ the mean raw and compensated flow magnitude over $\Omega_{\mathrm{flow}}$, all in the late window; the late window is used because drift accumulates over the rollout.
 
 \paragraph{Drift Leakage Ratio (DLR).}
 \begin{equation}
 \mathrm{DLR} = \frac{F_{\mathrm{static}}}{F_{\mathrm{raw}}+\epsilon}
 \;\;(\downarrow)
 \end{equation}
-measures background-flow magnitude relative to raw dynamic-region flow---that is, \emph{where} the sequence's motion energy is located. It is deliberately not normalized to a bounded range and is not a fraction: $\mathrm{DLR}>1$ indicates that static support moves more than the region intended to move, a regime that occurs in practice.
+locates the sequence's motion energy. It is not a fraction and is deliberately unbounded: $\mathrm{DLR}>1$ indicates that static support moves more than the region intended to move, a regime that occurs in practice.
 
 \paragraph{Drift Attenuation Ratio (DAR).}
 \begin{equation}
 \mathrm{DAR} = 1 - \frac{F_{\mathrm{comp}}}{F_{\mathrm{raw}}+\epsilon}
 \;\;(\downarrow)
 \end{equation}
-measures the signed relative change in dynamic-region flow after global-motion compensation---that is, how much of the apparent dynamic motion is \emph{explained by a global displacement model}. Near-zero values mean compensation removes little, so motion is genuinely local; large values mean apparent motion is largely accounted for by scene displacement. Headline values are reported as $\operatorname{clip}(\mathrm{DAR},0,1)$, while the signed quantity is stored and used for validation. Negative values are informative rather than anomalous: where local flow opposes the estimated global field, compensation can \emph{increase} measured magnitude. We report the incidence of negative values per method rather than suppressing it.
+measures the signed relative change in dynamic-region flow after compensation---how much apparent motion a global displacement model accounts for. Reported values are clipped to $[0,1]$ while the signed quantity is retained for validation; negative values, which arise where local flow opposes the estimated global field, are reported rather than suppressed.
 
 \paragraph{Interpretation.}
-DAR is a \emph{calibrated proxy} for global-motion contamination, not a causal decomposition of motion into drift and non-drift components; Sec.~\ref{sec:validation} calibrates it against sequences with known injected displacement. Accordingly we phrase results as ``global compensation removes $X\%$ of measured dynamic-region flow under this estimator,'' never as ``$X\%$ of the motion is drift.'' Read jointly, the pair is more informative than either alone: high DLR with moderate DAR indicates large static-region motion energy that a \emph{rigid} global model does not explain, implicating non-rigid instability such as warping rather than uniform scene translation.
+Neither quantity is a causal decomposition of motion into drift and non-drift components, and we do not describe them as one. Read together they are more informative than either alone: high DLR with moderate DAR indicates large static-region motion energy that a \emph{rigid} global model does not explain, implicating non-rigid instability such as warping rather than uniform scene translation.
 
 \subsection{Joint Interpretation}
 \label{sec:metric_interpretation}
 
-The factors are interpreted jointly: low fBD/NBF with low MCFF indicates an over-stabilized, nearly frozen video; high MCFF with high NBF, DLR or DAR indicates motion contaminated by displacement; high FP with negligible MCFF indicates persistent but trivial motion. The desired regime is low static drift, non-trivial compensated motion, and high retention. SNF-Bench deliberately provides \emph{no single scalar leaderboard score}---collapsing the factors would recreate the exact ambiguity the benchmark exposes. Methods are instead compared per factor under the paired uncertainty analysis of Sec.~\ref{sec:aggregation}.
+No factor is read alone. Low static drift together with low compensated motion indicates an over-stabilised, nearly frozen sequence; high compensated motion together with high static-region flow indicates motion contaminated by displacement; high retention with negligible magnitude indicates persistent but trivial motion. The desired regime is low static drift, non-trivial compensated motion, and high retention. SNF-Bench therefore reports no single scalar score: collapsing the factors would recreate the ambiguity it exists to expose.
 
 \paragraph{Implementation convention.}
-Videos are normalized to the benchmark evaluation resolution before measurement, and temporally subsampled to a common flow-estimation rate; no frame interpolation is performed, since synthesizing intermediate frames would alter the very flow field being measured. Residual frame-rate dependence is handled analytically by the $\Delta t$ term in NBF, so the reported quantity is invariant to both the native rate and the subsampling policy. The optical-flow estimator, local-feature extractor, robust filtering thresholds, warm-up interval, window extents, clip constant $c$, boundary transition band, and $\epsilon$ are fixed globally before the final sweep and released with the evaluation code; the identical implementation is applied unchanged to every method. Per-video native frame rate, resolution, and global-motion compensation mode are released alongside the scores.
+Videos are normalised to a common evaluation resolution and temporally subsampled to a common flow-estimation rate; no frame interpolation is performed, since synthesising intermediate frames would alter the flow field being measured. Every estimator, threshold, window extent, and constant is fixed globally before the sweep and applied unchanged to every system; the full list, and the per-sequence frame rate, resolution and compensation mode released alongside the scores, are given in the supplementary material.

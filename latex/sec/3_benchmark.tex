@@ -1,63 +1,34 @@
 \section{SNF-Bench Design}
 \label{sec:benchmark}
 
-SNF-Bench evaluates long-horizon generation under a deliberately constrained setting: a \textbf{fixed camera observing a scene containing both stationary structure and persistent natural motion}. This isolates two failure modes that are difficult to separate in unconstrained video: \emph{static drift}, where nominally stationary structure moves over time, and \emph{flow decay}, where intended dynamics weaken or disappear. Every sequence is treated as a composition of two spatial roles,
-\begin{equation}
-\Omega_{\mathrm{static}} \quad\text{and}\quad \Omega_{\mathrm{flow}},
-\end{equation}
-where $\Omega_{\mathrm{static}}$ denotes regions expected to remain geometrically stationary and $\Omega_{\mathrm{flow}}$ regions expected to exhibit sustained motion. This partition defines an \emph{evaluation role}, not a semantic ontology: a riverbank is static support while the river surface is flow; buildings are static support in a rainfall scene while falling rain is flow. SNF-Bench does not require dynamics inside $\Omega_{\mathrm{flow}}$ to follow any particular physical model---it measures whether motion stays localized to appropriate regions and persists over time without contaminating static support.
+SNF-Bench evaluates long-horizon generation under a deliberately constrained setting: a fixed camera observing a scene containing both stationary structure and persistent natural motion. This isolates two failure modes that are difficult to separate in unconstrained video---\emph{static drift}, where nominally stationary structure moves over time, and \emph{flow decay}, where intended dynamics weaken or disappear. Every sequence is treated as a composition of two spatial roles, $\Omega_{\mathrm{static}}$ for regions expected to remain geometrically stationary and $\Omega_{\mathrm{flow}}$ for regions expected to exhibit sustained motion. The partition defines an evaluation role, not a semantic ontology: a riverbank is static support while the river surface is flow; buildings are static support in a rainfall scene while the falling rain is flow. SNF-Bench does not require dynamics inside $\Omega_{\mathrm{flow}}$ to follow any physical model. It measures whether motion stays localised to the appropriate regions and persists over time without contaminating static support.
 
-\subsection{T2V and I2V Tracks}
-\label{sec:tracks}
-
-\paragraph{SNF-T2V.} The model receives only a text prompt describing a fixed-camera nature-flow scene. With no visual reference, the opening of the sequence establishes the scene's static support; evaluation asks whether that support remains stable over the rollout while flow remains active. All methods receive identical prompts per item.
-
-\paragraph{SNF-I2V.} The model receives a shared source image and a text prompt describing intended motion. The image specifies initial scene structure explicitly; the same image, prompt, and static-region mask are used for every method. The I2V track additionally permits direct comparison between late frames and the input image inside $\Omega_{\mathrm{static}}$.
-
-The tracks differ only in how static support is established---generated internally (T2V) or externally specified (I2V)---and share one evaluation question: does intended motion persist without inducing motion in static regions?
+Every system receives an identical prompt per benchmark item, and no prompt is rewritten for a particular method. The main paper evaluates the text-conditioned setting, where the opening of the sequence establishes the scene's static support and evaluation asks whether that support survives the rollout while flow remains active. An exploratory image-conditioned analysis, in which the source image specifies static support externally, is reported in the supplementary material and forms no part of the claims below.
 
 \subsection{Scene Categories and Horizons}
 \label{sec:categories}
 
-The benchmark is category-balanced across representative fixed-camera natural processes---rivers and canals, waterfalls, ocean waves, rainfall, snowfall, fire and lava, smoke and clouds, and storm-driven motion---with categories fixed before the final sweep and all aggregates macro-averaged across categories so no scene type dominates. Four temporal regimes are used: \textbf{5\,s} (sanity check), \textbf{60\,s} and \textbf{120\,s} (primary evaluation), and \textbf{240\,s} (diagnostic stress test). Principal conclusions rest on the 60\,s and 120\,s tiers. A method that cannot reach a horizon under its native public configuration is reported as \emph{unsupported} rather than silently modified.
+Prompts are stratified across representative fixed-camera natural processes---channel water, ocean waves, precipitation, fire and smoke, lava, and wind-borne motion---with the category set fixed before the final sweep. The strata are not equally populated: channel water accounts for \SNFtopCatShare\% of the principal prompt set, which is why every reported aggregate is macro-averaged over the \SNFnCategories{} categories rather than averaged over prompts, so that no single medium determines a headline value. Complete per-category counts are given in the supplementary material.
 
-\subsection{Method-Independent Region Masks}
+Four temporal regimes are used: $5$\,s as an initialisation check, $60$ and $120$\,s as the reported horizons, and $240$\,s as a diagnostic stress test. Principal conclusions rest on the $60$\,s tier, which carries \SNFnPromptsSixty{} prompts; the $120$\,s tier is reported as a supporting horizon and its sample does not support method-level separation on its own. A system that cannot reach a horizon under its released configuration is reported as unsupported rather than silently modified.
+
+\subsection{Region Partition}
 \label{sec:masks}
 
-Region definitions must not depend on the temporal behavior of the model under evaluation: deriving masks from a generated video's own motion field would be circular, since background drift could itself be classified as evidence that the affected region is dynamic. SNF-Bench therefore excludes every evaluated model's motion field from its own scoring mask, using the strongest mask protocol each track admits.
+The partition is obtained automatically and identically for every sequence. Mean optical-flow magnitude over the leading $12\%$ of sampled frame pairs is thresholded by Otsu's method into a dynamic region and its complement; the static region is then eroded and a $4\%$ frame border discarded, which together form an ignored transition band so that boundary pixels---where the partition is least certain and flow least reliable---contribute to neither region.
 
-\paragraph{Derivation.} Both tracks use the same automatic procedure. For each generated sequence we compute optical-flow magnitude over an \emph{early} window---the leading $12\%$ of sampled frame pairs---average it, and threshold it by Otsu's method into a dynamic region and its complement. The static region is then shrunk by a fixed morphological erosion and a $4\%$ frame border is discarded, which together act as the ignored transition band: boundary pixels, where the partition is least certain and flow is least reliable, contribute to neither region.
+Restricting the estimate to an early window is what prevents the measurement from becoming circular. Deriving a partition from a sequence's entire motion field would allow accumulated background drift to be read as evidence that the affected region is dynamic; at the $60$\,s horizon the partition is instead fixed from the first $7.1$\,s, before long-horizon drift has accumulated, and the metrics are evaluated over the remainder. The partition therefore reflects each system's spatial layout, which is unavoidable when every system authors its own scene, but it is not defined by the temporal failure being measured.
 
-\paragraph{Why the early window.} Deriving a mask from a generated video's \emph{whole} motion field would be circular, since accumulated background drift would itself be read as evidence that the affected region is dynamic. Restricting the estimate to the early window breaks that circularity in the direction that matters: at $60$\,s the mask is fixed from the first $7.1$\,s of the rollout, before long-horizon drift has accumulated, and the metrics are then evaluated over the remainder. The partition therefore reflects each method's spatial layout---which is unavoidable for T2V, where every method authors its own scene---but is not defined by the temporal failure being measured.
+Two limitations follow, and both bound the conclusions drawn later. The partition is automatic rather than annotated, so a system that drifts within the first $12\%$ of its rollout can influence its own partition; we therefore treat partitions as measured quantities and recompute every result under systematic erosion and dilation of the boundary (Sec.~\ref{sec:validation}). And a two-way partition cannot represent layered content: rain and snow transit static support, so those pixels are assigned to one region by flow magnitude alone and static-fidelity values in precipitation scenes carry an additional unmodelled contribution. Derivation details, the sensitivity study, and the annotation protocol we regard as the natural strengthening of this component are given in the supplementary material.
 
-\paragraph{What this protocol does not provide.} We state the limitation plainly, because it bounds the strength of every conclusion drawn from these masks. The partition is obtained automatically rather than from human annotation, so no inter-annotator agreement is reported, and for I2V the mask is derived from each generated sequence rather than once from the shared source image. The early window is a weaker guarantee than a first-frame annotation: a method that drifts within the first $12\%$ of its rollout can influence its own partition. We therefore treat masks as measured quantities rather than ground truth and quantify the consequence directly---Section~\ref{sec:validation} recomputes every measurement under systematic erosion and dilation of the partition and reports the resulting stability. A human-verified, first-frame-only annotation protocol is the natural strengthening of this component and is the principal item we leave to future work.
-
-\paragraph{Layered content.} A two-way partition cannot represent scenes in which dynamic content transits static support: rain and snow pass in front of buildings, so the same pixels are simultaneously support and intended motion. SNF-Bench assigns such pixels by flow magnitude like any others, which means static-fidelity measurements in precipitation categories carry an additional, unmodelled contribution. These categories are reported rather than dropped, and per-category results (Section~\ref{sec:results_categories}) make the affected subset explicit.
-
-Masks are stored at reference resolution and resampled to each video with nearest-neighbor interpolation; a small ignored transition band around static--flow boundaries prevents boundary pixels from dominating either region, with its width frozen in the benchmark specification and included in the sensitivity analysis.
-
-\subsection{Frozen Manifest and Failure Handling}
+\subsection{Benchmark Manifest}
 \label{sec:manifest}
 
-SNF-Bench is defined by a versioned manifest frozen before the final public-model sweep, recording per item: identifier and category, conditioning modality, exact prompt, source-image identifier (I2V), region mask, target horizons, resolution and frame-rate metadata, and provenance information. After freezing, items are never removed because a method performs poorly; corrections require a new benchmark version. A failure taxonomy---unsupported horizon, out-of-memory, runtime crash, numerical corruption, invalid output---is likewise frozen in advance; failures are reported alongside successful generations, never silently excluded.
+SNF-Bench is defined by a versioned manifest fixed before the final sweep, recording per item: identifier and category, exact prompt, target horizons, resolution and frame-rate metadata, and provenance. After freezing, items are never removed because a system performs poorly; corrections require a new benchmark version. A failure taxonomy---unsupported horizon, out-of-memory, runtime crash, numerical corruption, invalid output---is likewise fixed in advance, and failures are reported alongside successful generations rather than silently excluded. Coverage is counted from valid per-video measurements rather than from the presence of a results file, so a run that terminated early is reported as partial.
 
-\subsection{Native Capability and Matched Stress-Test Settings}
-\label{sec:settings}
-
-Public generators are evaluated under two explicitly separated settings, defined here so the audit protocol cannot appear post hoc.
-
-\paragraph{Native capability (primary).} Each method runs under its intended public inference configuration. We record checkpoint, temporal block size, denoising schedule, guidance, cache and memory policy, resolution, frame rate, and the longest horizon the released implementation supports. Long-video generators differ substantially in temporal chunking and cache design; SNF-Bench treats these differences as part of native capability rather than assuming any common wrapper is neutral for every checkpoint.
-
-\paragraph{Matched stress test (secondary).} Compatible checkpoints are additionally evaluated under a common fixed-camera long-horizon protocol. This setting asks how behavior changes under a shared deployment regime; it is \emph{not} interpreted as a native ranking, and its results are reported separately.
-
-\subsection{Aggregation and Uncertainty}
-\label{sec:aggregation}
-
-Metrics are computed per item and macro-averaged across categories. Uncertainty is estimated with prompt-level paired bootstrap resampling; we report 95\% confidence intervals and treat methods whose intervals substantially overlap as statistically indistinguishable rather than assigning definitive ordinal ranks.
-
-\begin{figure*}[t]
+\begin{figure}[t]
 \centering
-\includegraphics[width=\textwidth]{figures/fig2_mask_protocol.pdf}
-\caption{\textbf{Region-partition protocol.} (a)~The partition is obtained automatically and identically for both tracks: mean optical-flow magnitude over the leading $12\%$ of sampled frame pairs is thresholded by Otsu's method, the static region is eroded and a $4\%$ border discarded to form an ignored transition band. Restricting the estimate to the early window is what prevents accumulated drift from defining the very region against which drift is measured. (b)~A two-way partition cannot represent layered content: rain and snow transit static support, so those pixels are assigned to one region by flow magnitude and precipitation results carry an additional unmodelled contribution.}
+\includegraphics[width=\linewidth]{figures/fig2_mask_protocol.pdf}
+\caption{\textbf{Region-partition protocol.} (a)~The partition is derived automatically from early-window flow, with an ignored transition band at the boundary. (b)~A two-way partition cannot represent layered content such as rain crossing static support.}
 \label{fig:mask_protocol}
-\end{figure*}
+\end{figure}

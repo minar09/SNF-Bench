@@ -45,6 +45,10 @@ LFIG = f"{ROOT}/latex/figures"
 # Metrics shown in the main audit table, in reading order.
 MAIN_KEYS = ["fBD_mean", "NBF_mean", "MCFF_early_mean", "MCFF_late_mean",
              "FP_mean", "DLR_mean", "DAR_mean"]
+# Main-paper subset: every column carries a bootstrap interval, so the table has
+# to be narrow enough for one to fit. MCFF-E is a reference quantity for FP and
+# DAR is pending its validation gate; both remain in the supplementary table.
+HEADLINE_KEYS = ["fBD_mean", "NBF_mean", "MCFF_late_mean", "FP_mean", "DLR_mean"]
 HDR = {"fBD_mean": r"fBD$\downarrow$", "NBF_mean": r"NBF$\downarrow$",
        "MCFF_early_mean": r"MCFF-E", "MCFF_late_mean": r"MCFF-L$\uparrow$",
        "FP_mean": r"FP$\uparrow$", "DLR_mean": r"DLR$\downarrow$",
@@ -100,7 +104,7 @@ def audit_table(ix, track, durations, label, caption, wide=False):
     within a panel but not across panels -- moves into the panel header.
     """
     models = [m for m in ALL if m["track"] == track and m["status"] == "public"]
-    keys = list(MAIN_KEYS)
+    keys = list(MAIN_KEYS) if wide else list(HEADLINE_KEYS)
 
     # Collect rows first so we can see which columns are degenerate.
     panels = []
@@ -118,7 +122,17 @@ def audit_table(ix, track, durations, label, caption, wide=False):
                 xs = list(vals[k].values())
                 if k == "DAR_mean":
                     xs = [min(1.0, max(0.0, x)) for x in xs]
-                cells.append(fmt(BT.mean(xs)) if xs else "--")
+                if not xs:
+                    cells.append("--")
+                    continue
+                mu = BT.mean(xs)
+                if wide or len(xs) < 3:
+                    cells.append(fmt(mu))
+                else:
+                    lo, hi = BT.boot_ci(xs)
+                    half = (hi - lo) / 2.0 if lo is not None else None
+                    cells.append(f"{fmt(mu)}\\,\\tiny$\\pm${fmt(half)}"
+                                 if half is not None else fmt(mu))
             rows.append((m, n, cells))
         panels.append((dur, rows))
     if not panels:
@@ -159,6 +173,10 @@ def audit_table(ix, track, durations, label, caption, wide=False):
                   % settings.pop())
     if not show_n:
         extra += r" $n$ is stated per horizon and is common to every row of that panel."
+    if not wide:
+        extra += (r" Values are prompt-level means $\pm$ half the width of a "
+                  r"percentile bootstrap 95\% interval (10k resamples, fixed seed). "
+                  r"MCFF-E and DAR appear in the supplementary table.")
     lines += [r"\bottomrule", r"\end{tabular}",
               r"\caption{%s%s}" % (caption, extra), r"\label{%s}" % label,
               r"\end{%s}" % env]
@@ -567,9 +585,10 @@ def main():
     for trk, nm in (("t2v", "tab_t2v_audit_full.tex"), ("i2v", "tab_i2v_audit_full.tex")):
         s = audit_table(ix, trk, DURATIONS, f"tab:{trk}_audit_full", wide=True,
                         caption=
-                        r"\textbf{Complete %s audit, all horizons.} Main-paper "
-                        r"Table~\ref{tab:%s_audit} reproduces the 60\,s and 120\,s "
-                        r"panels." % (trk.upper(), trk))
+                        r"\textbf{Complete %s audit, all horizons.} The main paper "
+                        r"reproduces the 60\,s and 120\,s panels; the 5\,s tier is an "
+                        r"initialisation check and the 240\,s tier is diagnostic."
+                        % trk.upper())
         if s:
             open(f"{OUT}/{nm}", "w").write(s)
             written.append(nm)

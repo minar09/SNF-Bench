@@ -40,15 +40,29 @@ sys.path.insert(0, SNF_EVAL)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MAN = f"{ROOT}/manifest"
 
-# Severity is expressed as the TOTAL corruption accumulated across the whole
-# rollout, which is how drift presents itself. An earlier calibration used
-# levels an order of magnitude smaller (16 px spread over a 60 s clip is
-# sub-pixel per frame) and produced no measurable response in any metric --
-# the perturbation, not the metric, was the thing that was too weak.
+# Severity is the TOTAL corruption accumulated across the whole rollout, which
+# is how drift presents itself.
+#
+# For the three geometric families it is specified in a COMMON PHYSICAL UNIT --
+# the mean pixel displacement the corruption induces over the frame by the end
+# of the rollout -- and each family's own parameter (px / degrees / zoom) is
+# derived from it at run time using the actual frame geometry.
+#
+# This replaces hand-picked per-family levels, which were NOT comparable. At the
+# evaluation resolution 1 degree of rotation induces only ~2.7 px of mean
+# displacement, so a 4 degree top level injected ~11 px while the top
+# translation level injected 160 px -- a 15x mismatch. The rotation panel was
+# therefore plotting noise around each clip's own baseline drift, which is why
+# fBD looked non-monotone there. Measured on a real clip, fBD is cleanly
+# monotone in rotation once the injection clears that baseline:
+#     21 px -> 3.97,  43 px -> 7.86,  86 px -> 17.60   (baseline 2.32)
+# ORB match counts stay ~390 throughout, so this was never a matching failure.
+GEOM_DISPLACEMENTS = [0.0, 10.0, 20.0, 40.0, 80.0]     # px, mean over the frame
+
 LEVELS = {
-    "translation": [0.0, 20.0, 40.0, 80.0, 160.0],    # px of total drift
-    "rotation":    [0.0, 0.5, 1.0, 2.0, 4.0],         # degrees of total rotation
-    "scale":       [1.0, 1.01, 1.02, 1.05, 1.10],     # total zoom
+    "translation": list(GEOM_DISPLACEMENTS),           # -> px of total drift
+    "rotation":    list(GEOM_DISPLACEMENTS),           # -> degrees of rotation
+    "scale":       list(GEOM_DISPLACEMENTS),           # -> zoom factor
     "attenuation": [0.0, 0.25, 0.50, 0.75, 1.0],      # fraction of motion removed
     "freeze":      [0.0, 0.25, 0.50, 0.75],           # FRACTION OF CLIP FROZEN
     # Photometric drift: geometry and motion are untouched, so geometric factors
@@ -99,6 +113,29 @@ def load_frames(path, max_frames=110):
     return [cv2.resize(f, (nw, nh), interpolation=cv2.INTER_AREA) for f in raw]
 
 
+def mean_radius(h, w):
+    """Mean distance from the frame centre.
+
+    This is the conversion constant between an angular or zoom parameter and
+    the mean pixel displacement it induces, so it is what makes the geometric
+    families comparable on one axis.
+    """
+    gy, gx = np.mgrid[0:h, 0:w]
+    return float(np.hypot(gx - w / 2.0, gy - h / 2.0).mean())
+
+
+def geom_param(kind, disp_px, h, w):
+    """Mean induced displacement (px) -> that family's own parameter."""
+    r = max(mean_radius(h, w), 1e-6)
+    if kind == "translation":
+        return disp_px
+    if kind == "rotation":
+        return float(np.degrees(disp_px / r))
+    if kind == "scale":
+        return 1.0 + disp_px / r
+    return disp_px
+
+
 def perturb(frames, kind, lam, dyn_mask=None):
     """-> new frame list with a known corruption injected.
 
@@ -131,6 +168,10 @@ def perturb(frames, kind, lam, dyn_mask=None):
         return out
     if kind == "mask_radius":
         return list(frames)          # the partition is perturbed, not the video
+    # Geometric families are specified in mean induced displacement (px);
+    # convert to this family's own parameter before applying it.
+    if kind in ("translation", "rotation", "scale"):
+        lam = geom_param(kind, lam, h, w)
     for t, f in enumerate(frames):
         a = t / max(1, T - 1)
         if kind == "translation":

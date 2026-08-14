@@ -124,10 +124,10 @@ def fig_motivation(acc, pub, key_of, out="fig1_motivation"):
     if sel is None:
         return None
     _, prompt, good, drift, froz, rows = sel
-    times = [0, 20, 40, 60]
-    cases = [("desired", good, P.SERIES_3),
-             ("drifting", drift, P.SERIES_2),
-             ("stalled", froz, P.MUTED)]
+    times = [0, 30, 60]
+    cases = [("support held,\nmotion persists", good, P.SERIES_3),
+             ("support drifts", drift, P.SERIES_2),
+             ("support held,\nmotion stopped", froz, P.MUTED)]
 
     strips = []
     for lab, name, col in cases:
@@ -137,7 +137,7 @@ def fig_motivation(acc, pub, key_of, out="fig1_motivation"):
         strips.append((lab, name, col, grab(v, times)))
 
     nrow, ncol = 3, len(times) + 1
-    fig = plt.figure(figsize=(DCOL, 2.62))
+    fig = plt.figure(figsize=(DCOL, 2.30))
     gs = fig.add_gridspec(nrow, ncol, width_ratios=[1] * len(times) + [0.92],
                           wspace=0.045, hspace=0.09,
                           left=0.075, right=0.995, top=0.885, bottom=0.055)
@@ -161,7 +161,7 @@ def fig_motivation(acc, pub, key_of, out="fig1_motivation"):
         ax.set_xticks([]); ax.set_yticks([])
         for s in ax.spines.values():
             s.set_visible(False)
-        vals = [("VBench DD", m["dynamic_degree"], "{:.3f}"),
+        vals = [("VBench DD*", m["dynamic_degree"], "{:.3f}"),
                 ("fBD", m["fBD_mean"], "{:.1f}"),
                 ("MCFF-L", m["MCFF_late_mean"], "{:.1f}")]
         for i, (n, v, f) in enumerate(vals):
@@ -177,11 +177,12 @@ def fig_motivation(acc, pub, key_of, out="fig1_motivation"):
     fig.text(0.5, 0.955,
              f"A whole-frame motion score rates the top two rows almost identically "
              f"(DD {dd_g:.3f} vs {dd_d:.3f}) — their background drift differs "
-             f"{fb_d / max(fb_g, 1e-6):.0f}$\\times$",
+             f"over {int(fb_d / max(fb_g, 1e-6) / 10) * 10}$\\times$",
              ha="center", fontsize=7.2, color=P.INK, fontweight="bold")
     return save(fig, out,
-                f"Frames from released 60 s generations of one prompt. Systems chosen "
-                f"by a fixed numeric rule over all 23 prompts, not by appearance.",
+                f"Frames from released 60 s generations of one prompt. Systems chosen by a "
+                f"fixed numeric rule over all 23 prompts, not by appearance. *DD is the "
+                f"per-video score under VBench's published rule, before binarisation.",
                 prefreeze=False)
 
 
