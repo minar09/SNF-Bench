@@ -134,10 +134,10 @@ def fig_motivation(acc, pub, key_of, out="fig1_motivation"):
         v = video_for("t2v", key_of[name], "60s", prompt)
         if v is None:
             return None
-        strips.append((lab, name, col, grab(v, times)))
+        strips.append((lab, name, col, grab(v, times, target_h=84)))
 
     nrow, ncol = 3, len(times) + 1
-    fig = plt.figure(figsize=(DCOL, 2.30))
+    fig = plt.figure(figsize=(DCOL, 1.78))
     gs = fig.add_gridspec(nrow, ncol, width_ratios=[1] * len(times) + [0.92],
                           wspace=0.045, hspace=0.09,
                           left=0.075, right=0.995, top=0.885, bottom=0.055)

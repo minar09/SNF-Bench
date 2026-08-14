@@ -220,7 +220,7 @@ def fig_operating_regime(scores, track="t2v", dur="60s", out="fig4_operating_reg
     lo, hi = min(dar[n] for n in names), max(dar[n] for n in names)
     span = (hi - lo) or 1.0
 
-    fig, ax = plt.subplots(figsize=(COL, COL * 0.86))
+    fig, ax = plt.subplots(figsize=(COL, COL * 0.70))
     for n in names:
         c = _seq_color((dar[n] - lo) / span)
         ax.scatter(fbd[n], mcff[n], s=95, color=c, zorder=3,
@@ -509,7 +509,7 @@ def fig_mask_protocol(out="fig2_mask_protocol"):
     from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Rectangle
 
     C_STATIC, C_FLOW, C_OVER = P.MUTED, P.SERIES_1, P.SERIES_2
-    fig, (axa, axb) = plt.subplots(1, 2, figsize=(DCOL, 2.15),
+    fig, (axa, axb) = plt.subplots(1, 2, figsize=(DCOL, 1.95),
                                    gridspec_kw=dict(width_ratios=[1.42, 1.0]))
 
     def box(ax, x, y, w, h, label, fc="none", ec=P.AXIS, fs=5.9, bold=False):
@@ -627,7 +627,7 @@ def fig_validation(out="fig3_validation"):
     if not PANELS:
         return None
 
-    fig, axes = plt.subplots(1, len(PANELS), figsize=(DCOL, 1.72))
+    fig, axes = plt.subplots(1, len(PANELS), figsize=(DCOL, 1.44))
     if len(PANELS) == 1:
         axes = [axes]
     for ax, (fam, metrics, lab) in zip(axes, PANELS):

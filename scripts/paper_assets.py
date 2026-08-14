@@ -146,7 +146,7 @@ def audit_table(ix, track, durations, label, caption, wide=False):
     ncols = 1 + (1 if show_setting else 0) + (1 if show_n else 0) + len(keys)
     env = "table*" if wide else "table"
     size = r"\small" if wide else r"\scriptsize"
-    lines = [r"\begin{%s}[t]" % env, r"\centering", size,
+    lines = [r"\begin{%s}[tb]" % env, r"\centering", size,
              r"\setlength{\tabcolsep}{%s}" % ("4pt" if wide else "2.6pt"),
              r"\begin{tabular}{l" + ("l" if show_setting else "")
              + ("c" if show_n else "") + "c" * len(keys) + "}",
@@ -424,7 +424,7 @@ def validation_table(label="tab:validation"):
             cells.append(f"{rho:+.2f}" if rho is not None else "--")
         rows.append([esc(fam.replace("_", " ")), str(len({r["clip"] for r in sub}))] + cells)
 
-    lines = [r"\begin{table}[t]", r"\centering", r"\scriptsize",
+    lines = [r"\begin{table}[tb]", r"\centering", r"\scriptsize",
              r"\setlength{\tabcolsep}{2.6pt}",
              r"\begin{tabular}{l c" + "c" * len(metrics) + "}", r"\toprule",
              r"perturbation & clips & " + " & ".join(NICE[m] for m in metrics) + r" \\",
@@ -527,7 +527,7 @@ def main():
 
     written = []
 
-    t = audit_table(ix, "t2v", ["60s", "120s"], "tab:t2v_audit",
+    t = audit_table(ix, "t2v", ["60s"], "tab:t2v_audit",
                     r"\textbf{SNF-Bench audit, T2V track, native configuration.} "
                     r"All systems are public external models run under their own "
                     r"intended configuration. Our own systems are excluded by "
@@ -537,7 +537,7 @@ def main():
         open(f"{OUT}/tab_t2v_audit.tex", "w").write(t)
         written.append("tab_t2v_audit.tex")
 
-    t = audit_table(ix, "i2v", ["60s", "120s"], "tab:i2v_audit", wide=True,
+    t = audit_table(ix, "i2v", ["60s"], "tab:i2v_audit", wide=True,
                     caption=
                     r"\textbf{SNF-Bench audit, I2V track.} Setting is stated per row: "
                     r"\emph{native} systems run under their authors' configuration, "

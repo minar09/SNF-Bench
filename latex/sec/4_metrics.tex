@@ -3,13 +3,13 @@
 
 SNF-Bench evaluates fixed-camera generation along three complementary factors: \textbf{Static Fidelity}, \textbf{Flow Persistence}, and \textbf{Drift Leakage}. No individual score is sufficient: low background motion can be achieved by freezing the entire video, and high foreground motion can be produced by drifting the entire scene. We therefore always report static-region stability jointly with both the \emph{relative persistence} and \emph{absolute magnitude} of dynamic-region motion.
 
-Let $I_t$ denote frame $t$ of a $T$-frame sequence, $\Omega_{\mathrm{static}}$ and $\Omega_{\mathrm{flow}}$ the fixed region masks of Sec.~\ref{sec:masks}, and $\mathbf{u}_t(\mathbf{x})$ the optical flow from $I_t$ to $I_{t+1}$ at pixel $\mathbf{x}$. Each sequence defines an early window $\mathcal{E}$ and a late window $\mathcal{L}$ of equal duration; $\mathcal{E}$ begins after a short warm-up interval so that initial generation transients do not define the motion reference. Window extents are fixed in the benchmark specification.
+Let $I_t$ denote frame $t$ of a $T$-frame sequence, $\Omega_{\mathrm{static}}$ and $\Omega_{\mathrm{flow}}$ the fixed region masks of Sec.~\ref{sec:masks}, and $\mathbf{u}_t(\mathbf{x})$ the optical flow from $I_t$ to $I_{t+1}$ at pixel $\mathbf{x}$, estimated with RAFT~\cite{teed2020raft}. Each sequence defines an early window $\mathcal{E}$ and a late window $\mathcal{L}$ of equal duration; $\mathcal{E}$ begins after a short warm-up interval so that initial generation transients do not define the motion reference. Window extents are fixed in the benchmark specification.
 
 \subsection{Static Fidelity}
 \label{sec:static_metrics}
 
 \paragraph{Feature-aligned Background Drift (fBD).}
-We extract repeatable local features inside $\Omega_{\mathrm{static}}$ from the first frame and match them against each frame $I_t$ in the late window, applying robust geometric filtering to reject outlier correspondences. For the resulting matched pairs $\mathcal{M}_t$,
+We extract ORB features~\cite{rublee2011orb} inside $\Omega_{\mathrm{static}}$ from the first frame and match them against each frame $I_t$ in the late window, applying robust geometric filtering to reject outlier correspondences. For the resulting matched pairs $\mathcal{M}_t$,
 \begin{align}
 D_{\mathrm{feat}}(t) &= \operatorname*{median}_{(p,q)\in\mathcal{M}_t} \lVert p-q \rVert_2, \nonumber\\
 \mathrm{fBD} &= \frac{100}{d}\cdot\frac{1}{|\mathcal{L}|}\sum_{t\in\mathcal{L}} D_{\mathrm{feat}}(t) \;\;(\downarrow),
@@ -76,6 +76,9 @@ measures the signed relative change in dynamic-region flow after compensation---
 
 \paragraph{Interpretation.}
 Neither quantity is a causal decomposition of motion into drift and non-drift components, and we do not describe them as one. Read together they are more informative than either alone: high DLR with moderate DAR indicates large static-region motion energy that a \emph{rigid} global model does not explain, implicating non-rigid instability such as warping rather than uniform scene translation.
+
+\paragraph{Semantic guardrail.}
+The decomposition is agnostic to \emph{what} moves: a sequence rendering drifting fog where a river was requested can occupy a favourable operating point. We therefore report one established prompt-alignment score alongside the factors---CLIP-based image--text similarity~\cite{hessel2021clipscore} averaged over sampled frames---as a contextual column, not a fourth factor, and never aggregated with the others. Its role is to make a semantically wrong generation visible so the spatial factors are read only where the requested phenomenon is present. Learned video-quality predictors~\cite{he2024videoscore} serve the same purpose at higher cost and with heavier dependence on their own training distribution.
 
 \subsection{Joint Interpretation}
 \label{sec:metric_interpretation}
