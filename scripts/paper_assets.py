@@ -553,8 +553,10 @@ def main():
             open(f"{OUT}/{name}", "w").write(s)
             written.append(name)
 
+    # tab_native_configs is deliberately NOT emitted: every audited system runs
+    # at the same resolution, frame rate and maximum horizon, so the table was
+    # seven identical rows. The single distinct fact is stated in Sec. 7 text.
     for fn, name in ((validation_table(), "tab_validation.tex"),
-                     (config_table(), "tab_native_configs.tex"),
                      (interpretation_table(ix), "tab_interpretation.tex"),
                      (deployment_table(ix), "tab_deployment.tex")):
         if fn:

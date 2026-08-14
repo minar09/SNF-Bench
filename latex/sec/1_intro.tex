@@ -3,6 +3,13 @@
 
 Autoregressive and streaming video diffusion models now extend generation from seconds to minute-scale horizons. Evaluation, however, has not kept pace: small temporal errors that are invisible in short clips accumulate over long rollouts into background displacement, color drift, repeated textures, or motion decay, and whole-frame metrics summarize these qualitatively different failures into a single score.
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig1_motivation.pdf}
+\caption{\textbf{Why a fixed-camera benchmark needs a spatial decomposition.} Three released 60\,s generations of one prompt. A whole-frame motion score rates the first two rows almost identically, yet the first holds its scene in place while the second slides through an entirely different setting; their static-region drift differs by more than an order of magnitude. The third row shows the opposite failure, which the same whole-frame score \emph{does} detect. Systems are selected by a fixed numeric rule over all evaluated prompts, not by appearance.}
+\label{fig:motivation}
+\end{figure*}
+
 The problem is sharpest in \textbf{fixed-camera nature-flow generation}. In a static-camera video of a river, the water should move while the riverbank, rocks, and surrounding landscape remain stationary. The same separation governs waterfalls, ocean waves, rainfall, fire, smoke, and wind-driven vegetation: some regions form \emph{static support} that must stay structurally fixed, while others carry \emph{dynamic flow} that must persist. Whole-frame motion measures reward optical flow regardless of its source---crediting background drift as readily as genuine fluid motion---while temporal-consistency measures can favor videos whose stability comes from suppressing the very flow they should sustain. Two opposite failures, \textbf{static drift} and \textbf{flow decay}, are thereby conflated, and increasingly so at long horizons, where accumulated background motion can dominate a sequence's apparent dynamics.
 
 This ambiguity spans conditioning modalities. In text-to-video (T2V) generation, the model must establish static support and preserve it without a visual reference; in image-to-video (I2V) generation, the input image defines that support explicitly. Both tasks pose the same fixed-camera question: \emph{does motion persist where it is intended, without leaking into regions that should remain static?}

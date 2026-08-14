@@ -6,10 +6,9 @@ Results are reported against the four audit questions of Sec.~\ref{sec:audit_que
 \subsection{Native-Capability Audit}
 \label{sec:results_native}
 
-Table~\ref{tab:t2v_audit} summarizes SNF-Bench measurements under released inference configurations at the two principal horizons, with all four reported in the supplementary material; Table~\ref{tab:native_configs} records each system's resolution, frame rate, and maximum supported horizon. Unsupported horizons appear explicitly rather than being populated with modified settings.
+Table~\ref{tab:t2v_audit} summarizes SNF-Bench measurements under released inference configurations at the two principal horizons, with all four reported in the supplementary material. The audited systems happen to share a deployment envelope---all seven generate $832\times480$ at $16$\,fps and all reach the $240$\,s horizon without modification to their released temporal policy---so no per-system configuration table is needed; where a system could not reach a horizon, the entry would be marked unsupported rather than populated with altered settings.
 
 \input{generated/tab_t2v_audit}
-\input{generated/tab_native_configs}
 
 \paragraph{Static fidelity.} fBD captures accumulated geometric displacement; NBF captures residual instantaneous motion inside $\Omega_{\mathrm{static}}$. The two are not redundant: a system can hold its structure in place while its static region shimmers, and the reverse. Across the \SNFnPublicTTV{} audited systems at 60\,s the two agree on the extremes and diverge in the middle of the field, so both are reported rather than one standing for the other.
 
@@ -43,6 +42,13 @@ The effect is systematic rather than anecdotal. Over the audited systems at 60\,
 Table~\ref{tab:interpretation_changes} records every interpretation change meeting three pre-specified conditions: (1) generic and SNF measurements are computed on the \emph{same outputs}; (2) the relevant SNF metric passed the validation of Sec.~\ref{sec:validation}; and (3) the rank difference exceeds a fixed threshold rather than reflecting a small ordinal shift. The rule is applied to all public methods, so \textbf{no case satisfying it can be selectively omitted}. The analysis is complementary: whole-frame metrics measure what they were designed to measure, and SNF-Bench exposes where that quantity spatially originates.
 
 \input{generated/tab_interpretation}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig6_qualitative.pdf}
+\caption{\textbf{Qualitative behaviour of every audited system on one prompt.} Columns are ordered by increasing static-region drift. The two highlighted systems are the pair a whole-frame motion score cannot separate: the leftmost keeps its support fixed while its smoke continues to rise, the rightmost has relocated the scene entirely by $t=30$\,s.}
+\label{fig:qualitative}
+\end{figure*}
 
 \subsection{Category and Horizon Dependence}
 \label{sec:results_categories}
