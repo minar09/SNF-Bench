@@ -484,6 +484,7 @@ def main():
     scores = load_scores()
     made = [fig_mask_protocol(),
             fig_validation(),
+            fig_radar(scores),
             fig_operating_regime(scores),
             fig_rank_disagreement(scores),
             fig_category_balance(),
@@ -666,6 +667,87 @@ def fig_validation(out="fig3_validation"):
                 f"Controlled perturbations of {n_clips} real fixed-camera clips; "
                 f"values relative to the unperturbed clip. Dynamic Degree computed "
                 f"to VBench's published rule. METRIC_SPEC v1.1, similarity compensation.")
+
+
+
+# --------------------------------------------------------------------------
+# Fig. S -- factor profile per track (radar), in the manner of general-purpose
+# suites, but on axes that carry direction rather than a single quality score
+# --------------------------------------------------------------------------
+def fig_radar(scores, out="figS_radar"):
+    """One radar per track: each factor rescaled to [0,1] across the audited
+    systems, oriented so that outward is always better.
+
+    A radar is the conventional way these suites summarise a profile, and it is
+    useful here for the same reason: it shows at a glance that no audited system
+    encloses the others. The orientation step matters -- plotting raw values
+    would put "most background drift" outward on one axis and "most surviving
+    motion" outward on another, and the shape would mean nothing.
+
+    Hue still never carries identity for more than the two highlighted systems;
+    the rest are muted, since seven radar polygons in seven hues is exactly the
+    all-pairs case the palette cannot serve.
+    """
+    KEYS = [("fBD_mean", "fBD", True), ("NBF_mean", "NBF", True),
+            ("MCFF_late_mean", "MCFF-L", False), ("FP_mean", "FP", False),
+            ("DLR_mean", "DLR", True)]
+    HIGHLIGHT = {"t2v": ("Causal-Forcing", "Infinite-Forcing"),
+                 "i2v": ("Causal-Forcing (framewise)", "Self-Forcing")}
+    tracks = []
+    for track in ("t2v", "i2v"):
+        vals = {}
+        for k, lab, lower_better in KEYS:
+            mm = method_means(scores, track, "60s", k)
+            if len(mm) >= 3:
+                vals[lab] = {n: v for n, v, _ in mm}
+        if len(vals) == len(KEYS):
+            common = set.intersection(*[set(v) for v in vals.values()])
+            if len(common) >= 3:
+                tracks.append((track, vals, sorted(common)))
+    if not tracks:
+        return None
+
+    fig, axes = plt.subplots(1, len(tracks), figsize=(DCOL, 2.9),
+                             subplot_kw=dict(projection="polar"))
+    axes = np.atleast_1d(axes)
+    for ax, (track, vals, names) in zip(axes, tracks):
+        labs = [lab for _, lab, _ in KEYS]
+        ang = np.linspace(0, 2 * np.pi, len(labs), endpoint=False).tolist()
+        ang += ang[:1]
+        hi = HIGHLIGHT.get(track, ())
+        for n in names:
+            r = []
+            for k, lab, lower_better in KEYS:
+                col = [vals[lab][m] for m in names]
+                lo, hh = min(col), max(col)
+                x = (vals[lab][n] - lo) / ((hh - lo) or 1.0)
+                r.append(1.0 - x if lower_better else x)   # outward = better
+            r += r[:1]
+            is_hi = n in hi
+            c = (P.SERIES_1 if n == (hi[0] if hi else None)
+                 else P.SERIES_2 if n == (hi[1] if len(hi) > 1 else None)
+                 else P.MUTED)
+            ax.plot(ang, r, color=c, lw=1.7 if is_hi else 0.9,
+                    alpha=1.0 if is_hi else 0.45, zorder=3 if is_hi else 2,
+                    label=n if is_hi else None)
+            if is_hi:
+                ax.fill(ang, r, color=c, alpha=0.10, zorder=1)
+        ax.set_xticks(ang[:-1])
+        ax.set_xticklabels(labs, fontsize=6.2, color=P.INK)
+        ax.set_yticks([0.25, 0.5, 0.75])
+        ax.set_yticklabels([], fontsize=5)
+        ax.set_ylim(0, 1)
+        ax.grid(color=P.GRID, lw=0.6)
+        ax.spines["polar"].set_color(P.AXIS)
+        ax.set_title(f"{track.upper()} @ 60 s", fontsize=7.6,
+                     color=P.INK, fontweight="bold", pad=12)
+        ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.10),
+                  fontsize=5.8, ncol=1, frameon=False)
+    fig.tight_layout(pad=0.5, w_pad=2.0)
+    return save(fig, out,
+                "Each factor rescaled across the audited systems and oriented so "
+                "outward is better. Grey polygons are the remaining public systems.",
+                prefreeze=False)
 
 
 

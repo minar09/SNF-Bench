@@ -371,7 +371,79 @@ def main():
     for fn in (fig_motivation, fig_qualitative, fig_limitations):
         r = fn(acc, pub, key_of)
         print("  wrote figures/" + r if r else f"  SKIPPED {fn.__name__}")
+    r = fig_i2v_qualitative()
+    print("  wrote figures/" + r if r else "  SKIPPED fig_i2v_qualitative")
 
 
+
+
+# ------------------------------------------------------------------- figure 8
+def fig_i2v_qualitative(out="fig8_i2v_qualitative"):
+    """Image-conditioned systems on one shared source image.
+
+    The I2V case deserves its own plate because its static support is given
+    externally: every system starts from the same frame, so divergence over the
+    rollout is attributable to the system rather than to a differently imagined
+    scene. That is not true of the text-conditioned track, where each system
+    authors its own layout.
+    """
+    import registry
+    # load_scores here is keyed (model, prompt_id) -> {metric: value}; that is a
+    # different convention from figures.load_scores, so do not mix them.
+    acc = load_scores(track="i2v", dur="60s")
+    pub = {m["key"]: m["name"] for m in registry.contestants("i2v")}
+    key_of = {v: k for k, v in pub.items()}
+
+    fbd = defaultdict(dict)          # name -> prompt -> fBD
+    for (k, pr), d in acc.items():
+        if k in pub and "fBD_mean" in d:
+            fbd[pub[k]][pr] = d["fBD_mean"]
+    rows = {n: v for n, v in fbd.items() if len(v) >= 5}
+    if len(rows) < 3:
+        return None
+
+    shared = set.intersection(*[set(v) for v in rows.values()])
+    if not shared:
+        return None
+    # Prompt on which the systems disagree most about static fidelity.
+    prompt = max(shared, key=lambda p: max(rows[n][p] for n in rows)
+                 - min(rows[n][p] for n in rows))
+    order = sorted(rows, key=lambda n: rows[n][prompt])
+
+    vids = {}
+    for name in order:
+        v = video_for("i2v", key_of[name], "60s", prompt)
+        if v:
+            vids[name] = v
+    order = [n for n in order if n in vids]
+    if len(order) < 3:
+        return None
+    times = [0, 30, 60]
+
+    cellw = DCOL / len(order)
+    fig, axes = plt.subplots(len(times), len(order),
+                             figsize=(DCOL, cellw * 9 / 16 * len(times) + 0.55))
+    axes = np.atleast_2d(axes)
+    for c, name in enumerate(order):
+        frames = grab(vids[name], times, target_h=88)
+        for r in range(len(times)):
+            ax = axes[r, c]
+            if frames[r] is not None:
+                ax.imshow(frames[r])
+            ax.set_xticks([]); ax.set_yticks([])
+            for sp in ax.spines.values():
+                sp.set_edgecolor(P.AXIS); sp.set_linewidth(0.5)
+            if r == 0:
+                ax.set_title(name.replace(" (", "\n("), fontsize=4.9,
+                             color=P.INK, pad=2.5, linespacing=1.1)
+            if c == 0:
+                ax.set_ylabel(f"$t={times[r]}$ s", fontsize=6.2, color=P.INK,
+                              rotation=90, va="center", labelpad=3)
+    fig.subplots_adjust(left=0.035, right=0.998, top=0.845, bottom=0.012,
+                        wspace=0.03, hspace=0.035)
+    return save(fig, out,
+                "Image-conditioned systems on one shared source image, ordered "
+                "left-to-right by increasing static-region drift.",
+                prefreeze=False)
 if __name__ == "__main__":
     main()

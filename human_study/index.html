@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e;
+    --muted:#898781; --line:#e1e0d9; --accent:#2a78d6; --accent2:#eb6834;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px}
+  .wrap{max-width:1100px;margin:0 auto;padding:16px}
+  .bar{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  h1{font-size:17px;margin:0;flex:1}
+  .prog{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+  .prog>i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+  .muted{color:var(--muted);font-size:13px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+        padding:16px;margin-top:12px}
+  .q{font-size:16px;font-weight:600;line-height:1.45;margin:0 0 4px}
+  .qhint{color:var(--ink2);font-size:13.5px;line-height:1.5}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+  .vid{background:#000;border-radius:8px;overflow:hidden;border:2px solid transparent}
+  .vid.sel{border-color:var(--accent)}
+  video{width:100%;display:block;background:#000}
+  .vlabel{text-align:center;font-weight:600;padding:6px;color:var(--ink2)}
+  .choices{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:6px}
+  button{font:inherit;padding:11px 12px;border-radius:8px;border:1px solid var(--line);
+         background:#fff;cursor:pointer;transition:.12s}
+  button:hover{border-color:var(--accent)}
+  button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .row{display:flex;gap:10px;align-items:center;margin-top:12px}
+  input[type=text]{font:inherit;padding:9px 11px;border:1px solid var(--line);
+                   border-radius:8px;flex:1}
+  .hide{display:none}
+  .big{font-size:15px;line-height:1.6}
+  ul{margin:8px 0 0 18px;padding:0} li{margin:4px 0}
+  @media(max-width:720px){.pair{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="bar">
+    <h1 id="title">Loading…</h1>
+    <div class="muted" id="counter"></div>
+  </div>
+  <div class="prog"><i id="bar"></i></div>
+
+  <!-- ---------- intro ---------- -->
+  <div class="card" id="intro">
+    <div class="big" id="instructions"></div>
+    <ul class="big">
+      <li>Each question asks about <b>one specific thing</b>. Please answer only that.</li>
+      <li>Do <b>not</b> judge which video is better, sharper or more realistic.</li>
+      <li>If the clips look the same for the question asked, choose <b>About the same</b>.</li>
+      <li>Videos loop. Watch both at least once before answering.</li>
+    </ul>
+    <div class="row">
+      <input type="text" id="rater" placeholder="Your name or an ID (used only to group your answers)">
+      <button class="primary" id="start">Start</button>
+    </div>
+  </div>
+
+  <!-- ---------- trial ---------- -->
+  <div class="card hide" id="trial">
+    <p class="q" id="question"></p>
+    <div class="qhint" id="hint"></div>
+    <div class="pair">
+      <div>
+        <div class="vid" id="boxL"><video id="vL" loop muted playsinline preload="auto"></video></div>
+        <div class="vlabel">Video 1</div>
+      </div>
+      <div>
+        <div class="vid" id="boxR"><video id="vR" loop muted playsinline preload="auto"></video></div>
+        <div class="vlabel">Video 2</div>
+      </div>
+    </div>
+    <div class="choices">
+      <button id="cL">Video 1</button>
+      <button id="cS">About the same</button>
+      <button id="cR">Video 2</button>
+    </div>
+    <div class="muted" style="margin-top:10px" id="status"></div>
+  </div>
+
+  <!-- ---------- done ---------- -->
+  <div class="card hide" id="done">
+    <h2 style="margin-top:0">Thank you</h2>
+    <p class="big">Your responses have been recorded. You can close this tab.</p>
+  </div>
+
+</div>
+
+<script>
+let CFG = null, TRIALS = [], idx = 0, shownAt = 0;
+
+function el(id){ return document.getElementById(id); }
+
+google.script.run.withSuccessHandler(function (cfg) {
+  CFG = cfg;
+  el('title').textContent = cfg.title;
+  el('instructions').textContent = cfg.instructions;
+  el('cS').style.display = cfg.allowTie ? '' : 'none';
+}).getConfig();
+
+el('start').onclick = function () {
+  const id = el('rater').value.trim();
+  if (!id) { el('rater').focus(); return; }
+  el('start').disabled = true;
+  google.script.run.withSuccessHandler(function (trials) {
+    TRIALS = trials; idx = 0;
+    el('intro').classList.add('hide');
+    el('trial').classList.remove('hide');
+    render();
+  }).getTrials(id);
+};
+
+function render() {
+  if (idx >= TRIALS.length) {
+    el('trial').classList.add('hide');
+    el('done').classList.remove('hide');
+    el('counter').textContent = '';
+    el('bar').style.width = '100%';
+    return;
+  }
+  const t = TRIALS[idx];
+  el('question').textContent = t.question.split('.')[0] + '?';
+  el('hint').textContent = t.question;
+  el('counter').textContent = (idx + 1) + ' / ' + TRIALS.length;
+  el('bar').style.width = (idx / TRIALS.length * 100) + '%';
+  // Reload both sources so the two clips restart together; otherwise a rater
+  // compares different phases of the two rollouts.
+  const vL = el('vL'), vR = el('vR');
+  vL.src = t.left; vR.src = t.right;
+  vL.load(); vR.load();
+  vL.play().catch(function(){}); vR.play().catch(function(){});
+  el('boxL').classList.remove('sel'); el('boxR').classList.remove('sel');
+  setButtons(true);
+  el('status').textContent = '';
+  shownAt = Date.now();
+}
+
+function setButtons(on) {
+  ['cL','cS','cR'].forEach(function (b) { el(b).disabled = !on; });
+}
+
+function answer(choice) {
+  const t = TRIALS[idx];
+  setButtons(false);
+  el('status').textContent = 'Saving…';
+  if (choice === 'left') el('boxL').classList.add('sel');
+  if (choice === 'right') el('boxR').classList.add('sel');
+  google.script.run
+    .withSuccessHandler(function () { idx += 1; render(); })
+    .withFailureHandler(function (e) {
+      el('status').textContent = 'Could not save — check your connection, then press again.';
+      setButtons(true);
+    })
+    .submitResponse({
+      raterId: el('rater').value.trim(),
+      trialId: t.trialId,
+      flipped: t.flipped,
+      choice: choice,
+      dwellMs: Date.now() - shownAt
+    });
+}
+
+el('cL').onclick = function(){ answer('left'); };
+el('cR').onclick = function(){ answer('right'); };
+el('cS').onclick = function(){ answer('same'); };
+
+// Keyboard shortcuts: raters get noticeably faster and more consistent once
+// they stop moving the mouse between every trial.
+document.addEventListener('keydown', function (e) {
+  if (el('trial').classList.contains('hide')) return;
+  if (e.key === '1' || e.key === 'ArrowLeft')  el('cL').click();
+  if (e.key === '2' || e.key === 'ArrowRight') el('cR').click();
+  if (e.key === '3' || e.key === ' ')          el('cS').click();
+});
+</script>
+</body>
+</html>

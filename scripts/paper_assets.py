@@ -242,15 +242,15 @@ def simple_table(md_path, label, caption, max_cols=None):
     if len(rows) < 2:
         return None
     ncol = len(rows[0])
-    body = [r"\begin{table}[t]", r"\centering", r"\scriptsize",
-            r"\setlength{\tabcolsep}{3pt}",
+    body = [r"\begin{table*}[tb]", r"\centering", r"\scriptsize",
+            r"\setlength{\tabcolsep}{5pt}",
             r"\begin{tabular}{l" + "c" * (ncol - 1) + "}", r"\toprule",
             " & ".join(esc(c) for c in rows[0]) + r" \\", r"\midrule"]
     for r_ in rows[1:]:
         r_ = r_ + [""] * (ncol - len(r_))
         body.append(" & ".join(esc(c) for c in r_[:ncol]) + r" \\")
     body += [r"\bottomrule", r"\end{tabular}",
-             r"\caption{%s}" % caption, r"\label{%s}" % label, r"\end{table}"]
+             r"\caption{%s}" % caption, r"\label{%s}" % label, r"\end{table*}"]
     return "\n".join(body)
 
 
@@ -501,7 +501,7 @@ def abstention_table(label="tab:abstention"):
                          f"{100.0 * n_abs / n:.1f}\\%"])
     if not rows:
         return None
-    lines = [r"\begin{table}[tb]", r"\centering", r"\scriptsize",
+    lines = [r"\begin{table}[tb]", r"\centering", r"\small",
              r"\begin{tabular}{llccc}", r"\toprule",
              r"track & horizon & measured & fBD abstained & rate \\", r"\midrule"]
     for r_ in rows:

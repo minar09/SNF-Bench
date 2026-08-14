@@ -1,12 +1,13 @@
 % ---------------------------------------------------------------------------
 % SNF-Bench -- supplementary material.
 %
-% Built from the same unmodified author kit as main.tex: the same documentclass
-% line, the same wacv package options, the same preamble. Nothing in the
-% conference template is edited here either; \maketitlesupplementary is provided
-% by wacv.sty for exactly this purpose.
+% Built from the same unmodified author kit as main.tex: same documentclass
+% line, same wacv options, same preamble. Nothing in the conference template is
+% edited here either; \maketitlesupplementary comes from wacv.sty.
 %
-% Compile independently of the main paper:  tectonic -X compile supp.tex
+% Wide material uses table*/figure* so nothing is cramped or overset.
+%
+% Compile independently:  tectonic -X compile supp.tex
 % ---------------------------------------------------------------------------
 \documentclass[10pt,twocolumn,letterpaper]{article}
 
@@ -26,31 +27,31 @@
 \begin{document}
 \maketitlesupplementary
 
-% Auto-generated numbers, as in the main paper: no value is typed by hand.
 \IfFileExists{generated/macros.tex}{\input{generated/macros}}{%
   \GenericWarning{}{SNF-Bench: generated/macros.tex missing}}
 \IfFileExists{generated/provenance.tex}{\input{generated/provenance}}{%
   \GenericWarning{}{SNF-Bench: generated/provenance.tex missing}}
 
 \noindent
-This supplement records the material that supports the main paper without being
-required to follow its argument: the full metric specification, the complete
-validation matrix, the evaluation-set composition, per-horizon results beyond
-the two principal horizons, and the exploratory image-conditioned analysis.
-Section numbering is independent of the main paper; cross-references in the main
-text point here by name.
+This supplement records the material supporting the main paper without being
+required to follow its argument: the region-partition procedure and its
+sensitivity study, complete audit tables for both tracks at every horizon,
+measurement coverage, protocols for the two complementary perceptual checks, and
+additional qualitative material. The text-conditioned and image-conditioned
+tracks are reported here at equal depth. Section numbering is independent of the
+main paper.
 
 \section{Region Partition}
 \label{sup:masks}
 
 \paragraph{Derivation.}
-For every generated sequence we average optical-flow magnitude over the leading
-$12\%$ of sampled frame pairs and threshold it by Otsu's method into a dynamic
-region and its complement. The static region is then reduced by a fixed
-morphological erosion, and a $4\%$ frame border is discarded; together these
-form the ignored transition band, so boundary pixels---where the partition is
-least certain and flow least reliable---contribute to neither region. The same
-procedure is applied to both tracks.
+For every generated sequence we average optical-flow magnitude~\cite{teed2020raft}
+over the leading $12\%$ of sampled frame pairs and threshold it by Otsu's
+method~\cite{otsu1979threshold} into a dynamic region and its complement. The
+static region is then reduced by a fixed morphological erosion and a $4\%$ frame
+border discarded; together these form the ignored transition band, so boundary
+pixels---where the partition is least certain and flow least reliable---contribute
+to neither region. The same procedure applies to both tracks.
 
 \paragraph{Why the estimate is restricted to an early window.}
 Deriving a partition from a sequence's entire motion field would be circular,
@@ -58,7 +59,7 @@ since accumulated background drift would itself be read as evidence that the
 affected region is dynamic. Restricting the estimate to the early window breaks
 that circularity in the direction that matters: at the $60$\,s horizon the
 partition is fixed from the first $7.1$\,s, before long-horizon drift has
-accumulated, and the metrics are then evaluated over the remainder.
+accumulated, and the metrics are evaluated over the remainder.
 
 \paragraph{Limitations.}
 The partition is obtained automatically rather than by annotation, so no
@@ -68,35 +69,81 @@ The early window is a weaker guarantee than a first-frame annotation: a system
 that drifts within the first $12\%$ of its rollout can influence its own
 partition. We therefore treat partitions as measured quantities and report the
 consequence directly---every measurement is recomputed under systematic erosion
-and dilation of the boundary, with the resulting response given in
-Table~\ref{tab:validation}. A human-verified, first-frame annotation protocol is
-the natural strengthening of this component.
+and dilation of the boundary, with the response in Table~\ref{tab:validation}.
 
-\section{Complete Validation Matrix}
+\section{Validation Protocol}
 \label{sup:validation}
 
 Geometric severity is specified in a common physical unit---the mean pixel
-displacement a corruption induces over the frame by the end of the rollout---and
-each family's own parameter is derived from it using the frame geometry:
-a translation of $d$ pixels, a rotation of $\arctan$-free angle
-$\theta = d/\bar{r}$ radians, or a zoom of $1 + d/\bar{r}$, where $\bar{r}$ is
-the mean distance from the frame centre. Expressing severity this way is what
-makes the geometric families comparable; a parameter expressed in degrees is not
-commensurate with one expressed in pixels, and treating them as though they were
-understates angular corruptions by more than an order of magnitude at this
-resolution.
+displacement a corruption induces over the frame by the end of the
+rollout---and each family's parameter is derived from it using the frame
+geometry: a translation of $d$ pixels, a rotation of $d/\bar{r}$ radians, or a
+zoom of $1 + d/\bar{r}$, where $\bar{r}$ is the mean distance from the frame
+centre. This is what makes the geometric families comparable. A parameter in
+degrees is not commensurate with one in pixels: at the evaluation resolution one
+degree of rotation induces roughly $2.7$\,px of mean displacement, so families
+compared by their native parameters differ in injected severity by more than an
+order of magnitude, and a factor can appear non-monotone simply because the
+corruption was too weak to clear the clip's own baseline drift.
 
 \input{generated/tab_validation}
+
+\section{Measurement Coverage}
+\label{sup:coverage}
+
+Coverage is counted from valid per-video measurements rather than from the
+presence of a results file, so a run that terminated early is reported as
+partial. Separately, fBD is feature-based~\cite{rublee2011orb} and declines to
+report where too few repeatable keypoints survive; those abstentions are
+tabulated rather than folded silently into a smaller $n$.
+
+\input{generated/tab_abstention}
+\input{generated/tab_coverage}
+
+\section{Complete Audit, Both Tracks}
+\label{sup:allhorizons}
+
+The main paper reports the text-conditioned track at $60$\,s, the tier whose
+sample supports method-level separation. Both tracks appear here at every
+horizon, with uncertainty from a percentile bootstrap over
+items~\cite{efron1979bootstrap}. For the image-conditioned track, systems marked
+\emph{matched} run under a common long-horizon wrapper rather than their
+released configuration, so their scores are read as deployment sensitivity
+rather than as the published method's performance.
+
+\input{generated/tab_t2v_audit_full}
+\input{generated/tab_i2v_audit_full}
 
 \section{Whole-Frame and SNF-Bench Rank Correlation}
 \label{sup:disagreement}
 
 \input{generated/tab_disagreement}
+\input{generated/tab_interpretation}
+
+\section{Deployment Sensitivity}
+\label{sup:deployment}
+
+\input{generated/tab_deployment}
+
+\section{Signed Drift Attenuation}
+\label{sup:dar}
+
+Drift attenuation is stored signed and reported clipped to $[0,1]$. Negative
+values are informative rather than anomalous: where local flow opposes the
+estimated global field, compensation increases the measured magnitude. We report
+their incidence rather than suppressing it.
+
+\input{generated/tab_dar_negative}
+
+\section{Evaluation-Set Composition}
+\label{sup:categories}
+
+\input{generated/tab_category}
 
 \section{Complementary Perceptual Checks}
 \label{sup:perceptual}
 
-Neither check is aggregated into a factor, and neither is a preference study.
+Neither check is aggregated into a factor and neither is a preference study.
 Both answer one question: does an independent judge, with no access to our
 factors, order the same clip pairs the same way?
 
@@ -105,24 +152,26 @@ Pairs are chosen by rule rather than by eye. For each axis, candidate pairs of
 systems on a shared prompt are binned by the \emph{relative gap} in the relevant
 factor and sampled across three bands ($0.05$--$0.20$, $0.20$--$0.50$,
 $0.50$--$1.00$), so agreement is measured over the whole operating range rather
-than only where any metric would look good. Thirty pairs per axis are drawn.
+than only where any metric would look good. Twelve pairs are drawn per axis.
 
 \paragraph{Human study.}
 Raters answer exactly two forced-choice questions---which video's background
 moves more, and in which video the moving content slows or stops more---and are
-never asked which video is better, since ``better'' conflates the two failures
-the benchmark separates. Trial order and left/right presentation are randomised
-per rater, choices are resolved back to system identities server-side, and
-system names are never shown. Ties are permitted: forcing a choice on an
-indistinguishable pair manufactures noise. Twenty-four trials per rater, three raters.
+never asked which is better, since ``better'' conflates the two failures the
+benchmark separates. Trial order and left/right presentation are randomised per
+rater, choices are resolved back to system identities server-side, and system
+names are never shown. Ties are permitted: forcing a choice on an
+indistinguishable pair manufactures noise. Twenty-four trials per rater, about
+eight minutes, three raters.
 
 \paragraph{Vision--language judge.}
 The same pairs, with the same wording, are put to an open-weight
-vision--language model~\cite{qwen3vl2025}. Each pair is asked twice with the
-clips swapped; a judge answering by position rather than by content disagrees
-with itself, so agreement is computed only over self-consistent trials and the
-self-consistency rate is reported beside it. A judge that contradicts itself on
-a pair has expressed no opinion about that pair.
+vision--language model~\cite{qwen3vl2025}, following the practice of
+MLLM-scored generation benchmarks~\cite{han2025videobench,he2024videoscore} but
+restricted to the two axis questions rather than an overall score. Each pair is
+asked twice with the clips swapped; a judge answering by position rather than by
+content disagrees with itself, so agreement is computed only over
+self-consistent trials and the self-consistency rate is reported beside it.
 
 \paragraph{Reporting.}
 Per axis we report the agreement rate with a binomial interval, the tie rate,
@@ -130,68 +179,32 @@ and agreement resolved by metric gap. The last matters: a factor that agrees
 with observers only on large gaps is a weaker result than one that agrees
 throughout, and pooling hides the difference.
 
-\section{Evaluation-Set Composition}
-\label{sup:categories}
-
-\input{generated/tab_category}
-
-\section{Asset and Score Coverage}
-\label{sup:coverage}
-
-Coverage is counted from valid per-video measurements rather than from the
-presence of a results file, so an entry whose measurement run terminated early
-is reported as partial rather than complete.
-
-\input{generated/tab_coverage}
-
-\section{Results at All Horizons}
-\label{sup:allhorizons}
-
-The main paper reports the two principal horizons. The $5$\,s tier serves as an
-initialisation check and the $240$\,s tier is exploratory; both are given here
-for completeness.
-
-\input{generated/tab_t2v_audit_full}
-
-\section{Signed Drift Attenuation}
-\label{sup:dar}
-
-Drift attenuation is stored as a signed quantity and reported clipped to
-$[0,1]$. Negative values are informative rather than anomalous: where local flow
-opposes the estimated global field, compensation increases the measured
-magnitude. We report their incidence rather than suppressing it.
-
-\input{generated/tab_dar_negative}
-
-\section{Deployment Sensitivity}
-\label{sup:deployment}
-
-\input{generated/tab_deployment}
-
-\section{Interpretation Changes}
-\label{sup:interpretation}
-
-Cases are selected by a fixed rank-gap rule applied to every audited system, so
-no qualifying case can be omitted; systems exhibiting no qualifying gap simply
-do not appear.
-
-\input{generated/tab_interpretation}
-
-\section{Image-Conditioned Track}
-\label{sup:i2v}
-
-The image-conditioned analysis is exploratory and is not part of the main
-paper's claims. Systems marked \emph{matched} are evaluated under a common
-long-horizon wrapper rather than their released configuration, and their scores
-are read as deployment sensitivity rather than as the published method's
-performance.
-
-\input{generated/tab_i2v_audit}
-
 \section{Additional Qualitative Material}
 \label{sup:qualitative}
 
-\begin{figure*}[t]
+\begin{figure*}[tb]
+\centering
+\includegraphics[width=\textwidth]{figures/fig8_i2v_qualitative.pdf}
+\caption{\textbf{Image-conditioned systems on one shared source image.} Every
+system begins from the identical frame, so divergence over the rollout is
+attributable to the system rather than to a differently imagined scene---which
+is not true of the text-conditioned track, where each system authors its own
+layout. Columns are ordered by increasing static-region drift.}
+\label{sup:fig_i2v}
+\end{figure*}
+
+\begin{figure*}[tb]
+\centering
+\includegraphics[width=\textwidth]{figures/figS_radar.pdf}
+\caption{\textbf{Factor profile per track.} Each factor is rescaled across the
+audited systems and oriented so that outward is always better; plotting raw
+values would place ``most drift'' and ``most surviving motion'' both outward and
+the shape would carry no meaning. No system encloses the others on either track,
+which is the conclusion the operating-regime view reaches, shown as a profile.}
+\label{sup:fig_radar}
+\end{figure*}
+
+\begin{figure*}[tb]
 \centering
 \includegraphics[width=\textwidth]{figures/fig7_limitations.pdf}
 \caption{\textbf{Stated scope boundaries.} (a)~A two-way partition cannot
@@ -202,32 +215,30 @@ without translating, which a rigid global model does not explain.}
 \label{sup:fig_limits}
 \end{figure*}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figures/fig5_rank_disagreement.pdf}
-\caption{\textbf{Rank disagreement at every audited horizon.} Rank under a
-whole-frame motion score against rank under normalised background flow. Both
-quantities are independent of the global-motion estimator. Prompt counts are
-given per panel; the shorter and longer tiers are diagnostic.}
-\label{sup:fig_ranks}
-\end{figure}
-
-\begin{figure*}[t]
+\begin{figure*}[tb]
 \centering
 \includegraphics[width=\textwidth]{figures/fig6_qualitative.pdf}
-\caption{\textbf{Every audited system on one prompt.} Columns are ordered by
-increasing static-region drift. The two highlighted systems are the pair a
-whole-frame motion score cannot separate: the leftmost holds its support fixed
-while its smoke continues to rise, the rightmost has relocated the scene
-entirely by $t=30$\,s.}
+\caption{\textbf{Every audited text-conditioned system on one prompt.} Columns
+are ordered by increasing static-region drift; the two highlighted systems are
+the pair a whole-frame motion score cannot separate.}
 \label{sup:fig_qualitative}
 \end{figure*}
 
-\begin{figure*}[t]
+\begin{figure*}[tb]
+\centering
+\includegraphics[width=\textwidth]{figures/fig5_rank_disagreement.pdf}
+\caption{\textbf{Rank disagreement at every audited horizon.} Rank under a
+whole-frame motion score against rank under normalised background flow. Both
+quantities are independent of the global-motion estimator; prompt counts are
+given per panel.}
+\label{sup:fig_ranks}
+\end{figure*}
+
+\begin{figure*}[tb]
 \centering
 \includegraphics[width=\textwidth]{figures/figS_category_balance.pdf}
-\caption{\textbf{Composition of the evaluation set by scene category.} Counts
-are prompts per category at each track and horizon.}
+\caption{\textbf{Composition of the evaluation set by scene category,} in
+prompts per category at each track and horizon.}
 \label{sup:fig_categories}
 \end{figure*}
 
