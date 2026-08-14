@@ -6,8 +6,8 @@ Standard VBench dimensions on the same generated videos SNF-Bench scores.
 |---|---|---|---|---|---|---|
 | Causal-Forcing++ (2-step) | 10 | 0.9319 | 0.9883 | 0.9826 | 64.2126 | 0.6050 |
 | Causal-Forcing++ (1-step) | 10 | 0.9269 | 0.9873 | 0.9811 | 65.1011 | 0.6022 |
-| Causal-Forcing (framewise) | 10 | 0.9061 | 0.9756 | 0.9625 | 61.9252 | 0.6005 |
-| Causal-Forcing++ (2-step, native nfpb=1) | 10 | 0.9558 | 0.9898 | 0.9838 | 62.2185 | 0.6332 |
+| Causal-Forcing (frame-wise) | 10 | 0.9061 | 0.9756 | 0.9625 | 61.9252 | 0.6005 |
+| Causal-Forcing++ (2-step, frame-wise) | 10 | 0.9558 | 0.9898 | 0.9838 | 62.2185 | 0.6332 |
 | Self-Forcing | 10 | 0.9466 | 0.9920 | 0.9887 | 62.6937 | 0.6378 |
 | CausVid | 10 | 0.9108 | 0.9897 | 0.9856 | 65.6274 | 0.6188 |
 | Wan2.1-I2V-14B-480P | 10 | 0.9654 | 0.9817 | 0.9741 | 60.7799 | 0.6780 |

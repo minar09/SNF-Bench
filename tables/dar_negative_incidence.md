@@ -14,20 +14,20 @@ Overall across all entries: **145 / 1578** clip-metrics negative (9.2%).
 | Causal-Forcing++ (1-step) | i2v | 240s | 5 | 0 | 0.0% | 0.175 |
 | Causal-Forcing++ (1-step) | i2v | 5s | 10 | 0 | 0.0% | 0.041 |
 | Causal-Forcing++ (1-step) | i2v | 60s | 30 | 0 | 0.0% | 0.013 |
-| Causal-Forcing (framewise) | i2v | 120s | 20 | 3 | 15.0% | -0.171 |
-| Causal-Forcing (framewise) | i2v | 240s | 5 | 0 | 0.0% | 0.046 |
-| Causal-Forcing (framewise) | i2v | 5s | 10 | 2 | 20.0% | -0.043 |
-| Causal-Forcing (framewise) | i2v | 60s | 30 | 0 | 0.0% | 0.008 |
+| Causal-Forcing (frame-wise) | i2v | 120s | 20 | 3 | 15.0% | -0.171 |
+| Causal-Forcing (frame-wise) | i2v | 240s | 5 | 0 | 0.0% | 0.046 |
+| Causal-Forcing (frame-wise) | i2v | 5s | 10 | 2 | 20.0% | -0.043 |
+| Causal-Forcing (frame-wise) | i2v | 60s | 30 | 0 | 0.0% | 0.008 |
 | Causal-Forcing++ (2-step) | i2v | 120s | 20 | 0 | 0.0% | 0.008 |
 | Causal-Forcing++ (2-step) | i2v | 240s | 5 | 0 | 0.0% | 0.053 |
 | Causal-Forcing++ (2-step) | i2v | 5s | 10 | 1 | 10.0% | -0.102 |
 | Causal-Forcing++ (2-step) | i2v | 60s | 30 | 0 | 0.0% | 0.005 |
-| Causal-Forcing++ (1-step, native) | i2v | 120s | 20 | 1 | 5.0% | -0.062 |
-| Causal-Forcing++ (1-step, native) | i2v | 60s | 30 | 3 | 10.0% | -0.770 |
-| Causal-Forcing++ (2-step, native nfpb=1) | i2v | 120s | 20 | 3 | 15.0% | -0.192 |
-| Causal-Forcing++ (2-step, native nfpb=1) | i2v | 240s | 5 | 2 | 40.0% | -0.164 |
-| Causal-Forcing++ (2-step, native nfpb=1) | i2v | 5s | 10 | 1 | 10.0% | -0.133 |
-| Causal-Forcing++ (2-step, native nfpb=1) | i2v | 60s | 30 | 2 | 6.7% | -0.014 |
+| Causal-Forcing++ (1-step, frame-wise) | i2v | 120s | 20 | 1 | 5.0% | -0.062 |
+| Causal-Forcing++ (1-step, frame-wise) | i2v | 60s | 30 | 3 | 10.0% | -0.770 |
+| Causal-Forcing++ (2-step, frame-wise) | i2v | 120s | 20 | 3 | 15.0% | -0.192 |
+| Causal-Forcing++ (2-step, frame-wise) | i2v | 240s | 5 | 2 | 40.0% | -0.164 |
+| Causal-Forcing++ (2-step, frame-wise) | i2v | 5s | 10 | 1 | 10.0% | -0.133 |
+| Causal-Forcing++ (2-step, frame-wise) | i2v | 60s | 30 | 2 | 6.7% | -0.014 |
 | LTX-Video 13B-0.9.8-distilled | i2v | 5s | 10 | 4 | 40.0% | -0.031 |
 | Self-Forcing | i2v | 120s | 20 | 3 | 15.0% | -0.131 |
 | Self-Forcing | i2v | 240s | 5 | 2 | 40.0% | -0.012 |

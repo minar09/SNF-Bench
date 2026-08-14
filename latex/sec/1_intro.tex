@@ -3,10 +3,10 @@
 
 Autoregressive and streaming video diffusion models now extend generation from seconds to minute-scale horizons. Evaluation has not kept pace: small temporal errors invisible in short clips accumulate over long rollouts into background displacement, colour drift, or motion decay, and whole-frame metrics summarise these qualitatively different failures into one score.
 
-\begin{figure*}[t]
+\begin{figure*}[tb]
 \centering
 \includegraphics[width=\textwidth]{figures/fig1_motivation.pdf}
-\caption{\textbf{Why a fixed-camera benchmark needs a spatial decomposition.} Three released $60$\,s generations of one prompt. A whole-frame motion score rates the first two rows almost identically, yet only the first holds its scene in place; their static-region drift differs by over an order of magnitude. The third row shows the opposite failure, which that score \emph{does} detect.}
+\caption{\textbf{Why a fixed-camera benchmark needs a spatial decomposition.} Three released $60$\,s generations of one prompt. A whole-frame motion score rates the first two rows almost identically, yet only the first holds its scene in place; their static-region drift differs by over an order of magnitude. The third row shows the opposite failure, which that score \emph{does} detect. DD${}^{*}$ is the per-video quantity underlying VBench Dynamic Degree, computed under its published rule but read before the binarisation the suite applies when aggregating, so that near-identical rows remain distinguishable as numbers.}
 \label{fig:motivation}
 \end{figure*}
 
@@ -22,6 +22,6 @@ Our contributions are:
 \begin{enumerate}
 \item \textbf{SNF-Bench}, an evaluation framework for long-horizon fixed-camera generation organised around a static-support/dynamic-flow partition.
 \item A \textbf{measurement protocol} that reports static fidelity, flow persistence with absolute magnitude, and drift leakage separately, and never as a single score.
-\item \textbf{Mechanistic validation} of every reported factor under corruptions of known type and severity, including calibration of the drift diagnostics and robustness of the region partition.
+\item \textbf{Mechanistic validation} of every reported factor under corruptions of known type and severity, with selectivity measured against the families each factor should ignore and every measurement recomputed under erosion and dilation of the region partition.
 \item A \textbf{public-model audit} showing that this decomposition materially changes the interpretation and ordering of long-horizon behaviour relative to whole-frame metrics.
 \end{enumerate}

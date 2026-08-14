@@ -1,0 +1,29 @@
+\begin{table*}[tb]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{l c c c c}
+\toprule
+System & prompt mean & rank & macro mean & rank \\
+\midrule
+\multicolumn{5}{l}{\emph{NBF}} \\
+\quad Infinite-Forcing & 3.65 & 1 & 4.12 & 1 \\
+\quad Reward-Forcing & 8.51 & 2 & 10.11 & 4$^{\dagger}$ \\
+\quad CausVid & 9.27 & 3 & 9.93 & 3 \\
+\quad Rolling-Forcing & 11.23 & 4 & 11.32 & 5$^{\dagger}$ \\
+\quad Self-Forcing & 12.72 & 5 & 8.98 & 2$^{\dagger}$ \\
+\quad LongLive & 13.86 & 6 & 14.69 & 6 \\
+\quad Causal-Forcing & 87.62 & 7 & 61.70 & 7 \\
+\multicolumn{5}{l}{\emph{fBD}} \\
+\quad Infinite-Forcing & 7.75 & 1 & 6.10 & 1 \\
+\quad CausVid & 8.08 & 2 & 9.51 & 3$^{\dagger}$ \\
+\quad Self-Forcing & 11.37 & 3 & 9.27 & 2$^{\dagger}$ \\
+\quad Reward-Forcing & 14.85 & 4 & 15.61 & 5$^{\dagger}$ \\
+\quad LongLive & 15.94 & 5 & 14.93 & 4$^{\dagger}$ \\
+\quad Rolling-Forcing & 16.77 & 6 & 18.85 & 6 \\
+\quad Causal-Forcing & 22.44 & 7 & 23.49 & 7 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Sensitivity of the audit to category aggregation.} Prompt means, as reported in the main paper, against category macro-averages, for the two static-fidelity factors at the principal horizon. $^{\dagger}$ marks a system whose rank changes. The best- and worst-ranked systems are identical under both, so the paper's headline contrast does not depend on the choice; intermediate positions do change, which is why no ordinal claim is made about the middle of the field.}
+\label{tab:aggregation}
+\end{table*}

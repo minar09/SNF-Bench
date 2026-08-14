@@ -23,8 +23,8 @@ configuration it was actually run under. **Setting A = native**, **Setting B = m
 |---|---|---|---|---|
 | Causal-Forcing++ (2-step) | public | matched | `ckpt/causal-forcing++/framewise-2step.pt` | run in the common long-horizon I2V wrapper (configs/causal_forcing_dmd_f2s_steady_chunk6.yaml, nfpb=6, --i2v) -- NOT the model's native configuration. Setting B / stress test only. |
 | Causal-Forcing++ (1-step) | public | matched | `ckpt/causal-forcing++/framewise-1step.pt` | run in the common long-horizon I2V wrapper (configs/causal_forcing_dmd_f2s_steady_chunk6.yaml, nfpb=6, --i2v) -- NOT the model's native configuration. Setting B / stress test only. |
-| Causal-Forcing (framewise) | public | matched | `ckpt/causal-forcing/framewise/causal_forcing.pt` | run in the common long-horizon I2V wrapper (configs/causal_forcing_dmd_f2s_steady_chunk6.yaml, nfpb=6, --i2v) -- NOT the model's native configuration. Setting B / stress test only. |
-| Causal-Forcing++ (2-step, native nfpb=1) | public | native | `ckpt/causal-forcing++/framewise-2step.pt` | run at its NATIVE pure-framewise config (causal_forcing_dmd_f2s_steady.yaml). The one public I2V entry with a genuine Setting-A run at 60s+. |
+| Causal-Forcing (frame-wise) | public | matched | `ckpt/causal-forcing/framewise/causal_forcing.pt` | run in the common long-horizon I2V wrapper (configs/causal_forcing_dmd_f2s_steady_chunk6.yaml, nfpb=6, --i2v) -- NOT the model's native configuration. Setting B / stress test only. |
+| Causal-Forcing++ (2-step, frame-wise) | public | native | `ckpt/causal-forcing++/framewise-2step.pt` | run at its NATIVE pure-framewise config (causal_forcing_dmd_f2s_steady.yaml). The one public I2V entry with a genuine Setting-A run at 60s+. |
 | Self-Forcing | public | matched | `ckpt/Self-Forcing/checkpoints/self_forcing_dmd.pt` | run in the common long-horizon I2V wrapper (configs/causal_forcing_dmd_f2s_steady_chunk6.yaml, nfpb=6, --i2v) -- NOT the model's native configuration. Setting B / stress test only. |
 | CausVid | public | matched | `ckpt/CausVid/autoregressive_checkpoint/model.pt` | run in the common long-horizon I2V wrapper (configs/causal_forcing_dmd_f2s_steady_chunk6.yaml, nfpb=6, --i2v) -- NOT the model's native configuration. Setting B / stress test only. |
 | Wan2.1-I2V-14B-480P | public | native | `ckpt/wan_models/Wan2.1-I2V-14B-480P` | bidirectional 14B, native config, 5s only (fixed-length model) |
@@ -44,7 +44,7 @@ configuration it was actually run under. **Setting A = native**, **Setting B = m
 | phase7 ckpt 200 | internal | matched | -- | checkpoint ladder - excluded |
 | phase7 ckpt 300 | internal | matched | -- | checkpoint ladder - excluded |
 | phase7 ckpt 400 | internal | matched | -- | checkpoint ladder - excluded |
-| Causal-Forcing++ (1-step, native) | public | native | `ckpt/causal-forcing++/framewise-1step.pt` | native pure-framewise config; partial coverage (50/65) |
+| Causal-Forcing++ (1-step, frame-wise) | public | native | `ckpt/causal-forcing++/framewise-1step.pt` | native pure-framewise config; partial coverage (50/65) |
 | Causal-Forcing++ (2-step) +color-match | postproc | matched | -- | post-hoc color match of chunk6 |
 | RA-I2V +color-match | internal | matched | -- | OUR method - excluded |
 | RA-I2V-v1 +color-match | internal | matched | -- | OUR method - excluded |

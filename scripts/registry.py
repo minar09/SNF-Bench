@@ -56,9 +56,9 @@ I2V = [
          ckpt="ckpt/causal-forcing++/framewise-2step.pt", note=_MATCHED),
     dict(key="cf++_1step", name="Causal-Forcing++ (1-step)", track="i2v", status="public", setting="matched",
          ckpt="ckpt/causal-forcing++/framewise-1step.pt", note=_MATCHED),
-    dict(key="cf_framewise", name="Causal-Forcing (framewise)", track="i2v", status="public", setting="matched",
+    dict(key="cf_framewise", name="Causal-Forcing (frame-wise)", track="i2v", status="public", setting="matched",
          ckpt="ckpt/causal-forcing/framewise/causal_forcing.pt", note=_MATCHED),
-    dict(key="f2s_framewise", name="Causal-Forcing++ (2-step, native nfpb=1)", track="i2v",
+    dict(key="f2s_framewise", name="Causal-Forcing++ (2-step, frame-wise)", track="i2v",
          status="public", setting="native",
          ckpt="ckpt/causal-forcing++/framewise-2step.pt",
          note="run at its NATIVE pure-framewise config (causal_forcing_dmd_f2s_steady.yaml). "
@@ -103,7 +103,7 @@ I2V = [
          ckpt="", note="checkpoint ladder - excluded"),
     dict(key="phase7_000400", name="phase7 ckpt 400", track="i2v", status="internal", setting="matched",
          ckpt="", note="checkpoint ladder - excluded"),
-    dict(key="f1s_framewise", name="Causal-Forcing++ (1-step, native)", track="i2v", status="public",
+    dict(key="f1s_framewise", name="Causal-Forcing++ (1-step, frame-wise)", track="i2v", status="public",
          setting="native", ckpt="ckpt/causal-forcing++/framewise-1step.pt",
          note="native pure-framewise config; partial coverage (50/65)"),
     # color-matched post-process variants

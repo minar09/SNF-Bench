@@ -46,9 +46,15 @@ LFIG = f"{ROOT}/latex/figures"
 MAIN_KEYS = ["fBD_mean", "NBF_mean", "MCFF_early_mean", "MCFF_late_mean",
              "FP_mean", "DLR_mean", "DAR_mean"]
 # Main-paper subset: every column carries a bootstrap interval, so the table has
-# to be narrow enough for one to fit. MCFF-E is a reference quantity for FP and
-# DAR is pending its validation gate; both remain in the supplementary table.
-HEADLINE_KEYS = ["fBD_mean", "NBF_mean", "MCFF_late_mean", "FP_mean", "DLR_mean"]
+# to be narrow enough for one to fit. DAR stays in the supplementary table.
+# MCFF-E rides in the headline table because the paper's own interpretation
+# rule forbids reading FP without the absolute magnitude it is a fraction of:
+# a high FP over negligible early motion is stagnation, not persistence.
+# DLR and DAR are drift *diagnostics* read comparatively, not headline factors,
+# and DLR's rotational response is inverted; both are tabulated in full in the
+# supplement and quoted in the text where they carry the argument.
+HEADLINE_KEYS = ["fBD_mean", "NBF_mean", "MCFF_early_mean", "MCFF_late_mean",
+                 "FP_mean"]
 HDR = {"fBD_mean": r"fBD$\downarrow$", "NBF_mean": r"NBF$\downarrow$",
        "MCFF_early_mean": r"MCFF-E", "MCFF_late_mean": r"MCFF-L$\uparrow$",
        "FP_mean": r"FP$\uparrow$", "DLR_mean": r"DLR$\downarrow$",
@@ -126,6 +132,15 @@ def audit_table(ix, track, durations, label, caption, wide=False):
                     cells.append("--")
                     continue
                 mu = BT.mean(xs)
+                # MCFF-E is carried as the left half of the paired magnitude
+                # cell, so it is emitted by MCFF-L rather than on its own.
+                if k == "MCFF_early_mean" and not wide:
+                    continue
+                if k == "MCFF_late_mean" and not wide:
+                    e = list(vals.get("MCFF_early_mean", {}).values())
+                    lhs = fmt(BT.mean(e)) if e else "--"
+                    cells.append(f"{lhs}\\,$\\rightarrow$\\,{fmt(mu)}")
+                    continue
                 if wide or len(xs) < 3:
                     cells.append(fmt(mu))
                 else:
@@ -143,17 +158,23 @@ def audit_table(ix, track, durations, label, caption, wide=False):
     ns = {dur: {n for _, n, _ in rows} for dur, rows in panels}
     show_n = any(len(v) > 1 for v in ns.values())
 
-    ncols = 1 + (1 if show_setting else 0) + (1 if show_n else 0) + len(keys)
+    # In the narrow table MCFF-E is folded into the MCFF-L cell, so it holds no
+    # column of its own and must not claim a header.
+    cols = [k for k in keys if not (k == "MCFF_early_mean" and not wide)]
+    hdr = dict(HDR)
+    if not wide and "MCFF_early_mean" in keys:
+        hdr["MCFF_late_mean"] = r"MCFF E$\rightarrow$L"
+    ncols = 1 + (1 if show_setting else 0) + (1 if show_n else 0) + len(cols)
     env = "table*" if wide else "table"
     size = r"\small" if wide else r"\scriptsize"
     lines = [r"\begin{%s}[tb]" % env, r"\centering", size,
              r"\setlength{\tabcolsep}{%s}" % ("4pt" if wide else "2.6pt"),
              r"\begin{tabular}{l" + ("l" if show_setting else "")
-             + ("c" if show_n else "") + "c" * len(keys) + "}",
+             + ("c" if show_n else "") + "c" * len(cols) + "}",
              r"\toprule",
              "Method" + (" & setting" if show_setting else "")
              + (" & $n$" if show_n else "") + " & "
-             + " & ".join(HDR[k] for k in keys) + r" \\"]
+             + " & ".join(hdr[k] for k in cols) + r" \\"]
     for dur, rows in panels:
         lines.append(r"\midrule")
         n_here = sorted(ns[dur])
@@ -174,9 +195,14 @@ def audit_table(ix, track, durations, label, caption, wide=False):
     if not show_n:
         extra += r" $n$ is stated per horizon and is common to every row of that panel."
     if not wide:
-        extra += (r" Values are prompt-level means $\pm$ half the width of a "
-                  r"percentile bootstrap 95\% interval (10k resamples, fixed seed). "
-                  r"MCFF-E and DAR appear in the supplementary table.")
+        extra += (r" Values are means over prompts $\pm$ half a percentile "
+                  r"bootstrap 95\% interval (10k resamples, fixed seed). MCFF-E "
+                  r"and MCFF-L are given together because FP is a ratio and is "
+                  r"not interpretable without the magnitude it is taken over; "
+                  r"intervals overlap for several systems, and only "
+                  r"non-overlapping comparisons are described as separated. "
+                  r"Aggregation sensitivity and the DLR/DAR diagnostics are "
+                  r"reported in the supplementary material.")
     lines += [r"\bottomrule", r"\end{tabular}",
               r"\caption{%s%s}" % (caption, extra), r"\label{%s}" % label,
               r"\end{%s}" % env]
@@ -215,7 +241,22 @@ def disagreement_table(ix, track="t2v", dur="60s",
         rows.append((METRICS[gk][1], cells))
     if not rows:
         return None
-    lines = [r"\begin{table}[t]", r"\centering", r"\small",
+
+    # Two VBench dimensions induce the identical ranking of these systems, so
+    # their correlations are identical by construction. Printing the same row
+    # twice suggests two independent corroborations where there is one; the
+    # rows are merged and the equivalence stated instead.
+    merged, seen = [], {}
+    for name, cells in rows:
+        key = tuple(cells)
+        if key in seen:
+            merged[seen[key]] = (merged[seen[key]][0] + " / " + name, cells)
+        else:
+            seen[key] = len(merged)
+            merged.append((name, cells))
+    rows = merged
+
+    lines = [r"\begin{table}[tb]", r"\centering", r"\small",
              r"\begin{tabular}{l" + "c" * len(snf) + "}", r"\toprule",
              r"generic metric & " + " & ".join(METRICS[k][1] for k in snf) + r" \\",
              r"\midrule"]
@@ -340,6 +381,131 @@ def interpretation_table(ix, track="t2v", dur="60s", label="tab:interpretation_c
               r"correct; the table identifies information hidden by whole-frame "
               r"aggregation. Cases are selected by a fixed rank-gap rule applied to "
               r"all public methods, so none can be selectively omitted.}",
+              r"\label{%s}" % label, r"\end{table*}"]
+    return "\n".join(lines)
+
+
+def native_config_table(track="t2v", label="tab:native_config"):
+    """What was actually recorded about each audited system's generation.
+
+    An earlier version of this table was dropped from the main paper because
+    every column held the same value for every row. It belongs in the
+    supplement, where the shared geometry is itself the point: identical
+    resolution, frame rate and horizon support mean the audit compares systems
+    rather than output formats.
+
+    The per-method sampler settings a reader would need to reproduce generation
+    -- denoising steps, chunk length, guidance scale, cache policy -- were not
+    written into the run manifest, so they are not tabulated. Stating that is
+    the honest option; inferring them after the fact would put numbers in the
+    paper that nothing in the artifacts supports.
+    """
+    import csv as _csv
+    geo = defaultdict(set)
+    durs = defaultdict(set)
+    meta = f"{MAN}/video_meta.csv"
+    if not os.path.exists(meta):
+        return None
+    with open(meta) as fh:
+        for r in _csv.DictReader(fh):
+            if r.get("track") == track:
+                geo[r["model"]].add((r.get("width"), r.get("height"), r.get("fps")))
+                durs[r["model"]].add(r.get("duration"))
+
+    models = [m for m in ALL if m["track"] == track and m["status"] == "public"]
+    rows = []
+    for m in models:
+        g = sorted(geo.get(m["key"], []))
+        if not g:
+            continue
+        w, h, fps = g[0]
+        mixed = "" if len(g) == 1 else r"$^{\ddagger}$"
+        ds = sorted(durs.get(m["key"], []), key=lambda s: int(s.rstrip("s")))
+        rows.append((m["name"], m["setting"], f"{w}$\\times${h}{mixed}",
+                     f"{float(fps):.0f}", ", ".join(ds)))
+    if not rows:
+        return None
+
+    lines = [r"\begin{table*}[tb]", r"\centering", r"\small",
+             r"\setlength{\tabcolsep}{5pt}",
+             r"\begin{tabular}{l l c c l}", r"\toprule",
+             r"System & setting & resolution & fps & horizons \\", r"\midrule"]
+    for r_ in rows:
+        lines.append(" & ".join(r_) + r" \\")
+    lines += [r"\bottomrule", r"\end{tabular}",
+              r"\caption{\textbf{Recorded generation configuration.} Every "
+              r"audited system was run in its released configuration and "
+              r"produced output at the same resolution and frame rate over the "
+              r"same horizons, so no comparison in this paper is confounded by "
+              r"output format. Per-method sampler settings---denoising steps, "
+              r"chunk length, guidance scale, cache policy---were not captured "
+              r"in the run manifest and are therefore not listed here; this is a "
+              r"reproducibility gap we state rather than fill by inference.}",
+              r"\label{%s}" % label, r"\end{table*}"]
+    return "\n".join(lines)
+
+
+def aggregation_table(ix, track="t2v", dur="60s", label="tab:aggregation"):
+    """Prompt-mean versus category-macro-average, with the rank each induces.
+
+    The evaluation set is dominated by one flow medium, so the obvious question
+    is whether the audit merely reports that medium. Macro-averaging is not the
+    answer at this horizon -- three of the five populated categories hold two
+    prompts, and a two-prompt cell would carry the same weight as a
+    fourteen-prompt one -- so we report the headline under prompt means and put
+    the comparison here instead of asserting robustness.
+    """
+    import csv as _csv
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from categories import macro_average
+
+    models = [m for m in ALL if m["track"] == track and m["status"] == "public"]
+    per = defaultdict(dict)
+    with open(f"{MAN}/per_video_scores.csv") as fh:
+        for r in _csv.DictReader(fh):
+            if r["track"] == track and r["duration"] == dur:
+                per[(r["model"], r["metric"])][r["prompt_id"]] = float(r["value"])
+
+    rows = []
+    for key in ("NBF_mean", "fBD_mean"):
+        vals = []
+        for m in models:
+            pp = per.get((m["key"], key))
+            if not pp:
+                continue
+            micro = sum(pp.values()) / len(pp)
+            macro, _, _ = macro_average(pp, track, dur)
+            if macro is None:
+                continue
+            vals.append([m["name"], micro, macro])
+        if not vals:
+            continue
+        r_mi = {v[0]: i + 1 for i, v in enumerate(sorted(vals, key=lambda x: x[1]))}
+        r_ma = {v[0]: i + 1 for i, v in enumerate(sorted(vals, key=lambda x: x[2]))}
+        rows.append((key, sorted(vals, key=lambda x: x[1]), r_mi, r_ma))
+    if not rows:
+        return None
+
+    pretty = {"NBF_mean": "NBF", "fBD_mean": "fBD"}
+    lines = [r"\begin{table*}[tb]", r"\centering", r"\small",
+             r"\setlength{\tabcolsep}{5pt}",
+             r"\begin{tabular}{l c c c c}", r"\toprule",
+             r"System & prompt mean & rank & macro mean & rank \\", r"\midrule"]
+    for key, vals, r_mi, r_ma in rows:
+        lines.append(r"\multicolumn{5}{l}{\emph{%s}} \\" % pretty.get(key, key))
+        for name, micro, macro in vals:
+            moved = "" if r_mi[name] == r_ma[name] else r"$^{\dagger}$"
+            lines.append(f"\\quad {name} & {micro:.2f} & {r_mi[name]} & "
+                         f"{macro:.2f} & {r_ma[name]}{moved} \\\\")
+    lines += [r"\bottomrule", r"\end{tabular}",
+              r"\caption{\textbf{Sensitivity of the audit to category "
+              r"aggregation.} Prompt means, as reported in the main paper, "
+              r"against category macro-averages, for the two static-fidelity "
+              r"factors at the principal horizon. $^{\dagger}$ marks a system "
+              r"whose rank changes. The best- and worst-ranked systems are "
+              r"identical under both, so the paper's headline contrast does not "
+              r"depend on the choice; intermediate positions do change, which is "
+              r"why no ordinal claim is made about the middle of the field.}",
               r"\label{%s}" % label, r"\end{table*}"]
     return "\n".join(lines)
 
@@ -629,9 +795,10 @@ def main():
 
     t = disagreement_table(
         ix, caption=r"\textbf{Rank disagreement at 60\,s.} Spearman correlation "
-                    r"between generic whole-frame metrics and SNF-Bench factors over "
-                    r"method-level means. A positive correlation between apparent "
-                    r"motion and background flow is the effect the benchmark isolates.")
+                    r"over $n=7$ method means---descriptive, not inferential. "
+                    r"Positive correlation between apparent motion and background "
+                    r"flow is the effect the benchmark isolates. Smoothness and "
+                    r"flickering rank these systems identically and share a row.")
     if t:
         open(f"{OUT}/tab_disagreement.tex", "w").write(t)
         written.append("tab_disagreement.tex")
@@ -656,6 +823,8 @@ def main():
     for fn, name in ((abstention_table(), "tab_abstention.tex"),
                      (validation_table(), "tab_validation.tex"),
                      (interpretation_table(ix), "tab_interpretation.tex"),
+                     (aggregation_table(ix), "tab_aggregation.tex"),
+                     (native_config_table(), "tab_native_config.tex"),
                      (deployment_table(ix), "tab_deployment.tex")):
         if fn:
             open(f"{OUT}/{name}", "w").write(fn)

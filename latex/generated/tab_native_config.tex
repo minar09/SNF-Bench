@@ -1,0 +1,20 @@
+\begin{table*}[tb]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{l l c c l}
+\toprule
+System & setting & resolution & fps & horizons \\
+\midrule
+CausVid & native & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Self-Forcing & native & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Infinite-Forcing & native & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Rolling-Forcing & native & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Reward-Forcing & native & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+LongLive & native & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Causal-Forcing & native & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Recorded generation configuration.} Every audited system was run in its released configuration and produced output at the same resolution and frame rate over the same horizons, so no comparison in this paper is confounded by output format. Per-method sampler settings---denoising steps, chunk length, guidance scale, cache policy---were not captured in the run manifest and are therefore not listed here; this is a reproducibility gap we state rather than fill by inference.}
+\label{tab:native_config}
+\end{table*}

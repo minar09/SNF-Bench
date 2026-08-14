@@ -24,11 +24,11 @@
 |---|---|---|---|---|---|---|
 | Causal-Forcing++ (2-step) | public | matched | V10 T10 X B | V30 T30 X B | V20 T20 X B | V5 T5 X B |
 | Causal-Forcing++ (1-step) | public | matched | V10 T10 X B | V30 T29/30 X B | V20 T20 X B | V5 T5 X B |
-| Causal-Forcing (framewise) | public | matched | V10 T10 X B | V30 T30 X B | V20 T20 X B | V5 T5 X B |
-| Causal-Forcing++ (2-step, native nfpb=1) | public | native | V10 T10 X B | V30 T30 X B | V20 T20 X B | V5 T5 X B |
+| Causal-Forcing (frame-wise) | public | matched | V10 T10 X B | V30 T30 X B | V20 T20 X B | V5 T5 X B |
+| Causal-Forcing++ (2-step, frame-wise) | public | native | V10 T10 X B | V30 T30 X B | V20 T20 X B | V5 T5 X B |
 | Self-Forcing | public | matched | V10 T10 X B | V30 T30 X B | V20 T20 X B | V5 T5 X B |
 | CausVid | public | matched | V10 T10 X B | V30 T29/30 X B | V20 T20 X B | V5 T5 X B |
 | Wan2.1-I2V-14B-480P | public | native | V10 T10 X B | · | · | · |
 | Wan2.2-I2V-A14B | public | native | V10 T10 X B | · | · | · |
 | LTX-Video 13B-0.9.8-distilled | public | native | V10 T10 X B | · | · | · |
-| Causal-Forcing++ (1-step, native) | public | native | · | V30 T30 | V20 T20 | · |
+| Causal-Forcing++ (1-step, frame-wise) | public | native | · | V30 T30 | V20 T20 | · |

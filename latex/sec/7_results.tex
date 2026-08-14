@@ -12,19 +12,18 @@ Table~\ref{tab:t2v_audit} reports SNF-Bench measurements at the $60$\,s horizon,
 
 \paragraph{Motion persistence.} Dynamic-region behavior is evaluated at the joint operating point $\bigl(\mathrm{MCFF}(\mathcal{L}),\,\mathrm{FP}\bigr)$, never FP alone: sustained flow requires non-trivial late motion \emph{and} high retention. Reporting MCFF-E beside MCFF-L makes the degenerate case visible---a system with negligible motion throughout cannot reach a high FP without also displaying a small MCFF-E.
 
-\paragraph{Static--dynamic operating regimes.} Figure~\ref{fig:regimes_native} places each system in the static-drift--surviving-flow plane, exposing qualitatively different regimes---low-drift/low-motion, high-motion/high-drift, and low-drift/non-trivial-motion---without collapsing the axes into a scalar score. The two extremes are informative in opposite directions: Infinite-Forcing attains the lowest static drift of any audited system while placing last on surviving late motion, and Causal-Forcing sits alone at the opposite corner.
+\paragraph{Static--dynamic operating regimes.} Figure~\ref{fig:regimes_native} places each system in the static-drift--surviving-flow plane, exposing qualitatively different regimes---low-drift/low-motion, high-motion/high-drift, and low-drift/non-trivial-motion---without collapsing the axes into a scalar score. The two extremes are informative in opposite directions. Infinite-Forcing has the lowest normalised background flow, and is the only system whose interval on that factor excludes every other, while also showing the least surviving late motion; on feature-based drift its interval overlaps the next-ranked system, so it is not the least-drifting system outright. Causal-Forcing sits alone at the opposite corner, separated on background flow by a wide margin.
 
-\begin{figure}[t]
+\begin{figure}[tb]
 \centering
-\includegraphics[width=\linewidth]{figures/fig4_operating_regime.pdf}
-\caption{\textbf{Operating regimes under native deployment.} Colour encodes the share of dynamic-region flow a global similarity model accounts for. The view exposes trade-offs; it is not a leaderboard.}
+\includegraphics[width=0.93\linewidth]{figures/fig4_operating_regime.pdf}
+\caption{\textbf{Operating regimes under native deployment.} Colour encodes the relative attenuation of measured dynamic-region flow after global-motion compensation, not a share of it attributable to drift: the quantity is signed, and values are shown clipped to $[0,1]$. The view exposes trade-offs; it is not a leaderboard.}
 \label{fig:regimes_native}
 \end{figure}
 
 \subsection{Drift Leakage Changes the Interpretation of Apparent Motion}
 \label{sec:results_drift}
 
-The effect is systematic rather than anecdotal. Over the audited systems at 60\,s, VBench Dynamic Degree correlates with SNF-Bench's static-region flow at Spearman $\rho = \SNFddNBF$ (supplementary material): the systems a generic metric reads as most dynamic are, to a close approximation, the systems whose backgrounds move most. The consequence for ordering is direct. Causal-Forcing ranks \SNFrankCFDD{} of \SNFnPublicTTV{} on Dynamic Degree and \SNFrankCFNBF{} of \SNFnPublicTTV{} on NBF; Infinite-Forcing occupies the mirror position, ranking \SNFrankIFNBF{} on static fidelity and \SNFrankIFDD{} on apparent motion. Read jointly with its magnitudes, Causal-Forcing's DLR of \SNFvalCFDLR{} indicates static-region motion energy almost equal to that of the region intended to move, while its DAR of \SNFvalCFDAR{} indicates that a rigid global model accounts for only part of it---the remainder is non-rigid instability, which a translation-only account would have misdescribed.
+The effect is systematic rather than anecdotal. Table~\ref{tab:disagreement} correlates each generic whole-frame metric with each SNF-Bench factor over method-level means: Dynamic Degree tracks static-region flow at $\rho = \SNFddNBF$, so the systems a generic metric reads as most dynamic are, closely, those whose backgrounds move most. Causal-Forcing ranks \SNFrankCFDD{} of \SNFnPublicTTV{} on Dynamic Degree and \SNFrankCFNBF{} on NBF; Infinite-Forcing mirrors it, ranking \SNFrankIFNBF{} on static fidelity and \SNFrankIFDD{} on apparent motion. Read with its magnitudes, Causal-Forcing's DLR of \SNFvalCFDLR{} indicates static-region motion energy almost equal to the region intended to move, while its DAR of \SNFvalCFDAR{} indicates a rigid global model accounts for only part of it---the remainder is non-rigid instability.
 
-
-The supplementary material records every case in which the two orderings disagree by more than a fixed rank threshold, under a rule applied to every audited system so that no qualifying case can be omitted.
+\input{generated/tab_disagreement}

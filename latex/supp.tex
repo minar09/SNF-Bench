@@ -71,6 +71,13 @@ partition. We therefore treat partitions as measured quantities and report the
 consequence directly---every measurement is recomputed under systematic erosion
 and dilation of the boundary, with the response in Table~\ref{tab:validation}.
 
+\begin{figure}[tb]
+\centering
+\includegraphics[width=\linewidth]{figures/fig2_mask_protocol.pdf}
+\caption{\textbf{Region-partition protocol.} (a)~The partition is derived automatically from early-window flow, with an ignored transition band at the boundary. (b)~A two-way partition cannot represent layered content such as rain crossing static support, which is the scope limit stated in the main paper.}
+\label{sup:fig_mask}
+\end{figure}
+
 \section{Validation Protocol}
 \label{sup:validation}
 
@@ -87,6 +94,20 @@ order of magnitude, and a factor can appear non-monotone simply because the
 corruption was too weak to clear the clip's own baseline drift.
 
 \input{generated/tab_validation}
+
+\section{Generation Configuration}
+\label{sup:config}
+
+Every audited system was run in its released configuration. What the run
+manifest records is reported below; what it does not record is stated rather
+than reconstructed. Per-method sampler settings---denoising steps, chunk
+length, guidance scale, cache policy---were not captured at generation time,
+and we do not infer them after the fact. This is the weakest point in the
+reproducibility of the audit, and it constrains what the results support: they
+compare the systems as released and run here, not the space of settings each
+admits.
+
+\input{generated/tab_native_config}
 
 \section{Measurement Coverage}
 \label{sup:coverage}
@@ -114,10 +135,26 @@ rather than as the published method's performance.
 \input{generated/tab_t2v_audit_full}
 \input{generated/tab_i2v_audit_full}
 
+\section{Aggregation Sensitivity}
+\label{sup:aggregation}
+
+The evaluation set is dominated by one flow medium, so the audit must be shown
+not to be a report on that medium alone. The main paper aggregates by averaging
+over prompts. The alternative, weighting each scene category equally, is not
+preferable here: at the principal horizon three of the five populated categories
+contain two prompts each, so a macro-average would give a two-prompt cell the
+same influence as a fourteen-prompt one and inflate variance in exchange for
+nominal balance. We therefore report both and state what changes.
+
+The best- and worst-ranked systems are the same under either aggregation, so the
+contrast the paper draws does not depend on the choice. Intermediate ranks do
+move, which is why no ordinal claim is made about the middle of the field.
+
+\input{generated/tab_aggregation}
+
 \section{Whole-Frame and SNF-Bench Rank Correlation}
 \label{sup:disagreement}
 
-\input{generated/tab_disagreement}
 \input{generated/tab_interpretation}
 
 \section{Deployment Sensitivity}
