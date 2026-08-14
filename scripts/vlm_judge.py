@@ -108,16 +108,26 @@ class QwenJudge:
         self.model.eval()
 
     def ask(self, frames_a, frames_b, question):
+        """Each clip is passed as a *video*, not as loose frames.
+
+        Interleaving both clips as a flat image sequence separated only by text
+        gives the model nothing that binds a frame to "FIRST" or "SECOND", and
+        it answers by position instead of by content: an early version of this
+        harness returned SECOND on 36 of 48 queries and was self-consistent on
+        7 of 24 pairs, i.e. below chance for a three-way choice. Two video
+        blocks give each clip its own vision span, which is what the model was
+        trained on.
+        """
         import torch
         content = [{"type": "text", "text": question},
-                   {"type": "text", "text": "\nFIRST clip:"}]
-        content += [{"type": "image"} for _ in frames_a]
-        content += [{"type": "text", "text": "\nSECOND clip:"}]
-        content += [{"type": "image"} for _ in frames_b]
+                   {"type": "text", "text": "\nFIRST clip:"},
+                   {"type": "video"},
+                   {"type": "text", "text": "\nSECOND clip:"},
+                   {"type": "video"}]
         msgs = [{"role": "user", "content": content}]
         prompt = self.proc.apply_chat_template(msgs, add_generation_prompt=True,
                                                tokenize=False)
-        inputs = self.proc(text=[prompt], images=frames_a + frames_b,
+        inputs = self.proc(text=[prompt], videos=[frames_a, frames_b],
                            return_tensors="pt").to(self.model.device)
         with torch.no_grad():
             out = self.model.generate(**inputs, max_new_tokens=8, do_sample=False)
@@ -170,6 +180,9 @@ def main():
         records.append(dict(axis=t["axis"], prompt=t["prompt"], a=t["a"], b=t["b"],
                             gap=t["gap"], metric_says=t["metric_says"],
                             vlm_order1=pick1, vlm_order2=pick2,
+                            # positional answers are kept so a judge answering
+                            # by slot rather than by content stays visible
+                            pos1=v1, pos2=v2,
                             consistent=(pick1 == pick2)))
         if (i + 1) % 10 == 0:
             print(f"  {i+1}/{len(trials)}", flush=True)
@@ -194,6 +207,22 @@ def main():
     for ax, (agree, cons, tot) in by.items():
         print(f"  {ax:6s} {agree}/{cons}  ({agree/max(1,cons)*100:.0f}%)   "
               f"{cons}/{tot} ({cons/max(1,tot)*100:.0f}%)")
+
+    # Positional summary. If one slot dominates, the judge is reading layout
+    # rather than video and no agreement number computed from it is meaningful,
+    # however healthy that number happens to look.
+    slots = defaultdict(int)
+    for r in records:
+        for v in (r["pos1"], r["pos2"]):
+            slots[v or "unparsed"] += 1
+    n_q = 2 * len(records)
+    top, top_n = max(slots.items(), key=lambda kv: kv[1])
+    print(f"\nposition check over {n_q} queries: "
+          + ", ".join(f"{k}={v}" for k, v in sorted(slots.items())))
+    if top != "same" and top_n > 0.60 * n_q:
+        print(f"  WARNING: '{top.upper()}' chosen in {top_n}/{n_q} "
+              f"({top_n/n_q*100:.0f}%) -- judge is answering by position; "
+              f"agreement above is not interpretable.")
     return 0
 
 
