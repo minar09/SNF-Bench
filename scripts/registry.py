@@ -48,9 +48,13 @@ T2V = [
 # Source repo: /home/minar/region-forcing (videos in output/eval/<key>/<dur>)
 # Metrics:     snf_eval/results/metrics/<key>/<dur>/{snf_task_metrics,snf_extra_metrics}.json
 #              + vbench_std/*eval_results.json
+# Config names are deliberately neutral in anything that ships: a released
+# artifact must not carry the name of an unpublished internal method, in a
+# filename or anywhere else.
 _MATCHED = ("run in the common long-horizon I2V wrapper "
-            "(configs/causal_forcing_dmd_f2s_steady_chunk6.yaml, nfpb=6, --i2v) -- "
-            "NOT the model's native configuration. Setting B / stress test only.")
+            "(configs/common_longhorizon_i2v.yaml, 6 frames per block, "
+            "image-conditioned) -- NOT the model's native configuration. "
+            "Read as deployment sensitivity only.")
 I2V = [
     dict(key="chunk6", name="Causal-Forcing++ (2-step)", track="i2v", status="public", setting="matched",
          ckpt="ckpt/causal-forcing++/framewise-2step.pt", note=_MATCHED),
@@ -61,8 +65,9 @@ I2V = [
     dict(key="f2s_framewise", name="Causal-Forcing++ (2-step, frame-wise)", track="i2v",
          status="public", setting="native",
          ckpt="ckpt/causal-forcing++/framewise-2step.pt",
-         note="run at its NATIVE pure-framewise config (causal_forcing_dmd_f2s_steady.yaml). "
-              "The one public I2V entry with a genuine Setting-A run at 60s+."),
+         note="run at its native pure-framewise config "
+              "(configs/framewise_native_i2v.yaml); a genuine native-setting "
+              "run at 60s and beyond."),
     dict(key="self_forcing", name="Self-Forcing", track="i2v", status="public", setting="matched",
          ckpt="ckpt/Self-Forcing/checkpoints/self_forcing_dmd.pt", note=_MATCHED),
     dict(key="causvid", name="CausVid", track="i2v", status="public", setting="matched",

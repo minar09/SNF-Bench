@@ -255,7 +255,18 @@ def main():
 
     _w(f"{MAN}/collection_log.json",
        [dict(track=t, model=m, dur=d, kind=k, src=s) for t, m, d, k, s in log])
-    _w(f"{MAN}/registry_snapshot.json", ALL)
+    # Only the public roster is snapshotted. The registry also carries internal
+    # and scratch entries, and their keys, checkpoint paths and notes name
+    # unpublished work; shipping them in a reproducibility manifest would
+    # deanonymise the submission and disclose that work in one file open. The
+    # excluded entries are counted so the omission is visible, never named.
+    public = [m for m in ALL if m.get("status") == "public"]
+    _w(f"{MAN}/registry_snapshot.json", public)
+    _w(f"{MAN}/registry_exclusions.json",
+       {"n_excluded": len(ALL) - len(public),
+        "reason": "non-public entries (internal, post-processed or scratch) are "
+                  "excluded from the released roster by construction",
+        "n_public": len(public)})
 
     print(f"collected {len(log)} metric artifacts")
     print(f"indexed  {len(vids)} videos across "

@@ -21,6 +21,7 @@ const CONFIG = {
   STUDY_TITLE: "Fixed-Camera Video: Background Stability and Motion Persistence",
   APP_VERSION: "snf-bench-axis-study-v1",
   SHEET_NAME: "responses",
+  SUMMARY_SHEET_NAME: "summary",
   SPREADSHEET_ID: "1E8Y4zZ6mTBqC6keqpYOL-6VJGatljIWuSv77u06KHlw",
   TRIALS_PER_RATER: 24,        // 12 per axis; about 8 minutes
   ALLOW_TIE: true              // indistinguishable pairs must be answerable
@@ -141,14 +142,16 @@ function getConfig() {
 }
 
 /**
- * Trials are served in a per-rater random order, and A/B presentation side is
- * randomised per trial. Without both, a rater who notices that one column is
- * usually the drifting one stops judging the video and starts judging the
- * layout.
+ * Keep the two tasks in separate, predictable blocks for raters: all twelve
+ * background-drift trials first, then all twelve motion-decay trials. Only the
+ * presentation side is counterbalanced per rater.
  */
 function getTrials(raterId) {
   const seed = hashString(raterId || 'anon');
-  const order = shuffleWithSeed(TRIALS.map((_, i) => i), seed)
+  const order = TRIALS.map(function (_, i) { return i; })
+      .filter(function (i) { return TRIALS[i].axis === 'drift'; })
+      .concat(TRIALS.map(function (_, i) { return i; })
+        .filter(function (i) { return TRIALS[i].axis === 'decay'; }))
       .slice(0, CONFIG.TRIALS_PER_RATER);
   return order.map(function (i, k) {
     const t = TRIALS[i];
@@ -173,11 +176,16 @@ function getTrials(raterId) {
 function submitResponse(payload) {
   const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
   let sheet = ss.getSheetByName(CONFIG.SHEET_NAME);
+  const headers = responseHeaders_();
   if (!sheet) {
     sheet = ss.insertSheet(CONFIG.SHEET_NAME);
-    sheet.appendRow(['timestamp', 'version', 'raterId', 'trialId', 'axis',
-                     'prompt', 'systemA', 'systemB', 'flipped', 'choice',
-                     'chosenSystem', 'dwellMs', 'playbackProblem']);
+    sheet.appendRow(headers);
+  } else if (sheet.getLastRow() === 0) {
+    sheet.appendRow(headers);
+  } else if (sheet.getLastColumn() < headers.length) {
+    sheet.getRange(1, sheet.getLastColumn() + 1, 1,
+                   headers.length - sheet.getLastColumn())
+      .setValues([headers.slice(sheet.getLastColumn())]);
   }
   if (!payload || !Number.isInteger(Number(payload.trialId)) || !TRIALS[payload.trialId]) {
     throw new Error('Invalid trial response.');
@@ -199,7 +207,99 @@ function submitResponse(payload) {
                    payload.trialId, t.axis, t.prompt, t.a, t.b,
                    expectedFlip, payload.choice, chosen,
                    payload.dwellMs || '', Boolean(payload.playbackProblem)]);
+  generateSummary();
   return { ok: true };
+}
+
+/** Rebuilds the human-readable summary tab from the raw response sheet. */
+function generateSummary() {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  const source = ss.getSheetByName(CONFIG.SHEET_NAME);
+  if (!source || source.getLastRow() < 2) return {status: 'empty'};
+
+  const values = source.getDataRange().getValues();
+  const index = {};
+  values[0].forEach(function (name, i) { index[String(name)] = i; });
+  const required = ['raterId', 'axis', 'choice', 'chosenSystem', 'dwellMs'];
+  required.forEach(function (name) {
+    if (index[name] === undefined) throw new Error('Missing response column: ' + name);
+  });
+  const rows = values.slice(1).filter(function (row) {
+    return row.some(function (cell) { return cell !== ''; });
+  });
+
+  const axes = ['drift', 'decay'];
+  const output = [
+    ['SNF-Bench Human Study Summary', '', '', '', '', ''],
+    ['Updated', new Date(), '', '', '', ''],
+    ['', '', '', '', '', ''],
+    ['Axis overview', '', '', '', '', ''],
+    ['axis', 'responses', 'raters', 'ties', 'tie_rate', 'playback_issues']
+  ];
+  axes.concat(['all']).forEach(function (axis) {
+    const subset = axis === 'all' ? rows : rows.filter(function (r) { return r[index.axis] === axis; });
+    const raters = {};
+    subset.forEach(function (r) { raters[String(r[index.raterId])] = true; });
+    const ties = subset.filter(function (r) { return r[index.choice] === 'same'; }).length;
+    const issues = index.playbackProblem === undefined ? 0 : subset.filter(function (r) {
+      return r[index.playbackProblem] === true || String(r[index.playbackProblem]).toUpperCase() === 'TRUE';
+    }).length;
+    output.push([axis, subset.length, Object.keys(raters).length, ties,
+      subset.length ? ties / subset.length : '', issues]);
+  });
+
+  output.push(['', '', '', '', '', '']);
+  output.push(['Selections by axis', '', '', '', '', '']);
+  output.push(['axis', 'chosen_system', 'count', 'share_of_axis', '', '']);
+  axes.forEach(function (axis) {
+    const subset = rows.filter(function (r) { return r[index.axis] === axis; });
+    const counts = {};
+    subset.forEach(function (r) {
+      const system = String(r[index.chosenSystem] || '');
+      counts[system] = (counts[system] || 0) + 1;
+    });
+    Object.keys(counts).sort().forEach(function (system) {
+      output.push([axis, system, counts[system], subset.length ? counts[system] / subset.length : '', '', '']);
+    });
+  });
+
+  output.push(['', '', '', '', '', '']);
+  output.push(['Rater completion', '', '', '', '', '']);
+  output.push(['rater_id', 'drift_completed', 'decay_completed', 'total_completed', 'complete_24', 'mean_dwell_seconds']);
+  const byRater = {};
+  rows.forEach(function (r) {
+    const id = String(r[index.raterId]);
+    if (!byRater[id]) byRater[id] = {drift: 0, decay: 0, total: 0, dwell: 0, dwellN: 0};
+    if (r[index.axis] === 'drift' || r[index.axis] === 'decay') byRater[id][r[index.axis]] += 1;
+    byRater[id].total += 1;
+    const dwell = Number(r[index.dwellMs]);
+    if (!isNaN(dwell)) { byRater[id].dwell += dwell; byRater[id].dwellN += 1; }
+  });
+  Object.keys(byRater).sort().forEach(function (id) {
+    const s = byRater[id];
+    output.push([id, s.drift, s.decay, s.total, s.drift >= 12 && s.decay >= 12 ? 'YES' : 'NO',
+      s.dwellN ? s.dwell / s.dwellN / 1000 : '']);
+  });
+
+  let summary = ss.getSheetByName(CONFIG.SUMMARY_SHEET_NAME);
+  if (!summary) summary = ss.insertSheet(CONFIG.SUMMARY_SHEET_NAME);
+  else summary.clear();
+  summary.getRange(1, 1, output.length, 6).setValues(output);
+  summary.getRange(1, 1, 1, 6).merge().setFontWeight('bold').setFontSize(14)
+    .setBackground('#dbeafe');
+  [4, 5, 10, 11, output.length - Object.keys(byRater).length].forEach(function (row) {
+    if (row <= output.length) summary.getRange(row, 1, 1, 6).setFontWeight('bold');
+  });
+  summary.getRange(6, 5, 3, 1).setNumberFormat('0.0%');
+  summary.setFrozenRows(2);
+  summary.autoResizeColumns(1, 6);
+  return {status: 'ok', responseRows: rows.length, summaryRows: output.length};
+}
+
+function responseHeaders_() {
+  return ['timestamp', 'version', 'raterId', 'trialId', 'axis', 'prompt',
+          'systemA', 'systemB', 'flipped', 'choice', 'chosenSystem',
+          'dwellMs', 'playbackProblem'];
 }
 
 /* ---- helpers ------------------------------------------------------------ */
