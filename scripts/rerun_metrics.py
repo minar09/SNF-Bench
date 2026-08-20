@@ -63,6 +63,34 @@ def broken_entries():
     return out
 
 
+def stale_entries(target="1.1", public_only=True):
+    """-> [entry] whose records were not all computed under the target spec.
+
+    Version drift is invisible to `broken_entries`: a v1.0 record is complete
+    and non-null, it is simply computed under translation-only compensation.
+    Mixing it into a table with v1.1 rows compares systems through two different
+    global-motion models, which is exactly the confound the spec change removed.
+    """
+    import registry
+    pub = {(m["track"], m["key"]) for m in registry.ALL
+           if not public_only or m["status"] == "public"}
+    out = []
+    for p in sorted(glob.glob(f"{RAW}/*/*/*/snf_task_metrics.json")):
+        parts = p.split(os.sep)
+        track, key, dur = parts[-4], parts[-3], parts[-2]
+        if (track, key) not in pub:
+            continue
+        try:
+            pv = json.load(open(p)).get("per_video", [])
+        except (OSError, ValueError):
+            continue
+        rec = [v for v in pv if "error" not in v]
+        if rec and any(str(v.get("metric_spec_version", "1.0")) != target
+                       for v in rec):
+            out.append(f"{track}/{key}/{dur}")
+    return out
+
+
 def videos_for(entry):
     track, key, dur = entry.split("/")
     return sorted(glob.glob(f"{ROOT}/videos/{track}/{key}/{dur}/*.mp4"))
@@ -105,10 +133,10 @@ def run_entry(entry, gpu, persist=True, spec="1.1"):
     ok = [json.load(open(p)) for p in sorted(glob.glob(f"{stage}/*.json"))
           if not p.endswith(".error.json") and not p.endswith("_todo.txt")]
     bad = [json.load(open(p)) for p in sorted(glob.glob(f"{stage}/*.error.json"))]
-    return assemble(entry, ok, bad)
+    return assemble(entry, ok, bad, spec=spec)
 
 
-def assemble(entry, ok, bad):
+def assemble(entry, ok, bad, spec="1.1"):
     """Write the metrics file from successes only; failures go to their own stream."""
     import numpy as np
     track, key, dur = entry.split("/")
@@ -130,7 +158,9 @@ def assemble(entry, ok, bad):
         "videos_dir": f"{ROOT}/videos/{track}/{key}/{dur}",
         "n_videos": len(ok),
         "n_failed": len(bad),
-        "metric_spec_version": "1.0",
+        # Must reflect the spec actually run. This was hardcoded to "1.0",
+        # so a v1.1 re-run left the summary claiming the older spec.
+        "metric_spec_version": spec,
         "fBD_mean": agg("fBD", np.mean), "fBD_median": agg("fBD", np.median),
         "BFR_mean": agg("BFR", np.mean), "BFR_median": agg("BFR", np.median),
         "FP_mean": agg("FP", np.mean), "FP_median": agg("FP", np.median),
@@ -161,6 +191,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--gate", action="store_true")
     ap.add_argument("--all-broken", action="store_true")
+    ap.add_argument("--stale", action="store_true",
+                    help="re-run entries not computed under --spec")
     ap.add_argument("--entry", action="append", default=[])
     ap.add_argument("--gpu", default="0")
     ap.add_argument("--no-persist", action="store_true")
@@ -172,8 +204,10 @@ def main():
         entries += GATE
     if args.all_broken:
         entries += [e for e in broken_entries() if e not in entries]
+    if args.stale:
+        entries += [e for e in stale_entries(args.spec) if e not in entries]
     if not entries:
-        print("nothing selected; use --gate, --all-broken or --entry")
+        print("nothing selected; use --gate, --all-broken, --stale or --entry")
         return 2
 
     results, failed_any = {}, False

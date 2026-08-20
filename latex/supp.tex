@@ -41,6 +41,70 @@ additional qualitative material. The text-conditioned and image-conditioned
 tracks are reported here at equal depth. Section numbering is independent of the
 main paper.
 
+\section{Formal Factor Definitions}
+\label{sup:defs}
+
+The definitions below are those referenced from the main paper's protocol
+section. Notation follows it: $I_t$ is frame $t$ of a $T$-frame sequence,
+$\Omega_{\mathrm{static}}$ and $\Omega_{\mathrm{flow}}$ are the region masks,
+$\mathbf{u}_t$ is the optical flow from $I_t$ to $I_{t+1}$, and $\mathcal{E}$
+and $\mathcal{L}$ are the early and late windows.
+
+\paragraph{Feature-aligned Background Drift.}
+For matched ORB pairs $\mathcal{M}_t$ between the first frame and frame $t$,
+\begin{align}
+D_{\mathrm{feat}}(t) &= \operatorname*{median}_{(p,q)\in\mathcal{M}_t} \lVert p-q \rVert_2, \nonumber\\
+\mathrm{fBD} &= \frac{100}{d}\cdot\frac{1}{|\mathcal{L}|}\sum_{t\in\mathcal{L}} D_{\mathrm{feat}}(t) \;\;(\downarrow),
+\end{align}
+with $d$ the frame diagonal, so fBD is a percentage of image size.
+
+\paragraph{Normalised Background Flow.}
+\begin{equation}
+\mathrm{NBF} = \frac{10^3}{W\,\Delta t}\cdot\frac{1}{T-1}\sum_{t=1}^{T-1}
+\frac{1}{|\Omega_{\mathrm{static}}|}\sum_{\mathbf{x}\in\Omega_{\mathrm{static}}}
+\lVert \mathbf{u}_t(\mathbf{x}) \rVert_2
+\;\;(\downarrow),
+\end{equation}
+with $W$ the frame width and $\Delta t$ the interval of the \emph{sampled} pairs
+actually used for flow estimation, so the quantity is independent of both the
+native frame rate and the sampling policy.
+
+\paragraph{Global-motion compensation.}
+With $T_t(\mathbf{x}) = s_t R_t \mathbf{x} + \mathbf{b}_t$ the robust similarity
+transform fitted to static-region correspondences and
+$\mathbf{d}_t(\mathbf{x}) = T_t(\mathbf{x})-\mathbf{x}$ the displacement field it
+induces,
+\begin{equation}
+\tilde{\mathbf{u}}_t(\mathbf{x}) = \mathbf{u}_t(\mathbf{x}) - \mathbf{d}_t(\mathbf{x}).
+\end{equation}
+
+\paragraph{Motion-Compensated Foreground Flow and Flow Persistence.}
+\begin{equation}
+\mathrm{MCFF}(\mathcal{W}) = \frac{1}{|\mathcal{W}|}\sum_{t\in\mathcal{W}}
+\frac{1}{|\Omega_{\mathrm{flow}}|}\sum_{\mathbf{x}\in\Omega_{\mathrm{flow}}}
+\lVert \tilde{\mathbf{u}}_t(\mathbf{x}) \rVert_2
+\;\;(\uparrow),
+\end{equation}
+\begin{equation}
+\mathrm{FP} = \min\!\left(\frac{\mathrm{MCFF}(\mathcal{L})}{\mathrm{MCFF}(\mathcal{E})+\epsilon},\, c\right)
+\;\;(\uparrow),
+\end{equation}
+clipped at a fixed $c$ so that a vanishing early window cannot produce an
+unbounded ratio.
+
+\paragraph{Drift leakage and attenuation.}
+With $F_{\mathrm{static}}$ the mean flow magnitude over $\Omega_{\mathrm{static}}$
+and $F_{\mathrm{raw}}$, $F_{\mathrm{comp}}$ the mean raw and compensated
+magnitudes over $\Omega_{\mathrm{flow}}$, all in the late window,
+\begin{equation}
+\mathrm{DLR} = \frac{F_{\mathrm{static}}}{F_{\mathrm{raw}}+\epsilon}\;\;(\downarrow),
+\qquad
+\mathrm{DAR} = 1 - \frac{F_{\mathrm{comp}}}{F_{\mathrm{raw}}+\epsilon}\;\;(\downarrow).
+\end{equation}
+DLR is not a fraction and is deliberately unbounded: $\mathrm{DLR}>1$ indicates
+static support moving more than the region intended to move. DAR is stored
+signed and reported clipped to $[0,1]$.
+
 \section{Region Partition}
 \label{sup:masks}
 
@@ -135,6 +199,13 @@ rather than as the published method's performance.
 \input{generated/tab_t2v_audit_full}
 \input{generated/tab_i2v_audit_full}
 
+\begin{figure}[tb]
+\centering
+\includegraphics[width=\linewidth]{figures/fig4_operating_regime.pdf}
+\caption{\textbf{Operating regimes under native deployment.} Each system in the static-drift--surviving-flow plane. Colour encodes the relative attenuation of measured dynamic-region flow after global-motion compensation, not a share of it attributable to drift: the quantity is signed, and values are shown clipped to $[0,1]$. The view exposes trade-offs; it is not a leaderboard.}
+\label{sup:fig_regimes}
+\end{figure}
+
 \section{Aggregation Sensitivity}
 \label{sup:aggregation}
 
@@ -155,6 +226,7 @@ move, which is why no ordinal claim is made about the middle of the field.
 \section{Whole-Frame and SNF-Bench Rank Correlation}
 \label{sup:disagreement}
 
+\input{generated/tab_disagreement}
 \input{generated/tab_interpretation}
 
 \section{Deployment Sensitivity}

@@ -1,4 +1,4 @@
-\begin{table}[tb]
+\begin{table}[!tb]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
@@ -14,8 +14,17 @@ Rolling-Forcing & 16.8\,\tiny$\pm$3.69 & 11.2\,\tiny$\pm$2.70 & 3.18\,$\rightarr
 Reward-Forcing & 14.8\,\tiny$\pm$3.71 & 8.51\,\tiny$\pm$2.79 & 3.81\,$\rightarrow$\,0.80 & 0.49\,\tiny$\pm$0.18 \\
 LongLive & 15.9\,\tiny$\pm$2.89 & 13.9\,\tiny$\pm$4.76 & 6.46\,$\rightarrow$\,2.41 & 0.75\,\tiny$\pm$0.28 \\
 Causal-Forcing & 22.4\,\tiny$\pm$2.26 & 87.6\,\tiny$\pm$18.6 & 9.84\,$\rightarrow$\,7.21 & 0.83\,\tiny$\pm$0.31 \\
+\midrule
+\multicolumn{5}{l}{\textit{120s horizon  ($n=6$)}} \\
+CausVid & 6.15 & 3.42 & 0.36\,$\rightarrow$\,0.52 & 1.06 \\
+Self-Forcing & 21.2 & 6.80 & 4.85\,$\rightarrow$\,0.82 & 0.85 \\
+Infinite-Forcing & 16.1 & 2.60 & 0.50\,$\rightarrow$\,0.32 & 0.64 \\
+Rolling-Forcing & 23.8 & 10.6 & 3.33\,$\rightarrow$\,0.77 & 0.38 \\
+Reward-Forcing & 20.0 & 11.6 & 2.05\,$\rightarrow$\,0.69 & 0.39 \\
+LongLive & 22.5 & 9.66 & 5.10\,$\rightarrow$\,1.19 & 0.81 \\
+Causal-Forcing & 21.8 & 130 & 10.5\,$\rightarrow$\,10.7 & 0.90 \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{SNF-Bench audit, T2V track, native configuration.} All systems are public external models run under their own intended configuration. Our own systems are excluded by construction. DAR is reported clipped to $[0,1]$; signed values are released. All systems are evaluated in the \emph{native} setting. $n$ is stated per horizon and is common to every row of that panel. Values are means over prompts $\pm$ half a percentile bootstrap 95\% interval (10k resamples, fixed seed). MCFF-E and MCFF-L are given together because FP is a ratio and is not interpretable without the magnitude it is taken over; intervals overlap for several systems, and only non-overlapping comparisons are described as separated. Aggregation sensitivity and the DLR/DAR diagnostics are reported in the supplementary material.}
+\caption{\textbf{SNF-Bench audit, T2V track, native configuration.} All systems are public external models run under their own intended configuration. Our own systems are excluded by construction. DAR is reported clipped to $[0,1]$; signed values are released. All systems are evaluated in the \emph{native} setting. $n$ is stated per horizon and is common to every row of that panel. Values are means over prompts $\pm$ half a percentile bootstrap 95\% interval (10k resamples, fixed seed); panels with fewer than ten prompts report the point estimate alone, since an interval resampled from so few items is not informative. MCFF-E and MCFF-L are given together because FP is a ratio and is not interpretable without the magnitude it is taken over; intervals overlap for several systems, and only non-overlapping comparisons are described as separated. Aggregation sensitivity and the DLR/DAR diagnostics are reported in the supplementary material.}
 \label{tab:t2v_audit}
 \end{table}

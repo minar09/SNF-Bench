@@ -99,7 +99,8 @@ def spec_versions():
 
 
 # --------------------------------------------------------------------- tables
-def audit_table(ix, track, durations, label, caption, wide=False):
+def audit_table(ix, track, durations, label, caption, wide=False,
+                intervals=True):
     """Audit table with constant columns folded into the caption.
 
     `setting` and `n` are frequently identical for every row (the whole T2V
@@ -128,20 +129,25 @@ def audit_table(ix, track, durations, label, caption, wide=False):
                 xs = list(vals[k].values())
                 if k == "DAR_mean":
                     xs = [min(1.0, max(0.0, x)) for x in xs]
-                if not xs:
-                    cells.append("--")
-                    continue
-                mu = BT.mean(xs)
-                # MCFF-E is carried as the left half of the paired magnitude
-                # cell, so it is emitted by MCFF-L rather than on its own.
+                # MCFF-E holds no column of its own in the narrow table -- it is
+                # emitted as the left half of the MCFF-L cell. This skip must
+                # precede the empty-data check, or a row missing MCFF-E emits a
+                # stray "--" and overruns the alignment.
                 if k == "MCFF_early_mean" and not wide:
                     continue
+                if not xs and not (k == "MCFF_late_mean" and not wide):
+                    cells.append("--")
+                    continue
+                mu = BT.mean(xs) if xs else None
                 if k == "MCFF_late_mean" and not wide:
                     e = list(vals.get("MCFF_early_mean", {}).values())
                     lhs = fmt(BT.mean(e)) if e else "--"
                     cells.append(f"{lhs}\\,$\\rightarrow$\\,{fmt(mu)}")
                     continue
-                if wide or len(xs) < 3:
+                # A percentile interval over four or five items is mostly an
+                # artefact of resampling so few points; the diagnostic tiers
+                # therefore print the point estimate and say so in the caption.
+                if wide or not intervals or len(xs) < 10:
                     cells.append(fmt(mu))
                 else:
                     lo, hi = BT.boot_ci(xs)
@@ -154,27 +160,38 @@ def audit_table(ix, track, durations, label, caption, wide=False):
         return None
 
     settings = {m["setting"] for _, rows in panels for m, _, _ in rows}
-    show_setting = len(settings) > 1
+    # A narrow table cannot spare a column for a one-word field: mark the
+    # non-native rows with a dagger instead and explain it in the caption.
+    # The wide (supplementary) table keeps the explicit column.
+    mark_setting = len(settings) > 1 and not wide
+    show_setting = len(settings) > 1 and wide
     ns = {dur: {n for _, n, _ in rows} for dur, rows in panels}
     show_n = any(len(v) > 1 for v in ns.values())
 
     # In the narrow table MCFF-E is folded into the MCFF-L cell, so it holds no
     # column of its own and must not claim a header.
     cols = [k for k in keys if not (k == "MCFF_early_mean" and not wide)]
-    hdr = dict(HDR)
+    hdrmap = dict(HDR)
     if not wide and "MCFF_early_mean" in keys:
-        hdr["MCFF_late_mean"] = r"MCFF E$\rightarrow$L"
+        hdrmap["MCFF_late_mean"] = r"MCFF E$\rightarrow$L"
     ncols = 1 + (1 if show_setting else 0) + (1 if show_n else 0) + len(cols)
     env = "table*" if wide else "table"
     size = r"\small" if wide else r"\scriptsize"
-    lines = [r"\begin{%s}[tb]" % env, r"\centering", size,
+    # `!` relaxes LaTeX's float-fraction limits. With two multi-panel audit
+    # tables competing for top slots, the default limits defer them past the
+    # bibliography, which would put content on a post-reference page.
+    lines = [r"\begin{%s}[!tb]" % env, r"\centering", size,
              r"\setlength{\tabcolsep}{%s}" % ("4pt" if wide else "2.6pt"),
-             r"\begin{tabular}{l" + ("l" if show_setting else "")
+             # The I2V roster has names too long for an `l` column; letting the
+             # method column wrap is more robust than shaving column separation
+             # and keeps the table inside the text block at any name length.
+             r"\begin{tabular}{" + ("p{0.30\linewidth}" if mark_setting else "l")
+             + ("l" if show_setting else "")
              + ("c" if show_n else "") + "c" * len(cols) + "}",
              r"\toprule",
              "Method" + (" & setting" if show_setting else "")
              + (" & $n$" if show_n else "") + " & "
-             + " & ".join(hdr[k] for k in cols) + r" \\"]
+             + " & ".join(hdrmap[k] for k in cols) + r" \\"]
     for dur, rows in panels:
         lines.append(r"\midrule")
         n_here = sorted(ns[dur])
@@ -182,6 +199,8 @@ def audit_table(ix, track, durations, label, caption, wide=False):
         lines.append(r"\multicolumn{%d}{l}{\textit{%s}} \\" % (ncols, hdr))
         for m, n, cells in rows:
             pre = esc(m["name"])
+            if mark_setting and m["setting"] != "native":
+                pre += r"$^{\dagger}$"
             if show_setting:
                 pre += " & " + m["setting"]
             if show_n:
@@ -189,14 +208,28 @@ def audit_table(ix, track, durations, label, caption, wide=False):
             lines.append(pre + " & " + " & ".join(cells) + r" \\")
 
     extra = ""
-    if not show_setting:
+    if mark_setting:
+        extra += (r" $^{\dagger}$ marks a system run under the common "
+                  r"long-horizon wrapper rather than its released configuration; "
+                  r"such rows are read as deployment sensitivity and are never "
+                  r"ranked against native rows.")
+    elif not show_setting:
         extra += (r" All systems are evaluated in the \emph{%s} setting."
                   % settings.pop())
     if not show_n:
         extra += r" $n$ is stated per horizon and is common to every row of that panel."
     if not wide:
-        extra += (r" Values are means over prompts $\pm$ half a percentile "
-                  r"bootstrap 95\% interval (10k resamples, fixed seed). MCFF-E "
+        if intervals:
+            extra += (r" Values are means over prompts $\pm$ half a percentile "
+                      r"bootstrap 95\% interval (10k resamples, fixed seed); panels "
+                      r"with fewer than ten prompts report the point estimate alone, "
+                      r"since an interval resampled from so few items is not "
+                      r"informative.")
+        else:
+            extra += (r" Values are means over prompts; intervals for this track "
+                      r"are given with the complete per-horizon tables in the "
+                      r"supplementary material.")
+        extra += (r" MCFF-E "
                   r"and MCFF-L are given together because FP is a ratio and is "
                   r"not interpretable without the magnitude it is taken over; "
                   r"intervals overlap for several systems, and only "
@@ -709,6 +742,23 @@ def macros(ix, rows):
         M["SNFddNBF"] = f"{BT.spearman([dd[c] for c in common], [nbf[c] for c in common]):+.2f}"
     M["SNFnPublicTTV"] = str(len(pub))
     M["SNFnPromptsSixty"] = str(len(ix.get((t, pub[0]["key"], d, "fBD_mean"), {})) or 23)
+    # Prompt counts for the other reported horizon and for the I2V roster, so
+    # no sample size is ever typed into the prose by hand.
+    n120 = max((len(ix.get((t, m["key"], "120s", "fBD_mean"), {})) for m in pub),
+               default=0)
+    if n120:
+        M["SNFnPromptsOneTwenty"] = str(n120)
+    i2v_pub = [m for m in ALL if m["track"] == "i2v" and m["status"] == "public"]
+    n_i2v_60 = max((len(ix.get(("i2v", m["key"], "60s", "NBF_mean"), {}))
+                    for m in i2v_pub), default=0)
+    if n_i2v_60:
+        M["SNFnPromptsIToVSixty"] = str(n_i2v_60)
+    n_rows = sum(1 for m in i2v_pub if ix.get(("i2v", m["key"], "60s", "NBF_mean")))
+    if n_rows:
+        M["SNFnPublicIToV"] = str(n_rows)
+    n_native = sum(1 for m in i2v_pub if m["setting"] == "native"
+                   and ix.get(("i2v", m["key"], "60s", "NBF_mean")))
+    M["SNFnIToVNative"] = str(n_native)
 
     # rank inversions
     for who, tag in ((("Causal-Forcing"), "CF"), (("Infinite-Forcing"), "IF")):
@@ -772,7 +822,7 @@ def main():
 
     written = []
 
-    t = audit_table(ix, "t2v", ["60s"], "tab:t2v_audit",
+    t = audit_table(ix, "t2v", ["60s", "120s"], "tab:t2v_audit",
                     r"\textbf{SNF-Bench audit, T2V track, native configuration.} "
                     r"All systems are public external models run under their own "
                     r"intended configuration. Our own systems are excluded by "
@@ -782,7 +832,12 @@ def main():
         open(f"{OUT}/tab_t2v_audit.tex", "w").write(t)
         written.append("tab_t2v_audit.tex")
 
-    t = audit_table(ix, "i2v", ["60s"], "tab:i2v_audit", wide=True,
+    # Narrow and without intervals: a full-width float costs twice the page area
+    # per row, and the wide variant printed point estimates anyway, so nothing is
+    # lost. Suppressing the intervals also recovers the width the long I2V system
+    # names need.
+    t = audit_table(ix, "i2v", ["60s", "120s"], "tab:i2v_audit", wide=False,
+                    intervals=False,
                     caption=
                     r"\textbf{SNF-Bench audit, I2V track.} Setting is stated per row: "
                     r"\emph{native} systems run under their authors' configuration, "
@@ -834,10 +889,13 @@ def main():
     for trk, nm in (("t2v", "tab_t2v_audit_full.tex"), ("i2v", "tab_i2v_audit_full.tex")):
         s = audit_table(ix, trk, DURATIONS, f"tab:{trk}_audit_full", wide=True,
                         caption=
-                        r"\textbf{Complete %s audit, all horizons.} The main paper "
-                        r"reproduces the 60\,s and 120\,s panels; the 5\,s tier is an "
-                        r"initialisation check and the 240\,s tier is diagnostic."
-                        % trk.upper())
+                        r"\textbf{Complete %s audit, all four horizons.} The main "
+                        r"paper reports the 60\,s and 240\,s panels; the 5\,s tier is an "
+                        r"initialisation check and 120\,s an intermediate diagnostic. "
+                        r"Every row is computed under the same frozen specification, "
+                        r"so panels are comparable within a horizon; prompt sets "
+                        r"differ across horizons, so columns are not comparable "
+                        r"between panels." % trk.upper())
         if s:
             open(f"{OUT}/{nm}", "w").write(s)
             written.append(nm)
