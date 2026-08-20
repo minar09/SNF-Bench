@@ -1,21 +1,24 @@
-"""Select the comparison pairs for the axis-specific human study.
+"""Build the SNF-Bench axis-specific human study from the released I2V clips.
 
-Design follows the reviewers' guidance: this is NOT a preference study. Raters
-answer two forced-choice questions with no notion of overall quality:
+This is NOT a preference study. Raters answer two forced-choice questions, one
+per failure axis, and are never asked which clip is better -- the whole point of
+the benchmark is that "better" conflates the two failures it separates:
 
-    Q1  Which video's background moves more?      -> compare against fBD / NBF
-    Q2  Which video's motion dies out more?       -> compare against MCFF-L / FP
+    drift  Which clip's BACKGROUND moves more?       -> compared against fBD / NBF
+    decay  In which clip does the MOTION die out?    -> compared against MCFF-L / FP
 
-Keeping the questions axis-specific is what makes the result interpretable. A
-"which is better" study would confound the two failure modes the benchmark
-exists to separate, and would tell us nothing about whether the factors measure
-what they claim.
+Media. Clips are the image-conditioned 60 s rollouts already hosted on Drive for
+an earlier study; `human_study/scenes_public.json` carries those URLs verbatim.
+They are never regenerated here -- the file is data, and this script only reads
+it. Only the three publicly released systems present in that set are used; the
+internal ablations that shared the same scenes are excluded by the roster rule.
 
-Pairs are chosen by rule, not by eye: for each axis we bin the audited clips by
-the relevant factor and sample pairs spanning small, medium and large metric
-gaps, so the study measures agreement across the whole operating range rather
-than only on easy extremes. Ties are expected and permitted in the interface;
-a study that forces a choice on indistinguishable pairs manufactures noise.
+Pairs are chosen by rule, not by eye: for each axis, candidate pairs are binned
+by the *relative gap* in the relevant factor and sampled across the range, so
+agreement is measured over the whole operating range rather than only where any
+metric would look good. Sentinel trials show one clip against itself, where the
+only correct answer is "about the same"; a rater who does not say so is not
+attending, and their session is flagged rather than silently averaged in.
 
     ~/miniconda3/envs/snfeval/bin/python scripts/make_human_study.py
 """
@@ -28,114 +31,133 @@ import sys
 from collections import defaultdict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from registry import contestants                              # noqa: E402
+from registry import ALL                                        # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MAN = f"{ROOT}/manifest"
-OUT = f"{ROOT}/human_study"
+MAN, OUT = f"{ROOT}/manifest", f"{ROOT}/human_study"
 
-# 12 per axis = 24 trials, about 8 minutes per rater. Recruiting raters for
-# long sessions is the binding constraint, and a short session that people
-# actually finish attentively beats a long one they abandon or rush.
-N_PER_AXIS = 12
-GAP_BINS = [(0.05, 0.20), (0.20, 0.50), (0.50, 1.00)]   # relative metric gap
+TRACK, DUR = "i2v", "60s"
+N_PER_AXIS = 9                 # 18 scored trials + 2 sentinels, about 8 minutes
+N_SENTINELS = 2
+GAP_BINS = [(0.05, 0.20), (0.20, 0.50), (0.50, 1.00)]
+
+AXES = [
+    ("drift", "NBF_mean", True),      # higher NBF  -> more background motion
+    ("decay", "MCFF_late_mean", False),  # lower MCFF-L -> motion died out more
+]
 
 
-def load(track="t2v", dur="60s"):
+def load_scores(models):
     acc = defaultdict(dict)
-    for r in csv.DictReader(open(f"{MAN}/per_video_scores.csv")):
-        if r["track"] == track and r["duration"] == dur:
-            acc[(r["model"], r["prompt_id"])][r["metric"]] = float(r["value"])
+    with open(f"{MAN}/per_video_scores.csv") as fh:
+        for r in csv.DictReader(fh):
+            if (r["track"] == TRACK and r["duration"] == DUR
+                    and r["model"] in models):
+                acc[(r["model"], r["prompt_id"])][r["metric"]] = float(r["value"])
     return acc
 
 
-def pick_pairs(acc, pub, metric, n, seed=0):
-    """Pairs of systems on a shared prompt, stratified by relative metric gap."""
+def pick(scenes, acc, metric, higher_means_more, n, seed):
+    """Pairs of systems on a shared scene, stratified by relative metric gap."""
     rng = random.Random(seed)
-    by_prompt = defaultdict(dict)
-    for (m, p), d in acc.items():
-        if m in pub and metric in d:
-            by_prompt[p][m] = d[metric]
-
     cand = []
-    for p, systems in by_prompt.items():
-        names = sorted(systems)
+    for sc in scenes:
+        names = sorted(sc["videos"])
         for i, a in enumerate(names):
             for b in names[i + 1:]:
-                va, vb = systems[a], systems[b]
+                va = acc.get((a, sc["prompt_id"]), {}).get(metric)
+                vb = acc.get((b, sc["prompt_id"]), {}).get(metric)
+                if va is None or vb is None:
+                    continue
                 hi = max(abs(va), abs(vb))
                 if hi <= 0:
                     continue
-                gap = abs(va - vb) / hi
-                cand.append(dict(prompt=p, a=a, b=b, va=va, vb=vb, gap=gap,
-                                 # the factor's own verdict, used only for scoring
-                                 # afterwards -- never shown to the rater
-                                 metric_says=(a if va > vb else b)))
+                # The factor's own verdict: which clip the metric says shows
+                # *more* of the asked-about failure. Never shown to the rater.
+                more = (a if va > vb else b) if higher_means_more else \
+                       (a if va < vb else b)
+                cand.append(dict(scene=sc["id"], prompt_id=sc["prompt_id"],
+                                 a=a, b=b, va=va, vb=vb,
+                                 gap=abs(va - vb) / hi, metric_says=more))
     out, per_bin = [], max(1, n // len(GAP_BINS))
     for lo, hi in GAP_BINS:
         pool = [c for c in cand if lo <= c["gap"] < hi]
         rng.shuffle(pool)
-        seen = set()
-        for c in pool:
-            key = (c["prompt"], c["a"], c["b"])
-            if key in seen:
-                continue
-            seen.add(key)
-            out.append(c)
-            if len([o for o in out if lo <= o["gap"] < hi]) >= per_bin:
-                break
+        out += pool[:per_bin]
+    if len(out) < n:                      # top up from the widest gaps available
+        rest = sorted((c for c in cand if c not in out),
+                      key=lambda c: -c["gap"])
+        out += rest[:n - len(out)]
     rng.shuffle(out)
     return out[:n]
 
 
+def gs_literal(v):
+    return json.dumps(v, ensure_ascii=False)
+
+
 def main():
-    os.makedirs(OUT, exist_ok=True)
-    acc = load()
-    pub = {m["key"]: m["name"] for m in contestants("t2v")}
+    scenes = json.load(open(f"{OUT}/scenes_public.json"))
+    models = sorted({m for sc in scenes for m in sc["videos"]})
+    names = {m["key"]: m["name"] for m in ALL if m["track"] == TRACK}
+    acc = load_scores(models)
+    print(f"{len(scenes)} scenes, {len(models)} public systems: "
+          + ", ".join(names.get(m, m) for m in models))
 
-    axes = [("drift", "fBD_mean",
-             "Which video's background (buildings, banks, ground, horizon) "
-             "moves or warps more?"),
-            ("decay", "MCFF_late_mean",
-             "In which video does the moving content (water, fire, rain, smoke) "
-             "slow down or stop more by the end?")]
+    trials, study = [], {"track": TRACK, "duration": DUR, "axes": []}
+    for axis, metric, higher in AXES:
+        rows = pick(scenes, acc, metric, higher, N_PER_AXIS,
+                    seed=0 if axis == "drift" else 1)
+        if rows:
+            g = [r["gap"] for r in rows]
+            print(f"  {axis:6s} ({metric}): {len(rows)} pairs, "
+                  f"gap {min(g):.2f}-{max(g):.2f}")
+        else:
+            print(f"  {axis:6s} ({metric}): NO PAIRS -- scores missing")
+        study["axes"].append(dict(axis=axis, metric=metric, pairs=rows))
+        trials += [dict(t, axis=axis, metric=metric, sentinel=False) for t in rows]
 
-    study = {"n_per_axis": N_PER_AXIS, "track": "t2v", "duration": "60s",
-             "axes": []}
-    for axis, metric, question in axes:
-        pairs = pick_pairs(acc, pub, metric, N_PER_AXIS,
-                           seed=0 if axis == "drift" else 1)
-        study["axes"].append(dict(
-            axis=axis, metric=metric, question=question,
-            pairs=[dict(prompt=c["prompt"],
-                        a=c["a"], b=c["b"],
-                        a_name=pub[c["a"]], b_name=pub[c["b"]],
-                        gap=round(c["gap"], 3),
-                        metric_says=c["metric_says"]) for c in pairs]))
-        gaps = [c["gap"] for c in pairs]
-        print(f"  {axis:6s} ({metric}): {len(pairs)} pairs, "
-              f"gap {min(gaps):.2f}-{max(gaps):.2f}")
+    # Sentinels: the same clip on both sides. Only "same" is correct.
+    rng = random.Random(7)
+    for sc in rng.sample(scenes, min(N_SENTINELS, len(scenes))):
+        m = rng.choice(sorted(sc["videos"]))
+        trials.append(dict(scene=sc["id"], prompt_id=sc["prompt_id"], a=m, b=m,
+                           gap=0.0, metric_says="same", axis="drift",
+                           metric="sentinel", sentinel=True))
 
-    with open(f"{OUT}/pairs.json", "w") as f:
-        json.dump(study, f, indent=2)
+    json.dump(study, open(f"{OUT}/pairs.json", "w"), indent=2)
 
-    # Apps Script fragment: paste into code.gs. Video URLs are filled in by the
-    # operator after uploading the clips, so nothing here assumes a Drive layout.
-    lines = ["// AUTO-GENERATED by scripts/make_human_study.py -- do not hand-edit.",
-             "// Fill each videoA/videoB with a shareable URL for the final-window",
-             "// excerpt of that system's generation for that prompt.",
-             "const TRIALS = ["]
-    for ax in study["axes"]:
-        for i, p in enumerate(ax["pairs"]):
-            lines.append("  {axis: %r, idx: %d, prompt: %r," % (ax["axis"], i, p["prompt"][:60]))
-            lines.append("   a: %r, b: %r," % (p["a"], p["b"]))
-            lines.append("   videoA: 'REPLACE_WITH_URL', videoB: 'REPLACE_WITH_URL'},")
-    lines += ["];", ""]
-    with open(f"{OUT}/TRIALS.gs", "w") as f:
-        f.write("\n".join(lines))
+    L = ["// AUTO-GENERATED by scripts/make_human_study.py -- do not hand-edit.",
+         "// Drive URLs are copied verbatim from the existing hosted assets and",
+         "// are never rewritten by the generator.",
+         "",
+         "const SCENES = ["]
+    for sc in scenes:
+        L += ["  {",
+              f"    id: {gs_literal(sc['id'])},",
+              f"    category: {gs_literal(sc['category'])},",
+              f"    prompt: {gs_literal(sc['prompt'])},",
+              f"    imageUrl: {gs_literal(sc['imageUrl'])},",
+              "    videos: {"]
+        L += [f"      {gs_literal(k)}: {gs_literal(v)}," for k, v in sc["videos"].items()]
+        L += ["    }", "  },"]
+    L += ["];", "", "const TRIALS = ["]
+    for i, t in enumerate(trials):
+        L += ["  {",
+              f"    trialId: {i}, axis: {gs_literal(t['axis'])}, "
+              f"scene: {gs_literal(t['scene'])},",
+              f"    a: {gs_literal(t['a'])}, b: {gs_literal(t['b'])},",
+              f"    sentinel: {'true' if t['sentinel'] else 'false'}, "
+              f"gap: {round(t['gap'], 3)}",
+              "  },"]
+    L += ["];", ""]
+    open(f"{OUT}/SCENES.gs", "w").write("\n".join(L))
 
-    print(f"\n  -> {OUT}/pairs.json  ({sum(len(a['pairs']) for a in study['axes'])} trials)")
-    print(f"  -> {OUT}/TRIALS.gs   (paste into the Apps Script project)")
+    n_s = sum(1 for t in trials if t["sentinel"])
+    print(f"\n  -> {OUT}/pairs.json   (scored pairs + the metric's own verdict)")
+    print(f"  -> {OUT}/SCENES.gs    ({len(scenes)} scenes, {len(trials)} trials "
+          f"incl. {n_s} sentinels)")
+    print("     paste SCENES.gs into the Apps Script project alongside code.gs")
 
 
 if __name__ == "__main__":

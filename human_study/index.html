@@ -1,186 +1,51 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-<base target="_top">
-<meta charset="utf-8">
-<style>
-  :root{
-    --bg:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e;
-    --muted:#898781; --line:#e1e0d9; --accent:#2a78d6; --accent2:#eb6834;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);
-       font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px}
-  .wrap{max-width:1100px;margin:0 auto;padding:16px}
-  .bar{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-  h1{font-size:17px;margin:0;flex:1}
-  .prog{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
-  .prog>i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
-  .muted{color:var(--muted);font-size:13px}
-  .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;
-        padding:16px;margin-top:12px}
-  .q{font-size:16px;font-weight:600;line-height:1.45;margin:0 0 4px}
-  .qhint{color:var(--ink2);font-size:13.5px;line-height:1.5}
-  .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
-  .vid{background:#000;border-radius:8px;overflow:hidden;border:2px solid transparent}
-  .vid.sel{border-color:var(--accent)}
-  video{width:100%;display:block;background:#000}
-  .vlabel{text-align:center;font-weight:600;padding:6px;color:var(--ink2)}
-  .choices{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:6px}
-  button{font:inherit;padding:11px 12px;border-radius:8px;border:1px solid var(--line);
-         background:#fff;cursor:pointer;transition:.12s}
-  button:hover{border-color:var(--accent)}
-  button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-  button:disabled{opacity:.45;cursor:not-allowed}
-  .row{display:flex;gap:10px;align-items:center;margin-top:12px}
-  input[type=text]{font:inherit;padding:9px 11px;border:1px solid var(--line);
-                   border-radius:8px;flex:1}
-  .hide{display:none}
-  .big{font-size:15px;line-height:1.6}
-  ul{margin:8px 0 0 18px;padding:0} li{margin:4px 0}
-  @media(max-width:720px){.pair{grid-template-columns:1fr}}
-</style>
+  <base target="_top">
+  <meta charset="utf-8">
+  <style>
+    :root{--bg:#f7f7f5;--card:#fff;--ink:#171717;--muted:#666;--line:#ddd;--blue:#2563eb;--red:#b42318}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+    main{width:min(1120px,100%);margin:auto;padding:20px}header{display:flex;align-items:center;gap:16px}h1{flex:1;margin:0;font-size:20px}
+    .muted{color:var(--muted)}.progress{height:7px;margin:12px 0 18px;border-radius:8px;background:#e5e5e5;overflow:hidden}.progress span{display:block;width:0;height:100%;background:var(--blue)}
+    .card{padding:20px;background:var(--card);border:1px solid var(--line);border-radius:12px}.intro{max-width:760px;margin:auto}.hidden{display:none!important}
+    li{margin:.4rem 0}.row{display:flex;gap:10px}input[type=text]{flex:1;min-width:0;padding:11px;border:1px solid var(--line);border-radius:8px;font:inherit}
+    button{padding:11px 14px;border:1px solid var(--line);border-radius:8px;background:#fff;font:600 15px inherit;cursor:pointer}button:hover:not(:disabled),button:focus-visible{border-color:var(--blue);outline:2px solid #2563eb33}button.primary{background:var(--blue);border-color:var(--blue);color:#fff}button:disabled{opacity:.5;cursor:wait}
+    .question{margin:0;font-size:20px}.prompt{margin:5px 0 14px}.players{display:grid;grid-template-columns:1fr 1fr;gap:14px}.player{overflow:hidden;border-radius:9px;background:#080808}.player iframe{display:block;width:100%;aspect-ratio:16/9;border:0}.label{padding:8px;color:#fff;text-align:center;font-weight:700}
+    .choices{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}.report{display:block;margin-top:12px}.status{min-height:24px;margin-top:10px;color:var(--muted)}.error{color:var(--red)}
+    @media(max-width:720px){.players{grid-template-columns:1fr}.choices{grid-template-columns:1fr}}
+  </style>
 </head>
-<body>
-<div class="wrap">
-
-  <div class="bar">
-    <h1 id="title">Loading…</h1>
-    <div class="muted" id="counter"></div>
-  </div>
-  <div class="prog"><i id="bar"></i></div>
-
-  <!-- ---------- intro ---------- -->
-  <div class="card" id="intro">
-    <div class="big" id="instructions"></div>
-    <ul class="big">
-      <li>Each question asks about <b>one specific thing</b>. Please answer only that.</li>
-      <li>Do <b>not</b> judge which video is better, sharper or more realistic.</li>
-      <li>If the clips look the same for the question asked, choose <b>About the same</b>.</li>
-      <li>Videos loop. Watch both at least once before answering.</li>
-    </ul>
-    <div class="row">
-      <input type="text" id="rater" placeholder="Your name or an ID (used only to group your answers)">
-      <button class="primary" id="start">Start</button>
+<body><main>
+  <header><h1 id="title">Loading…</h1><span id="counter" class="muted"></span></header>
+  <div class="progress"><span id="progress"></span></div>
+  <section id="intro" class="card intro">
+    <p id="instructions"></p>
+    <ul><li>Play both videos and watch each at least once.</li><li>Answer only the question shown; do not judge overall quality.</li><li>Choose <strong>About the same</strong> when there is no meaningful difference.</li></ul>
+    <div class="row"><input id="rater" type="text" maxlength="100" autocomplete="off" placeholder="Participant ID"><button id="start" class="primary">Start</button></div>
+    <div id="introStatus" class="status error" role="alert"></div>
+  </section>
+  <section id="trial" class="card hidden">
+    <h2 id="question" class="question"></h2><p id="prompt" class="prompt muted"></p>
+    <div class="players">
+      <div class="player"><iframe id="left" title="Video 1" allow="autoplay; fullscreen" allowfullscreen></iframe><div class="label">Video 1</div></div>
+      <div class="player"><iframe id="right" title="Video 2" allow="autoplay; fullscreen" allowfullscreen></iframe><div class="label">Video 2</div></div>
     </div>
-  </div>
-
-  <!-- ---------- trial ---------- -->
-  <div class="card hide" id="trial">
-    <p class="q" id="question"></p>
-    <div class="qhint" id="hint"></div>
-    <div class="pair">
-      <div>
-        <div class="vid" id="boxL"><video id="vL" loop muted playsinline preload="auto"></video></div>
-        <div class="vlabel">Video 1</div>
-      </div>
-      <div>
-        <div class="vid" id="boxR"><video id="vR" loop muted playsinline preload="auto"></video></div>
-        <div class="vlabel">Video 2</div>
-      </div>
-    </div>
-    <div class="choices">
-      <button id="cL">Video 1</button>
-      <button id="cS">About the same</button>
-      <button id="cR">Video 2</button>
-    </div>
-    <div class="muted" style="margin-top:10px" id="status"></div>
-  </div>
-
-  <!-- ---------- done ---------- -->
-  <div class="card hide" id="done">
-    <h2 style="margin-top:0">Thank you</h2>
-    <p class="big">Your responses have been recorded. You can close this tab.</p>
-  </div>
-
-</div>
-
+    <div class="choices"><button data-choice="left">Video 1</button><button data-choice="same">About the same</button><button data-choice="right">Video 2</button></div>
+    <label class="report"><input id="problem" type="checkbox"> A video did not load or play correctly</label><div id="status" class="status" role="status"></div>
+  </section>
+  <section id="done" class="card intro hidden"><h2>Thank you</h2><p>Your responses have been recorded. You may close this tab.</p></section>
+</main>
 <script>
-let CFG = null, TRIALS = [], idx = 0, shownAt = 0;
-
-function el(id){ return document.getElementById(id); }
-
-google.script.run.withSuccessHandler(function (cfg) {
-  CFG = cfg;
-  el('title').textContent = cfg.title;
-  el('instructions').textContent = cfg.instructions;
-  el('cS').style.display = cfg.allowTie ? '' : 'none';
-}).getConfig();
-
-el('start').onclick = function () {
-  const id = el('rater').value.trim();
-  if (!id) { el('rater').focus(); return; }
-  el('start').disabled = true;
-  google.script.run.withSuccessHandler(function (trials) {
-    TRIALS = trials; idx = 0;
-    el('intro').classList.add('hide');
-    el('trial').classList.remove('hide');
-    render();
-  }).getTrials(id);
-};
-
-function render() {
-  if (idx >= TRIALS.length) {
-    el('trial').classList.add('hide');
-    el('done').classList.remove('hide');
-    el('counter').textContent = '';
-    el('bar').style.width = '100%';
-    return;
-  }
-  const t = TRIALS[idx];
-  el('question').textContent = t.question.split('.')[0] + '?';
-  el('hint').textContent = t.question;
-  el('counter').textContent = (idx + 1) + ' / ' + TRIALS.length;
-  el('bar').style.width = (idx / TRIALS.length * 100) + '%';
-  // Reload both sources so the two clips restart together; otherwise a rater
-  // compares different phases of the two rollouts.
-  const vL = el('vL'), vR = el('vR');
-  vL.src = t.left; vR.src = t.right;
-  vL.load(); vR.load();
-  vL.play().catch(function(){}); vR.play().catch(function(){});
-  el('boxL').classList.remove('sel'); el('boxR').classList.remove('sel');
-  setButtons(true);
-  el('status').textContent = '';
-  shownAt = Date.now();
-}
-
-function setButtons(on) {
-  ['cL','cS','cR'].forEach(function (b) { el(b).disabled = !on; });
-}
-
-function answer(choice) {
-  const t = TRIALS[idx];
-  setButtons(false);
-  el('status').textContent = 'Saving…';
-  if (choice === 'left') el('boxL').classList.add('sel');
-  if (choice === 'right') el('boxR').classList.add('sel');
-  google.script.run
-    .withSuccessHandler(function () { idx += 1; render(); })
-    .withFailureHandler(function (e) {
-      el('status').textContent = 'Could not save — check your connection, then press again.';
-      setButtons(true);
-    })
-    .submitResponse({
-      raterId: el('rater').value.trim(),
-      trialId: t.trialId,
-      flipped: t.flipped,
-      choice: choice,
-      dwellMs: Date.now() - shownAt
-    });
-}
-
-el('cL').onclick = function(){ answer('left'); };
-el('cR').onclick = function(){ answer('right'); };
-el('cS').onclick = function(){ answer('same'); };
-
-// Keyboard shortcuts: raters get noticeably faster and more consistent once
-// they stop moving the mouse between every trial.
-document.addEventListener('keydown', function (e) {
-  if (el('trial').classList.contains('hide')) return;
-  if (e.key === '1' || e.key === 'ArrowLeft')  el('cL').click();
-  if (e.key === '2' || e.key === 'ArrowRight') el('cR').click();
-  if (e.key === '3' || e.key === ' ')          el('cS').click();
-});
+  'use strict';
+  const $=id=>document.getElementById(id);let trials=[],position=0,shownAt=0,raterId='',saving=false;
+  function fail(id,e){$(id).textContent=e&&e.message?e.message:String(e||'Unknown error');$(id).classList.add('error')}
+  google.script.run.withSuccessHandler(cfg=>{$('title').textContent=cfg.title;$('instructions').textContent=cfg.instructions}).withFailureHandler(e=>fail('introStatus',e)).getConfig();
+  $('start').onclick=()=>{raterId=$('rater').value.trim();if(!raterId){fail('introStatus','Enter a participant ID.');$('rater').focus();return}$('start').disabled=true;$('introStatus').textContent='Preparing trials…';google.script.run.withSuccessHandler(data=>{trials=data;position=0;$('intro').classList.add('hidden');$('trial').classList.remove('hidden');render()}).withFailureHandler(e=>{$('start').disabled=false;fail('introStatus',e)}).getTrials(raterId)};
+  $('rater').onkeydown=e=>{if(e.key==='Enter')$('start').click()};
+  function buttons(disabled){document.querySelectorAll('[data-choice]').forEach(b=>b.disabled=disabled)}
+  function render(){if(position>=trials.length){$('trial').classList.add('hidden');$('done').classList.remove('hidden');$('counter').textContent='';$('progress').style.width='100%';return}const t=trials[position];$('counter').textContent=`${position+1} / ${trials.length}`;$('progress').style.width=`${position/trials.length*100}%`;$('question').textContent=t.question;$('prompt').textContent=t.prompt;$('left').src=t.left;$('right').src=t.right;$('problem').checked=false;$('status').classList.remove('error');$('status').textContent='Play both videos, then select an answer.';buttons(false);saving=false;shownAt=Date.now()}
+  function answer(choice){if(saving)return;saving=true;buttons(true);$('status').textContent='Saving…';const t=trials[position];google.script.run.withSuccessHandler(()=>{position++;render()}).withFailureHandler(e=>{saving=false;buttons(false);fail('status',e)}).submitResponse({raterId:raterId,trialId:t.trialId,choice:choice,dwellMs:Date.now()-shownAt,playbackProblem:$('problem').checked})}
+  document.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>answer(b.dataset.choice));
 </script>
-</body>
-</html>
+</body></html>
