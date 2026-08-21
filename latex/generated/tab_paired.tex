@@ -1,0 +1,19 @@
+\begin{table*}[tb]
+\centering
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{l c r c}
+\toprule
+Comparison & $n$ & mean diff. & 95\% CI \\
+\midrule
+Infinite-Forcing $-$ Causal-Forcing & 23 & -83.98 & $[-102.59,\,-65.52]$ \\
+Infinite-Forcing $-$ LongLive & 23 & -10.22 & $[-14.72,\,-6.18]$ \\
+Infinite-Forcing $-$ Self-Forcing & 23 & -9.07 & $[-13.29,\,-5.53]$ \\
+Infinite-Forcing $-$ Rolling-Forcing & 23 & -7.58 & $[-10.38,\,-5.12]$ \\
+Infinite-Forcing $-$ CausVid & 23 & -5.62 & $[-9.61,\,-2.10]$ \\
+Infinite-Forcing $-$ Reward-Forcing & 23 & -4.86 & $[-7.48,\,-2.69]$ \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Paired differences in NBF, 60s horizon.} Every system is evaluated on the same prompts, so separation is judged on the bootstrap distribution of per-prompt \emph{differences} (10k resamples, fixed seed) rather than on whether two marginal intervals happen to overlap---overlapping intervals can hide a reliable paired difference, and non-overlapping ones can suggest a difference that is not. 6 of 6 intervals exclude zero.}
+\label{tab:paired}
+\end{table*}

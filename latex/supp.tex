@@ -186,17 +186,37 @@ positions under feature-based drift.
 
 \input{generated/tab_robustness}
 
+\section{Paired Differences}
+\label{sup:paired}
+
+Separation claims in the main text are made on the bootstrap distribution of
+per-prompt \emph{differences}, not on whether two marginal intervals overlap.
+Every system sees the same prompts, so the paired difference is the statistic
+the design supports: overlapping marginal intervals can conceal a reliable
+paired difference, and non-overlapping ones can suggest a difference that is
+not there.
+
+\input{generated/tab_paired}
+
 \section{Generation Configuration}
 \label{sup:config}
 
-Every audited system was run in its released configuration. What the run
-manifest records is reported below; what it does not record is stated rather
-than reconstructed. Per-method sampler settings---denoising steps, chunk
-length, guidance scale, cache policy---were not captured at generation time,
-and we do not infer them after the fact. This is the weakest point in the
-reproducibility of the audit, and it constrains what the results support: they
-compare the systems as released and run here, not the space of settings each
-admits.
+Every audited checkpoint was run through a single common inference
+configuration, recorded in full and released with the benchmark: a four-step
+denoising schedule ($1000/750/500/250$), timestep shift $5.0$, guidance scale
+$5.0$, six frames per block, and a fixed seed. Only the checkpoint path and the
+target horizon differ between runs.
+
+We state plainly what this does and does not license. It is a matched-setting
+comparison, and it is reproducible precisely because the setting is uniform and
+recorded. It is \emph{not} an audit of each method under its authors' released
+defaults, and we no longer describe it as one. The cost is real: several of
+these checkpoints are distilled for a specific step budget, and evaluating them
+at a common four-step schedule does not observe them at their own operating
+point. Results are therefore statements about these checkpoints under this
+configuration. Re-running the sweep at each method's released defaults, and
+reporting how much the ordering moves, is the natural next version of this
+audit.
 
 \input{generated/tab_native_config}
 
@@ -296,6 +316,12 @@ the factor orderings, and it is included because the reason it failed is
 informative and because the protocol is what a powered study should start from.
 Nothing here ranks systems, and no result from it enters any factor, table or
 figure elsewhere in this work.
+
+The pilot ran $24$ pairs per rater---twelve on each axis---with eight raters, of
+whom four were independent of the authors and four were the authors' own
+sessions, reported separately. After majority voting across raters, three pairs
+on the static axis and five on the persistence axis remained decided. Those
+counts, not the percentages they produce, are the honest summary of this run.
 
 The question the pilot asked is whether independent judges order clip pairs the
 way the factors do. That is metric validation rather than preference, so a small
@@ -446,8 +472,9 @@ set and would change if the set changed.}
 \caption{\textbf{Stated scope boundaries.} (a)~A two-way partition cannot
 separate precipitation from the support it crosses. (b)~A system can attain
 near-best static fidelity precisely because its intended motion has also
-stopped. (c)~High leakage with low attenuation identifies support that moves
-without translating, which a rigid global model does not explain.}
+stopped. (c)~High leakage with low attenuation marks static-region motion that a rigid
+global similarity model does not account for; what the residual consists of is
+not identified by these measurements.}
 \label{sup:fig_limits}
 \end{figure*}
 
@@ -478,6 +505,8 @@ prompts per category at each track and horizon.}
 \label{sup:fig_categories}
 \end{figure*}
 
+
+\clearpage
 {
     \small
     \bibliographystyle{ieeenat_fullname}

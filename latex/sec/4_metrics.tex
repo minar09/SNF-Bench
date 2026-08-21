@@ -1,7 +1,7 @@
 \section{Drift--Motion Evaluation Protocol}
 \label{sec:metrics}
 
-SNF-Bench evaluates fixed-camera generation along three complementary factors: \textbf{Static Fidelity}, \textbf{Flow Persistence}, and \textbf{Drift Leakage}. No individual score is sufficient: low background motion can be achieved by freezing the entire video, and high foreground motion can be produced by drifting the entire scene. We therefore always report static-region stability jointly with both the \emph{relative persistence} and \emph{absolute magnitude} of dynamic-region motion.
+SNF-Bench evaluates fixed-camera generation along three factor groups: \textbf{Static Fidelity} and \textbf{Flow Persistence} are the measurement axes, and \textbf{Drift Leakage} (DLR, DAR) contextualises them rather than adding a third measurement. No individual score is sufficient: low background motion can be achieved by freezing the entire video, and high foreground motion can be produced by drifting the entire scene. We therefore always report static-region stability jointly with both the \emph{relative persistence} and \emph{absolute magnitude} of dynamic-region motion.
 
 Let $I_t$ denote frame $t$, $\Omega_{\mathrm{static}}$ and $\Omega_{\mathrm{flow}}$ the region masks of Sec.~\ref{sec:masks}, and $\mathbf{u}_t$ the optical flow from $I_t$ to $I_{t+1}$, estimated with RAFT~\cite{teed2020raft}. Each sequence defines an early window $\mathcal{E}$ and a late window $\mathcal{L}$ of equal duration, $\mathcal{E}$ beginning after a warm-up so that generation transients do not define the motion reference; extents are fixed in the specification.
 

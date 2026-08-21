@@ -457,6 +457,74 @@ def interpretation_table(ix, track="t2v", dur="60s", label="tab:interpretation_c
     return "\n".join(lines)
 
 
+def paired_diff_table(track="t2v", dur="60s", metric="NBF_mean",
+                      anchor_key="infinite_forcing", label="tab:paired"):
+    """Paired bootstrap of per-prompt differences against one anchor system.
+
+    Every system is evaluated on the same prompts, so the paired difference is
+    the right statistic: two independent intervals can overlap while the paired
+    difference is reliable, and can fail to overlap when it is not. Separation
+    claims in the main text are made on these intervals, not on whether the
+    marginal intervals overlap.
+    """
+    import csv as _csv
+    import random as _rnd
+    pub = {m["key"]: m["name"] for m in ALL
+           if m["track"] == track and m["status"] == "public"}
+    if anchor_key not in pub:
+        return None
+    acc = defaultdict(dict)
+    with open(f"{MAN}/per_video_scores.csv") as fh:
+        for r in _csv.DictReader(fh):
+            if (r["track"] == track and r["duration"] == dur
+                    and r["metric"] == metric and r["model"] in pub):
+                acc[r["model"]][r["prompt_id"]] = float(r["value"])
+    if anchor_key not in acc:
+        return None
+    rng = _rnd.Random(0)
+    B = 10000
+    rows = []
+    for b in sorted(acc):
+        if b == anchor_key:
+            continue
+        common = sorted(set(acc[anchor_key]) & set(acc[b]))
+        if len(common) < 5:
+            continue
+        d = [acc[anchor_key][p] - acc[b][p] for p in common]
+        n = len(d)
+        mu = sum(d) / n
+        boot = sorted(sum(rng.choice(d) for _ in range(n)) / n for _ in range(B))
+        lo, hi = boot[int(0.025 * B)], boot[int(0.975 * B)]
+        rows.append((pub[b], n, mu, lo, hi, hi < 0 or lo > 0))
+    if not rows:
+        return None
+    rows.sort(key=lambda r: r[2])
+    # Full width: the paired-comparison labels name two systems per row.
+    lines = [r"\begin{table*}[tb]", r"\centering", r"\small",
+             r"\setlength{\tabcolsep}{6pt}",
+             r"\begin{tabular}{l c r c}", r"\toprule",
+             r"Comparison & $n$ & mean diff. & 95\% CI \\", r"\midrule"]
+    for nm, n, mu, lo, hi, sep in rows:
+        star = "" if sep else r"$^{\ast}$"
+        lines.append(f"{esc(pub[anchor_key])} $-$ {esc(nm)}{star} & {n} & "
+                     f"{mu:.2f} & $[{lo:.2f},\\,{hi:.2f}]$ \\\\")
+    n_sep = sum(1 for r in rows if r[5])
+    lines += [r"\bottomrule", r"\end{tabular}",
+              r"\caption{\textbf{Paired differences in %s, %s horizon.} Every "
+              r"system is evaluated on the same prompts, so separation is judged "
+              r"on the bootstrap distribution of per-prompt \emph{differences} "
+              r"(10k resamples, fixed seed) rather than on whether two marginal "
+              r"intervals happen to overlap---overlapping intervals can hide a "
+              r"reliable paired difference, and non-overlapping ones can suggest "
+              r"a difference that is not. %d of %d intervals exclude zero"
+              r"%s.}" % (METRICS.get(metric, [metric, metric])[1]
+                         if metric in METRICS else "NBF", dur, n_sep, len(rows),
+                         "" if n_sep == len(rows)
+                         else r"; $^{\ast}$ marks those that do not"),
+              r"\label{%s}" % label, r"\end{table*}"]
+    return "\n".join(lines)
+
+
 def robustness_table(track="t2v", dur="60s", label="tab:robustness"):
     """Two checks on the region partition and the evaluation set.
 
@@ -656,6 +724,12 @@ def perception_table(label="tab:perception"):
     return "\n".join(lines)
 
 
+_MATCHED_NOTE = (r" Rows marked $^{\dagger}$ ran under the common "
+                 r"long-horizon wrapper rather than a released "
+                 r"configuration and are grouped separately below the "
+                 r"native rows.")
+
+
 def native_config_table(track="t2v", label="tab:native_config"):
     """What was actually recorded about each audited system's generation.
 
@@ -692,9 +766,13 @@ def native_config_table(track="t2v", label="tab:native_config"):
         w, h, fps = g[0]
         mixed = "" if len(g) == 1 else r"$^{\ddagger}$"
         ds = sorted(durs.get(m["key"], []), key=lambda s: int(s.rstrip("s")))
-        rows.append((m["name"] + (r"$^{\dagger}$" if m["setting"] == "matched" else ""),
+        rows.append((m["setting"] != "native",     # sort key: native block first
+                     m["name"] + (r"$^{\dagger}$" if m["setting"] == "matched" else ""),
                      m["setting"], f"{w}$\\times${h}{mixed}",
                      f"{float(fps):.0f}", ", ".join(ds)))
+    # Group by setting so a skimming reader cannot mistake a wrapper row for a
+    # native one; within a block the roster order is preserved.
+    rows = [r[1:] for r in sorted(rows, key=lambda r: r[0])]
     if not rows:
         return None
 
@@ -705,14 +783,22 @@ def native_config_table(track="t2v", label="tab:native_config"):
     for r_ in rows:
         lines.append(" & ".join(r_) + r" \\")
     lines += [r"\bottomrule", r"\end{tabular}",
-              r"\caption{\textbf{Recorded generation configuration.} Every "
-              r"audited system was run in its released configuration and "
-              r"produced output at the same resolution and frame rate over the "
-              r"same horizons, so no comparison in this paper is confounded by "
-              r"output format. Per-method sampler settings---denoising steps, "
-              r"chunk length, guidance scale, cache policy---were not captured "
-              r"in the run manifest and are therefore not listed here; this is a "
-              r"reproducibility gap we state rather than fill by inference.}",
+              r"\caption{\textbf{Recorded generation configuration (%s).} Every "
+              r"audited system was run from its released checkpoint. Native "
+              r"output formats are not identical across the roster---resolutions "
+              r"and frame rates differ where the releases differ---and the "
+              r"comparison is unaffected because the factors normalise them "
+              r"rather than assume them away: NBF is expressed per second and "
+              r"per frame width, fBD as a percentage of the frame diagonal, and "
+              r"every sequence is resampled to a common flow-estimation rate "
+              r"before measurement. Per-method sampler settings---denoising "
+              r"steps, guidance scale, block length and seed---are uniform across "
+              r"the roster and recorded with the benchmark: a four-step schedule, "
+              r"guidance $5.0$, six frames per block, fixed seed. This is a "
+              r"matched-setting comparison, reproducible because the setting is "
+              r"uniform, and it does not observe a checkpoint distilled for a "
+              r"different step budget at its own operating point.%s}" % (track.upper(), _MATCHED_NOTE if any(
+                  m["setting"] == "matched" for m in models) else ""),
               r"\label{%s}" % label, r"\end{table*}"]
     return "\n".join(lines)
 
@@ -815,7 +901,7 @@ def deployment_table(ix, label="tab:deployment_sensitivity"):
         lines.append(" & ".join(r_) + r" \\")
     lines += [r"\bottomrule", r"\end{tabular}",
               r"\caption{\textbf{Deployment sensitivity.} Change from each "
-              r"checkpoint's native configuration to the common long-horizon "
+              r"checkpoint's own released setting to the common long-horizon "
               r"wrapper, for the two checkpoints evaluated both ways. Absolute "
               r"matched scores are never read as the published method's "
               r"performance.}", r"\label{%s}" % label, r"\end{table*}"]
@@ -1075,9 +1161,15 @@ def main():
     written = []
 
     t = audit_table(ix, "t2v", ["60s", "120s"], "tab:t2v_audit",
-                    r"\textbf{SNF-Bench audit, T2V track, native configuration.} "
-                    r"All systems are public external models run under their own "
-                    r"intended configuration. Our own systems are excluded by "
+                    r"\textbf{SNF-Bench audit of public T2V checkpoints under the "
+                    r"recorded deployment setting.} All systems are public external "
+                    r"models executed through one evaluation pipeline; the manifest "
+                    r"executed under one common inference configuration---four-step "
+                    r"schedule, guidance $5.0$, six frames per block, fixed "
+                    r"seed---rather than each method's released defaults, so "
+                    r"these are matched-setting results for these checkpoints "
+                    r"and not a reconstruction of any author's deployment. "
+                    r"Unpublished systems are excluded by "
                     r"construction. DAR is reported clipped to $[0,1]$; signed "
                     r"values are released.")
     if t:
@@ -1143,6 +1235,7 @@ def main():
                       "tab_native_config_i2v.tex"),
                      (perception_table(), "tab_perception.tex"),
                      (robustness_table(), "tab_robustness.tex"),
+                     (paired_diff_table(), "tab_paired.tex"),
                      (deployment_table(ix), "tab_deployment.tex")):
         if fn:
             open(f"{OUT}/{name}", "w").write(fn)

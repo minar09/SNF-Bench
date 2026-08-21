@@ -622,7 +622,10 @@ def fig_validation(out="fig3_validation"):
     # photometric controls belong with the full response matrix in the supplement.
     PANELS = [("translation", ["fBD", "NBF"], "(a) injected drift"),
               ("rotation",    ["fBD", "NBF"], "(b) injected rotation"),
-              ("attenuation", ["MCFF_L", "FP"], "(c) motion attenuation"),
+              # The admission criterion for the persistence factors is
+              # progressive late freezing, so that is what this panel must show:
+              # figure and criterion have to be the same intervention.
+              ("freeze",      ["MCFF_L", "FP"], "(c) progressive late freeze"),
               ("translation", ["VB_DD", "DLR"], "(d) whole-frame score vs SNF-Bench")]
     PANELS = [(f, m, lab) for f, m, lab in PANELS if by.get(f)]
     if not PANELS:
@@ -655,10 +658,19 @@ def fig_validation(out="fig3_validation"):
         ax.set_axisbelow(True)
         ax.margins(x=0.22)
     axes[0].set_ylabel("relative to unperturbed", fontsize=6.2)
-    for ax in axes:
-        ax.set_xlabel("mean induced displacement (px)"
-                      if fam in ("translation", "rotation", "scale", "photometric")
-                      else "severity", fontsize=6.0, labelpad=1.5)
+    # Each panel is labelled by its OWN family. This loop previously reused
+    # `fam` left over from the plotting loop, so every panel inherited the last
+    # panel's unit -- the freeze panel was captioned in pixels of displacement.
+    XLAB = {"translation": "mean induced displacement (px)",
+            "rotation": "mean induced displacement (px)",
+            "scale": "mean induced displacement (px)",
+            "photometric": "mean induced displacement (px)",
+            "freeze": "fraction of rollout frozen",
+            "attenuation": "attenuation strength",
+            "repetition": "cycle length (frames)",
+            "mask_radius": "boundary shift (px)"}
+    for ax, (fam_i, _, _) in zip(axes, PANELS):
+        ax.set_xlabel(XLAB.get(fam_i, "severity"), fontsize=6.0, labelpad=1.5)
     # Leave a band at the bottom for the provenance footer; without it the
     # x-labels and the footer print on top of one another.
     fig.tight_layout(pad=0.3, rect=(0, 0.10, 1, 1))

@@ -1,7 +1,7 @@
 \section{Results and Interpretation Changes}
 \label{sec:results}
 
-Unless stated otherwise, comparisons refer to systems in their released configurations; deployment-sensitivity results are reported separately in the supplementary material and never redefine a system's native behaviour.
+Unless stated otherwise, comparisons refer to systems under the recorded deployment setting; deployment-sensitivity results are reported separately in the supplementary material and never redefine a system's native behaviour.
 
 \subsection{Native-Capability Audit}
 \label{sec:results_native}
@@ -13,7 +13,7 @@ Table~\ref{tab:t2v_audit} reports the text-conditioned track at $60$\,s, the tie
 
 \paragraph{Motion persistence.} Dynamic-region behaviour is read at the joint point $\bigl(\mathrm{MCFF}(\mathcal{L}),\,\mathrm{FP}\bigr)$, never FP alone: sustained flow needs non-trivial late motion \emph{and} high retention. MCFF-E beside MCFF-L exposes the degenerate case, since negligible motion throughout cannot reach a high FP without a small MCFF-E.
 
-\paragraph{Operating regimes.} Read jointly, the static-fidelity and persistence columns separate low-drift/low-motion, high-motion/high-drift and low-drift/non-trivial-motion behaviour without collapsing the axes into a scalar score; the supplementary material plots this. The extremes are informative in opposite directions. Infinite-Forcing has the lowest normalised background flow, and is the only system whose interval on that factor excludes every other, while also showing the least surviving late motion; on feature-based drift its interval overlaps the next-ranked system, so it is not the least-drifting system outright. Causal-Forcing sits alone at the opposite corner, separated on background flow by a wide margin.
+\paragraph{Operating regimes.} Read jointly, the static-fidelity and persistence columns separate low-drift/low-motion, high-motion/high-drift and low-drift/non-trivial-motion behaviour without collapsing the axes into a scalar score; the supplementary material plots this. The extremes are informative in opposite directions. Infinite-Forcing has the lowest normalised background flow: a paired bootstrap over per-prompt differences separates it from all six other systems, every interval excluding zero (supplementary material). It also shows the least surviving late motion; on feature-based drift its interval overlaps the next-ranked system, so it is not the least-drifting system outright. Causal-Forcing sits alone at the opposite corner, separated on background flow by a wide margin.
 
 
 \subsection{Drift Leakage Changes the Interpretation of Apparent Motion}
@@ -25,7 +25,7 @@ The effect is systematic rather than anecdotal. Correlating each generic whole-f
 \subsection{Image-Conditioned Track: Native Capability and Deployment Sensitivity}
 \label{sec:results_i2v}
 
-Table~\ref{tab:i2v_audit} is two things, kept apart. The two unmarked rows are a \emph{native-capability} result: systems whose released configuration reaches these horizons, measured as shipped. The five marked rows are a \emph{deployment-sensitivity} panel: released checkpoints whose own configuration does not reach these horizons, run under a common long-horizon wrapper. This is not a seven-system audit and is not presented as one; ranking a marked row against an unmarked one would compare one system's design against another's deployment. The panel supports one descriptive observation: the same checkpoint under a wrapper rather than its native configuration yields materially different static-fidelity and persistence scores, so a conclusion about a system is a conclusion about that system \emph{as deployed}. Why that happens is outside what a benchmark establishes, and we do not claim it.
+Table~\ref{tab:i2v_audit} is two things, kept apart. The two unmarked rows are a \emph{native-capability} result: systems whose released configuration reaches these horizons, measured as shipped. The five marked rows are a \emph{deployment-sensitivity} panel: released checkpoints whose own configuration does not reach these horizons, run under a common long-horizon wrapper. This is not a seven-system audit and is not presented as one; ranking a marked row against an unmarked one would compare one system's design against another's deployment. The panel supports one descriptive observation: the same checkpoint under a wrapper rather than its own released setting yields materially different scores, so a conclusion about a system is a conclusion about it \emph{as deployed}. Why that happens is outside what a benchmark establishes.
 
 
 The track supplies what the text-conditioned one cannot: every system starts from the same source image, so static support is given rather than invented and divergence is attributable to the system. Bidirectional reference systems reach only the $5$\,s tier and are reported there.
