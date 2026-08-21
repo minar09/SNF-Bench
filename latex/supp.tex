@@ -159,6 +159,33 @@ corruption was too weak to clear the clip's own baseline drift.
 
 \input{generated/tab_validation}
 
+\section{Partition and Composition Robustness}
+\label{sup:robustness}
+
+Two questions decide whether the region partition can be trusted as a
+measurement basis: whether a system can be advantaged by receiving an easier
+mask, and whether the ordering depends on the one scene category the partition
+cannot represent.
+
+The static region occupies a similar share of the frame for every audited
+system, between $0.61$ and $0.66$ on average, so no system is scored over a
+markedly larger or smaller support than another. Across systems, that area
+correlates negatively with feature-based drift. Over seven systems the
+correlation is not determined, but its sign is the one circularity would
+produce---a system that drifts within the estimation window enlarges its own
+dynamic region and shrinks the support its drift is measured over---and we
+report it as an open validity question rather than dismissing it on
+significance. The decisive test, recomputing every score under a region
+partition not derived from the same sequence, is stated as required future work
+in Sec.~\ref{sup:masks}; we do not claim to have run it.
+
+Removing precipitation, where rain and snow cross static support and a two-way
+partition must assign those pixels to one region by flow magnitude alone, leaves
+the normalised-background-flow ordering unchanged and moves only mid-field
+positions under feature-based drift.
+
+\input{generated/tab_robustness}
+
 \section{Generation Configuration}
 \label{sup:config}
 
@@ -172,6 +199,17 @@ compare the systems as released and run here, not the space of settings each
 admits.
 
 \input{generated/tab_native_config}
+
+The image-conditioned roster is recorded the same way. Rows marked
+$^{\dagger}$ did not reach these horizons under their released configuration and
+were run instead through a common long-horizon wrapper, identical for every such
+row: six frames per block, image-conditioned, with the released checkpoint
+otherwise unmodified. That wrapper is a property of this evaluation, not of any
+audited system, which is why its rows are read as deployment sensitivity and are
+never ranked against native rows. Its per-method sampler settings were not
+captured either, and the same limitation therefore applies.
+
+\input{generated/tab_native_config_i2v}
 
 \section{Measurement Coverage}
 \label{sup:coverage}
@@ -237,26 +275,42 @@ move, which is why no ordinal claim is made about the middle of the field.
 \section{Signed Drift Attenuation}
 \label{sup:dar}
 
+\input{generated/tab_dar_negative}
+
 Drift attenuation is stored signed and reported clipped to $[0,1]$. Negative
 values are informative rather than anomalous: where local flow opposes the
 estimated global field, compensation increases the measured magnitude. We report
 their incidence rather than suppressing it.
-
-\input{generated/tab_dar_negative}
 
 \section{Evaluation-Set Composition}
 \label{sup:categories}
 
 \input{generated/tab_category}
 
-\section{Preliminary Perceptual Validation of the Factor Axes}
+\section{Exploratory Perceptual Pilot}
 \label{sup:perceptual}
 
-This section asks one question: do independent judges order clip pairs the way
-the factors do? It is metric validation, not method preference. Nothing here
-ranks systems, and no result from it enters any factor, table or figure
-elsewhere in this work. Framed that way a small sample is survivable, because
-the object under test is a measurement instrument rather than a leaderboard.
+\textbf{This section supports no perceptual-validity claim.} It reports an
+exploratory pilot that did not establish agreement between human judgments and
+the factor orderings, and it is included because the reason it failed is
+informative and because the protocol is what a powered study should start from.
+Nothing here ranks systems, and no result from it enters any factor, table or
+figure elsewhere in this work.
+
+The question the pilot asked is whether independent judges order clip pairs the
+way the factors do. That is metric validation rather than preference, so a small
+sample would have been survivable had the pairs been constructed correctly; as
+Sec.~\ref{sup:perceptual} reports below, they were not.
+
+\paragraph{Ethics.}
+Raters were volunteers drawn from the authors' institution and immediate
+colleagues, and four of the eight sessions were the authors' own pilot runs,
+reported separately and excluded from the primary analysis. Participation was
+voluntary and uncompensated, no personal data beyond a self-chosen identifier
+was collected, and no clip depicts an identifiable person. The study involved
+no intervention and no sensitive material. Because a powered study will recruit
+outside this group, we will obtain the institutional review or documented
+exemption that such recruitment requires before running it.
 
 \paragraph{Questions.}
 One forced choice per axis, with an explicit third option:
@@ -349,7 +403,12 @@ raters engage with the axis questions rather than defaulting to a side, and
 that the binding constraint on a powered study is pair construction rather than
 rater count: axis-isolated pairs, a near-tie stratum, and raters recruited
 outside the authors. Protocol, pair manifest and judge prompt are released
-verbatim so the check can be repeated and enlarged.
+verbatim so the check can be repeated and enlarged. To restate the scope
+without qualification: what is released here is a validated \emph{protocol}
+and a diagnosis of why this run of it failed. \textbf{No conclusion about
+perceptual agreement, in either direction, should be drawn from the counts in
+this section.} They are reported so the pilot is auditable, not because they
+support an inference.
 
 \section{Additional Qualitative Material}
 \label{sup:qualitative}
@@ -372,7 +431,12 @@ layout. Columns are ordered by increasing static-region drift.}
 audited systems and oriented so that outward is always better; plotting raw
 values would place ``most drift'' and ``most surviving motion'' both outward and
 the shape would carry no meaning. No system encloses the others on either track,
-which is the conclusion the operating-regime view reaches, shown as a profile.}
+which is the conclusion the operating-regime view reaches, shown as a profile.
+On the image-conditioned panel, dashed outlines marked $^{\dagger}$ are rows run
+under the common long-horizon wrapper rather than a released configuration: they
+are shown for shape, and are not peers of the solid native outlines. The
+rescaling is relative to the audited roster, so a profile is descriptive of this
+set and would change if the set changed.}
 \label{sup:fig_radar}
 \end{figure*}
 

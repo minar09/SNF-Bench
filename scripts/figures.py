@@ -32,7 +32,7 @@ from matplotlib.lines import Line2D                  # noqa: E402
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import palette as P                                  # noqa: E402
-from registry import METRICS, contestants            # noqa: E402
+from registry import ALL, METRICS, contestants       # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MAN, FIG = f"{ROOT}/manifest", f"{ROOT}/figures"
@@ -674,6 +674,9 @@ def fig_validation(out="fig3_validation"):
 # Fig. S -- factor profile per track (radar), in the manner of general-purpose
 # suites, but on axes that carry direction rather than a single quality score
 # --------------------------------------------------------------------------
+SETTING = {(m["track"], m["name"]): m["setting"] for m in ALL}
+
+
 def fig_radar(scores, out="figS_radar"):
     """One radar per track: each factor rescaled to [0,1] across the audited
     systems, oriented so that outward is always better.
@@ -727,9 +730,14 @@ def fig_radar(scores, out="figS_radar"):
             c = (P.SERIES_1 if n == (hi[0] if hi else None)
                  else P.SERIES_2 if n == (hi[1] if len(hi) > 1 else None)
                  else P.MUTED)
+            # A wrapper-run row and a native row are never peers, so the
+            # profile must not present them as one undifferentiated family.
+            # Matched rows are dashed and daggered; the caption says why.
+            matched = SETTING.get((track, n)) == "matched"
             ax.plot(ang, r, color=c, lw=1.7 if is_hi else 0.9,
+                    ls="--" if matched else "-",
                     alpha=1.0 if is_hi else 0.45, zorder=3 if is_hi else 2,
-                    label=n if is_hi else None)
+                    label=(n + ("$^{\\dagger}$" if matched else "")) if is_hi else None)
             if is_hi:
                 ax.fill(ang, r, color=c, alpha=0.10, zorder=1)
         ax.set_xticks(ang[:-1])

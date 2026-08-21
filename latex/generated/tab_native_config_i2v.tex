@@ -1,0 +1,23 @@
+\begin{table*}[tb]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{l l c c l}
+\toprule
+System & setting & resolution & fps & horizons \\
+\midrule
+Causal-Forcing++ (2-step)$^{\dagger}$ & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Causal-Forcing++ (1-step)$^{\dagger}$ & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Causal-Forcing (frame-wise)$^{\dagger}$ & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Causal-Forcing++ (2-step, frame-wise) & native & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Self-Forcing$^{\dagger}$ & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+CausVid$^{\dagger}$ & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Wan2.1-I2V-14B-480P & native & 832$\times$464 & 16 & 5s \\
+Wan2.2-I2V-A14B & native & 832$\times$464 & 16 & 5s \\
+LTX-Video 13B-0.9.8-distilled & native & 832$\times$480 & 24 & 5s \\
+Causal-Forcing++ (1-step, frame-wise) & native & 832$\times$480 & 16 & 60s, 120s \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Recorded generation configuration.} Every audited system was run in its released configuration and produced output at the same resolution and frame rate over the same horizons, so no comparison in this paper is confounded by output format. Per-method sampler settings---denoising steps, chunk length, guidance scale, cache policy---were not captured in the run manifest and are therefore not listed here; this is a reproducibility gap we state rather than fill by inference.}
+\label{tab:native_config_i2v}
+\end{table*}

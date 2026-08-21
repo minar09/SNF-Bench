@@ -1,0 +1,26 @@
+\begin{table*}[tb]
+\centering
+\small
+\begin{tabular}{l c}
+\toprule
+System & static-region area \\
+\midrule
+CausVid & 0.663 $\pm$ 0.073 \\
+Reward-Forcing & 0.661 $\pm$ 0.060 \\
+Self-Forcing & 0.651 $\pm$ 0.087 \\
+Infinite-Forcing & 0.650 $\pm$ 0.090 \\
+LongLive & 0.644 $\pm$ 0.095 \\
+Rolling-Forcing & 0.616 $\pm$ 0.107 \\
+Causal-Forcing & 0.614 $\pm$ 0.086 \\
+\midrule
+\multicolumn{2}{l}{\emph{Does mask area predict the drift score?}} \\
+Spearman(area, fBD) over 7 systems & -0.75, exact $p=0.066$ \\
+\midrule
+\multicolumn{2}{l}{\emph{Ordering with precipitation excluded (3 of 23 prompts)}} \\
+fBD ordering & best and worst unchanged \\
+NBF ordering & identical \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Partition and composition robustness.} The static region occupies a similar share of the frame for every audited system, so no system is scored over a much larger or smaller support than another. The area does correlate negatively with drift across systems; over seven systems that correlation is not determined, but its sign is the one circularity would produce---a system that drifts early enlarges its own dynamic region---and we flag it as an open validity question rather than dismissing it. Removing precipitation, the category a two-way partition cannot represent, leaves the normalised-background-flow ordering unchanged.}
+\label{tab:robustness}
+\end{table*}

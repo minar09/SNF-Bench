@@ -300,23 +300,62 @@ def disagreement_table(ix, track="t2v", dur="60s",
     return "\n".join(lines)
 
 
-def simple_table(md_path, label, caption, max_cols=None):
+def simple_table(md_path, label, caption, max_cols=None, section=None,
+                 nonzero_col=None):
     """Convert one of the generated markdown tables to LaTeX verbatim-ish."""
     if not os.path.exists(md_path):
         return None
-    rows = []
+    # Take the FIRST markdown table only. These reports carry several tables
+    # plus prose; scanning every pipe-delimited line concatenated a downstream
+    # provenance table onto the one being converted, printing schema debris
+    # ("track & source", "t2v & keyword") as data rows.
+    # These reports carry several tables under markdown headings. Select the
+    # intended one by heading; without that, a downstream provenance table was
+    # concatenated onto the target and printed schema debris as data rows.
+    rows, started, in_section = [], False, section is None
     for line in open(md_path):
         line = line.strip()
+        if line.startswith("#"):
+            if started:
+                break
+            if section is not None:
+                in_section = section.lower() in line.lower()
+            continue
+        if not in_section:
+            continue
         if not line.startswith("|"):
+            if started:
+                break          # blank line or prose ends this table
             continue
         cells = [c.strip() for c in line.strip("|").split("|")]
         if all(set(c) <= set("-: ") for c in cells):
             continue
+        started = True
         rows.append(cells[:max_cols] if max_cols else cells)
     if len(rows) < 2:
         return None
+    # A row whose width differs from the header is not part of this table.
+    width = len(rows[0])
+    rows = [r for r in rows if len(r) == width]
+    # Optionally keep only rows where a named column is non-zero. A 58-row table
+    # of mostly zeros overflows the page and hides the entries that matter; the
+    # caption states how many rows were all-zero.
+    n_zero = 0
+    if nonzero_col and nonzero_col in rows[0]:
+        j = rows[0].index(nonzero_col)
+        keep = [rows[0]] + [r for r in rows[1:]
+                            if r[j] not in ("0", "0.0", "0.0\\%", "", "-")]
+        n_zero = len(rows) - len(keep)
+        rows = keep
+    if n_zero:
+        caption += (r" %d further entries had no negative values and are "
+                    r"omitted." % n_zero)
     ncol = len(rows[0])
-    body = [r"\begin{table*}[tb]", r"\centering", r"\scriptsize",
+    # A long table set at scriptsize can exceed the page body and force an
+    # overfull vbox; step the size down past ~25 rows rather than letting it
+    # run beyond the text block.
+    size = r"\tiny" if len(rows) > 25 else r"\scriptsize"
+    body = [r"\begin{table*}[!htbp]", r"\centering", size,
             r"\setlength{\tabcolsep}{5pt}",
             r"\begin{tabular}{l" + "c" * (ncol - 1) + "}", r"\toprule",
             " & ".join(esc(c) for c in rows[0]) + r" \\", r"\midrule"]
@@ -414,6 +453,120 @@ def interpretation_table(ix, track="t2v", dur="60s", label="tab:interpretation_c
               r"correct; the table identifies information hidden by whole-frame "
               r"aggregation. Cases are selected by a fixed rank-gap rule applied to "
               r"all public methods, so none can be selectively omitted.}",
+              r"\label{%s}" % label, r"\end{table*}"]
+    return "\n".join(lines)
+
+
+def robustness_table(track="t2v", dur="60s", label="tab:robustness"):
+    """Two checks on the region partition and the evaluation set.
+
+    The partition is derived from each sequence's own early flow, so the first
+    question a reader should ask is whether a system can be advantaged by
+    receiving an easier mask. We report the static-mask area every system
+    actually got, and the correlation between that area and its drift score.
+    The second check removes the one scene category the two-way partition
+    cannot represent -- precipitation crossing static support -- and asks
+    whether the ordering survives.
+    """
+    import csv as _csv
+    import itertools
+    import math
+    import statistics as _st
+    from categories import load_categories
+
+    pub = {m["key"]: m["name"] for m in ALL
+           if m["track"] == track and m["status"] == "public"}
+
+    def spear(x, y):
+        n = len(x)
+        if n < 3:
+            return None
+        a, b = [0] * n, [0] * n
+        for r, i in enumerate(sorted(range(n), key=lambda i: x[i])):
+            a[i] = r
+        for r, i in enumerate(sorted(range(n), key=lambda i: y[i])):
+            b[i] = r
+        mx, my = sum(a) / n, sum(b) / n
+        num = sum((a[i] - mx) * (b[i] - my) for i in range(n))
+        den = math.sqrt(sum((a[i] - mx) ** 2 for i in range(n))
+                        * sum((b[i] - my) ** 2 for i in range(n)))
+        return num / den if den else None
+
+    area, fbd = {}, {}
+    for k in pub:
+        fp = f"{ROOT}/raw/{track}/{k}/{dur}/snf_task_metrics.json"
+        if not os.path.exists(fp):
+            continue
+        pv = [v for v in json.load(open(fp)).get("per_video", []) if "error" not in v]
+        a = [v["static_frac"] for v in pv if v.get("static_frac") is not None]
+        f = [v["fBD"] for v in pv if v.get("fBD") is not None]
+        if a and f:
+            area[k], fbd[k] = (_st.mean(a), _st.pstdev(a)), _st.mean(f)
+    if not area:
+        return None
+    ks = sorted(area)
+    rho = spear([area[k][0] for k in ks], [fbd[k] for k in ks])
+    pval = None
+    if rho is not None and len(ks) <= 8:
+        xs = [area[k][0] for k in ks]
+        ys = [fbd[k] for k in ks]
+        perms = list(itertools.permutations(ys))
+        pval = sum(1 for q in perms if abs(spear(xs, list(q))) >= abs(rho)) / len(perms)
+
+    # precipitation exclusion
+    cats = load_categories()
+    acc = defaultdict(dict)
+    with open(f"{MAN}/per_video_scores.csv") as fh:
+        for r in _csv.DictReader(fh):
+            if r["track"] == track and r["duration"] == dur and r["model"] in pub:
+                acc[(r["model"], r["metric"])][r["prompt_id"]] = float(r["value"])
+
+    def order(metric, drop):
+        vals = {}
+        for k in pub:
+            xs = [v for pr, v in acc.get((k, metric), {}).items()
+                  if not (drop and cats.get((track, dur, pr)) == "precipitation")]
+            if xs:
+                vals[k] = _st.mean(xs)
+        return sorted(vals, key=lambda k: vals[k])
+
+    prec = []
+    for metric, nm in (("fBD_mean", "fBD"), ("NBF_mean", "NBF")):
+        o1, o2 = order(metric, False), order(metric, True)
+        prec.append((nm, o1 == o2, o1[0] == o2[0] and o1[-1] == o2[-1]))
+    n_prec = sum(1 for pr in acc[(ks[0], "fBD_mean")]
+                 if cats.get((track, dur, pr)) == "precipitation")
+    n_tot = len(acc[(ks[0], "fBD_mean")])
+
+    lines = [r"\begin{table*}[tb]", r"\centering", r"\small",
+             r"\begin{tabular}{l c}", r"\toprule",
+             r"System & static-region area \\", r"\midrule"]
+    for k in sorted(area, key=lambda k: -area[k][0]):
+        lines.append(f"{esc(pub[k])} & {area[k][0]:.3f} $\\pm$ {area[k][1]:.3f} \\\\")
+    lines.append(r"\midrule")
+    lines.append(r"\multicolumn{2}{l}{\emph{Does mask area predict the drift score?}} \\")
+    rr = f"{rho:+.2f}" if rho is not None else "--"
+    pp = f", exact $p={pval:.3f}$" if pval is not None else ""
+    lines.append(f"Spearman(area, fBD) over {len(ks)} systems & {rr}{pp} \\\\")
+    lines.append(r"\midrule")
+    lines.append(r"\multicolumn{2}{l}{\emph{Ordering with precipitation excluded (%d of %d prompts)}} \\"
+                 % (n_prec, n_tot))
+    for nm, same, ends in prec:
+        txt = "identical" if same else ("best and worst unchanged" if ends
+                                        else "order changes")
+        lines.append(f"{nm} ordering & {txt} \\\\")
+    lines += [r"\bottomrule", r"\end{tabular}",
+              r"\caption{\textbf{Partition and composition robustness.} The "
+              r"static region occupies a similar share of the frame for every "
+              r"audited system, so no system is scored over a much larger or "
+              r"smaller support than another. The area does correlate "
+              r"negatively with drift across systems; over seven systems that "
+              r"correlation is not determined, but its sign is the one "
+              r"circularity would produce---a system that drifts early enlarges "
+              r"its own dynamic region---and we flag it as an open validity "
+              r"question rather than dismissing it. Removing precipitation, the "
+              r"category a two-way partition cannot represent, leaves the "
+              r"normalised-background-flow ordering unchanged.}",
               r"\label{%s}" % label, r"\end{table*}"]
     return "\n".join(lines)
 
@@ -539,7 +692,8 @@ def native_config_table(track="t2v", label="tab:native_config"):
         w, h, fps = g[0]
         mixed = "" if len(g) == 1 else r"$^{\ddagger}$"
         ds = sorted(durs.get(m["key"], []), key=lambda s: int(s.rstrip("s")))
-        rows.append((m["name"], m["setting"], f"{w}$\\times${h}{mixed}",
+        rows.append((m["name"] + (r"$^{\dagger}$" if m["setting"] == "matched" else ""),
+                     m["setting"], f"{w}$\\times${h}{mixed}",
                      f"{float(fps):.0f}", ", ".join(ds)))
     if not rows:
         return None
@@ -728,11 +882,15 @@ def validation_table(label="tab:validation"):
                 offs.append(max(abs(y - ys[0]) for y in ys) / abs(ys[0]) * 100)
         off = max(offs) if offs else None
         ok = (r1 is not None and r1 >= 0.7) and (off is None or off <= 25.0)
+        # VBench DD is a comparison row, not a candidate factor: it is put
+        # through the identical corruptions to show what a whole-frame score
+        # does, and is never admitted to or excluded from the benchmark.
+        mark = "--" if key == "VB_DD" else (r"\checkmark" if ok else "supp.")
         rows.append([disp, plabel,
                      f"{r1:+.2f}" if r1 is not None else "--",
                      f"{r2:+.2f}" if r2 is not None else "n/a",
                      f"{off:.0f}\\%" if off is not None else "--",
-                     r"\checkmark" if ok else "supp."])
+                     mark])
 
     lines = [r"\begin{table}[tb]", r"\centering", r"\scriptsize",
              r"\setlength{\tabcolsep}{4pt}",
@@ -753,7 +911,16 @@ def validation_table(label="tab:validation"):
               r"corruptions the factor should ignore---photometric drift and "
               r"perturbation of the region partition---so a small value indicates "
               r"selectivity. Admission requires $\rho \ge 0.7$ and off-target "
-              r"response below $25\%$. Twelve reference clips per severity level.}",
+              r"response below $25\%$ on the factor's \emph{target} family. "
+              r"Rotational response is reported but not gated, and the factors "
+              r"divide that work explicitly: DLR is a translational-leakage "
+              r"diagnostic whose rotational response is inverted ($-0.80$), while "
+              r"rotational drift is carried by fBD and DAR at $+0.70$ and $+1.00$. "
+              r"That division is why DLR is never read alone. VBench DD is a "
+              r"comparison row rather than a candidate factor---it is put through "
+              r"the identical corruptions to show what a whole-frame score does "
+              r"under them---so its admission cell is left blank. Twelve reference "
+              r"clips per severity level.}",
               r"\label{%s}" % label, r"\end{table}"]
     return "\n".join(lines)
 
@@ -946,16 +1113,20 @@ def main():
         open(f"{OUT}/tab_disagreement.tex", "w").write(t)
         written.append("tab_disagreement.tex")
 
-    for md, name, label, cap, mc in [
+    for md, name, label, cap, mc, *sec in [
         (f"{TAB}/coverage_matrix_public.md", "tab_coverage.tex", "tab:coverage",
          r"Asset and score coverage for the audited public systems. \texttt{T$n$/$N$} marks entries where a "
          r"metrics file exists but only $n$ of $N$ videos hold usable measurements.", 7),
         (f"{TAB}/category_balance.md", "tab_category.tex", "tab:category",
-         r"Scene-category balance of the evaluation set, by track and horizon.", 9),
+         r"Scene-category balance of the evaluation set, by track and horizon. "
+         r"A dot marks a category absent from that cell.", 9,
+         "Prompts per category"),
         (f"{TAB}/dar_negative_incidence.md", "tab_dar_negative.tex", "tab:darneg",
          r"Incidence of negative DAR, i.e.\ clips where global-motion compensation "
-         r"\emph{increased} measured dynamic-region flow.", 7)]:
-        s = simple_table(md, label, cap, max_cols=mc)
+         r"\emph{increased} measured dynamic-region flow.", 7, None, "negative")]:
+        s = simple_table(md, label, cap, max_cols=mc,
+                         section=(sec[0] if sec else None),
+                         nonzero_col=(sec[1] if len(sec) > 1 else None))
         if s:
             open(f"{OUT}/{name}", "w").write(s)
             written.append(name)
@@ -967,8 +1138,11 @@ def main():
                      (validation_table(), "tab_validation.tex"),
                      (interpretation_table(ix), "tab_interpretation.tex"),
                      (aggregation_table(ix), "tab_aggregation.tex"),
-                     (native_config_table(), "tab_native_config.tex"),
+                     (native_config_table("t2v"), "tab_native_config.tex"),
+                     (native_config_table("i2v", label="tab:native_config_i2v"),
+                      "tab_native_config_i2v.tex"),
                      (perception_table(), "tab_perception.tex"),
+                     (robustness_table(), "tab_robustness.tex"),
                      (deployment_table(ix), "tab_deployment.tex")):
         if fn:
             open(f"{OUT}/{name}", "w").write(fn)
@@ -979,8 +1153,8 @@ def main():
         s = audit_table(ix, trk, DURATIONS, f"tab:{trk}_audit_full", wide=True,
                         caption=
                         r"\textbf{Complete %s audit, all four horizons.} The main "
-                        r"paper reports the 60\,s and 240\,s panels; the 5\,s tier is an "
-                        r"initialisation check and 120\,s an intermediate diagnostic. "
+                        r"paper reports the 60\,s and 120\,s panels; the 5\,s tier is an "
+                        r"initialisation check and 240\,s a diagnostic extreme. "
                         r"Every row is computed under the same frozen specification, "
                         r"so panels are comparable within a horizon; prompt sets "
                         r"differ across horizons, so columns are not comparable "
