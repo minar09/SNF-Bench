@@ -10,13 +10,13 @@
 
 | Method | status | setting | 5s | 60s | 120s | 240s |
 |---|---|---|---|---|---|---|
-| CausVid | public | native | V6 B | V23 T23 B | V6 B | V4 B |
-| Self-Forcing | public | native | V6 B | V23 T23 B | V6 B | V4 B |
-| Infinite-Forcing | public | native | V6 B | V23 T23 B | V6 B | V4 B |
-| Rolling-Forcing | public | native | V6 B | V24 T24 B | V6 B | V4 B |
-| Reward-Forcing | public | native | V12 B | V23 T23 B | V6 B | V4 B |
-| LongLive | public | native | V6 B | V23 T23 B | V6 B | V4 B |
-| Causal-Forcing | public | native | V6 B | V23 T23 B | V6 B | V4 B |
+| CausVid | public | native | V6 T6 B | V23 T23 B | V6 T6 B | V4 T4 B |
+| Self-Forcing | public | native | V6 T6 B | V23 T23 B | V6 T6 B | V4 T4 B |
+| Infinite-Forcing | public | native | V6 T6 B | V23 T23 B | V6 T6 B | V4 T4 B |
+| Rolling-Forcing | public | native | V6 T6 B | V24 T24 B | V6 T6 B | V4 T4 B |
+| Reward-Forcing | public | native | V12 T12 B | V23 T23 B | V6 T6 B | V4 T4 B |
+| LongLive | public | native | V6 T6 B | V23 T23 B | V6 T6 B | V4 T4 B |
+| Causal-Forcing | public | native | V6 T6 B | V23 T23 B | V6 T6 B | V4 T4 B |
 
 ## I2V track
 

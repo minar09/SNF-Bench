@@ -43,45 +43,65 @@ Exact two-sided sign test over prompts evaluated by **both** methods.
 | Causal-Forcing++ (2-step, frame-wise) | CausVid | 5 | 3.946 vs 2.081 | 1/5 | 0.3750 | no |
 | Self-Forcing | CausVid | 5 | 5.735 vs 2.081 | 0/5 | 0.0625 | no |
 
+## MCFF-E (higher is better)
+
+| A | B | n paired | mean A vs B | A wins | p (sign test) | sig |
+|---|---|---|---|---|---|---|
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (1-step) | 5 | 0.529 vs 0.563 | 1/5 | 0.3750 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing (frame-wise) | 5 | 0.529 vs 3.081 | 0/5 | 0.0625 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.529 vs 1.228 | 2/5 | 1.0000 | no |
+| Causal-Forcing++ (2-step) | Self-Forcing | 5 | 0.529 vs 1.483 | 0/5 | 0.0625 | no |
+| Causal-Forcing++ (2-step) | CausVid | 5 | 0.529 vs 0.807 | 3/5 | 1.0000 | no |
+| Causal-Forcing++ (1-step) | Causal-Forcing (frame-wise) | 5 | 0.563 vs 3.081 | 0/5 | 0.0625 | no |
+| Causal-Forcing++ (1-step) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.563 vs 1.228 | 1/5 | 0.3750 | no |
+| Causal-Forcing++ (1-step) | Self-Forcing | 5 | 0.563 vs 1.483 | 0/5 | 0.0625 | no |
+| Causal-Forcing++ (1-step) | CausVid | 5 | 0.563 vs 0.807 | 3/5 | 1.0000 | no |
+| Causal-Forcing (frame-wise) | Causal-Forcing++ (2-step, frame-wise) | 5 | 3.081 vs 1.228 | 3/5 | 1.0000 | no |
+| Causal-Forcing (frame-wise) | Self-Forcing | 5 | 3.081 vs 1.483 | 3/5 | 1.0000 | no |
+| Causal-Forcing (frame-wise) | CausVid | 5 | 3.081 vs 0.807 | 4/5 | 0.3750 | no |
+| Causal-Forcing++ (2-step, frame-wise) | Self-Forcing | 5 | 1.228 vs 1.483 | 2/5 | 1.0000 | no |
+| Causal-Forcing++ (2-step, frame-wise) | CausVid | 5 | 1.228 vs 0.807 | 4/5 | 0.3750 | no |
+| Self-Forcing | CausVid | 5 | 1.483 vs 0.807 | 5/5 | 0.0625 | no |
+
 ## MCFF (higher is better)
 
 | A | B | n paired | mean A vs B | A wins | p (sign test) | sig |
 |---|---|---|---|---|---|---|
-| Causal-Forcing++ (2-step) | Causal-Forcing++ (1-step) | 5 | 0.631 vs 0.511 | 4/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step) | Causal-Forcing (frame-wise) | 5 | 0.631 vs 2.862 | 1/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.631 vs 0.688 | 4/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step) | Self-Forcing | 5 | 0.631 vs 1.655 | 1/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step) | CausVid | 5 | 0.631 vs 0.825 | 3/5 | 1.0000 | no |
-| Causal-Forcing++ (1-step) | Causal-Forcing (frame-wise) | 5 | 0.511 vs 2.862 | 1/5 | 0.3750 | no |
-| Causal-Forcing++ (1-step) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.511 vs 0.688 | 3/5 | 1.0000 | no |
-| Causal-Forcing++ (1-step) | Self-Forcing | 5 | 0.511 vs 1.655 | 1/5 | 0.3750 | no |
-| Causal-Forcing++ (1-step) | CausVid | 5 | 0.511 vs 0.825 | 2/5 | 1.0000 | no |
-| Causal-Forcing (frame-wise) | Causal-Forcing++ (2-step, frame-wise) | 5 | 2.862 vs 0.688 | 4/5 | 0.3750 | no |
-| Causal-Forcing (frame-wise) | Self-Forcing | 5 | 2.862 vs 1.655 | 4/5 | 0.3750 | no |
-| Causal-Forcing (frame-wise) | CausVid | 5 | 2.862 vs 0.825 | 4/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step, frame-wise) | Self-Forcing | 5 | 0.688 vs 1.655 | 2/5 | 1.0000 | no |
-| Causal-Forcing++ (2-step, frame-wise) | CausVid | 5 | 0.688 vs 0.825 | 3/5 | 1.0000 | no |
-| Self-Forcing | CausVid | 5 | 1.655 vs 0.825 | 5/5 | 0.0625 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (1-step) | 5 | 0.593 vs 0.511 | 4/5 | 0.3750 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing (frame-wise) | 5 | 0.593 vs 2.277 | 1/5 | 0.3750 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.593 vs 0.683 | 4/5 | 0.3750 | no |
+| Causal-Forcing++ (2-step) | Self-Forcing | 5 | 0.593 vs 1.590 | 1/5 | 0.3750 | no |
+| Causal-Forcing++ (2-step) | CausVid | 5 | 0.593 vs 0.790 | 3/5 | 1.0000 | no |
+| Causal-Forcing++ (1-step) | Causal-Forcing (frame-wise) | 5 | 0.511 vs 2.277 | 1/5 | 0.3750 | no |
+| Causal-Forcing++ (1-step) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.511 vs 0.683 | 3/5 | 1.0000 | no |
+| Causal-Forcing++ (1-step) | Self-Forcing | 5 | 0.511 vs 1.590 | 1/5 | 0.3750 | no |
+| Causal-Forcing++ (1-step) | CausVid | 5 | 0.511 vs 0.790 | 2/5 | 1.0000 | no |
+| Causal-Forcing (frame-wise) | Causal-Forcing++ (2-step, frame-wise) | 5 | 2.277 vs 0.683 | 4/5 | 0.3750 | no |
+| Causal-Forcing (frame-wise) | Self-Forcing | 5 | 2.277 vs 1.590 | 4/5 | 0.3750 | no |
+| Causal-Forcing (frame-wise) | CausVid | 5 | 2.277 vs 0.790 | 4/5 | 0.3750 | no |
+| Causal-Forcing++ (2-step, frame-wise) | Self-Forcing | 5 | 0.683 vs 1.590 | 2/5 | 1.0000 | no |
+| Causal-Forcing++ (2-step, frame-wise) | CausVid | 5 | 0.683 vs 0.790 | 3/5 | 1.0000 | no |
+| Self-Forcing | CausVid | 5 | 1.590 vs 0.790 | 5/5 | 0.0625 | no |
 
 ## FP (higher is better)
 
 | A | B | n paired | mean A vs B | A wins | p (sign test) | sig |
 |---|---|---|---|---|---|---|
-| Causal-Forcing++ (2-step) | Causal-Forcing++ (1-step) | 5 | 1.028 vs 0.830 | 4/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step) | Causal-Forcing (frame-wise) | 5 | 1.028 vs 0.757 | 3/5 | 1.0000 | no |
-| Causal-Forcing++ (2-step) | Causal-Forcing++ (2-step, frame-wise) | 5 | 1.028 vs 0.665 | 4/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step) | Self-Forcing | 5 | 1.028 vs 0.794 | 4/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step) | CausVid | 5 | 1.028 vs 0.831 | 4/5 | 0.3750 | no |
-| Causal-Forcing++ (1-step) | Causal-Forcing (frame-wise) | 5 | 0.830 vs 0.757 | 3/5 | 1.0000 | no |
-| Causal-Forcing++ (1-step) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.830 vs 0.665 | 4/5 | 0.3750 | no |
-| Causal-Forcing++ (1-step) | Self-Forcing | 5 | 0.830 vs 0.794 | 4/5 | 0.3750 | no |
-| Causal-Forcing++ (1-step) | CausVid | 5 | 0.830 vs 0.831 | 2/5 | 1.0000 | no |
-| Causal-Forcing (frame-wise) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.757 vs 0.665 | 4/5 | 0.3750 | no |
-| Causal-Forcing (frame-wise) | Self-Forcing | 5 | 0.757 vs 0.794 | 3/5 | 1.0000 | no |
-| Causal-Forcing (frame-wise) | CausVid | 5 | 0.757 vs 0.831 | 1/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step, frame-wise) | Self-Forcing | 5 | 0.665 vs 0.794 | 2/5 | 1.0000 | no |
-| Causal-Forcing++ (2-step, frame-wise) | CausVid | 5 | 0.665 vs 0.831 | 1/5 | 0.3750 | no |
-| Self-Forcing | CausVid | 5 | 0.794 vs 0.831 | 2/5 | 1.0000 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (1-step) | 5 | 1.052 vs 0.830 | 3/5 | 1.0000 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing (frame-wise) | 5 | 1.052 vs 0.737 | 4/5 | 0.3750 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (2-step, frame-wise) | 5 | 1.052 vs 0.673 | 4/5 | 0.3750 | no |
+| Causal-Forcing++ (2-step) | Self-Forcing | 5 | 1.052 vs 0.809 | 4/5 | 0.3750 | no |
+| Causal-Forcing++ (2-step) | CausVid | 5 | 1.052 vs 0.863 | 4/5 | 0.3750 | no |
+| Causal-Forcing++ (1-step) | Causal-Forcing (frame-wise) | 5 | 0.830 vs 0.737 | 4/5 | 0.3750 | no |
+| Causal-Forcing++ (1-step) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.830 vs 0.673 | 4/5 | 0.3750 | no |
+| Causal-Forcing++ (1-step) | Self-Forcing | 5 | 0.830 vs 0.809 | 4/5 | 0.3750 | no |
+| Causal-Forcing++ (1-step) | CausVid | 5 | 0.830 vs 0.863 | 2/5 | 1.0000 | no |
+| Causal-Forcing (frame-wise) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.737 vs 0.673 | 4/5 | 0.3750 | no |
+| Causal-Forcing (frame-wise) | Self-Forcing | 5 | 0.737 vs 0.809 | 3/5 | 1.0000 | no |
+| Causal-Forcing (frame-wise) | CausVid | 5 | 0.737 vs 0.863 | 2/5 | 1.0000 | no |
+| Causal-Forcing++ (2-step, frame-wise) | Self-Forcing | 5 | 0.673 vs 0.809 | 2/5 | 1.0000 | no |
+| Causal-Forcing++ (2-step, frame-wise) | CausVid | 5 | 0.673 vs 0.863 | 1/5 | 0.3750 | no |
+| Self-Forcing | CausVid | 5 | 0.809 vs 0.863 | 2/5 | 1.0000 | no |
 
 ## DD_raw (higher is better)
 
@@ -127,18 +147,18 @@ Exact two-sided sign test over prompts evaluated by **both** methods.
 
 | A | B | n paired | mean A vs B | A wins | p (sign test) | sig |
 |---|---|---|---|---|---|---|
-| Causal-Forcing++ (2-step) | Causal-Forcing++ (1-step) | 5 | 0.087 vs 0.302 | 5/5 | 0.0625 | no |
-| Causal-Forcing++ (2-step) | Causal-Forcing (frame-wise) | 5 | 0.087 vs 0.328 | 4/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.087 vs -0.024 | 0/5 | 0.0625 | no |
-| Causal-Forcing++ (2-step) | Self-Forcing | 5 | 0.087 vs 0.046 | 1/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step) | CausVid | 5 | 0.087 vs 0.073 | 3/5 | 1.0000 | no |
-| Causal-Forcing++ (1-step) | Causal-Forcing (frame-wise) | 5 | 0.302 vs 0.328 | 3/5 | 1.0000 | no |
-| Causal-Forcing++ (1-step) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.302 vs -0.024 | 0/5 | 0.0625 | no |
-| Causal-Forcing++ (1-step) | Self-Forcing | 5 | 0.302 vs 0.046 | 0/5 | 0.0625 | no |
-| Causal-Forcing++ (1-step) | CausVid | 5 | 0.302 vs 0.073 | 0/5 | 0.0625 | no |
-| Causal-Forcing (frame-wise) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.328 vs -0.024 | 0/5 | 0.0625 | no |
-| Causal-Forcing (frame-wise) | Self-Forcing | 5 | 0.328 vs 0.046 | 1/5 | 0.3750 | no |
-| Causal-Forcing (frame-wise) | CausVid | 5 | 0.328 vs 0.073 | 1/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step, frame-wise) | Self-Forcing | 5 | -0.024 vs 0.046 | 4/5 | 0.3750 | no |
-| Causal-Forcing++ (2-step, frame-wise) | CausVid | 5 | -0.024 vs 0.073 | 5/5 | 0.0625 | no |
-| Self-Forcing | CausVid | 5 | 0.046 vs 0.073 | 3/5 | 1.0000 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (1-step) | 5 | 0.154 vs 0.302 | 5/5 | 0.0625 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing (frame-wise) | 5 | 0.154 vs 0.451 | 5/5 | 0.0625 | no |
+| Causal-Forcing++ (2-step) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.154 vs -0.110 | 0/5 | 0.0625 | no |
+| Causal-Forcing++ (2-step) | Self-Forcing | 5 | 0.154 vs 0.056 | 1/5 | 0.3750 | no |
+| Causal-Forcing++ (2-step) | CausVid | 5 | 0.154 vs 0.106 | 0/5 | 0.0625 | no |
+| Causal-Forcing++ (1-step) | Causal-Forcing (frame-wise) | 5 | 0.302 vs 0.451 | 4/5 | 0.3750 | no |
+| Causal-Forcing++ (1-step) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.302 vs -0.110 | 0/5 | 0.0625 | no |
+| Causal-Forcing++ (1-step) | Self-Forcing | 5 | 0.302 vs 0.056 | 0/5 | 0.0625 | no |
+| Causal-Forcing++ (1-step) | CausVid | 5 | 0.302 vs 0.106 | 0/5 | 0.0625 | no |
+| Causal-Forcing (frame-wise) | Causal-Forcing++ (2-step, frame-wise) | 5 | 0.451 vs -0.110 | 0/5 | 0.0625 | no |
+| Causal-Forcing (frame-wise) | Self-Forcing | 5 | 0.451 vs 0.056 | 0/5 | 0.0625 | no |
+| Causal-Forcing (frame-wise) | CausVid | 5 | 0.451 vs 0.106 | 0/5 | 0.0625 | no |
+| Causal-Forcing++ (2-step, frame-wise) | Self-Forcing | 5 | -0.110 vs 0.056 | 4/5 | 0.3750 | no |
+| Causal-Forcing++ (2-step, frame-wise) | CausVid | 5 | -0.110 vs 0.106 | 5/5 | 0.0625 | no |
+| Self-Forcing | CausVid | 5 | 0.056 vs 0.106 | 3/5 | 1.0000 | no |

@@ -40,9 +40,34 @@ def _w(path, obj):
         json.dump(obj, f, indent=1)
 
 
+def _spec_of(path):
+    """Highest metric-spec version among a metrics file's valid records."""
+    try:
+        doc = json.load(open(path))
+    except (OSError, ValueError):
+        return None
+    vs = [str(v.get("metric_spec_version", "1.0"))
+          for v in doc.get("per_video", []) if "error" not in v]
+    return max(vs) if vs else None
+
+
 def _copy(src, dst):
+    """Copy an upstream artifact in, but never over a better local one.
+
+    Collection re-imports metrics from the source repos. A locally recomputed
+    file can be *newer than upstream* -- it is the product of re-scoring under a
+    later metric spec -- and a blind copy silently destroys that work and
+    restores records the recompute existed to replace. This guard cost seven
+    hours of GPU time once; it is the reason the check exists.
+    """
     if not os.path.exists(src):
         return False
+    if os.path.exists(dst) and dst.endswith("snf_task_metrics.json"):
+        have, incoming = _spec_of(dst), _spec_of(src)
+        if have and (incoming is None or have > incoming):
+            print(f"   keep local {os.path.relpath(dst, ROOT)} "
+                  f"(spec {have} > upstream {incoming})")
+            return False
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     shutil.copy2(src, dst)
     return True

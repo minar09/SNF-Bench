@@ -34,6 +34,7 @@ import argparse
 import glob
 import json
 import os
+import random
 import re
 import sys
 from collections import defaultdict
@@ -158,6 +159,54 @@ class QwenJudge:
         return self.proc.decode(gen, skip_special_tokens=True)
 
 
+AXIS_METRIC = {"drift": ("fBD_mean", True), "decay": ("MCFF_late_mean", False)}
+CLEAR_GAP, NEAR_TIE = 0.20, 0.05
+
+
+def build_pairs(track="t2v", dur="60s", n_per_axis=12, near_tie_frac=0.2, seed=0):
+    """Pairs on a shared prompt, stratified into clear-gap and near-tie.
+
+    The same construction the human study uses, so the two arms answer the same
+    question on the same kind of evidence. Near-tie pairs are included on
+    purpose: where the factors do not separate, the correct answer is that the
+    clips are indistinguishable, and a judge that never says so is not
+    calibrated.
+    """
+    import csv as _csv
+    from registry import ALL
+    pub = [m["key"] for m in ALL if m["track"] == track and m["status"] == "public"]
+    acc = defaultdict(dict)
+    with open(f"{MAN}/per_video_scores.csv") as fh:
+        for r in _csv.DictReader(fh):
+            if r["track"] == track and r["duration"] == dur and r["model"] in pub:
+                acc[(r["model"], r["prompt_id"])][r["metric"]] = float(r["value"])
+    prompts = sorted({p for (m, p) in acc})
+    rng = random.Random(seed)
+    out = []
+    for axis, (metric, higher) in AXIS_METRIC.items():
+        cand = []
+        for pr in prompts:
+            for i, a in enumerate(pub):
+                for b in pub[i + 1:]:
+                    va = acc.get((a, pr), {}).get(metric)
+                    vb = acc.get((b, pr), {}).get(metric)
+                    if va is None or vb is None:
+                        continue
+                    hi = max(abs(va), abs(vb))
+                    if hi <= 0:
+                        continue
+                    gap = abs(va - vb) / hi
+                    says = (a if va > vb else b) if higher else (a if va < vb else b)
+                    cand.append(dict(axis=axis, metric=metric, prompt=pr, a=a, b=b,
+                                     gap=round(gap, 4), metric_says=says))
+        clear = [c for c in cand if c["gap"] >= CLEAR_GAP]
+        tie = [c for c in cand if c["gap"] < NEAR_TIE]
+        rng.shuffle(clear); rng.shuffle(tie)
+        n_tie = int(round(n_per_axis * near_tie_frac))
+        out += clear[:n_per_axis - n_tie] + tie[:n_tie]
+    return out
+
+
 def run_controls(judge, trials, n=6):
     """Two sanity controls the judge must pass before its numbers mean anything.
 
@@ -196,6 +245,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="Qwen/Qwen3-VL-8B-Instruct")
     ap.add_argument("--pairs", default=f"{STUDY}/pairs.json")
+    ap.add_argument("--build-pairs", metavar="TRACK",
+                    help="build pairs from the frozen scores for this track "
+                         "instead of reading a pair file")
+    ap.add_argument("--duration", default="60s")
     ap.add_argument("--out", default=f"{MAN}/vlm_judge.json")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--dry-run", action="store_true",
@@ -204,14 +257,18 @@ def main():
                     help="run the identity and swap controls as well")
     args = ap.parse_args()
 
-    study = json.load(open(args.pairs))
+    if args.build_pairs:
+        pairs = build_pairs(args.build_pairs, args.duration)
+    else:
+        study = json.load(open(args.pairs))
+        pairs = [dict(p, axis=ax["axis"], metric=ax["metric"])
+                 for ax in study["axes"] for p in ax["pairs"]]
     trials = []
-    for ax in study["axes"]:
-        for p in ax["pairs"]:
-            va, vb = video_for(p["a"], p["prompt"]), video_for(p["b"], p["prompt"])
-            if va and vb:
-                trials.append(dict(axis=ax["axis"], metric=ax["metric"], **p,
-                                   video_a=va, video_b=vb))
+    for p in pairs:
+        va = video_for(p["a"], p["prompt"], args.duration)
+        vb = video_for(p["b"], p["prompt"], args.duration)
+        if va and vb:
+            trials.append(dict(p, video_a=va, video_b=vb))
     if args.limit:
         trials = trials[:args.limit]
 
@@ -247,12 +304,16 @@ def main():
         if (i + 1) % 10 == 0:
             print(f"  {i+1}/{len(trials)}", flush=True)
             with open(args.out, "w") as f:
-                json.dump({"model": args.model, "controls": controls,
-                           "records": records}, f, indent=2)
+                json.dump({"model": args.model, "decoding": "greedy (temperature 0)",
+                           "questions": QUESTIONS, "rubric": RUBRIC,
+                           "clear_gap": CLEAR_GAP, "near_tie": NEAR_TIE,
+                           "controls": controls, "records": records}, f, indent=2)
 
     with open(args.out, "w") as f:
-        json.dump({"model": args.model, "controls": controls,
-                           "records": records}, f, indent=2)
+        json.dump({"model": args.model, "decoding": "greedy (temperature 0)",
+                           "questions": QUESTIONS, "rubric": RUBRIC,
+                           "clear_gap": CLEAR_GAP, "near_tie": NEAR_TIE,
+                           "controls": controls, "records": records}, f, indent=2)
 
     # Agreement is computed only on self-consistent trials: a judge that
     # contradicts itself on a pair has expressed no opinion about it.

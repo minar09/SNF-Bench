@@ -418,6 +418,91 @@ def interpretation_table(ix, track="t2v", dur="60s", label="tab:interpretation_c
     return "\n".join(lines)
 
 
+def perception_table(label="tab:perception"):
+    """Preliminary perceptual validation: do independent judges order pairs as
+    the factors do?
+
+    Two arms, one question each per axis, reported on the stratum where the
+    claim is meaningful. Agreement is only computed on pairs the factors
+    separate clearly; near-tie pairs instead test whether the metrics'
+    indistinguishable zone is perceptually real, where the expected answer is
+    that the clips cannot be told apart.
+
+    Cells are filled only from artifacts that exist. An arm that was not run, or
+    that produced too few decided pairs to support a rate, prints a dash and is
+    explained in the caption rather than given a number the data cannot carry.
+    """
+    human_p = f"{MAN}/human_study_scored.json"
+    vlm_p = f"{MAN}/vlm_judge.json"
+    human = json.load(open(human_p)) if os.path.exists(human_p) else None
+    vlm = json.load(open(vlm_p)) if os.path.exists(vlm_p) else None
+    if not human and not vlm:
+        return None
+
+    AX = [("drift", "Static stability", "fBD"),
+          ("decay", "Motion persistence", "MCFF-L")]
+    MIN_DECIDED = 5      # below this a rate is noise; we print the count instead
+
+    def vlm_cells(axis):
+        if not vlm:
+            return "--", "--", "--"
+        cg, nt = vlm.get("clear_gap", 0.20), vlm.get("near_tie", 0.05)
+        rs = [r for r in vlm["records"] if r["axis"] == axis]
+        clear = [r for r in rs if r["gap"] >= cg and r["consistent"]]
+        dec = [r for r in clear if r["vlm_order1"] != "same"]
+        tie = [r for r in rs if r["gap"] < nt and r["consistent"]]
+        tie_ok = sum(1 for r in tie if r["vlm_order1"] == "same")
+        agr = (f"{sum(1 for r in dec if r['vlm_order1'] == r['metric_says'])}/"
+               f"{len(dec)}" if len(dec) >= MIN_DECIDED
+               else f"-- ({len(dec)} decided)")
+        return agr, f"{tie_ok}/{len(tie)}" if tie else "--", str(len(clear))
+
+    def human_cells(axis):
+        if not human or axis not in human.get("axes", {}):
+            return "--", "--", "--", "--"
+        a = human["axes"][axis]
+        n_dec = a.get("n_decided_clear") or 0
+        if n_dec >= MIN_DECIDED and a.get("agreement") is not None:
+            lo, hi = (a.get("ci95") or [None, None])
+            agr = f"{a['agreement']*100:.0f}\%"
+            if lo is not None:
+                agr += f" {{\\footnotesize [{lo*100:.0f}, {hi*100:.0f}]}}"
+        else:
+            agr = f"-- ({n_dec} decided)"
+        tie = (f"{a.get('cant_tell_on_near_tie', 0)}/{a['n_near_tie']}"
+               if a.get("n_near_tie") else "--")
+        al = a.get("krippendorff_alpha")
+        return agr, tie, str(a.get("n_clear_gap", 0)),             (f"{al:.2f}" if al is not None else "--")
+
+    # Full width: the axis and judge labels overrun a single column by ~110pt.
+    lines = [r"\begin{table*}[tb]", r"\centering", r"\small",
+             r"\setlength{\tabcolsep}{6pt}",
+             r"\begin{tabular}{l l c c c c}", r"\toprule",
+             r"Axis & Judge & agrees with factor & called indistinguishable & "
+             r"pairs & inter-rater $\alpha$ \\",
+             r"\midrule"]
+    for axis, name, met in AX:
+        h = human_cells(axis)
+        v = vlm_cells(axis)
+        lines.append(f"{name} ({met}) & human & {h[0]} & {h[1]} & {h[2]} & {h[3]} \\\\")
+        lines.append(f" & vision--language & {v[0]} & {v[1]} & {v[2]} & -- \\\\")
+    lines += [r"\bottomrule", r"\end{tabular}",
+              r"\caption{\textbf{Preliminary perceptual validation of the factor "
+              r"axes.} Each judge answers one question per axis and never which "
+              r"output is better. \emph{agree} is agreement with the factor's "
+              r"ordering on pairs the factor separates clearly, over pairs the "
+              r"judge decided; \emph{can't tell} is the share of near-tie pairs "
+              r"called indistinguishable, which is the correct answer there. The "
+              r"unit is the pair, majority-voted across raters, and the interval "
+              r"is a percentile bootstrap resampling pairs rather than responses, "
+              r"which are clustered within rater and pair. A dash marks a cell "
+              r"with too few decided pairs to carry a rate; the count is given "
+              r"instead. This is a preliminary check on a measurement "
+              r"instrument, not a powered study, and no system is ranked by it.}",
+              r"\label{%s}" % label, r"\end{table*}"]
+    return "\n".join(lines)
+
+
 def native_config_table(track="t2v", label="tab:native_config"):
     """What was actually recorded about each audited system's generation.
 
@@ -839,7 +924,10 @@ def main():
     t = audit_table(ix, "i2v", ["60s", "120s"], "tab:i2v_audit", wide=False,
                     intervals=False,
                     caption=
-                    r"\textbf{SNF-Bench audit, I2V track.} Setting is stated per row: "
+                    r"\textbf{Image-conditioned track: native capability and "
+                    r"deployment sensitivity.} Unmarked rows are native-capability "
+                    r"results; $^{\dagger}$ rows are a deployment-sensitivity panel, "
+                    r"not an audit of those systems. "
                     r"\emph{native} systems run under their authors' configuration, "
                     r"\emph{matched} systems under the common long-horizon wrapper and "
                     r"are read as a deployment stress test rather than as the "
@@ -880,6 +968,7 @@ def main():
                      (interpretation_table(ix), "tab_interpretation.tex"),
                      (aggregation_table(ix), "tab_aggregation.tex"),
                      (native_config_table(), "tab_native_config.tex"),
+                     (perception_table(), "tab_perception.tex"),
                      (deployment_table(ix), "tab_deployment.tex")):
         if fn:
             open(f"{OUT}/{name}", "w").write(fn)

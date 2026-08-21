@@ -249,70 +249,107 @@ their incidence rather than suppressing it.
 
 \input{generated/tab_category}
 
-\section{Complementary Perceptual Checks}
+\section{Preliminary Perceptual Validation of the Factor Axes}
 \label{sup:perceptual}
 
-Neither check is aggregated into a factor and neither is a preference study.
-Both answer one question: does an independent judge, with no access to our
-factors, order the same clip pairs the same way?
+This section asks one question: do independent judges order clip pairs the way
+the factors do? It is metric validation, not method preference. Nothing here
+ranks systems, and no result from it enters any factor, table or figure
+elsewhere in this work. Framed that way a small sample is survivable, because
+the object under test is a measurement instrument rather than a leaderboard.
 
-\paragraph{Pair selection.}
-Pairs are chosen by rule rather than by eye. For each axis, candidate pairs of
-systems on a shared prompt are binned by the \emph{relative gap} in the relevant
-factor and sampled across three bands ($0.05$--$0.20$, $0.20$--$0.50$,
-$0.50$--$1.00$), so agreement is measured over the whole operating range rather
-than only where any metric would look good. Twelve pairs are drawn per axis.
+\paragraph{Questions.}
+One forced choice per axis, with an explicit third option:
+\emph{static stability}---in which clip does the background stay more fixed in
+place---and \emph{motion persistence}---in which clip does the intended motion
+keep going rather than fade or freeze. Judges are never asked which output is
+better, or which looks more natural. ``Better'' conflates the two failures the
+benchmark separates, and naturalness is outside the stated scope, so either
+question would produce a result the paper could not own.
 
-\paragraph{Human study.}
-Raters answer exactly two forced-choice questions---which video's background
-moves more, and in which video the moving content slows or stops more---and are
-never asked which is better, since ``better'' conflates the two failures the
-benchmark separates. Trial order and left/right presentation are randomised per
-rater, choices are resolved back to system identities server-side, and system
-names are never shown. Ties are permitted: forcing a choice on an
-indistinguishable pair manufactures noise. Twenty-four trials per rater, about
-eight minutes, three raters.
+\paragraph{Pairs.}
+A pair is two systems' outputs on the \emph{same prompt at the same horizon},
+never across prompts. Pairs are stratified by the relative gap in the axis's own
+factor: \emph{clear-gap} pairs, where the factor separates the two outputs, carry
+the agreement claim, while \emph{near-tie} pairs test the opposite property---that
+where the factors do not separate, judges also cannot tell the clips apart.
+Presentation side is randomised per trial and resolved back to a system
+identity only after the response is recorded; system names are never shown.
 
-\paragraph{Vision--language judge.}
-The same pairs, with the same wording, are put to an open-weight
-vision--language model~\cite{qwen3vl2025}, following the practice of
-MLLM-scored generation benchmarks~\cite{han2025videobench,he2024videoscore} but
-restricted to the two axis questions rather than an overall score. Each pair is
-asked twice with the clips swapped; a judge answering by position rather than by
-content disagrees with itself, so agreement is computed only over
-self-consistent trials and the self-consistency rate is reported beside it.
+\paragraph{Statistics.}
+The unit of analysis is the pair, majority-voted across raters, and intervals
+are percentile bootstrap resampling \emph{pairs}. Responses are clustered inside
+rater and inside pair, so an interval computed over responses would claim
+precision the design does not have. We report inter-rater agreement so the
+reader can see whether the raters are signal or noise, and we run no
+significance test the sample cannot power: the claim is descriptive agreement,
+and saying so plainly is preferable to a $p$-value that would not survive
+scrutiny.
 
-\paragraph{Reporting the human study.}
-For the human study we report, per axis, the agreement rate with a binomial
-interval, the tie rate, and agreement resolved by metric gap. The last matters:
-a factor that agrees with observers only on large gaps is a weaker result than
-one that agrees throughout, and pooling hides the difference. The same format
-is defined for the vision--language judge, but as set out below its trials did
-not meet the precondition for reporting an agreement rate at all.
+\input{generated/tab_perception}
 
-\paragraph{Outcome of the vision--language check: negative.}
-We report this check as a negative result. Before reading any agreement rate we
-required the judge to pass two controls. Shown one clip against itself, where
-the only correct answer is that the two are the same, it answered correctly on
-five of six pairs. Shown a frozen single frame against a real sequence, where
-the moving sequence must be chosen and the choice must follow the clip when the
-two are swapped, it succeeded on three of six. On the audited pairs it was
-self-consistent under swapping on seven of twenty-four, which is what a
-three-way choice made at random would produce. An agreement rate computed over
-so few self-consistent trials describes the judge's presentation bias rather
-than the videos, so we do not report one, and no number from this check enters
-any factor, table or figure elsewhere in this work.
+\paragraph{Outcome of the human arm: the instrument works, agreement is not yet estimable.}
+Eight raters each completed all $24$ trials, four of them independent of the
+authors; the remaining four were pilot sessions and are reported separately
+rather than pooled. Engagement was genuine---median deliberation ran from $23$
+to $233$ seconds per trial---and the ``can't tell'' option was used
+deliberately, on $30\%$ of responses, rather than avoided.
 
-We record the outcome because it is informative about the task rather than only
-about the model. The distinction the benchmark draws---between a background
-that drifts and intended motion that decays---lies below the discrimination
-threshold of a current open-weight judge at this scale, even though the same
-judge reliably detects that a clip is identical to itself. This is consistent
-with the main finding that whole-frame motion scores do not separate these two
-failures either, and it is the reason the benchmark rests on mechanistic
-validation under injected corruptions rather than on a model's preferences. We
-report the protocol and its controls in full so the check can be repeated at a
-larger scale; we do not present it as evidence for the factors.
+The agreement estimate, however, does not survive its own error bars. Majority
+voting across raters leaves three decided pairs on the static axis and five on
+the persistence axis, and the corresponding intervals span most of the unit
+range. Inter-rater agreement is low ($\alpha = 0.18$ and $0.24$ on the two
+axes), and the direction of the estimate reverses depending on which rater
+subset is used. We therefore report the counts and the interval rather than a
+headline percentage, and we do not claim that perceptual agreement has been
+established.
+
+The cause is a property of the pair set rather than of the raters, and it is
+measurable. The pairs were stratified by the gap in each axis's \emph{own}
+factor but were not isolated against the other axis. On the static question the
+median relative gap in the target factor is $0.29$ while the median gap in the
+persistence factor is $0.58$: the clips shown differ about twice as much on the
+axis the rater was told to ignore as on the one being asked about, and on half
+the pairs both axes differ substantially. A rater seeing one clip drift and the
+other stall cannot report which axis drove the answer, which is exactly the
+condition that produces low inter-rater agreement and near-chance ordering. A
+powered study therefore requires axis-isolated pairs---large gap in the target
+factor, small gap in the other---and that constraint, not rater count, is the
+first thing to fix.
+
+\paragraph{Outcome of the vision--language arm: negative, with a located cause.}
+The same pairs and the same wording were put to an open-weight
+judge~\cite{qwen3vl2025} at temperature zero, each pair asked in both
+presentation orders. Two controls precede any reading of its answers. Shown one
+clip against itself, where the only correct answer is that they are the same, it
+answered correctly on six of six. Shown a frozen single frame against a real
+sequence---the largest difference available on the motion axis---its verdict
+followed the swapped clip on only two of six. Presentation bias is absent: over
+$48$ queries the two slots were chosen $8$ and $12$ times. The judge is
+therefore well behaved and still cannot do the task: it answered
+``indistinguishable'' on most pairs the factors separate clearly, leaving one
+and two decided pairs on the two axes, which is far too few to support an
+agreement rate. We report none.
+
+The controls locate the cause in the judge rather than in the factors or the
+prompt. A model that cannot separate a still image from moving water is not
+positioned to separate two rollouts that differ subtly. This says that an
+open-weight judge at this scale cannot presently substitute for human raters on
+these axes. It does not say that stronger judges would fail, and we make no
+claim about them: contemporary generation benchmarks that report successful
+automated judging use frontier proprietary
+models~\cite{han2025videobench,sun2024t2v_compbench} or scorers fine-tuned for
+the task~\cite{he2024videoscore}, and we have no evidence either way about those
+here.
+
+\paragraph{Status.}
+Both arms are reported as preliminary and neither supports an agreement claim.
+What the pilot does establish is that the instrument runs end to end, that
+raters engage with the axis questions rather than defaulting to a side, and
+that the binding constraint on a powered study is pair construction rather than
+rater count: axis-isolated pairs, a near-tie stratum, and raters recruited
+outside the authors. Protocol, pair manifest and judge prompt are released
+verbatim so the check can be repeated and enlarged.
 
 \section{Additional Qualitative Material}
 \label{sup:qualitative}
