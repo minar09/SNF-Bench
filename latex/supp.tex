@@ -18,7 +18,7 @@
 \definecolor{wacvblue}{rgb}{0.21,0.49,0.74}
 \usepackage[pagebackref,breaklinks,colorlinks,allcolors=wacvblue]{hyperref}
 
-\def\wacvPaperID{*****}
+\def\wacvPaperID{1825}
 \def\confName{WACV}
 \def\confYear{2027}
 
@@ -58,7 +58,7 @@ D_{\mathrm{feat}}(t) &= \operatorname*{median}_{(p,q)\in\mathcal{M}_t} \lVert p-
 \end{align}
 with $d$ the frame diagonal, so fBD is a percentage of image size.
 
-\paragraph{Normalised Background Flow.}
+\paragraph{Normalized Background Flow.}
 \begin{equation}
 \mathrm{NBF} = \frac{10^3}{W\,\Delta t}\cdot\frac{1}{T-1}\sum_{t=1}^{T-1}
 \frac{1}{|\Omega_{\mathrm{static}}|}\sum_{\mathbf{x}\in\Omega_{\mathrm{static}}}
@@ -150,7 +150,7 @@ displacement a corruption induces over the frame by the end of the
 rollout---and each family's parameter is derived from it using the frame
 geometry: a translation of $d$ pixels, a rotation of $d/\bar{r}$ radians, or a
 zoom of $1 + d/\bar{r}$, where $\bar{r}$ is the mean distance from the frame
-centre. This is what makes the geometric families comparable. A parameter in
+center. This is what makes the geometric families comparable. A parameter in
 degrees is not commensurate with one in pixels: at the evaluation resolution one
 degree of rotation induces roughly $2.7$\,px of mean displacement, so families
 compared by their native parameters differ in injected severity by more than an
@@ -181,7 +181,7 @@ in Sec.~\ref{sup:masks}; we do not claim to have run it.
 
 Removing precipitation, where rain and snow cross static support and a two-way
 partition must assign those pixels to one region by flow magnitude alone, leaves
-the normalised-background-flow ordering unchanged and moves only mid-field
+the normalized-background-flow ordering unchanged and moves only mid-field
 positions under feature-based drift.
 
 \input{generated/tab_robustness}
@@ -353,7 +353,7 @@ never across prompts. Pairs are stratified by the relative gap in the axis's own
 factor: \emph{clear-gap} pairs, where the factor separates the two outputs, carry
 the agreement claim, while \emph{near-tie} pairs test the opposite property---that
 where the factors do not separate, judges also cannot tell the clips apart.
-Presentation side is randomised per trial and resolved back to a system
+Presentation side is randomized per trial and resolved back to a system
 identity only after the response is recorded; system names are never shown.
 
 \paragraph{Statistics.}
@@ -491,7 +491,7 @@ the pair a whole-frame motion score cannot separate.}
 \centering
 \includegraphics[width=0.75\textwidth]{figures/fig5_rank_disagreement.pdf}
 \caption{\textbf{Rank disagreement at every audited horizon.} Rank under a
-whole-frame motion score against rank under normalised background flow. Both
+whole-frame motion score against rank under normalized background flow. Both
 quantities are independent of the global-motion estimator; prompt counts are
 given per panel.}
 \label{sup:fig_ranks}
