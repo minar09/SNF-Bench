@@ -8,7 +8,7 @@ described one quantity and the code computed another for months.
 
 Outputs (all under latex/generated/, all regenerated from scratch):
     macros.tex              \\newcommand's for every number quoted in prose
-    tab_t2v_audit.tex       main T2V audit, native setting
+    tab_t2v_audit.tex       main T2V audit, common matched setting
     tab_i2v_audit.tex       I2V audit
     tab_disagreement.tex    Spearman, generic metrics vs SNF-Bench
     tab_coverage.tex        supplementary asset/score coverage
@@ -104,7 +104,7 @@ def audit_table(ix, track, durations, label, caption, wide=False,
     """Audit table with constant columns folded into the caption.
 
     `setting` and `n` are frequently identical for every row (the whole T2V
-    public roster is native, and each duration panel evaluates the same prompt
+    public roster is matched, and each duration panel evaluates the same prompt
     set). Printing a column of one repeated value costs horizontal space that
     the metric columns need in order to fit a single page column, so a column
     that never varies is stated once in the caption instead, and `n` -- constant
@@ -161,7 +161,7 @@ def audit_table(ix, track, durations, label, caption, wide=False,
 
     settings = {m["setting"] for _, rows in panels for m, _, _ in rows}
     # A narrow table cannot spare a column for a one-word field: mark the
-    # non-native rows with a dagger instead and explain it in the caption.
+    # common-wrapper rows with a dagger instead and explain it in the caption.
     # The wide (supplementary) table keeps the explicit column.
     mark_setting = len(settings) > 1 and not wide
     show_setting = len(settings) > 1 and wide
@@ -209,33 +209,29 @@ def audit_table(ix, track, durations, label, caption, wide=False,
 
     extra = ""
     if mark_setting:
-        extra += (r" $^{\dagger}$ marks a system run under the common "
-                  r"long-horizon wrapper rather than its released configuration; "
-                  r"such rows are read as deployment sensitivity and are never "
-                  r"ranked against native rows.")
+        extra += (r" Unmarked rows are recorded released-pipeline outputs; "
+                  r"$^{\dagger}$ rows use the common long-horizon wrapper and "
+                  r"are not compared with them.")
     elif not show_setting:
-        extra += (r" All systems are evaluated in the \emph{%s} setting."
-                  % settings.pop())
+        setting = settings.pop()
+        if setting != "matched":
+            extra += (r" All systems use the \emph{%s} setting." % setting)
     if not show_n:
-        extra += r" $n$ is stated per horizon and is common to every row of that panel."
+        extra += r" $n$ is common within each horizon."
     if not wide:
         if intervals:
-            extra += (r" Values are means over prompts $\pm$ half a percentile "
-                      r"bootstrap 95\% interval (10k resamples, fixed seed); panels "
-                      r"with fewer than ten prompts report the point estimate alone, "
-                      r"since an interval resampled from so few items is not "
-                      r"informative.")
+            extra += (r" Entries are prompt means $\pm$ half a percentile-bootstrap "
+                      r"95\% interval (10k resamples, fixed seed); $n<10$ panels "
+                      r"show means only.")
         else:
-            extra += (r" Values are means over prompts; intervals for this track "
-                      r"are given with the complete per-horizon tables in the "
-                      r"supplementary material.")
-        extra += (r" MCFF-E "
-                  r"and MCFF-L are given together because FP is a ratio and is "
-                  r"not interpretable without the magnitude it is taken over; "
-                  r"intervals overlap for several systems, and only "
-                  r"non-overlapping comparisons are described as separated. "
-                  r"Aggregation sensitivity and the DLR/DAR diagnostics are "
-                  r"reported in the supplementary material.")
+            extra += r" Entries are prompt means; intervals are in the supplement."
+        extra += r" MCFF-E$\rightarrow$L contextualizes the FP ratio. "
+        if track == "t2v":
+            extra += (r"Marginal intervals are descriptive; separation claims use "
+                      r"paired per-prompt bootstrap differences (Table~S3). ")
+        else:
+            extra += r"No claim compares settings. "
+        extra += r"DLR/DAR and aggregation sensitivity are in the supplement."
     lines += [r"\bottomrule", r"\end{tabular}",
               r"\caption{%s%s}" % (caption, extra), r"\label{%s}" % label,
               r"\end{%s}" % env]
@@ -289,7 +285,8 @@ def disagreement_table(ix, track="t2v", dur="60s",
             merged.append((name, cells))
     rows = merged
 
-    lines = [r"\begin{table}[tb]", r"\centering", r"\small",
+    lines = [r"\begin{table}[tb]", r"\centering", r"\scriptsize",
+             r"\setlength{\tabcolsep}{3pt}",
              r"\begin{tabular}{l" + "c" * len(snf) + "}", r"\toprule",
              r"generic metric & " + " & ".join(METRICS[k][1] for k in snf) + r" \\",
              r"\midrule"]
@@ -390,9 +387,9 @@ def config_table(label="tab:native_configs"):
         fps = f"{float(f):.0f}" if f != "--" else "--"
         lines.append(f"{esc(m['name'])} & {res} & {fps} & {horizon[m['key']]} \\\\")
     lines += [r"\bottomrule", r"\end{tabular}",
-              r"\caption{\textbf{Native deployment configurations.} Every system is "
-              r"evaluated at its released resolution and frame rate; no silent "
-              r"modification is made to populate an unsupported horizon.}",
+              r"\caption{\textbf{Matched T2V checkpoint configuration.} Every "
+              r"released checkpoint is evaluated under the common setting; "
+              r"output geometry and maximum recorded horizon are shown here.}",
               r"\label{%s}" % label, r"\end{table}"]
     return "\n".join(lines)
 
@@ -429,8 +426,8 @@ def interpretation_table(ix, track="t2v", dur="60s", label="tab:interpretation_c
         if abs(r_dd[n] - r_nbf[n]) < gap:
             continue
         if r_dd[n] < r_nbf[n]:
-            interp = ("substantial apparent motion, strongly contaminated by "
-                      "background displacement")
+            interp = ("high apparent motion accompanied by high static-region "
+                      "motion under the common wrapper")
         else:
             interp = "stable sequence with decaying intended motion"
         body.append([esc(n),
@@ -440,9 +437,8 @@ def interpretation_table(ix, track="t2v", dur="60s", label="tab:interpretation_c
     if not body:
         return None
     lines = [r"\begin{table*}[t]", r"\centering", r"\small",
-             # 0.42\textwidth overflowed the full-width float by ~30pt once the
-             # three label columns were set; 0.38 clears it with margin.
-             r"\begin{tabular}{l l l p{0.38\textwidth}}", r"\toprule",
+             # Keep the prose column compact enough for the three label columns.
+             r"\begin{tabular}{l l l p{0.35\textwidth}}", r"\toprule",
              r"Method & Generic evidence & SNF-Bench evidence & Interpretation \\",
              r"\midrule"]
     for b in body:
@@ -684,10 +680,8 @@ def perception_table(label="tab:perception"):
         a = human["axes"][axis]
         n_dec = a.get("n_decided_clear") or 0
         if n_dec >= MIN_DECIDED and a.get("agreement") is not None:
-            lo, hi = (a.get("ci95") or [None, None])
-            agr = f"{a['agreement']*100:.0f}\%"
-            if lo is not None:
-                agr += f" {{\\footnotesize [{lo*100:.0f}, {hi*100:.0f}]}}"
+            n_agree = int(round(a["agreement"] * n_dec))
+            agr = f"{n_agree}/{n_dec} decided pairs"
         else:
             agr = f"-- ({n_dec} decided)"
         tie = (f"{a.get('cant_tell_on_near_tie', 0)}/{a['n_near_tie']}"
@@ -708,18 +702,16 @@ def perception_table(label="tab:perception"):
         lines.append(f"{name} ({met}) & human & {h[0]} & {h[1]} & {h[2]} & {h[3]} \\\\")
         lines.append(f" & vision--language & {v[0]} & {v[1]} & {v[2]} & -- \\\\")
     lines += [r"\bottomrule", r"\end{tabular}",
-              r"\caption{\textbf{Preliminary perceptual validation of the factor "
+              r"\caption{\textbf{Preliminary perceptual pilot for the factor "
               r"axes.} Each judge answers one question per axis and never which "
               r"output is better. \emph{agree} is agreement with the factor's "
               r"ordering on pairs the factor separates clearly, over pairs the "
               r"judge decided; \emph{can't tell} is the share of near-tie pairs "
               r"called indistinguishable, which is the correct answer there. The "
-              r"unit is the pair, majority-voted across raters, and the interval "
-              r"is a percentile bootstrap resampling pairs rather than responses, "
-              r"which are clustered within rater and pair. A dash marks a cell "
+              r"unit is the pair, majority-voted across raters. A dash marks a cell "
               r"with too few decided pairs to carry a rate; the count is given "
               r"instead. This is a preliminary check on a measurement "
-              r"instrument, not a powered study, and no system is ranked by it.}",
+              r"protocol, not a powered study, and no system is ranked by it.}",
               r"\label{%s}" % label, r"\end{table*}"]
     return "\n".join(lines)
 
@@ -727,7 +719,7 @@ def perception_table(label="tab:perception"):
 _MATCHED_NOTE = (r" Rows marked $^{\dagger}$ ran under the common "
                  r"long-horizon wrapper rather than a released "
                  r"configuration and are grouped separately below the "
-                 r"native rows.")
+                 r"unmarked released-pipeline rows.")
 
 
 def native_config_table(track="t2v", label="tab:native_config"):
@@ -767,7 +759,9 @@ def native_config_table(track="t2v", label="tab:native_config"):
         mixed = "" if len(g) == 1 else r"$^{\ddagger}$"
         ds = sorted(durs.get(m["key"], []), key=lambda s: int(s.rstrip("s")))
         rows.append((m["setting"] != "native",     # sort key: native block first
-                     m["name"] + (r"$^{\dagger}$" if m["setting"] == "matched" else ""),
+                     m["name"] + (r"$^{\dagger}$"
+                                  if track != "t2v" and m["setting"] == "matched"
+                                  else ""),
                      m["setting"], f"{w}$\\times${h}{mixed}",
                      f"{float(fps):.0f}", ", ".join(ds)))
     # Group by setting so a skimming reader cannot mistake a wrapper row for a
@@ -782,23 +776,25 @@ def native_config_table(track="t2v", label="tab:native_config"):
              r"System & setting & resolution & fps & horizons \\", r"\midrule"]
     for r_ in rows:
         lines.append(" & ".join(r_) + r" \\")
+    common = (r"Every audited system was run from its released checkpoint. "
+              r"Output formats are normalized at measurement time: NBF is "
+              r"expressed per second and per frame width, fBD as a percentage "
+              r"of the frame diagonal, and every sequence is resampled to a "
+              r"common flow-estimation rate. ")
+    if track == "t2v":
+        detail = (r"All rows use the common matched T2V setting: four steps, "
+                  r"guidance $5.0$, six frames per block, and a fixed seed. "
+                  r"These are checkpoint results under this wrapper, not "
+                  r"reconstructions of the methods' released inference procedures.")
+    else:
+        detail = (r"Unmarked rows are recorded native outputs from model-specific "
+                  r"released pipelines. $^{\dagger}$ rows use the common "
+                  r"long-horizon wrapper (four steps, guidance $5.0$, six frames "
+                  r"per block, fixed seed); those parameters do not apply to "
+                  r"unmarked rows, and the two settings are not ranked together.")
     lines += [r"\bottomrule", r"\end{tabular}",
-              r"\caption{\textbf{Recorded generation configuration (%s).} Every "
-              r"audited system was run from its released checkpoint. Native "
-              r"output formats are not identical across the roster---resolutions "
-              r"and frame rates differ where the releases differ---and the "
-              r"comparison is unaffected because the factors normalise them "
-              r"rather than assume them away: NBF is expressed per second and "
-              r"per frame width, fBD as a percentage of the frame diagonal, and "
-              r"every sequence is resampled to a common flow-estimation rate "
-              r"before measurement. Per-method sampler settings---denoising "
-              r"steps, guidance scale, block length and seed---are uniform across "
-              r"the roster and recorded with the benchmark: a four-step schedule, "
-              r"guidance $5.0$, six frames per block, fixed seed. This is a "
-              r"matched-setting comparison, reproducible because the setting is "
-              r"uniform, and it does not observe a checkpoint distilled for a "
-              r"different step budget at its own operating point.%s}" % (track.upper(), _MATCHED_NOTE if any(
-                  m["setting"] == "matched" for m in models) else ""),
+              r"\caption{\textbf{Recorded generation configuration (%s).} %s%s}" %
+              (track.upper(), common, detail),
               r"\label{%s}" % label, r"\end{table*}"]
     return "\n".join(lines)
 
@@ -933,7 +929,7 @@ def validation_table(label="tab:validation"):
             ("NBF",   "NBF",       "translation", "drift",  +1, "rotation"),
             ("MCFF_L", "MCFF-L",   "freeze",      "freeze", -1, None),
             ("FP",    "FP",        "freeze",      "freeze", -1, None),
-            ("DLR",   "DLR",       "translation", "drift",  +1, "rotation"),
+            ("DLR",   "DLR",       "translation", "translational leakage", +1, "rotation"),
             ("DAR",   "DAR",       "translation", "drift",  +1, "rotation"),
             ("VB_DD", "VBench DD", "translation", "drift",  +1, "rotation")]
     OFF = ["photometric", "mask_radius"]
@@ -979,7 +975,7 @@ def validation_table(label="tab:validation"):
                      mark])
 
     lines = [r"\begin{table}[tb]", r"\centering", r"\scriptsize",
-             r"\setlength{\tabcolsep}{4pt}",
+             r"\setlength{\tabcolsep}{1.5pt}",
              r"\begin{tabular}{llcccc}", r"\toprule",
              "Factor & target & $\\rho$ & $\\rho_{\\mathrm{rot}}$ & off-target & admitted \\\\",
              r"\midrule"]
@@ -1161,17 +1157,10 @@ def main():
     written = []
 
     t = audit_table(ix, "t2v", ["60s", "120s"], "tab:t2v_audit",
-                    r"\textbf{SNF-Bench audit of public T2V checkpoints under the "
-                    r"recorded deployment setting.} All systems are public external "
-                    r"models executed through one evaluation pipeline; the manifest "
-                    r"executed under one common inference configuration---four-step "
-                    r"schedule, guidance $5.0$, six frames per block, fixed "
-                    r"seed---rather than each method's released defaults, so "
-                    r"these are matched-setting results for these checkpoints "
-                    r"and not a reconstruction of any author's deployment. "
-                    r"Unpublished systems are excluded by "
-                    r"construction. DAR is reported clipped to $[0,1]$; signed "
-                    r"values are released.")
+                    r"\textbf{Matched T2V checkpoint audit.} Public checkpoints "
+                    r"are evaluated under one common four-step, guidance-$5.0$, "
+                    r"six-frames-per-block, fixed-seed setting; results characterize "
+                    r"this wrapper, not released inference procedures.")
     if t:
         open(f"{OUT}/tab_t2v_audit.tex", "w").write(t)
         written.append("tab_t2v_audit.tex")
@@ -1180,17 +1169,10 @@ def main():
     # per row, and the wide variant printed point estimates anyway, so nothing is
     # lost. Suppressing the intervals also recovers the width the long I2V system
     # names need.
-    t = audit_table(ix, "i2v", ["60s", "120s"], "tab:i2v_audit", wide=False,
+    t = audit_table(ix, "i2v", ["60s"], "tab:i2v_audit", wide=False,
                     intervals=False,
                     caption=
-                    r"\textbf{Image-conditioned track: native capability and "
-                    r"deployment sensitivity.} Unmarked rows are native-capability "
-                    r"results; $^{\dagger}$ rows are a deployment-sensitivity panel, "
-                    r"not an audit of those systems. "
-                    r"\emph{native} systems run under their authors' configuration, "
-                    r"\emph{matched} systems under the common long-horizon wrapper and "
-                    r"are read as a deployment stress test rather than as the "
-                    r"published method's performance.")
+                    r"\textbf{I2V released pipelines and deployment sensitivity.}")
     if t:
         open(f"{OUT}/tab_i2v_audit.tex", "w").write(t)
         written.append("tab_i2v_audit.tex")

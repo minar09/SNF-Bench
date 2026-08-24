@@ -14,17 +14,8 @@ Causal-Forcing++ (2-step, frame-wise) & 9.94 & 6.91 & 1.30\,$\rightarrow$\,0.78 
 Self-Forcing$^{\dagger}$ & 17.3 & 5.52 & 1.50\,$\rightarrow$\,0.69 & 0.89 \\
 CausVid$^{\dagger}$ & 19.9 & 3.31 & 0.58\,$\rightarrow$\,0.41 & 0.81 \\
 Causal-Forcing++ (1-step, frame-wise) & 10.4 & 5.25 & 0.53\,$\rightarrow$\,0.52 & 1.01 \\
-\midrule
-\multicolumn{5}{l}{\textit{120s horizon  ($n=20$)}} \\
-Causal-Forcing++ (2-step)$^{\dagger}$ & 9.65 & 8.81 & 0.89\,$\rightarrow$\,0.82 & 0.93 \\
-Causal-Forcing++ (1-step)$^{\dagger}$ & 7.26 & 9.39 & 0.84\,$\rightarrow$\,0.66 & 0.86 \\
-Causal-Forcing (frame-wise)$^{\dagger}$ & 19.9 & 52.7 & 4.82\,$\rightarrow$\,5.06 & 1.08 \\
-Causal-Forcing++ (2-step, frame-wise) & 11.4 & 17.3 & 1.89\,$\rightarrow$\,1.54 & 1.01 \\
-Self-Forcing$^{\dagger}$ & 23.0 & 10.3 & 2.41\,$\rightarrow$\,0.76 & 0.45 \\
-CausVid$^{\dagger}$ & 19.7 & 6.04 & 1.15\,$\rightarrow$\,0.83 & 0.67 \\
-Causal-Forcing++ (1-step, frame-wise) & 13.6 & 7.39 & 1.01\,$\rightarrow$\,0.35 & 0.64 \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{Image-conditioned track: native capability and deployment sensitivity.} Unmarked rows are native-capability results; $^{\dagger}$ rows are a deployment-sensitivity panel, not an audit of those systems. \emph{native} systems run under their authors' configuration, \emph{matched} systems under the common long-horizon wrapper and are read as a deployment stress test rather than as the published method's performance. $^{\dagger}$ marks a system run under the common long-horizon wrapper rather than its released configuration; such rows are read as deployment sensitivity and are never ranked against native rows. $n$ is stated per horizon and is common to every row of that panel. Values are means over prompts; intervals for this track are given with the complete per-horizon tables in the supplementary material. MCFF-E and MCFF-L are given together because FP is a ratio and is not interpretable without the magnitude it is taken over; intervals overlap for several systems, and only non-overlapping comparisons are described as separated. Aggregation sensitivity and the DLR/DAR diagnostics are reported in the supplementary material.}
+\caption{\textbf{I2V released pipelines and deployment sensitivity.} Unmarked rows are recorded released-pipeline outputs; $^{\dagger}$ rows use the common long-horizon wrapper and are not compared with them. $n$ is common within each horizon. Entries are prompt means; intervals are in the supplement. MCFF-E$\rightarrow$L contextualizes the FP ratio. No claim compares settings. DLR/DAR and aggregation sensitivity are in the supplement.}
 \label{tab:i2v_audit}
 \end{table}

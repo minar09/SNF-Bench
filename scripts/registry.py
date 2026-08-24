@@ -18,25 +18,28 @@ Every evaluated system is declared here with:
 # Source repo: /home/minar/static-forcing  (videos in output/<key>/t2v_<dur>)
 # SNF task metrics: SNF_Bench/task_results/r1_60s/<file>.json   (60s only)
 # VBench:           SNF_Bench/results/<key>/<dur>/*eval_results.json
+_T2V_MATCHED = ("released checkpoint evaluated in the common T2V setting "
+                "(four steps, guidance 5.0, six frames per block, fixed seed); "
+                "not the method's released inference procedure")
 T2V = [
-    dict(key="CausVid", name="CausVid", track="t2v", status="public", setting="native",
+    dict(key="CausVid", name="CausVid", track="t2v", status="public", setting="matched",
          ckpt="ckpt/CausVid/autoregressive_checkpoint/model.pt",
-         r1="CausVid", note="autoregressive DMD distillation of Wan2.1-T2V-1.3B"),
-    dict(key="self_forcing", name="Self-Forcing", track="t2v", status="public", setting="native",
+         r1="CausVid", note=_T2V_MATCHED),
+    dict(key="self_forcing", name="Self-Forcing", track="t2v", status="public", setting="matched",
          ckpt="ckpt/Self-Forcing/checkpoints/self_forcing_dmd.pt",
-         r1="self_forcing", note=""),
-    dict(key="infinite_forcing", name="Infinite-Forcing", track="t2v", status="public", setting="native",
+         r1="self_forcing", note=_T2V_MATCHED),
+    dict(key="infinite_forcing", name="Infinite-Forcing", track="t2v", status="public", setting="matched",
          ckpt="(baseline repo)", r1="infinite_forcing",
-         note="lowest NBF at 60s but lowest MCFF -> freeze-not-stability, the key confound case"),
-    dict(key="rolling_forcing", name="Rolling-Forcing", track="t2v", status="public", setting="native",
-         ckpt="ckpt/RollingForcing", r1="rolling_forcing", note=""),
-    dict(key="reward_forcing", name="Reward-Forcing", track="t2v", status="public", setting="native",
-         ckpt="ckpt/rewardforcing.pt", r1="reward_forcing", note=""),
-    dict(key="longlive", name="LongLive", track="t2v", status="public", setting="native",
-         ckpt="ckpt/longlive_models", r1="longlive", note=""),
-    dict(key="causal_forcing", name="Causal-Forcing", track="t2v", status="public", setting="native",
+         note=_T2V_MATCHED),
+    dict(key="rolling_forcing", name="Rolling-Forcing", track="t2v", status="public", setting="matched",
+         ckpt="ckpt/RollingForcing", r1="rolling_forcing", note=_T2V_MATCHED),
+    dict(key="reward_forcing", name="Reward-Forcing", track="t2v", status="public", setting="matched",
+         ckpt="ckpt/rewardforcing.pt", r1="reward_forcing", note=_T2V_MATCHED),
+    dict(key="longlive", name="LongLive", track="t2v", status="public", setting="matched",
+         ckpt="ckpt/longlive_models", r1="longlive", note=_T2V_MATCHED),
+    dict(key="causal_forcing", name="Causal-Forcing", track="t2v", status="public", setting="matched",
          ckpt="ckpt/causal-forcing", r1="causal_forcing",
-         note="high apparent motion + high drift attenuation; the headline interpretation-change case"),
+         note=_T2V_MATCHED),
     # --- excluded from all benchmark tables ---
     dict(key="steady_forcing", name="Steady-Forcing", track="t2v", status="internal", setting="native",
          ckpt="ckpt/Steady-Forcing", r1=None, note="OUR prior work - excluded from SNF-Bench"),

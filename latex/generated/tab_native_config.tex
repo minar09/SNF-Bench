@@ -6,15 +6,15 @@
 \toprule
 System & setting & resolution & fps & horizons \\
 \midrule
-CausVid & native & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
-Self-Forcing & native & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
-Infinite-Forcing & native & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
-Rolling-Forcing & native & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
-Reward-Forcing & native & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
-LongLive & native & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
-Causal-Forcing & native & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+CausVid & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Self-Forcing & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Infinite-Forcing & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Rolling-Forcing & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Reward-Forcing & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+LongLive & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Causal-Forcing & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{Recorded generation configuration (T2V).} Every audited system was run from its released checkpoint. Native output formats are not identical across the roster---resolutions and frame rates differ where the releases differ---and the comparison is unaffected because the factors normalise them rather than assume them away: NBF is expressed per second and per frame width, fBD as a percentage of the frame diagonal, and every sequence is resampled to a common flow-estimation rate before measurement. Per-method sampler settings---denoising steps, guidance scale, block length and seed---are uniform across the roster and recorded with the benchmark: a four-step schedule, guidance $5.0$, six frames per block, fixed seed. This is a matched-setting comparison, reproducible because the setting is uniform, and it does not observe a checkpoint distilled for a different step budget at its own operating point.}
+\caption{\textbf{Recorded generation configuration (T2V).} Every audited system was run from its released checkpoint. Output formats are normalized at measurement time: NBF is expressed per second and per frame width, fBD as a percentage of the frame diagonal, and every sequence is resampled to a common flow-estimation rate. All rows use the common matched T2V setting: four steps, guidance $5.0$, six frames per block, and a fixed seed. These are checkpoint results under this wrapper, not reconstructions of the methods' released inference procedures.}
 \label{tab:native_config}
 \end{table*}

@@ -120,10 +120,11 @@ to neither region. The same procedure applies to both tracks.
 \paragraph{Why the estimate is restricted to an early window.}
 Deriving a partition from a sequence's entire motion field would be circular,
 since accumulated background drift would itself be read as evidence that the
-affected region is dynamic. Restricting the estimate to the early window breaks
-that circularity in the direction that matters: at the $60$\,s horizon the
-partition is fixed from the first $7.1$\,s, before long-horizon drift has
-accumulated, and the metrics are evaluated over the remainder.
+affected region is dynamic. Restricting the estimate to the early window reduces
+circularity from late accumulated drift: at the $60$\,s horizon the partition
+is fixed from the first $7.1$\,s and is not defined by the late-window failure
+being measured. It nevertheless remains dependent on early checkpoint behavior
+and on the same flow estimator used downstream.
 
 \paragraph{Limitations.}
 The partition is obtained automatically rather than by annotation, so no
@@ -201,7 +202,7 @@ not there.
 \section{Generation Configuration}
 \label{sup:config}
 
-Every audited checkpoint was run through a single common inference
+Every text-conditioned checkpoint was run through a single common inference
 configuration, recorded in full and released with the benchmark: a four-step
 denoising schedule ($1000/750/500/250$), timestep shift $5.0$, guidance scale
 $5.0$, six frames per block, and a fixed seed. Only the checkpoint path and the
@@ -220,14 +221,12 @@ audit.
 
 \input{generated/tab_native_config}
 
-The image-conditioned roster is recorded the same way. Rows marked
-$^{\dagger}$ did not reach these horizons under their released configuration and
-were run instead through a common long-horizon wrapper, identical for every such
-row: six frames per block, image-conditioned, with the released checkpoint
-otherwise unmodified. That wrapper is a property of this evaluation, not of any
-audited system, which is why its rows are read as deployment sensitivity and are
-never ranked against native rows. Its per-method sampler settings were not
-captured either, and the same limitation therefore applies.
+The image-conditioned roster contains two distinct settings. Unmarked rows are
+recorded native outputs produced by model-specific released pipelines. Rows
+marked $^{\dagger}$ use the common long-horizon wrapper: four denoising steps,
+guidance $5.0$, six frames per block, and a fixed seed. These wrapper parameters
+do not apply to unmarked rows. The marked rows are read as deployment
+sensitivity and are never ranked against the recorded native outputs.
 
 \input{generated/tab_native_config_i2v}
 
@@ -260,7 +259,7 @@ rather than as the published method's performance.
 \begin{figure}[tb]
 \centering
 \includegraphics[width=\linewidth]{figures/fig4_operating_regime.pdf}
-\caption{\textbf{Operating regimes under native deployment.} Each system in the static-drift--surviving-flow plane. Colour encodes the relative attenuation of measured dynamic-region flow after global-motion compensation, not a share of it attributable to drift: the quantity is signed, and values are shown clipped to $[0,1]$. The view exposes trade-offs; it is not a leaderboard.}
+\caption{\textbf{Operating regimes under the common matched T2V setting.} Each checkpoint in the static-drift--surviving-flow plane. Colour encodes low-to-high attenuation of measured dynamic-region flow after global-motion compensation, not a share attributable to drift: the quantity is signed, and values are shown clipped to $[0,1]$. The view exposes trade-offs; it is not a leaderboard.}
 \label{sup:fig_regimes}
 \end{figure}
 
@@ -368,7 +367,7 @@ scrutiny.
 
 \input{generated/tab_perception}
 
-\paragraph{Outcome of the human arm: the instrument works, agreement is not yet estimable.}
+\paragraph{Outcome of the human arm: the protocol executed end to end; agreement is not yet estimable.}
 Eight raters each completed all $24$ trials, four of them independent of the
 authors; the remaining four were pilot sessions and are reported separately
 rather than pooled. Engagement was genuine---median deliberation ran from $23$
@@ -424,13 +423,13 @@ here.
 
 \paragraph{Status.}
 Both arms are reported as preliminary and neither supports an agreement claim.
-What the pilot does establish is that the instrument runs end to end, that
+What the pilot does establish is that the protocol executes end to end, that
 raters engage with the axis questions rather than defaulting to a side, and
 that the binding constraint on a powered study is pair construction rather than
 rater count: axis-isolated pairs, a near-tie stratum, and raters recruited
 outside the authors. Protocol, pair manifest and judge prompt are released
 verbatim so the check can be repeated and enlarged. To restate the scope
-without qualification: what is released here is a validated \emph{protocol}
+without qualification: what is released here is a documented, executable \emph{protocol}
 and a diagnosis of why this run of it failed. \textbf{No conclusion about
 perceptual agreement, in either direction, should be drawn from the counts in
 this section.} They are reported so the pilot is auditable, not because they

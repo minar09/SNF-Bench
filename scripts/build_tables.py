@@ -533,8 +533,10 @@ def main():
     body, _ = snf_leaderboard(
         ix, "t2v", "60s", SNF_TASK_KEYS,
         "SNF-Bench core metrics — T2V @ 60s",
-        "All seven systems are **public external models run under their own native configuration** "
-        "(Setting A). Our own systems are excluded by construction — see `docs/EXCLUSIONS.md`.")
+        "All seven systems are **public external checkpoints evaluated under the same matched "
+        "T2V configuration** (four steps, guidance 5.0, six frames per block, fixed seed). "
+        "The results do not reconstruct each method's released inference procedure. "
+        "Our own systems are excluded by construction.")
     write("t2v_snf_60s.md", body)
     written.append("t2v_snf_60s.md")
 
@@ -559,7 +561,7 @@ def main():
             f"SNF-Bench core metrics — I2V @ {d}",
             "**Read the `setting` column.** Entries marked `matched` were run in a common "
             "long-horizon I2V wrapper, *not* their authors' configuration; they are a "
-            "stress-test result, not a native-capability ranking.")
+            "stress-test result, not a released-pipeline ranking.")
         if r:
             write(f"i2v_snf_{d}.md", body)
             written.append(f"i2v_snf_{d}.md")

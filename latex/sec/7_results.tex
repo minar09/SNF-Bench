@@ -1,28 +1,30 @@
 \section{Results and Interpretation Changes}
 \label{sec:results}
 
-Unless stated otherwise, comparisons refer to systems under the recorded deployment setting; deployment-sensitivity results are reported separately in the supplementary material and never redefine a system's native behavior.
+Unless stated otherwise, T2V comparisons refer to checkpoints under the common matched setting. I2V native-output and wrapper-based results are identified separately and are never ranked across settings.
 
-\subsection{Native-Capability Audit}
-\label{sec:results_native}
+\subsection{Matched T2V Checkpoint Audit}
+\label{sec:results_t2v}
 
 Table~\ref{tab:t2v_audit} reports the text-conditioned (T2V) track at $60$\,s, the tier whose sample supports method-level separation, and at $120$\,s as a supporting tier. The $120$\,s panel carries \SNFnPromptsOneTwenty{} prompts and is read as corroboration of direction rather than as an independent separation; it draws a different prompt set from the $60$\,s panel, so the two panels are not compared column-by-column. The $5$ and $240$\,s tiers, an initialization check and a diagnostic extreme respectively, are in the supplementary material with all four horizons.
 
 \input{generated/tab_t2v_audit}
+% Declared beside the T2V float so both compact audit tables remain within the
+% eight-page main body; its interpretation stays in Sec.~\ref{sec:results_i2v}.
 \input{generated/tab_i2v_audit}
 
 \paragraph{Motion persistence.} Dynamic-region behavior is read at the joint point $\bigl(\mathrm{MCFF}(\mathcal{L}),\,\mathrm{FP}\bigr)$, never FP alone: sustained flow needs non-trivial late motion \emph{and} high retention. MCFF-E beside MCFF-L exposes the degenerate case, since negligible motion throughout cannot reach a high FP without a small MCFF-E.
 
-\paragraph{Operating regimes.} Read jointly, the static-fidelity and persistence columns separate low-drift/low-motion, high-motion/high-drift and low-drift/non-trivial-motion behavior without collapsing the axes into a scalar score; the supplementary material plots this. The extremes are informative in opposite directions. Infinite-Forcing~\cite{infinite-forcing} has the lowest normalized background flow: a paired bootstrap over per-prompt differences separates it from all six other systems, every interval excluding zero (supplementary). It also shows the least surviving late motion; on feature-based drift its interval overlaps the next-ranked system, so it is not the least-drifting system outright. Causal-Forcing~\cite{zhu2026causal} sits alone at the opposite corner, separated on background flow by a wide margin.
+\paragraph{Operating regimes.} Read jointly, the static-fidelity and persistence columns separate low-drift/low-motion, high-motion/high-drift and low-drift/non-trivial-motion behavior without collapsing the axes into a scalar score; the supplementary material plots this. The extremes are informative in opposite directions. The Infinite-Forcing checkpoint under the common setting~\cite{infinite-forcing} has the lowest normalized background flow: a paired bootstrap over per-prompt differences separates it from all six other checkpoints, every interval excluding zero (supplementary). It also shows the least surviving late motion. The Causal-Forcing checkpoint under the common setting~\cite{zhu2026causal} occupies the opposite corner, with substantially higher background flow.
 
 
-\subsection{Drift Leakage Changes the Interpretation of Apparent Motion}
+\subsection{Whole-Frame Motion and Static-Region Flow Yield Different Interpretations}
 \label{sec:results_drift}
 
-The effect is systematic rather than anecdotal. Correlating each generic whole-frame metric with each SNF-Bench factor over method-level means (supplementary), Dynamic Degree tracks static-region flow at $\rho = \SNFddNBF$, so the systems a generic metric reads as most dynamic are, closely, those whose backgrounds move most. Causal-Forcing ranks \SNFrankCFDD{} of \SNFnPublicTTV{} on Dynamic Degree and \SNFrankCFNBF{} on NBF; Infinite-Forcing mirrors it, ranking \SNFrankIFNBF{} on static fidelity and \SNFrankIFDD{} on apparent motion. Read with its magnitudes, Causal-Forcing's DLR of \SNFvalCFDLR{} indicates static-region motion energy almost equal to the region intended to move, while its DAR of \SNFvalCFDAR{} indicates that a rigid global model accounts for only part of that motion. What the residual contains is not identified here---it may include non-rigid instability, intended local motion, partition contamination or flow error---and these measurements do not separate them.
+The effect is systematic rather than anecdotal. Correlating each generic whole-frame metric with each SNF-Bench factor over checkpoint-level means (supplementary), Dynamic Degree tracks static-region flow at $\rho = \SNFddNBF$: under the common setting, checkpoints with more apparent motion also tend to have more background motion. The Causal-Forcing checkpoint ranks \SNFrankCFDD{} of \SNFnPublicTTV{} on Dynamic Degree and \SNFrankCFNBF{} on NBF; the Infinite-Forcing checkpoint mirrors it, ranking \SNFrankIFNBF{} on static fidelity and \SNFrankIFDD{} on apparent motion. Read with its magnitudes, the Causal-Forcing checkpoint's DLR of \SNFvalCFDLR{} indicates static-region motion energy almost equal to the region intended to move, while its DAR of \SNFvalCFDAR{} indicates that a rigid global model accounts for only part of that motion. What the residual contains is not identified here---it may include non-rigid instability, intended local motion, partition contamination or flow error---and these measurements do not separate them.
 
 
-\subsection{Image-Conditioned (I2V) Track: Native Capability and Deployment Sensitivity}
+\subsection{Image-Conditioned (I2V) Track: Released Pipelines and Deployment Sensitivity}
 \label{sec:results_i2v}
 
-Table~\ref{tab:i2v_audit} is two things, kept apart. The two unmarked rows are a \emph{native-capability} result: systems whose released configuration reaches these horizons, measured as shipped. The five marked rows are a \emph{deployment-sensitivity} panel: released checkpoints whose own configuration does not reach these horizons, run under a common long-horizon wrapper. This is not a seven-system audit and is not presented as one; ranking a marked row against an unmarked one would compare one system's design against another's deployment. The panel supports one descriptive observation: the same checkpoint under a wrapper rather than its own released setting yields materially different scores, so a conclusion about a system is a conclusion about it \emph{as deployed}. Why that happens is outside what a benchmark establishes. I2V track supplies what the T2V cannot: every system starts from the same source image, so static support is given rather than invented and divergence is attributable to the system. Bidirectional reference systems reach only the $5$\,s tier and are reported there.
+At $60$\,s, Table~\ref{tab:i2v_audit} keeps two recorded released-pipeline outputs separate from five dagger-marked deployment-sensitivity rows run through the common long-horizon wrapper. It is not a seven-system audit, and the settings are never ranked against one another. The panel shows only that deployment can materially change checkpoint scores; why it does so is outside what a benchmark establishes. Unlike T2V, every I2V system starts from the same source image, so static support is given rather than differently imagined. Complete horizons, including bidirectional references at $5$\,s, are in the supplement.

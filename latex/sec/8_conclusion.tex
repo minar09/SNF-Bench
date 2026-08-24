@@ -3,3 +3,5 @@
 \label{sec:limitations}
 
 SNF-Bench is intentionally narrow: long-horizon fixed-camera generation, where static support and dynamic flow separate. It measures neither physical realism nor semantic correctness, cannot distinguish progression from repetition, and rests on an automatic partition whose limits are stated in Sec.~\ref{sec:masks} and bounded by the erosion--dilation study. Conclusions unstable under that perturbation are never headline claims.
+
+SNF-Bench shows that whole-frame motion and region-resolved static fidelity can produce materially different interpretations of the same fixed-camera long-horizon outputs. By reporting static fidelity and flow persistence separately, with drift-related quantities used as context rather than as a single ranking score, it complements broad video-generation benchmarks without claiming physical or semantic realism. The released specification and matched-checkpoint audit provide a reproducible basis for future evaluation, while independent partition validation and broader non-water coverage remain important next steps.

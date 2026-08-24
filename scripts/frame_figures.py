@@ -180,7 +180,8 @@ def fig_motivation(acc, pub, key_of, out="fig1_motivation"):
              f"over {int(fb_d / max(fb_g, 1e-6) / 10) * 10}$\\times$",
              ha="center", fontsize=7.2, color=P.INK, fontweight="bold")
     return save(fig, out,
-                f"Frames from released 60 s generations of one prompt. Systems chosen by a "
+                f"Frames from 60 s outputs of released checkpoints under the common matched "
+                f"T2V setting. Systems chosen by a "
                 f"fixed numeric rule over all 23 prompts, not by appearance. *DD is the "
                 f"per-video score under VBench's published rule, before binarisation.",
                 prefreeze=False)

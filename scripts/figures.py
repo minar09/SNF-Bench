@@ -208,8 +208,9 @@ def _place_labels(ax, points, fontsize=6.4, char_w=3.5, line_h=8.0):
 # --------------------------------------------------------------------------
 def fig_operating_regime(scores, track="t2v", dur="60s", out="fig4_operating_regime"):
     """x = static drift (fBD), y = surviving late dynamic-region motion (MCFF),
-    colour = DAR. The point: a method can sit high on y only because its whole
-    frame is sliding, and DAR is what tells those two apart."""
+    colour = DAR. The joint view distinguishes high apparent motion accompanied
+    by static-region drift from high surviving flow; DAR supplies attenuation
+    context and is not interpreted as a causal decomposition."""
     fbd = {n: v for n, v, _ in method_means(scores, track, dur, "fBD_mean")}
     mcff = {n: v for n, v, _ in method_means(scores, track, dur, "MCFF_late_mean")}
     dar = {n: v for n, v, _ in method_means(scores, track, dur, "DAR_mean")}
@@ -237,8 +238,8 @@ def fig_operating_regime(scores, track="t2v", dur="60s", out="fig4_operating_reg
     handles = [Line2D([], [], marker="o", linestyle="", markersize=6,
                       markerfacecolor=_seq_color(t), markeredgecolor=P.SURFACE,
                       label=lab)
-               for t, lab in [(0.0, f"DAR {lo:.2f} (least drift-attributable)"),
-                              (1.0, f"DAR {hi:.2f} (most)")]]
+               for t, lab in [(0.0, f"DAR {lo:.2f} (low attenuation)"),
+                              (1.0, f"DAR {hi:.2f} (high attenuation)")]]
     ax.legend(handles=handles, loc="upper left", fontsize=6.2,
               handletextpad=0.4, borderpad=0.2)
     fig.tight_layout(pad=0.3, rect=(0, 0.055, 1, 1))
@@ -548,8 +549,8 @@ def fig_mask_protocol(out="fig2_mask_protocol"):
     axa.text(0.5, 0.215, "erode static + drop 4% border  =  ignored transition band",
              ha="center", va="center", fontsize=5.6, color=P.INK_SECONDARY)
     axa.text(0.5, 0.145,
-             "the window precedes drift accumulation, so the partition is not\n"
-             "defined by the temporal failure being measured\n"
+             "the early window reduces late-window circularity, but the\n"
+             "partition still depends on early checkpoint behavior and RAFT flow\n"
              "(automatic, not human-verified \u2014 see limitations)",
              ha="center", va="top", fontsize=5.5, color=P.INK_SECONDARY)
 
@@ -626,7 +627,7 @@ def fig_validation(out="fig3_validation"):
               # progressive late freezing, so that is what this panel must show:
               # figure and criterion have to be the same intervention.
               ("freeze",      ["MCFF_L", "FP"], "(c) progressive late freeze"),
-              ("translation", ["VB_DD", "DLR"], "(d) whole-frame score vs SNF-Bench")]
+              ("translation", ["VB_DD", "NBF"], "(d) whole-frame score vs static-region flow")]
     PANELS = [(f, m, lab) for f, m, lab in PANELS if by.get(f)]
     if not PANELS:
         return None

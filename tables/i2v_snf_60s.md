@@ -1,6 +1,6 @@
 # SNF-Bench core metrics — I2V @ 60s
 
-**Read the `setting` column.** Entries marked `matched` were run in a common long-horizon I2V wrapper, *not* their authors' configuration; they are a stress-test result, not a native-capability ranking.
+**Read the `setting` column.** Entries marked `matched` were run in a common long-horizon I2V wrapper, *not* their authors' configuration; they are a stress-test result, not a released-pipeline ranking.
 
 Cell format: `mean [bootstrap 95% CI]`, prompt-level, 10k resamples, seed 0.
 

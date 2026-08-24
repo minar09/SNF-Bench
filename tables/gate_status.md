@@ -17,7 +17,7 @@ Mask schema frozen ............. PENDING  MASK_SPEC_v1.0.md not written (gate Au
 Overlay masks built ............ PENDING  no overlay masks built (Aug 14)
 Zero-motion floor .............. PENDING  not run (P0#5)
 Validation suite ............... PENDING  not run (Aug 18)
-Figure provenance footers ...... PASS     8 figures; footer enforced by figures.save()  (advisory)
+Figure provenance footers ...... PASS     10 figures; footer enforced by figures.save()  (advisory)
 ===========================================================
 FINAL_SWEEP_ALLOWED = FALSE
 

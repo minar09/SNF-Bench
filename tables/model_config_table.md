@@ -7,13 +7,13 @@ configuration it was actually run under. **Setting A = native**, **Setting B = m
 
 | Method | status | setting | checkpoint | note |
 |---|---|---|---|---|
-| CausVid | public | native | `ckpt/CausVid/autoregressive_checkpoint/model.pt` | autoregressive DMD distillation of Wan2.1-T2V-1.3B |
-| Self-Forcing | public | native | `ckpt/Self-Forcing/checkpoints/self_forcing_dmd.pt` |  |
-| Infinite-Forcing | public | native | `(baseline repo)` | lowest NBF at 60s but lowest MCFF -> freeze-not-stability, the key confound case |
-| Rolling-Forcing | public | native | `ckpt/RollingForcing` |  |
-| Reward-Forcing | public | native | `ckpt/rewardforcing.pt` |  |
-| LongLive | public | native | `ckpt/longlive_models` |  |
-| Causal-Forcing | public | native | `ckpt/causal-forcing` | high apparent motion + high drift attenuation; the headline interpretation-change case |
+| CausVid | public | matched | `ckpt/CausVid/autoregressive_checkpoint/model.pt` | released checkpoint evaluated in the common T2V setting (four steps, guidance 5.0, six frames per block, fixed seed); not the method's released inference procedure |
+| Self-Forcing | public | matched | `ckpt/Self-Forcing/checkpoints/self_forcing_dmd.pt` | released checkpoint evaluated in the common T2V setting (four steps, guidance 5.0, six frames per block, fixed seed); not the method's released inference procedure |
+| Infinite-Forcing | public | matched | `(baseline repo)` | released checkpoint evaluated in the common T2V setting (four steps, guidance 5.0, six frames per block, fixed seed); not the method's released inference procedure |
+| Rolling-Forcing | public | matched | `ckpt/RollingForcing` | released checkpoint evaluated in the common T2V setting (four steps, guidance 5.0, six frames per block, fixed seed); not the method's released inference procedure |
+| Reward-Forcing | public | matched | `ckpt/rewardforcing.pt` | released checkpoint evaluated in the common T2V setting (four steps, guidance 5.0, six frames per block, fixed seed); not the method's released inference procedure |
+| LongLive | public | matched | `ckpt/longlive_models` | released checkpoint evaluated in the common T2V setting (four steps, guidance 5.0, six frames per block, fixed seed); not the method's released inference procedure |
+| Causal-Forcing | public | matched | `ckpt/causal-forcing` | released checkpoint evaluated in the common T2V setting (four steps, guidance 5.0, six frames per block, fixed seed); not the method's released inference procedure |
 | Steady-Forcing | internal | native | `ckpt/Steady-Forcing` | OUR prior work - excluded from SNF-Bench |
 | Steady-Forcing (BT) | internal | native | `ckpt/Steady-Forcing` | OUR prior work - excluded from SNF-Bench |
 
