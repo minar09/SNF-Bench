@@ -22,6 +22,11 @@
 \def\confName{WACV}
 \def\confYear{2027}
 
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\theequation}{S\arabic{equation}}
+
 \title{SNF-Bench: Separating Static Drift from Natural Flow in Long-Horizon Fixed-Camera Video Generation}
 
 \begin{document}
@@ -204,8 +209,8 @@ not there.
 
 Every text-conditioned checkpoint was loaded by the same inference program and
 configuration. Fixed before the sweep to give the distilled checkpoint family
-a shared four-step budget, it specifies denoising indices
-$1000/750/500/250$, scheduler warping with timestep shift $5.0$, six frames per
+a shared four-step budget, it specifies a four-step denoising schedule with
+indices $1000/750/500/250$ warped by the released scheduler at timestep shift $5.0$, six frames per
 block, and seed $0$. All T2V outputs are $832\!\times\!480$ at $16$ fps. Within
 a horizon, only checkpoint weights and their recorded regular/EMA selection
 vary. The YAML retains a \texttt{guidance\_scale: 5.0} field, but the selected
@@ -444,6 +449,14 @@ support an inference.
 \section{Additional Qualitative Material}
 \label{sup:qualitative}
 
+\paragraph{Figure 1 selection rule.}
+For each prompt represented by at least six systems, the support-preserving
+candidate minimizes $\mathrm{fBD}-2\,\mathrm{MCFF\mbox{-}L}$, the drift
+candidate maximizes fBD, and the stagnation candidate minimizes MCFF-L. Among
+prompts with three distinct candidates, the selected prompt maximizes
+$(\mathrm{fBD}_{\mathrm{drift}}-\mathrm{fBD}_{\mathrm{support}})/
+(1+40|\mathrm{DD}^{*}_{\mathrm{drift}}-\mathrm{DD}^{*}_{\mathrm{support}}|)$.
+
 \begin{figure*}[tb]
 \centering
 \includegraphics[width=\textwidth]{figures/fig8_i2v_qualitative.pdf}
@@ -451,7 +464,9 @@ support an inference.
 system begins from the identical frame, so divergence over the rollout is
 attributable to the system rather than to a differently imagined scene---which
 is not true of the text-conditioned track, where each system authors its own
-layout. Columns are ordered by increasing static-region drift.}
+layout. Released-pipeline and wrapper outputs are visibly separated and ordered
+by increasing fBD only within their respective groups; $^{\dagger}$ marks a
+wrapper output, and no cross-setting ordering is intended.}
 \label{sup:fig_i2v}
 \end{figure*}
 
@@ -498,7 +513,9 @@ the pair a whole-frame motion score cannot separate.}
 \caption{\textbf{Rank disagreement at every audited horizon.} Rank under a
 whole-frame motion score against rank under normalized background flow. Both
 quantities are independent of the global-motion estimator; prompt counts are
-given per panel.}
+given per panel. An asterisk marks a horizon where Dynamic Degree is available
+only as a method-level VBench aggregate, suitable for descriptive ranks but not
+for item-level uncertainty.}
 \label{sup:fig_ranks}
 \end{figure*}
 

@@ -7,13 +7,13 @@ configuration it was actually run under. **T2V = recorded common configuration**
 
 | Method | status | setting | checkpoint | note |
 |---|---|---|---|---|
-| CausVid | public | common | `ckpt/CausVid/autoregressive_checkpoint/model.pt` | released checkpoint evaluated in the recorded common T2V configuration (four scheduler-warped steps, six frames per block, seed 0); not the method's released inference procedure |
-| Self-Forcing | public | common | `ckpt/Self-Forcing/checkpoints/self_forcing_dmd.pt` | released checkpoint evaluated in the recorded common T2V configuration (four scheduler-warped steps, six frames per block, seed 0); not the method's released inference procedure |
-| Infinite-Forcing | public | common | `(baseline repo)` | released checkpoint evaluated in the recorded common T2V configuration (four scheduler-warped steps, six frames per block, seed 0); not the method's released inference procedure |
-| Rolling-Forcing | public | common | `ckpt/RollingForcing` | released checkpoint evaluated in the recorded common T2V configuration (four scheduler-warped steps, six frames per block, seed 0); not the method's released inference procedure |
-| Reward-Forcing | public | common | `ckpt/rewardforcing.pt` | released checkpoint evaluated in the recorded common T2V configuration (four scheduler-warped steps, six frames per block, seed 0); not the method's released inference procedure |
-| LongLive | public | common | `ckpt/longlive_models` | released checkpoint evaluated in the recorded common T2V configuration (four scheduler-warped steps, six frames per block, seed 0); not the method's released inference procedure |
-| Causal-Forcing | public | common | `ckpt/causal-forcing` | released checkpoint evaluated in the recorded common T2V configuration (four scheduler-warped steps, six frames per block, seed 0); not the method's released inference procedure |
+| CausVid | public | common | `ckpt/CausVid/autoregressive_checkpoint/model.pt` | released checkpoint evaluated in the recorded common T2V configuration (four-step denoising schedule with released-scheduler warping, six frames per block, seed 0); not the method's released inference procedure |
+| Self-Forcing | public | common | `ckpt/Self-Forcing/checkpoints/self_forcing_dmd.pt` | released checkpoint evaluated in the recorded common T2V configuration (four-step denoising schedule with released-scheduler warping, six frames per block, seed 0); not the method's released inference procedure |
+| Infinite-Forcing | public | common | `(baseline repo)` | released checkpoint evaluated in the recorded common T2V configuration (four-step denoising schedule with released-scheduler warping, six frames per block, seed 0); not the method's released inference procedure |
+| Rolling-Forcing | public | common | `ckpt/RollingForcing` | released checkpoint evaluated in the recorded common T2V configuration (four-step denoising schedule with released-scheduler warping, six frames per block, seed 0); not the method's released inference procedure |
+| Reward-Forcing | public | common | `ckpt/rewardforcing.pt` | released checkpoint evaluated in the recorded common T2V configuration (four-step denoising schedule with released-scheduler warping, six frames per block, seed 0); not the method's released inference procedure |
+| LongLive | public | common | `ckpt/longlive_models` | released checkpoint evaluated in the recorded common T2V configuration (four-step denoising schedule with released-scheduler warping, six frames per block, seed 0); not the method's released inference procedure |
+| Causal-Forcing | public | common | `ckpt/causal-forcing` | released checkpoint evaluated in the recorded common T2V configuration (four-step denoising schedule with released-scheduler warping, six frames per block, seed 0); not the method's released inference procedure |
 | Steady-Forcing | internal | released | `ckpt/Steady-Forcing` | OUR prior work - excluded from SNF-Bench |
 | Steady-Forcing (BT) | internal | released | `ckpt/Steady-Forcing` | OUR prior work - excluded from SNF-Bench |
 

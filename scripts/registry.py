@@ -20,7 +20,8 @@ Every evaluated system is declared here with:
 # SNF task metrics: SNF_Bench/task_results/r1_60s/<file>.json   (60s only)
 # VBench:           SNF_Bench/results/<key>/<dur>/*eval_results.json
 _T2V_MATCHED = ("released checkpoint evaluated in the recorded common T2V configuration "
-                "(four scheduler-warped steps, six frames per block, seed 0); "
+                "(four-step denoising schedule with released-scheduler warping, "
+                "six frames per block, seed 0); "
                 "not the method's released inference procedure")
 T2V = [
     dict(key="CausVid", name="CausVid", track="t2v", status="public", setting="matched",

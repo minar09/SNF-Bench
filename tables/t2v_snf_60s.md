@@ -1,6 +1,6 @@
 # SNF-Bench core metrics — T2V @ 60s
 
-All seven systems are **public external checkpoints evaluated under the recorded common T2V configuration** (four scheduler-warped steps, six frames per block, seed 0). The results do not reconstruct each method's released inference procedure. Our own systems are excluded by construction.
+All seven systems are **public external checkpoints evaluated under the recorded common T2V configuration** (four-step denoising schedule with released-scheduler warping, six frames per block, seed 0). The results do not reconstruct each method's released inference procedure. Our own systems are excluded by construction.
 
 Cell format: `mean [bootstrap 95% CI]`, prompt-level, 10k resamples, seed 0.
 

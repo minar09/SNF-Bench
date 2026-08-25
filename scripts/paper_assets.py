@@ -218,11 +218,18 @@ def audit_table(ix, track, durations, label, caption, wide=False,
         if setting != "matched":
             extra += (r" All systems use the \emph{%s} setting." % setting)
     if not show_n:
-        extra += r" $n$ is common within each horizon."
+        extra += (r" Header $n$ is the maximum valid item count within each "
+                  r"horizon; factor-specific abstentions are in Table~S6.")
+    extra += (r" Units: fBD is \% frame diagonal; NBF is $10^{-3}$ frame "
+              r"widths/s; MCFF is px/sampled interval; FP is unitless. "
+              r"FP is the mean of per-video clipped late/early ratios and "
+              r"therefore need not equal the ratio of the displayed aggregate "
+              r"MCFF-L and MCFF-E means.")
     if not wide:
         if intervals:
-            extra += (r" Means $\pm$ half a percentile-bootstrap 95\% interval "
-                      r"(10k resamples, seed 0); $n<10$ shows means only.")
+            extra += (r" Means with percentile-bootstrap 95\% CI half-width "
+                      r"shown for compactness (10k resamples, seed 0); $n<10$ "
+                      r"shows means only.")
         else:
             extra += r" Means; intervals are supplementary."
         extra += r" MCFF-E$\rightarrow$L accompanies FP. "
@@ -426,7 +433,7 @@ def interpretation_table(ix, track="t2v", dur="60s", label="tab:interpretation_c
             continue
         if r_dd[n] < r_nbf[n]:
             interp = ("high apparent motion accompanied by high static-region "
-                      "motion under the common wrapper")
+                      "motion under the recorded common configuration")
         else:
             interp = "stable sequence with decaying intended motion"
         body.append([esc(n),
@@ -447,7 +454,8 @@ def interpretation_table(ix, track="t2v", dur="60s", label="tab:interpretation_c
               r"metrics and SNF-Bench at 60\,s.} Neither evaluation is labeled "
               r"correct; the table identifies information hidden by whole-frame "
               r"aggregation. Cases are selected by a fixed rank-gap rule applied to "
-              r"all public methods, so none can be selectively omitted.}",
+              r"all public methods. Rolling-Forcing does not satisfy the fixed "
+              r"three-rank-gap inclusion criterion and is therefore absent.}",
               r"\label{%s}" % label, r"\end{table*}"]
     return "\n".join(lines)
 
@@ -634,6 +642,124 @@ def robustness_table(track="t2v", dur="60s", label="tab:robustness"):
     return "\n".join(lines)
 
 
+def robustness_main_table(track="t2v", dur="60s",
+                          label="tab:robustness_main"):
+    """Compact, data-derived partition checks for the main paper."""
+    import csv as _csv
+    import itertools
+    import math
+    import statistics as _st
+    from categories import load_categories
+
+    public = {m["key"]: m["name"] for m in ALL
+              if m["track"] == track and m["status"] == "public"}
+
+    def spear(x, y):
+        n = len(x)
+        if n < 3:
+            return None
+        a, b = [0] * n, [0] * n
+        for rank, i in enumerate(sorted(range(n), key=lambda i: x[i])):
+            a[i] = rank
+        for rank, i in enumerate(sorted(range(n), key=lambda i: y[i])):
+            b[i] = rank
+        ma, mb = sum(a) / n, sum(b) / n
+        num = sum((a[i] - ma) * (b[i] - mb) for i in range(n))
+        den = math.sqrt(sum((a[i] - ma) ** 2 for i in range(n)) *
+                        sum((b[i] - mb) ** 2 for i in range(n)))
+        return num / den if den else None
+
+    area, fbd = {}, {}
+    for key in public:
+        path = f"{ROOT}/raw/{track}/{key}/{dur}/snf_task_metrics.json"
+        if not os.path.exists(path):
+            continue
+        valid = [v for v in json.load(open(path)).get("per_video", [])
+                 if "error" not in v]
+        aa = [v["static_frac"] for v in valid
+              if v.get("static_frac") is not None]
+        ff = [v["fBD"] for v in valid if v.get("fBD") is not None]
+        if aa and ff:
+            area[key], fbd[key] = _st.mean(aa), _st.mean(ff)
+    keys = sorted(set(area) & set(fbd))
+    if len(keys) < 3:
+        return None
+    rho = spear([area[k] for k in keys], [fbd[k] for k in keys])
+    permutations = itertools.permutations([fbd[k] for k in keys])
+    pval = sum(1 for q in permutations
+               if abs(spear([area[k] for k in keys], list(q))) >= abs(rho))
+    pval /= math.factorial(len(keys))
+
+    cats = load_categories()
+    scores = defaultdict(dict)
+    with open(f"{MAN}/per_video_scores.csv") as fh:
+        for row in _csv.DictReader(fh):
+            if (row["track"] == track and row["duration"] == dur and
+                    row["model"] in public):
+                scores[(row["model"], row["metric"])][row["prompt_id"]] = float(row["value"])
+
+    def ordering(metric, exclude_precipitation):
+        means = {}
+        for key in public:
+            values = [value for prompt, value in scores.get((key, metric), {}).items()
+                      if not (exclude_precipitation and
+                              cats.get((track, dur, prompt)) == "precipitation")]
+            if values:
+                means[key] = _st.mean(values)
+        return sorted(means, key=means.get)
+
+    fbd_all, fbd_no_precip = ordering("fBD_mean", False), ordering("fBD_mean", True)
+    nbf_all, nbf_no_precip = ordering("NBF_mean", False), ordering("NBF_mean", True)
+
+    records = []
+    for path in sorted(glob.glob(f"{MAN}/validation_response*.json")):
+        try:
+            records.extend(json.load(open(path)).get("records", []))
+        except (OSError, ValueError):
+            continue
+    by_level = defaultdict(list)
+    for row in records:
+        if row.get("family") == "mask_radius":
+            by_level[row["level"]].append(row)
+    boundary = []
+    for metric in ("fBD", "NBF", "MCFF_L", "FP", "DLR", "DAR"):
+        means = []
+        for level in sorted(by_level):
+            vals = [row[metric] for row in by_level[level]
+                    if row.get(metric) is not None]
+            if vals:
+                means.append(_st.mean(vals))
+        if len(means) >= 3 and means[0]:
+            boundary.append(max(abs(v - means[0]) for v in means) /
+                            abs(means[0]) * 100)
+    max_boundary = max(boundary) if boundary else None
+
+    nbf_text = "identical" if nbf_all == nbf_no_precip else "changed"
+    fbd_ends = (fbd_all and fbd_no_precip and
+                fbd_all[0] == fbd_no_precip[0] and
+                fbd_all[-1] == fbd_no_precip[-1])
+    lines = [r"\begin{table}[tb]", r"\centering", r"\scriptsize",
+             r"\setlength{\tabcolsep}{4pt}",
+             r"\begin{tabular}{p{0.51\linewidth} p{0.40\linewidth}}", r"\toprule",
+             "Check & result \\\\", r"\midrule",
+             f"Static-mask area & {min(area.values()):.3f}--{max(area.values()):.3f}" + r" \\",
+             f"Area--fBD Spearman & $\\rho={rho:+.2f}$, exact $p={pval:.3f}$, $n={len(keys)}$" + r" \\",
+             f"No precipitation: NBF order & {nbf_text}" + r" \\",
+             "No precipitation: fBD extremes & " +
+             ("unchanged" if fbd_ends else "changed") + " \\\\",
+             "Boundary perturbation: max. response & " +
+             (f"$\\leq {math.ceil(max_boundary):.0f}\\%$" if max_boundary is not None else "--") + " \\\\",
+             r"\bottomrule", r"\end{tabular}",
+             r"\caption{\textbf{Partition robustness at 60\,s.} Static-region "
+             r"area is similar across checkpoints, and the headline NBF ordering "
+             r"is unchanged when precipitation is excluded. The negative "
+             r"area--fBD association has the direction expected under early-mask "
+             r"circularity and is therefore reported as an open validity concern "
+             r"rather than dismissed.}",
+             r"\label{%s}" % label, r"\end{table}"]
+    return "\n".join(lines)
+
+
 def perception_table(label="tab:perception"):
     """Preliminary perceptual validation: do independent judges order pairs as
     the factors do?
@@ -783,8 +909,9 @@ def native_config_table(track="t2v", label="tab:native_config"):
               r"of the frame diagonal, and every sequence is resampled to a "
               r"common flow-estimation rate. ")
     if track == "t2v":
-        detail = (r"All rows use the recorded common T2V configuration: four "
-                  r"scheduler-warped steps, six frames per block, and seed $0$. "
+        detail = (r"All rows use the recorded common T2V configuration: a "
+                  r"four-step denoising schedule with released-scheduler "
+                  r"warping, six frames per block, and seed $0$. "
                   r"These are checkpoint results under this common configuration, not "
                   r"reconstructions of the methods' released inference procedures.")
     else:
@@ -984,27 +1111,14 @@ def validation_table(label="tab:validation"):
     for r_ in rows:
         lines.append(" & ".join(r_) + r" \\")
     lines += [r"\bottomrule", r"\end{tabular}",
-              r"\caption{\textbf{Mechanistic validation and factor admission.} Each "
-              r"factor is scored on the corruption its definition says it should "
-              r"detect: accumulating global \emph{drift} for the static-fidelity and "
-              r"drift diagnostics, progressive \emph{freezing} for the persistence "
-              r"factors. $\rho$ is Spearman correlation against injected severity, "
-              r"signed so that a correct response is positive; "
-              r"$\rho_{\mathrm{rot}}$ repeats it for rotational drift, the harder "
-              r"case. \emph{off-target} is the largest relative excursion under "
-              r"corruptions the factor should ignore---photometric drift and "
-              r"perturbation of the region partition---so a small value indicates "
-              r"selectivity. Admission requires $\rho \ge 0.7$ and off-target "
-              r"response below $25\%$ on the factor's \emph{target} family. "
-              r"Rotational response is reported but not gated, and the factors "
-              r"divide that work explicitly: DLR is a translational-leakage "
-              r"diagnostic whose rotational response is inverted ($-0.80$), while "
-              r"rotational drift is carried by fBD and DAR at $+0.70$ and $+1.00$. "
-              r"That division is why DLR is never read alone. VBench DD is a "
-              r"comparison row rather than a candidate factor---it is put through "
-              r"the identical corruptions to show what a whole-frame score does "
-              r"under them---so its admission cell is left blank. Twelve reference "
-              r"clips per severity level.}",
+              r"\caption{\textbf{Mechanistic validation and factor admission.} "
+              r"$\rho$ is signed target-family Spearman correlation; "
+              r"$\rho_{\mathrm{rot}}$ reports rotational response; \emph{off-target} "
+              r"is the largest relative excursion under photometric and mask "
+              r"perturbations. Admission requires $\rho\geq0.7$ and off-target "
+              r"response below $25\%$. Rotation is reported but not gated: DLR is "
+              r"inverted there, while fBD and DAR carry that case. VBench DD is a "
+              r"contrast row, not a candidate factor. Twelve clips per severity.}",
               r"\label{%s}" % label, r"\end{table}"]
     return "\n".join(lines)
 
@@ -1020,9 +1134,13 @@ def abstention_table(label="tab:abstention"):
     import glob as _g
     rows, scenes = [], defaultdict(set)
     tot = defaultdict(lambda: [0, 0])
+    public = {(m["track"], m["key"]) for m in ALL
+              if m["status"] == "public"}
     for p in sorted(_g.glob(f"{ROOT}/raw/*/*/*/snf_task_metrics.json")):
         parts = p.split(os.sep)
         track, key, dur = parts[-4], parts[-3], parts[-2]
+        if (track, key) not in public:
+            continue
         try:
             pv = json.load(open(p)).get("per_video", [])
         except (OSError, ValueError):
@@ -1046,12 +1164,11 @@ def abstention_table(label="tab:abstention"):
     for r_ in rows:
         lines.append(" & ".join(r_) + r" \\")
     lines += [r"\bottomrule", r"\end{tabular}",
-              r"\caption{\textbf{Measurement coverage and fBD abstention.} fBD is "
+              r"\caption{\textbf{Public-roster measurement coverage and fBD abstention.} fBD is "
               r"feature-based and declines to report when too few repeatable keypoints "
-              r"survive in the static region. Every abstention in this benchmark occurs "
-              r"on a single desert dust-storm scene, whose flat, dust-obscured ground "
-              r"offers no stable structure to track, and it occurs there for every "
-              r"system alike---so it reflects the scene, not a method. The remaining "
+              r"survive in the static region. Public-roster abstentions are confined "
+              r"to a desert dust-storm scene whose flat, dust-obscured ground offers "
+              r"little stable structure to track. The remaining "
               r"factors are reported for those clips as usual; only fBD is withheld.}",
               r"\label{%s}" % label, r"\end{table}"]
     return "\n".join(lines)
@@ -1077,6 +1194,7 @@ def macros(ix, rows):
     if len(common) >= 3:
         M["SNFddNBF"] = f"{BT.spearman([dd[c] for c in common], [nbf[c] for c in common]):+.2f}"
     M["SNFnPublicTTV"] = str(len(pub))
+    M["SNFnPublicTTVPeers"] = str(max(0, len(pub) - 1))
     M["SNFnPromptsSixty"] = str(len(ix.get((t, pub[0]["key"], d, "fBD_mean"), {})) or 23)
     # Prompt counts for the other reported horizon and for the I2V roster, so
     # no sample size is ever typed into the prose by hand.
@@ -1182,8 +1300,9 @@ def main():
     written = []
 
     t = audit_table(ix, "t2v", ["60s", "120s"], "tab:t2v_audit",
-                    r"\textbf{Recorded common-configuration T2V audit.} Four "
-                    r"scheduler-warped steps, six-frame/block, seed-$0$ setting.")
+                    r"\textbf{Recorded common-configuration T2V audit.} A four-step "
+                    r"denoising schedule with released-scheduler warping, six "
+                    r"frames/block, and seed $0$.")
     if t:
         open(f"{OUT}/tab_t2v_audit.tex", "w").write(t)
         written.append("tab_t2v_audit.tex")
@@ -1214,7 +1333,10 @@ def main():
         (f"{TAB}/coverage_matrix_public.md", "tab_coverage.tex", "tab:coverage",
          r"Asset and score coverage for the audited public systems. \texttt{V$n$} is the number of available "
          r"video assets, \texttt{T$n$} the number of valid SNF task-metric records, and \texttt{B} denotes "
-         r"available VBench scores. \texttt{T$n$/$N$} marks entries where only $n$ of $N$ videos hold usable measurements.", 7),
+         r"available VBench scores. \texttt{T$n$/$N$} marks entries where only $n$ of $N$ videos hold usable measurements. "
+         r"V counts generated assets, whereas audit $n$ counts unique frozen-manifest prompt items after duplicate prompt "
+         r"outputs are collapsed. Reward-Forcing has 12 assets over six 5\,s prompts; Rolling-Forcing has 24 assets over "
+         r"23 60\,s prompts.", 7),
         (f"{TAB}/category_balance.md", "tab_category.tex", "tab:category",
          r"Scene-category balance of the evaluation set, by track and horizon. "
          r"A dot marks a category absent from that cell.", 9,
@@ -1241,6 +1363,7 @@ def main():
                       "tab_native_config_i2v.tex"),
                      (perception_table(), "tab_perception.tex"),
                      (robustness_table(), "tab_robustness.tex"),
+                     (robustness_main_table(), "tab_robustness_main.tex"),
                      (paired_diff_table(), "tab_paired.tex"),
                      (deployment_table(ix), "tab_deployment.tex")):
         if fn:

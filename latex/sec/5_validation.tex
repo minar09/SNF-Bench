@@ -11,7 +11,7 @@ Given a reference sequence we generate variants that isolate individual componen
 Geometric severity is specified as the mean pixel displacement a corruption induces, with each family's parameter derived from it using the frame geometry. This is not presentational: a parameter in degrees is not commensurate with one in pixels, and at the evaluation resolution one degree of rotation induces only a few pixels of displacement, so families compared by their native parameters differ in injected severity by more than an order of magnitude. A factor is admitted only if its response direction matches its definition, that response is monotonic in severity, unrelated corruptions produce substantially smaller changes, and conclusions survive perturbation of the region partition. Factors failing these checks are reported as diagnostics rather than headline quantities. The severity specification and the admission outcome for every factor are in the supplementary material.
 
 \paragraph{Complementary checks.}
-Mechanistic validation shows a factor responds to the corruption it names, not that its ordering matches what an observer perceives, and we do not close that gap. The supplementary material specifies an axis-specific protocol---forced choice on one failure axis, never on which output is better---and reports the one instance we ran: an open-weight judge~\cite{qwen3vl2025} failed a presentation-order control, so no agreement rate is drawn from it. Perceptual agreement remains open.
+Mechanistic validation shows a factor responds to the corruption it names, not that its ordering matches what an observer perceives, and we do not close that gap. The supplementary material reports exploratory human and open-weight VLM pilots under an axis-specific forced-choice protocol. The human arm yielded too few decided pairs and low inter-rater agreement, while the VLM~\cite{qwen3vl2025} passed the presentation-order control but failed the frozen-versus-moving control; neither arm supports a perceptual-validity claim.
 
 \subsection{Validation Results}
 \label{sec:validation_results}
@@ -20,12 +20,20 @@ Figure~\ref{fig:validation} and Table~\ref{tab:validation} report the outcome. I
 
 Two results qualify the framework rather than support it. Rotation is the harder geometric case for every factor, since correspondences degrade and the induced displacement is smallest at the frame center: both static-fidelity factors respond more weakly than under translation ($+0.70$ for fBD, $+0.60$ for NBF, against $+1.00$ for both), so neither is used alone. DLR is the sharper limitation---admitted on its target family, where it responds perfectly, but with an inverted rotational response ($-0.80$), so it is read only as a comparative diagnostic alongside DAR. Reported alongside these is the scope boundary of Sec.~\ref{sec:mechanistic_validation}: looping content sustains both persistence and magnitude, so SNF-Bench cannot distinguish genuine progression from repetition, and does not claim to.
 
+Table~\ref{tab:robustness_main} summarizes the complementary partition checks;
+the full per-checkpoint sensitivity analysis is supplementary.
+
 %------------------------------------------------------------
 \begin{figure*}[tb]
 \centering
 \includegraphics[width=\textwidth]{figures/fig3_validation.pdf}
-\caption{\textbf{Mechanistic validation.} Each panel injects a corruption of known kind and severity into real fixed-camera clips and plots each factor relative to its unperturbed value. Panel~(c) shows the progressive late-freeze intervention the persistence factors are admitted on, so figure and criterion are one experiment: freezing the late window collapses MCFF-L and FP to a few percent of their unperturbed value. Panel~(d) puts VBench Dynamic Degree and static-region NBF through the same synthetic translation. Static-region flow rises strongly while the whole-frame score changes little and slightly upward, illustrating that a generic apparent-motion score does not identify where motion occurs. The perturbation is synthetic, so the comparison implicates no published method.}
+\caption{\textbf{Mechanistic validation.} Curves are relative to unperturbed
+fixed-camera clips. Translation raises fBD and NBF; progressive late freezing
+collapses MCFF-L and FP; under the same translation, VBench Dynamic Degree
+changes little and slightly upward. The perturbations are synthetic and
+implicate no published method.}
 \label{fig:validation}
 \end{figure*}
 
 \input{generated/tab_validation}
+\input{generated/tab_robustness_main}

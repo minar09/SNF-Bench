@@ -745,8 +745,9 @@ def fig_radar(scores, out="figS_radar"):
                  else P.MUTED)
             # A wrapper-run row and a native row are never peers, so the
             # profile must not present them as one undifferentiated family.
-            # Matched rows are dashed and daggered; the caption says why.
-            matched = SETTING.get((track, n)) == "matched"
+            # Only I2V wrapper rows are dashed and daggered. Every T2V row uses
+            # the same recorded common setting, so a dagger there is misleading.
+            matched = track == "i2v" and SETTING.get((track, n)) == "matched"
             ax.plot(ang, r, color=c, lw=1.7 if is_hi else 0.9,
                     ls="--" if matched else "-",
                     alpha=1.0 if is_hi else 0.45, zorder=3 if is_hi else 2,

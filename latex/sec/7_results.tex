@@ -6,7 +6,7 @@ Unless stated otherwise, T2V comparisons refer to checkpoints under the recorded
 \subsection{Recorded Common-Configuration T2V Audit}
 \label{sec:results_t2v}
 
-Table~\ref{tab:t2v_audit} reports the primary $60$\,s T2V tier and a supporting $120$\,s tier. The latter has \SNFnPromptsOneTwenty{} different prompts, so it corroborates direction rather than independent separation and is not compared column-by-column with $60$\,s. The $5$ and $240$\,s diagnostics and all four horizons are supplementary.
+Table~\ref{tab:t2v_audit} reports the primary $60$\,s T2V tier and a $120$\,s directional check. Because the $120$\,s panel has \SNFnPromptsOneTwenty{} different prompts, it is not compared column-by-column with $60$\,s. The $5$ and $240$\,s diagnostics and all four horizons are supplementary.
 
 \input{generated/tab_t2v_audit}
 % Declared beside the T2V float so both compact audit tables remain within the
@@ -15,13 +15,13 @@ Table~\ref{tab:t2v_audit} reports the primary $60$\,s T2V tier and a supporting 
 
 \paragraph{Motion persistence.} We read $\bigl(\mathrm{MCFF}(\mathcal{L}),\,\mathrm{FP}\bigr)$ jointly: sustained flow needs non-trivial late motion and high retention. MCFF-E beside MCFF-L exposes uniformly negligible motion.
 
-\paragraph{Operating regimes.} Joint static-fidelity and persistence columns expose low-drift/low-motion, high-motion/high-drift, and low-drift/non-trivial-motion regimes without a scalar score. Infinite-Forcing~\cite{infinite-forcing} has the lowest NBF under the recorded common configuration---paired per-prompt intervals versus all six peers exclude zero---but also the least surviving late motion. Causal-Forcing~\cite{zhu2026causal} occupies the opposite, higher-background-flow corner.
+\paragraph{Operating regimes.} Joint static-fidelity and persistence columns expose low-drift/low-motion, high-motion/high-drift, and low-drift/non-trivial-motion regimes without a scalar score. Infinite-Forcing~\cite{infinite-forcing} has the lowest NBF under the recorded common configuration---paired per-prompt intervals versus all \SNFnPublicTTVPeers{} peers exclude zero (Supp. Table~S3)---but also the least surviving late motion. Causal-Forcing~\cite{zhu2026causal} occupies the opposite, higher-background-flow corner.
 
 
 \subsection{Whole-Frame Motion and Static-Region Flow Yield Different Interpretations}
 \label{sec:results_drift}
 
-Across checkpoint means, Dynamic Degree tracks static-region flow at $\rho=\SNFddNBF$: more apparent motion also tends to mean more background motion. Causal-Forcing ranks \SNFrankCFDD{}/\SNFnPublicTTV{} on Dynamic Degree but \SNFrankCFNBF{}/\SNFnPublicTTV{} on NBF; Infinite-Forcing mirrors it at \SNFrankIFNBF{}/\SNFnPublicTTV{} and \SNFrankIFDD{}/\SNFnPublicTTV{}. Causal-Forcing's DLR of \SNFvalCFDLR{} indicates static-region motion energy nearly equal to dynamic-region energy. Its DAR of \SNFvalCFDAR{} means fitted similarity compensation reduces measured dynamic-region flow by that proportion; it is attenuation, not causal decomposition. The residual is unidentified and may include non-rigid instability, intended motion, partition contamination, or flow error.
+Across \SNFnPublicTTV{} checkpoint means, Dynamic Degree tracks static-region flow at $\rho=\SNFddNBF$ (descriptive; per-item analysis in the supplementary material): more apparent motion also tends to mean more background motion. Causal-Forcing ranks \SNFrankCFDD{}/\SNFnPublicTTV{} on Dynamic Degree but \SNFrankCFNBF{}/\SNFnPublicTTV{} on NBF; Infinite-Forcing mirrors it at \SNFrankIFNBF{}/\SNFnPublicTTV{} and \SNFrankIFDD{}/\SNFnPublicTTV{}. Causal-Forcing's DLR of \SNFvalCFDLR{} indicates static-region motion energy nearly equal to dynamic-region energy. Its DAR of \SNFvalCFDAR{} means fitted similarity compensation reduces measured dynamic-region flow by that proportion; it is attenuation, not causal decomposition. The residual is unidentified and may include non-rigid instability, intended motion, partition contamination, or flow error.
 
 
 \subsection{Image-Conditioned (I2V) Track: Released Pipelines and Deployment Sensitivity}

@@ -63,7 +63,8 @@ The command also writes a color preview to `run_outputs/partition.png`.
 ## Integrity notes
 
 - The recorded T2V harness used one common conditional-only inference path with
-  four scheduler-warped steps, six frames per block, and seed 0. Its YAML
+  a four-step denoising schedule whose indices are warped by the released
+  scheduler, six frames per block, and seed 0. Its YAML
   retained `guidance_scale: 5.0`, but that field was not consumed by the
   selected few-step pipeline; the release config records this explicitly.
 - DAR is signed in storage and clipped only for the reported `DAR_report`.

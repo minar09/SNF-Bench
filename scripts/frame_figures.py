@@ -27,6 +27,7 @@ import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt                       # noqa: E402
+from matplotlib.lines import Line2D                   # noqa: E402
 from matplotlib.patches import Rectangle              # noqa: E402
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -410,7 +411,10 @@ def fig_i2v_qualitative(out="fig8_i2v_qualitative"):
     # Prompt on which the systems disagree most about static fidelity.
     prompt = max(shared, key=lambda p: max(rows[n][p] for n in rows)
                  - min(rows[n][p] for n in rows))
-    order = sorted(rows, key=lambda n: rows[n][prompt])
+    setting = {m["key"]: m["setting"] for m in registry.contestants("i2v")}
+    # Preserve the released-vs-wrapper firewall: rank only inside each group.
+    order = sorted(rows, key=lambda n: (setting[key_of[n]] != "native",
+                                        rows[n][prompt]))
 
     vids = {}
     for name in order:
@@ -436,16 +440,37 @@ def fig_i2v_qualitative(out="fig8_i2v_qualitative"):
             for sp in ax.spines.values():
                 sp.set_edgecolor(P.AXIS); sp.set_linewidth(0.5)
             if r == 0:
-                ax.set_title(name.replace(" (", "\n("), fontsize=4.9,
+                title = name.replace(" (", "\n(")
+                if setting[key_of[name]] != "native":
+                    title += r"$^{\dagger}$"
+                ax.set_title(title, fontsize=4.9,
                              color=P.INK, pad=2.5, linespacing=1.1)
             if c == 0:
                 ax.set_ylabel(f"$t={times[r]}$ s", fontsize=6.2, color=P.INK,
                               rotation=90, va="center", labelpad=3)
-    fig.subplots_adjust(left=0.035, right=0.998, top=0.845, bottom=0.012,
+    fig.subplots_adjust(left=0.035, right=0.998, top=0.78, bottom=0.012,
                         wspace=0.03, hspace=0.035)
+    n_released = sum(setting[key_of[n]] == "native" for n in order)
+    if 0 < n_released < len(order):
+        left = axes[0, 0].get_position().x0
+        right = axes[0, -1].get_position().x1
+        rel_right = axes[0, n_released - 1].get_position().x1
+        wrap_left = axes[0, n_released].get_position().x0
+        split = (rel_right + wrap_left) / 2
+        fig.add_artist(Line2D([split, split], [0.012, 0.92],
+                              transform=fig.transFigure, color=P.INK,
+                              linewidth=1.0, linestyle="--"))
+        fig.text((left + split) / 2, 0.965, "released pipelines",
+                 ha="center", va="top", fontsize=6.2, fontweight="bold",
+                 color=P.INK)
+        fig.text((split + right) / 2, 0.965,
+                 r"wrapper outputs $^{\dagger}$",
+                 ha="center", va="top", fontsize=6.2, fontweight="bold",
+                 color=P.INK)
     return save(fig, out,
-                "Image-conditioned systems on one shared source image, ordered "
-                "left-to-right by increasing static-region drift.",
+                "Image-conditioned systems on one shared source image. Released "
+                "pipelines and wrapper outputs are separated and ordered by "
+                "increasing static-region drift only within each group.",
                 prefreeze=False)
 if __name__ == "__main__":
     main()

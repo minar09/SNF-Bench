@@ -25,6 +25,6 @@ LongLive & 22.5 & 9.66 & 5.10\,$\rightarrow$\,1.19 & 0.81 \\
 Causal-Forcing & 21.8 & 130 & 10.5\,$\rightarrow$\,10.7 & 0.90 \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{Recorded common-configuration T2V audit.} Four scheduler-warped steps, six-frame/block, seed-$0$ setting. $n$ is common within each horizon. Means $\pm$ half a percentile-bootstrap 95\% interval (10k resamples, seed 0); $n<10$ shows means only. MCFF-E$\rightarrow$L accompanies FP. Separation uses paired per-prompt intervals (Table~S3). DLR/DAR are supplementary.}
+\caption{\textbf{Recorded common-configuration T2V audit.} A four-step denoising schedule with released-scheduler warping, six frames/block, and seed $0$. Header $n$ is the maximum valid item count within each horizon; factor-specific abstentions are in Table~S6. Units: fBD is \% frame diagonal; NBF is $10^{-3}$ frame widths/s; MCFF is px/sampled interval; FP is unitless. FP is the mean of per-video clipped late/early ratios and therefore need not equal the ratio of the displayed aggregate MCFF-L and MCFF-E means. Means with percentile-bootstrap 95\% CI half-width shown for compactness (10k resamples, seed 0); $n<10$ shows means only. MCFF-E$\rightarrow$L accompanies FP. Separation uses paired per-prompt intervals (Table~S3). DLR/DAR are supplementary.}
 \label{tab:t2v_audit}
 \end{table}
