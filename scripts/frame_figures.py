@@ -189,7 +189,8 @@ def fig_motivation(acc, pub, key_of, out="fig1_motivation"):
 
 
 # ------------------------------------------------------------------- figure 6
-def fig_qualitative(acc, pub, key_of, out="fig6_qualitative"):
+def fig_qualitative(acc, pub, key_of, out="fig6_qualitative",
+                    alternate=False):
     """Every audited system on one prompt across the rollout.
 
     Systems run along the columns and time down the rows. The transpose matters:
@@ -201,7 +202,28 @@ def fig_qualitative(acc, pub, key_of, out="fig6_qualitative"):
     sel = pick_motivation(acc, pub)
     if sel is None:
         return None
-    _, prompt, good, drift, froz, rows = sel
+    _, primary_prompt, good, drift, froz, rows = sel
+    prompt = primary_prompt
+    if alternate:
+        candidates = []
+        for candidate in sorted({p for _, p in acc}):
+            if candidate == primary_prompt:
+                continue
+            candidate_rows = {
+                pub[m]: acc[(m, candidate)] for m in pub
+                if (m, candidate) in acc and
+                "fBD_mean" in acc[(m, candidate)]
+            }
+            if len(candidate_rows) < 6:
+                continue
+            spread = (max(v["fBD_mean"] for v in candidate_rows.values()) -
+                      min(v["fBD_mean"] for v in candidate_rows.values()))
+            candidates.append((spread, candidate, candidate_rows))
+        if not candidates:
+            return None
+        _, prompt, rows = max(candidates)
+        good = min(rows, key=lambda n: rows[n]["fBD_mean"])
+        drift = max(rows, key=lambda n: rows[n]["fBD_mean"])
     order = sorted(rows, key=lambda n: rows[n]["fBD_mean"])
 
     vids = {}
@@ -244,12 +266,23 @@ def fig_qualitative(acc, pub, key_of, out="fig6_qualitative"):
                               rotation=90, va="center", labelpad=3)
     fig.subplots_adjust(left=0.035, right=0.998, top=0.885, bottom=0.075,
                         wspace=0.03, hspace=0.035)
+    selection_note = (
+        "The main-paper prompt and highlighted pair follow the fixed metric-"
+        "disagreement rule." if not alternate else
+        "This second prompt excludes the main-paper sample and maximizes the "
+        "cross-system fBD spread among the remaining prompts."
+    )
     return save(fig, out,
                 "One prompt, every audited system, ordered left-to-right by increasing "
-                "static-region drift (fBD). Released 60 s generations; the two "
-                "highlighted systems are the pair a whole-frame motion score cannot "
-                "separate.",
+                "static-region drift (fBD). Released 60 s generations. " +
+                selection_note,
                 prefreeze=False)
+
+
+def fig_qualitative_secondary(acc, pub, key_of,
+                              out="figS_t2v_qualitative_secondary"):
+    """A distinct T2V sample for the supplement."""
+    return fig_qualitative(acc, pub, key_of, out=out, alternate=True)
 
 
 # ------------------------------------------------------------------- figure 7
@@ -371,17 +404,21 @@ def main():
     acc = load_scores()
     pub = {m["key"]: m["name"] for m in contestants("t2v")}
     key_of = {v: k for k, v in pub.items()}
-    for fn in (fig_motivation, fig_qualitative, fig_limitations):
+    for fn in (fig_motivation, fig_qualitative, fig_qualitative_secondary,
+               fig_limitations):
         r = fn(acc, pub, key_of)
         print("  wrote figures/" + r if r else f"  SKIPPED {fn.__name__}")
     r = fig_i2v_qualitative()
     print("  wrote figures/" + r if r else "  SKIPPED fig_i2v_qualitative")
+    r = fig_i2v_qualitative_main()
+    print("  wrote figures/" + r if r else "  SKIPPED fig_i2v_qualitative_main")
 
 
 
 
 # ------------------------------------------------------------------- figure 8
-def fig_i2v_qualitative(out="fig8_i2v_qualitative"):
+def fig_i2v_qualitative(out="fig8_i2v_qualitative", selection_rank=0,
+                        times=(0, 30, 60)):
     """Image-conditioned systems on one shared source image.
 
     The I2V case deserves its own plate because its static support is given
@@ -408,9 +445,16 @@ def fig_i2v_qualitative(out="fig8_i2v_qualitative"):
     shared = set.intersection(*[set(v) for v in rows.values()])
     if not shared:
         return None
-    # Prompt on which the systems disagree most about static fidelity.
-    prompt = max(shared, key=lambda p: max(rows[n][p] for n in rows)
-                 - min(rows[n][p] for n in rows))
+    # Rank prompts by cross-system static-fidelity spread. Rank zero is the
+    # supplement sample; rank one supplies a distinct main-paper example.
+    ranked_prompts = sorted(
+        shared,
+        key=lambda p: (max(rows[n][p] for n in rows) -
+                       min(rows[n][p] for n in rows), p),
+        reverse=True)
+    if selection_rank >= len(ranked_prompts):
+        return None
+    prompt = ranked_prompts[selection_rank]
     setting = {m["key"]: m["setting"] for m in registry.contestants("i2v")}
     # Preserve the released-vs-wrapper firewall: rank only inside each group.
     order = sorted(rows, key=lambda n: (setting[key_of[n]] != "native",
@@ -424,7 +468,7 @@ def fig_i2v_qualitative(out="fig8_i2v_qualitative"):
     order = [n for n in order if n in vids]
     if len(order) < 3:
         return None
-    times = [0, 30, 60]
+    times = list(times)
 
     cellw = DCOL / len(order)
     fig, axes = plt.subplots(len(times), len(order),
@@ -471,6 +515,78 @@ def fig_i2v_qualitative(out="fig8_i2v_qualitative"):
                 "Image-conditioned systems on one shared source image. Released "
                 "pipelines and wrapper outputs are separated and ordered by "
                 "increasing static-region drift only within each group.",
+                prefreeze=False)
+
+
+def fig_i2v_qualitative_main(out="fig9_i2v_qualitative_main"):
+    """A distinct, compact I2V source-plus-late-frame comparison."""
+    import registry
+    acc = load_scores(track="i2v", dur="60s")
+    pub = {m["key"]: m["name"] for m in registry.contestants("i2v")}
+    key_of = {v: k for k, v in pub.items()}
+    setting = {m["key"]: m["setting"] for m in registry.contestants("i2v")}
+
+    fbd = defaultdict(dict)
+    for (key, prompt), values in acc.items():
+        if key in pub and "fBD_mean" in values:
+            fbd[pub[key]][prompt] = values["fBD_mean"]
+    rows = {name: values for name, values in fbd.items() if len(values) >= 5}
+    if len(rows) < 3:
+        return None
+    shared = set.intersection(*[set(values) for values in rows.values()])
+    ranked = sorted(
+        shared,
+        key=lambda prompt: (max(rows[name][prompt] for name in rows) -
+                            min(rows[name][prompt] for name in rows), prompt),
+        reverse=True)
+    if len(ranked) < 2:
+        return None
+    prompt = ranked[1]
+    order = sorted(rows, key=lambda name: (
+        setting[key_of[name]] != "native", rows[name][prompt]))
+    videos = {name: video_for("i2v", key_of[name], "60s", prompt)
+              for name in order}
+    order = [name for name in order if videos[name]]
+    if len(order) < 3:
+        return None
+
+    source = grab(videos[order[0]], [0], target_h=100)[0]
+    panels = [("shared source", source, None)]
+    for name in order:
+        frame = grab(videos[name], [60], target_h=100)[0]
+        panels.append((name, frame, setting[key_of[name]]))
+    if len(panels) != 8 or any(frame is None for _, frame, _ in panels):
+        return None
+
+    fig, axes = plt.subplots(2, 4, figsize=(COL, 1.72))
+    for ax, (name, frame, mode) in zip(axes.ravel(), panels):
+        ax.imshow(frame)
+        ax.set_xticks([]); ax.set_yticks([])
+        title = name.replace(" (", "\n(")
+        if mode == "matched":
+            title += r"$^{\dagger}$"
+        ax.set_title(title, fontsize=3.9 if mode is not None else 4.7,
+                     color=P.INK, pad=1.8, linespacing=1.0,
+                     fontweight="bold" if mode is None else "normal")
+        for spine in ax.spines.values():
+            spine.set_linewidth(1.0 if mode is not None else 1.2)
+            if mode == "matched":
+                spine.set_linestyle("--")
+                spine.set_edgecolor(P.INK_SECONDARY)
+            elif mode == "native":
+                spine.set_edgecolor(P.INK)
+            else:
+                spine.set_edgecolor(P.SERIES_3)
+    fig.text(0.5, 0.012,
+             r"$t=0$ shared source; $t=60$ outputs. Solid: released; "
+             r"$^{\dagger}$ dashed: wrapper.",
+             ha="center", va="bottom", fontsize=4.7, color=P.INK_SECONDARY)
+    fig.subplots_adjust(left=0.015, right=0.995, top=0.87, bottom=0.12,
+                        wspace=0.045, hspace=0.22)
+    return save(fig, out,
+                "A distinct I2V prompt selected as the second-highest cross-system "
+                "fBD spread. One shared source and every public 60 s output; "
+                "released and wrapper settings are marked separately.",
                 prefreeze=False)
 if __name__ == "__main__":
     main()

@@ -14,8 +14,17 @@ Causal-Forcing++ (2-step, frame-wise) & 9.94 & 6.91 & 1.30\,$\rightarrow$\,0.78 
 Self-Forcing$^{\dagger}$ & 17.3 & 5.52 & 1.50\,$\rightarrow$\,0.69 & 0.89 \\
 CausVid$^{\dagger}$ & 19.9 & 3.31 & 0.58\,$\rightarrow$\,0.41 & 0.81 \\
 Causal-Forcing++ (1-step, frame-wise) & 10.4 & 5.25 & 0.53\,$\rightarrow$\,0.52 & 1.01 \\
+\midrule
+\multicolumn{5}{l}{\textit{120s horizon  ($n=20$)}} \\
+Causal-Forcing++ (2-step)$^{\dagger}$ & 9.65 & 8.81 & 0.89\,$\rightarrow$\,0.82 & 0.93 \\
+Causal-Forcing++ (1-step)$^{\dagger}$ & 7.26 & 9.39 & 0.84\,$\rightarrow$\,0.66 & 0.86 \\
+Causal-Forcing (frame-wise)$^{\dagger}$ & 19.9 & 52.7 & 4.82\,$\rightarrow$\,5.06 & 1.08 \\
+Causal-Forcing++ (2-step, frame-wise) & 11.4 & 17.3 & 1.89\,$\rightarrow$\,1.54 & 1.01 \\
+Self-Forcing$^{\dagger}$ & 23.0 & 10.3 & 2.41\,$\rightarrow$\,0.76 & 0.45 \\
+CausVid$^{\dagger}$ & 19.7 & 6.04 & 1.15\,$\rightarrow$\,0.83 & 0.67 \\
+Causal-Forcing++ (1-step, frame-wise) & 13.6 & 7.39 & 1.01\,$\rightarrow$\,0.35 & 0.64 \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{I2V released pipelines and deployment sensitivity.} Unmarked rows are released-pipeline outputs; $^{\dagger}$ rows use the wrapper; settings are not compared. Header $n$ is the maximum valid item count within each horizon; factor-specific abstentions are in Table~S6. Units: fBD is \% frame diagonal; NBF is $10^{-3}$ frame widths/s; MCFF is px/sampled interval; FP is unitless. FP is the mean of per-video clipped late/early ratios and therefore need not equal the ratio of the displayed aggregate MCFF-L and MCFF-E means. Means; intervals are supplementary. MCFF-E$\rightarrow$L accompanies FP. No cross-setting claim. DLR/DAR are supplementary.}
+\caption{\textbf{I2V released pipelines and deployment sensitivity at 60 and 120\,s.} Unmarked rows are released-pipeline outputs; $^{\dagger}$ rows use the wrapper; settings are not compared. Header $n$ is the maximum valid item count within each horizon; factor-specific abstentions are in Table~S6. Units: fBD is \% frame diagonal; NBF is $10^{-3}$ frame widths/s; MCFF is px/sampled interval; FP is unitless. FP is the mean of per-video clipped late/early ratios and therefore need not equal the ratio of the displayed aggregate MCFF-L and MCFF-E means. Means; intervals are supplementary. MCFF-E$\rightarrow$L accompanies FP. No cross-setting claim. DLR/DAR are supplementary.}
 \label{tab:i2v_audit}
 \end{table}

@@ -8,6 +8,16 @@ Unless stated otherwise, T2V comparisons refer to checkpoints under the recorded
 
 Table~\ref{tab:t2v_audit} reports the primary $60$\,s T2V tier and a $120$\,s directional check. Because the $120$\,s panel has \SNFnPromptsOneTwenty{} different prompts, it is not compared column-by-column with $60$\,s. The $5$ and $240$\,s diagnostics and all four horizons are supplementary.
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig6_qualitative.pdf}
+\caption{\textbf{Every audited text-conditioned system on one prompt.} Rows
+show $t=0/30/60$\,s; columns are ordered left-to-right by increasing
+static-region drift (fBD). The highlighted pair is selected by the fixed
+metric-disagreement rule documented in the supplement.}
+\label{fig:t2v_qualitative}
+\end{figure*}
+
 \input{generated/tab_t2v_audit}
 % Declared beside the T2V float so both compact audit tables remain within the
 % eight-page main body; its interpretation stays in Sec.~\ref{sec:results_i2v}.
@@ -27,4 +37,14 @@ Across \SNFnPublicTTV{} checkpoint means, Dynamic Degree tracks static-region fl
 \subsection{Image-Conditioned (I2V) Track: Released Pipelines and Deployment Sensitivity}
 \label{sec:results_i2v}
 
-At $60$\,s, Table~\ref{tab:i2v_audit} separates two released-pipeline outputs from five dagger-marked wrapper rows; it is not a seven-system audit, and settings are never ranked. The panel shows deployment sensitivity without attributing its cause. Unlike T2V, each system shares one source image, so static support is given rather than imagined differently. Complete horizons and $5$\,s bidirectional references are supplementary.
+At $60$ and $120$\,s, Table~\ref{tab:i2v_audit} separates two released-pipeline outputs from five dagger-marked wrapper rows; neither panel is a seven-system audit, and settings are never ranked. The panels show deployment sensitivity without attributing its cause. Figure~\ref{fig:i2v_qualitative} compares a distinct $60$\,s sample: each system shares one source image, so static support is given rather than imagined differently. Complete horizons and $5$\,s bidirectional references are supplementary.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig9_i2v_qualitative_main.pdf}
+\caption{\textbf{I2V comparison on a shared source.} The source and every
+$t=60$\,s output are shown. Solid frames are released-pipeline outputs;
+$^{\dagger}$ dashed frames use the wrapper. The prompt is distinct from
+Supplementary Figure~S3 and has the second-highest cross-system fBD spread.}
+\label{fig:i2v_qualitative}
+\end{figure}

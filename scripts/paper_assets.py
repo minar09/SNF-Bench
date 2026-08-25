@@ -1311,10 +1311,11 @@ def main():
     # per row, and the wide variant printed point estimates anyway, so nothing is
     # lost. Suppressing the intervals also recovers the width the long I2V system
     # names need.
-    t = audit_table(ix, "i2v", ["60s"], "tab:i2v_audit", wide=False,
+    t = audit_table(ix, "i2v", ["60s", "120s"], "tab:i2v_audit", wide=False,
                     intervals=False,
                     caption=
-                    r"\textbf{I2V released pipelines and deployment sensitivity.}")
+                    r"\textbf{I2V released pipelines and deployment sensitivity "
+                    r"at 60 and 120\,s.}")
     if t:
         open(f"{OUT}/tab_i2v_audit.tex", "w").write(t)
         written.append("tab_i2v_audit.tex")
