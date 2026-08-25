@@ -7,7 +7,7 @@ neither of which has run yet -- see docs/FIGURE_TABLE_PLAN.md for their specs
 and gate dates. Building them against translation-only compensation would bake
 in numbers that the Aug-18 suite is expected to change.
 
-Colour policy comes from scripts/palette.py and is not a matter of taste: under
+Color policy comes from scripts/palette.py and is not a matter of taste: under
 an all-pairs pairlist only three categorical hues clear the CVD separation
 floors, and every figure here has 7-9 methods. So **method identity is carried
 by direct text labels, never by hue**. Hue carries magnitude (single-hue
@@ -208,7 +208,7 @@ def _place_labels(ax, points, fontsize=6.4, char_w=3.5, line_h=8.0):
 # --------------------------------------------------------------------------
 def fig_operating_regime(scores, track="t2v", dur="60s", out="fig4_operating_regime"):
     """x = static drift (fBD), y = surviving late dynamic-region motion (MCFF),
-    colour = DAR. The joint view distinguishes high apparent motion accompanied
+    color = DAR. The joint view distinguishes high apparent motion accompanied
     by static-region drift from high surviving flow; DAR supplies attenuation
     context and is not interpreted as a causal decomposition."""
     fbd = {n: v for n, v, _ in method_means(scores, track, dur, "fBD_mean")}
@@ -234,7 +234,7 @@ def fig_operating_regime(scores, track="t2v", dur="60s", out="fig4_operating_reg
     ax.set_axisbelow(True)
     ax.margins(x=0.16, y=0.20)
 
-    # Legend encodes the colour ramp's meaning, since hue is magnitude here.
+    # Legend encodes the color ramp's meaning, since hue is magnitude here.
     handles = [Line2D([], [], marker="o", linestyle="", markersize=6,
                       markerfacecolor=_seq_color(t), markeredgecolor=P.SURFACE,
                       label=lab)
@@ -244,7 +244,7 @@ def fig_operating_regime(scores, track="t2v", dur="60s", out="fig4_operating_reg
               handletextpad=0.4, borderpad=0.2)
     fig.tight_layout(pad=0.3, rect=(0, 0.055, 1, 1))
     return save(fig, out,
-                f"{track.upper()} @{dur} public systems. x=fBD, y=MCFF-L, colour=DAR "
+                f"{track.upper()} @{dur} public systems. x=fBD, y=MCFF-L, color=DAR "
                 f"(clipped for display; stored signed). METRIC_SPEC v1.1, robust "
                 f"similarity compensation.")
 
@@ -377,7 +377,7 @@ def fig_category_balance(out="figS_category_balance"):
                 continue
             ax.barh(y, n, left=x, height=0.62, color=col,
                     edgecolor=P.SURFACE, linewidth=1.4)      # 2px surface gap
-            # Every segment is labelled, including n=1: three of these slots sit
+            # Every segment is labeled, including n=1: three of these slots sit
             # under 3:1 on the light surface, so the relief rule makes the count
             # label mandatory rather than decorative.
             ax.text(x + n / 2, y, str(n), ha="center", va="center",
@@ -432,7 +432,7 @@ def teaser_exemplars(scores, track="t2v", dur="60s", out="fig1_teaser_exemplars.
     L = ["# Fig. 1 teaser — candidate exemplar clips", "",
          "Selected from real benchmark videos so the teaser is a controlled comparison,",
          "not an illustration. Each row is one prompt evaluated by three methods:", "",
-         "- **A** desired behaviour — low drift, motion survives",
+         "- **A** desired behavior — low drift, motion survives",
          "- **B** drift masquerading as motion — high drift, high *raw* dynamic degree, high DAR",
          "- **C** frozen — low drift, but motion has collapsed", ""]
 
@@ -659,7 +659,7 @@ def fig_validation(out="fig3_validation"):
         ax.set_axisbelow(True)
         ax.margins(x=0.22)
     axes[0].set_ylabel("relative to unperturbed", fontsize=6.2)
-    # Each panel is labelled by its OWN family. This loop previously reused
+    # Each panel is labeled by its OWN family. This loop previously reused
     # `fam` left over from the plotting loop, so every panel inherited the last
     # panel's unit -- the freeze panel was captioned in pixels of displacement.
     XLAB = {"translation": "mean induced displacement (px)",
@@ -694,7 +694,7 @@ def fig_radar(scores, out="figS_radar"):
     """One radar per track: each factor rescaled to [0,1] across the audited
     systems, oriented so that outward is always better.
 
-    A radar is the conventional way these suites summarise a profile, and it is
+    A radar is the conventional way these suites summarize a profile, and it is
     useful here for the same reason: it shows at a glance that no audited system
     encloses the others. The orientation step matters -- plotting raw values
     would put "most background drift" outward on one axis and "most surviving

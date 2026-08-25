@@ -8,8 +8,9 @@ Every evaluated system is declared here with:
              'internal' -> our own model/ablation. NEVER a contestant (see docs/EXCLUSIONS.md)
              'postproc' -> a color-matched post-process variant of another entry
              'scratch'  -> smoke/debug run, not evaluation data
-  setting    'native'   -> run under its authors' intended configuration  (Setting A)
-             'matched'  -> run under our common long-horizon wrapper       (Setting B)
+  setting    'native'   -> recorded output from a released pipeline
+             'matched'  -> internal enum for a common wrapper/configuration;
+                           rendered as 'common' for T2V and 'wrapper' for I2V
   ckpt       checkpoint path used, for the config table
   note       anything a reviewer would want stated
 """
@@ -18,8 +19,8 @@ Every evaluated system is declared here with:
 # Source repo: /home/minar/static-forcing  (videos in output/<key>/t2v_<dur>)
 # SNF task metrics: SNF_Bench/task_results/r1_60s/<file>.json   (60s only)
 # VBench:           SNF_Bench/results/<key>/<dur>/*eval_results.json
-_T2V_MATCHED = ("released checkpoint evaluated in the common T2V setting "
-                "(four steps, guidance 5.0, six frames per block, fixed seed); "
+_T2V_MATCHED = ("released checkpoint evaluated in the recorded common T2V configuration "
+                "(four scheduler-warped steps, six frames per block, seed 0); "
                 "not the method's released inference procedure")
 T2V = [
     dict(key="CausVid", name="CausVid", track="t2v", status="public", setting="matched",
@@ -54,9 +55,8 @@ T2V = [
 # Config names are deliberately neutral in anything that ships: a released
 # artifact must not carry the name of an unpublished internal method, in a
 # filename or anywhere else.
-_MATCHED = ("run in the common long-horizon I2V wrapper "
-            "(configs/common_longhorizon_i2v.yaml, 6 frames per block, "
-            "image-conditioned) -- NOT the model's native configuration. "
+_MATCHED = ("run in the common long-horizon I2V rollout wrapper "
+            "(6 frames per block, image-conditioned; checkpoint-specific denoising schedule). "
             "Read as deployment sensitivity only.")
 I2V = [
     dict(key="chunk6", name="Causal-Forcing++ (2-step)", track="i2v", status="public", setting="matched",

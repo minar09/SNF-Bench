@@ -120,7 +120,7 @@ $$\mathrm{DAR}_{\text{signed}} = 1 - \frac{F_{\text{dyn,comp}}}{F_{\text{dyn,raw
 
 - **Storage is signed. Reporting is clipped. Validation uses signed.** Negative values are information, not noise: compensation *increased* measured foreground-flow magnitude, which happens when local flow opposes the estimated global field. Empirically negative on **22/161** T2V-60s clips.
 - Negative incidence is tabulated per method in supplementary, with one limitations sentence. Volunteering it converts a vulnerability into demonstrated rigor.
-- Interpret as "global compensation removes X% of measured dynamic-region flow **under this estimator**". **Never** "X% of the motion is drift".
+- Interpret as "global compensation reduces measured dynamic-region flow by X% **under this estimator**". **Never** "X% of the motion is drift".
 - **Depends on §3 — recomputed whenever compensation changes.**
 
 ### DLR and DAR are not substitutes
@@ -130,12 +130,14 @@ They answer different questions and cross-check each other:
 | | question | depends on compensation? |
 |---|---|---|
 | DLR | *where* is the motion energy — static or dynamic region? | no |
-| DAR | how much apparent dynamic motion does a **global-displacement model explain**? | yes |
+| DAR | what is the signed relative attenuation of measured dynamic-region flow after global similarity compensation? | yes |
 
-Causal-Forcing at DLR 0.939 / DAR 0.400 is the worked example: enormous
-static-region motion energy, of which a rigid global model explains only ~40%.
-The residual is **non-rigid** instability — warping, boiling — which a
-translation-only account would have misdescribed entirely.
+Causal-Forcing at DLR 0.939 / DAR 0.400 is the worked example: high
+static-region motion energy accompanies a 40% reduction in measured
+dynamic-region flow after fitted similarity compensation. This is an
+attenuation diagnostic, not a causal decomposition; the residual may include
+non-rigid instability, intended local motion, partition contamination, or flow
+error.
 
 **Neither is promoted to headline before validation.** DAR matching the draft
 formula is not a reason to prefer it; DLR may prove the more stable measurement
@@ -294,7 +296,7 @@ being compensation-independent.
 | "X% of the motion is drift" | "global compensation removes X% of measured dynamic-region flow under this estimator" |
 | "fraction of motion", "share of DD that is drift" | "signed relative change in dynamic-region flow after compensation" |
 | "SNF recovers true dynamic motion" | "flow surviving global-motion compensation" |
-| "global compensation isolates physical foreground flow" | "…removes the component explained by a global similarity model" |
+| "global compensation isolates physical foreground flow" | "…reports the signed relative attenuation after fitted global similarity compensation" |
 | "VBench ranking is wrong" | "whole-frame motion and SNF's spatially resolved diagnostics can yield different interpretations of the same outputs" |
 
 Historical artifacts under `raw/_internal_ablations/` and the verbatim

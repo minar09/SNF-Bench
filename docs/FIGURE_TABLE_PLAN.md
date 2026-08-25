@@ -151,7 +151,7 @@ This is the T2V-CompBench pattern: the load-bearing evidence, one compact table.
 
 If the human axis-study runs (go/no-go **Aug 15**), it adds two columns: Kendall τ and Spearman ρ against human drift-ranking and human decay-ranking. If it does not, Tab. 2 stands alone and §8 states plainly that these are **mechanistically validated diagnostics**, not perceptually faithful measures.
 
-### Tab. 3 — Public-model audit, matched T2V setting
+### Tab. 3 — Public-model audit, recorded common T2V configuration
 **Status: BUILT for T2V @60s** (`tables/t2v_snf_60s.md`); I2V is split between recorded released-pipeline outputs and dagger-marked common-wrapper rows, and other durations are partial.
 
 Rows = public methods, grouped by track. Columns = fBD ↓ · NBF ↓ · FP ↑ · MCFF · DLR ↓ · DAR ↓ · **one semantic-context column** (P0#6 — VBench semantic/overall-consistency or CLIP similarity; invent nothing).
@@ -159,12 +159,12 @@ Cells = `mean [bootstrap 95% CI]`, prompt-level, 10k resamples, seed 0. Category
 
 Semantic column is the guardrail against "moving fog scored as a river" and reinforces that SNF-Bench complements rather than replaces general-purpose evaluation.
 
-### Tab. 4 — Matched-deployment Δ (Setting B stress test)
+### Tab. 4 — Released-pipeline vs wrapper Δ (I2V deployment-sensitivity test)
 **Status: BUILT as full tables**, needs compression to Δ form.
 
-Δ per metric between native and matched configuration, one row per method that has both. **One table + one paragraph, and out of the abstract entirely** — the abstract clause currently invites fairness questions before the reader has seen the safeguards.
+Δ per metric between released-pipeline and common-wrapper outputs, one row per method that has both. **One table + one paragraph, and out of the abstract entirely** — the abstract clause currently invites fairness questions before the reader has seen the safeguards.
 
-Contingency: if the matched results come back messy at the sweep, demote wholesale to supplementary. That is a one-day edit; the reverse is not.
+Contingency: if the wrapper results come back messy at the sweep, demote wholesale to supplementary. That is a one-day edit; the reverse is not.
 
 ---
 

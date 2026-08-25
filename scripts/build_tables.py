@@ -218,6 +218,17 @@ def fmt(v, nd=3):
     return f"{v:.{nd}f}"
 
 
+def setting_label(model):
+    """Paper-facing setting names; registry enums remain backward compatible."""
+    if model["track"] == "t2v" and model["setting"] == "matched":
+        return "common"
+    if model["track"] == "i2v" and model["setting"] == "matched":
+        return "wrapper"
+    if model["setting"] == "native":
+        return "released"
+    return model["setting"]
+
+
 def md_table(header, rows):
     out = ["| " + " | ".join(header) + " |",
            "|" + "|".join(["---"] * len(header)) + "|"]
@@ -322,8 +333,8 @@ def snf_leaderboard(ix, track, dur, keys, title, note, only_public=True):
             lo, hi = boot_ci(xs) if xs else (None, None)
             cells.append(f"{fmt(mu)} <sub>[{fmt(lo)}, {fmt(hi)}]</sub>" if mu is not None else "--")
             lcells.append(fmt(mu))
-        rows.append([m["name"], m["setting"], n] + cells)
-        ltx.append([m["name"], m["setting"], n] + lcells)
+        rows.append([m["name"], setting_label(m), n] + cells)
+        ltx.append([m["name"], setting_label(m), n] + lcells)
     body = [f"# {title}", "", note, "",
             "Cell format: `mean [bootstrap 95% CI]`, prompt-level, 10k resamples, seed 0.", "",
             md_table(header, rows), "", "<details><summary>LaTeX (point estimates)</summary>", "",
@@ -496,7 +507,7 @@ def coverage_matrix(public_only=False):
                     else:
                         tag += " " + flag
                 cells.append(tag or "·")
-            out.append(f"| {m['name']} | {m['status']} | {m['setting']} | " + " | ".join(cells) + " |")
+            out.append(f"| {m['name']} | {m['status']} | {setting_label(m)} | " + " | ".join(cells) + " |")
         out.append("")
     return "\n".join(out)
 
@@ -504,11 +515,12 @@ def coverage_matrix(public_only=False):
 def config_table():
     out = ["# Model configuration / provenance table", "",
            "Required by the E&D track: every evaluated system with its checkpoint and the",
-           "configuration it was actually run under. **Setting A = native**, **Setting B = matched wrapper**.", ""]
+           "configuration it was actually run under. **T2V = recorded common configuration**; "
+           "**I2V = released pipeline or wrapper (deployment sensitivity)**.", ""]
     for track in ("t2v", "i2v"):
         out += [f"## {track.upper()} track", "",
                 md_table(["Method", "status", "setting", "checkpoint", "note"],
-                         [[m["name"], m["status"], m["setting"], f"`{m['ckpt']}`" if m["ckpt"] else "--",
+                         [[m["name"], m["status"], setting_label(m), f"`{m['ckpt']}`" if m["ckpt"] else "--",
                            m["note"] or ""]
                           for m in ALL if m["track"] == track]), ""]
     return "\n".join(out)
@@ -533,8 +545,8 @@ def main():
     body, _ = snf_leaderboard(
         ix, "t2v", "60s", SNF_TASK_KEYS,
         "SNF-Bench core metrics — T2V @ 60s",
-        "All seven systems are **public external checkpoints evaluated under the same matched "
-        "T2V configuration** (four steps, guidance 5.0, six frames per block, fixed seed). "
+        "All seven systems are **public external checkpoints evaluated under the recorded common "
+        "T2V configuration** (four scheduler-warped steps, six frames per block, seed 0). "
         "The results do not reconstruct each method's released inference procedure. "
         "Our own systems are excluded by construction.")
     write("t2v_snf_60s.md", body)
@@ -559,7 +571,7 @@ def main():
         body, r = snf_leaderboard(
             ix, "i2v", d, SNF_TASK_KEYS,
             f"SNF-Bench core metrics — I2V @ {d}",
-            "**Read the `setting` column.** Entries marked `matched` were run in a common "
+            "**Read the `setting` column.** Entries marked `wrapper` were run in a common "
             "long-horizon I2V wrapper, *not* their authors' configuration; they are a "
             "stress-test result, not a released-pipeline ranking.")
         if r:

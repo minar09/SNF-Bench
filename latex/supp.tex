@@ -136,12 +136,12 @@ partition. We therefore treat partitions as measured quantities and report the
 consequence directly---every measurement is recomputed under systematic erosion
 and dilation of the boundary, with the response in Table~\ref{tab:validation}.
 
-\begin{figure}[tb]
+\begin{figure*}[tb]
 \centering
 \includegraphics[width=\linewidth]{figures/fig2_mask_protocol.pdf}
 \caption{\textbf{Region-partition protocol.} (a)~The partition is derived automatically from early-window flow, with an ignored transition band at the boundary. (b)~A two-way partition cannot represent layered content such as rain crossing static support, which is the scope limit stated in the main paper.}
 \label{sup:fig_mask}
-\end{figure}
+\end{figure*}
 
 \section{Validation Protocol}
 \label{sup:validation}
@@ -202,15 +202,20 @@ not there.
 \section{Generation Configuration}
 \label{sup:config}
 
-Every text-conditioned checkpoint was run through a single common inference
-configuration, recorded in full and released with the benchmark: a four-step
-denoising schedule ($1000/750/500/250$), timestep shift $5.0$, guidance scale
-$5.0$, six frames per block, and a fixed seed. Only the checkpoint path and the
-target horizon differ between runs.
+Every text-conditioned checkpoint was loaded by the same inference program and
+configuration. Fixed before the sweep to give the distilled checkpoint family
+a shared four-step budget, it specifies denoising indices
+$1000/750/500/250$, scheduler warping with timestep shift $5.0$, six frames per
+block, and seed $0$. All T2V outputs are $832\!\times\!480$ at $16$ fps. Within
+a horizon, only checkpoint weights and their recorded regular/EMA selection
+vary. The YAML retains a \texttt{guidance\_scale: 5.0} field, but the selected
+few-step \texttt{CausalInferencePipeline} is conditional-only and never reads
+it; classifier-free guidance is therefore not an applied parameter in this
+sweep.
 
-We state plainly what this does and does not license. It is a matched-setting
-comparison, and it is reproducible precisely because the setting is uniform and
-recorded. It is \emph{not} an audit of each method under its authors' released
+We state plainly what this does and does not license. It is a recorded
+common-configuration comparison, reproducible because the inference path is
+uniform and recorded. It is \emph{not} an audit of each method under its authors' released
 defaults, and we no longer describe it as one. The cost is real: several of
 these checkpoints are distilled for a specific step budget, and evaluating them
 at a common four-step schedule does not observe them at their own operating
@@ -222,11 +227,12 @@ audit.
 \input{generated/tab_native_config}
 
 The image-conditioned roster contains two distinct settings. Unmarked rows are
-recorded native outputs produced by model-specific released pipelines. Rows
-marked $^{\dagger}$ use the common long-horizon wrapper: four denoising steps,
-guidance $5.0$, six frames per block, and a fixed seed. These wrapper parameters
+recorded outputs produced by model-specific released pipelines. Rows
+marked $^{\dagger}$ use the common long-horizon rollout wrapper with six frames
+per block and a fixed seed; unlike T2V, denoising schedules are
+checkpoint-specific. These wrapper parameters
 do not apply to unmarked rows. The marked rows are read as deployment
-sensitivity and are never ranked against the recorded native outputs.
+sensitivity and are never ranked against the recorded released-pipeline outputs.
 
 \input{generated/tab_native_config_i2v}
 
@@ -248,9 +254,9 @@ tabulated rather than folded silently into a smaller $n$.
 The main paper reports the text-conditioned track at $60$\,s, the tier whose
 sample supports method-level separation. Both tracks appear here at every
 horizon, with uncertainty from a percentile bootstrap over
-items~\cite{efron1979bootstrap}. For the image-conditioned track, systems marked
-\emph{matched} run under a common long-horizon wrapper rather than their
-released configuration, so their scores are read as deployment sensitivity
+items~\cite{efron1979bootstrap}. For the image-conditioned track, dagger-marked
+\emph{wrapper} rows use a common long-horizon rollout wrapper rather than a
+released pipeline, so their scores are read as deployment sensitivity
 rather than as the published method's performance.
 
 \input{generated/tab_t2v_audit_full}
@@ -259,7 +265,7 @@ rather than as the published method's performance.
 \begin{figure}[tb]
 \centering
 \includegraphics[width=\linewidth]{figures/fig4_operating_regime.pdf}
-\caption{\textbf{Operating regimes under the common matched T2V setting.} Each checkpoint in the static-drift--surviving-flow plane. Colour encodes low-to-high attenuation of measured dynamic-region flow after global-motion compensation, not a share attributable to drift: the quantity is signed, and values are shown clipped to $[0,1]$. The view exposes trade-offs; it is not a leaderboard.}
+\caption{\textbf{Operating regimes under the recorded common T2V configuration.} Each checkpoint in the static-drift--surviving-flow plane. Color encodes low-to-high attenuation of measured dynamic-region flow after global-motion compensation, not a share attributable to drift: the quantity is signed, and values are shown clipped to $[0,1]$. The view exposes trade-offs; it is not a leaderboard.}
 \label{sup:fig_regimes}
 \end{figure}
 
@@ -458,8 +464,8 @@ values would place ``most drift'' and ``most surviving motion'' both outward and
 the shape would carry no meaning. No system encloses the others on either track,
 which is the conclusion the operating-regime view reaches, shown as a profile.
 On the image-conditioned panel, dashed outlines marked $^{\dagger}$ are rows run
-under the common long-horizon wrapper rather than a released configuration: they
-are shown for shape, and are not peers of the solid native outlines. The
+under the common long-horizon wrapper rather than a released pipeline: they
+are shown for shape, and are not peers of the solid released-pipeline outlines. The
 rescaling is relative to the audited roster, so a profile is descriptive of this
 set and would change if the set changed.}
 \label{sup:fig_radar}
@@ -471,8 +477,8 @@ set and would change if the set changed.}
 \caption{\textbf{Stated scope boundaries.} (a)~A two-way partition cannot
 separate precipitation from the support it crosses. (b)~A system can attain
 near-best static fidelity precisely because its intended motion has also
-stopped. (c)~High leakage with low attenuation marks static-region motion that a rigid
-global similarity model does not account for; what the residual consists of is
+stopped. (c)~High leakage with low attenuation marks static-region motion for which the
+fitted global similarity model attenuates little measured flow; what the residual consists of is
 not identified by these measurements.}
 \label{sup:fig_limits}
 \end{figure*}

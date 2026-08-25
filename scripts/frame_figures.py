@@ -180,10 +180,10 @@ def fig_motivation(acc, pub, key_of, out="fig1_motivation"):
              f"over {int(fb_d / max(fb_g, 1e-6) / 10) * 10}$\\times$",
              ha="center", fontsize=7.2, color=P.INK, fontweight="bold")
     return save(fig, out,
-                f"Frames from 60 s outputs of released checkpoints under the common matched "
-                f"T2V setting. Systems chosen by a "
+                f"Frames from 60 s outputs of released checkpoints under the recorded common "
+                f"T2V configuration. Systems chosen by a "
                 f"fixed numeric rule over all 23 prompts, not by appearance. *DD is the "
-                f"per-video score under VBench's published rule, before binarisation.",
+                f"per-video score under VBench's published rule, before binarization.",
                 prefreeze=False)
 
 
@@ -311,9 +311,9 @@ def fig_limitations(acc, pub, key_of, out="fig7_limitations"):
                            f"motion has stopped too",
                            grab(v, [5, 55], target_h=100), ["t = 5 s", "t = 55 s"]))
 
-    # (c) drift a rigid global model cannot account for: high leakage, low
-    # attenuation. The scene deforms rather than sliding, which is exactly the
-    # case a translation-only account would have misdescribed.
+    # (c) high leakage with low attenuation under the fitted similarity model.
+    # The residual is not causally identified and may contain deformation,
+    # intended local motion, partition contamination, or flow error.
     def dlr(n, p):
         return acc.get((key_of[n], p), {}).get("DLR_mean", -1)
 
@@ -329,7 +329,8 @@ def fig_limitations(acc, pub, key_of, out="fig7_limitations"):
             panels.append(("(c) non-rigid drift",
                            f"{n_c}: DLR {dlr(n_c, pr_c):.2f} but DAR "
                            f"{max(0.0, dar(n_c, pr_c)):.2f} -- the support moves, yet a\n"
-                           "rigid global model explains little of it, so it warps",
+                           "fitted similarity compensation attenuates little of the\n"
+                           "measured flow; the residual is not causally identified",
                            grab(v, [8, 52], target_h=100), ["t = 8 s", "t = 52 s"]))
 
     panels = [p for p in panels if p[2] and all(f is not None for f in p[2])]

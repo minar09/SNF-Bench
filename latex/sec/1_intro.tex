@@ -1,13 +1,13 @@
 \section{Introduction}
 \label{sec:intro}
 
-Autoregressive (AR) and streaming video diffusion models now extend generation from seconds to minute-scale horizons~\cite{yesiltepe2025infinity,yang2025longlive,liu2025rolling}. Evaluation has not kept pace: small temporal errors invisible in short clips accumulate over long rollouts into background displacement, color drift, or motion decay, and whole-frame metrics summarize these qualitatively different failures into one score.
+Long-horizon, autoregressive (AR), and streaming video diffusion models now extend generation from seconds to minute-scale horizons~\cite{wang2025lingen,yesiltepe2025infinity,yang2025longlive,liu2025rolling,helios,yu2025videossm}. Evaluation has not kept pace: small temporal errors invisible in short clips accumulate over long rollouts into background displacement, color drift, or motion decay, and whole-frame metrics summarize these qualitatively different failures into one score.
 
 %------------------------------------------------------------------------------------
 \begin{figure*}[tb]
 \centering
 \includegraphics[width=\textwidth]{figures/fig1_motivation.pdf}
-\caption{\textbf{Why a fixed-camera benchmark needs a spatial decomposition.} Three $60$\,s outputs from released checkpoints under the common matched setting. A whole-frame motion score rates the first two rows almost identically, yet only the first holds its scene in place; their static-region drift differs by over an order of magnitude. The third row shows the opposite failure, which that score \emph{does} detect. DD${}^{*}$ is the per-video quantity underlying VBench~\cite{huang2023vbench} Dynamic Degree, computed under its published rule but read before the binarization the suite applies when aggregating, so that near-identical rows remain distinguishable as numbers.}
+\caption{\textbf{Why a fixed-camera benchmark needs a spatial decomposition.} Three $60$\,s outputs from released checkpoints under the recorded common configuration. A whole-frame motion score rates the first two rows almost identically, yet only the first holds its scene in place; their static-region drift differs by over an order of magnitude. The third row shows the opposite failure, which that score \emph{does} detect. DD${}^{*}$ is the per-video quantity underlying VBench~\cite{huang2023vbench} Dynamic Degree, computed under its published rule but read before the binarization the suite applies when aggregating, so that near-identical rows remain distinguishable as numbers.}
 \label{fig:motivation}
 \end{figure*}
 %-------------------------------------------------------------------------------------

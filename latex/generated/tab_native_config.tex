@@ -6,15 +6,15 @@
 \toprule
 System & setting & resolution & fps & horizons \\
 \midrule
-CausVid & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
-Self-Forcing & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
-Infinite-Forcing & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
-Rolling-Forcing & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
-Reward-Forcing & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
-LongLive & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
-Causal-Forcing & matched & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+CausVid & common & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Self-Forcing & common & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Infinite-Forcing & common & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Rolling-Forcing & common & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Reward-Forcing & common & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+LongLive & common & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
+Causal-Forcing & common & 832$\times$480 & 16 & 5s, 60s, 120s, 240s \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{Recorded generation configuration (T2V).} Every audited system was run from its released checkpoint. Output formats are normalized at measurement time: NBF is expressed per second and per frame width, fBD as a percentage of the frame diagonal, and every sequence is resampled to a common flow-estimation rate. All rows use the common matched T2V setting: four steps, guidance $5.0$, six frames per block, and a fixed seed. These are checkpoint results under this wrapper, not reconstructions of the methods' released inference procedures.}
+\caption{\textbf{Recorded generation configuration (T2V).} Every audited system was run from its released checkpoint. Output formats are normalized at measurement time: NBF is expressed per second and per frame width, fBD as a percentage of the frame diagonal, and every sequence is resampled to a common flow-estimation rate. All rows use the recorded common T2V configuration: four scheduler-warped steps, six frames per block, and seed $0$. These are checkpoint results under this common configuration, not reconstructions of the methods' released inference procedures.}
 \label{tab:native_config}
 \end{table*}
