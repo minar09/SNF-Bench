@@ -116,6 +116,16 @@ records, but the existing scorer stores no ORB match counts; value presence
 must not be described as match reliability. See
 `manifest/spatial_score_diagnosis.json`.
 
+A held-out automatic shared-partition control now has 8/8 paired I2V-60s
+rescores across four media and two scored systems. It keeps each prompt's
+`self_forcing` early-flow partition fixed while rescoring the other outputs.
+The exact v1.1 comparison is in `manifest/shared_auto_control/i2v/60s/comparison.json`
+and the protocol and factor table are in `SHARED_AUTO_CONTROL.md`. The largest
+observed fBD shift is 19.65 to 10.04 for a windborne clip; NBF and FP also
+change. This is evidence of partition sensitivity, not mask validity: the
+shared masks are unreviewed and anchor-dependent. Reviewed masks and the full
+prompt/system panel remain M1 exit requirements.
+
 The remaining M1 work and M2-M4 still require rescoring, annotation,
 generation, or human collection and are not claimed complete. This order
 protects the study from tuning measures against the same seven systems and
