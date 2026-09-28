@@ -1,0 +1,36 @@
+{
+  "schema_version": "snf-v2-scene-contract-0.1",
+  "base_scene_target": 96,
+  "per_medium_target": 16,
+  "media": [
+    "river_stream",
+    "ocean_waves",
+    "precipitation",
+    "fire_smoke",
+    "lava_volcanic",
+    "windborne"
+  ],
+  "open_or_channel_water_media": ["river_stream", "ocean_waves"],
+  "max_open_or_channel_water_share": 0.35,
+  "required_prefixes_s": [60, 120, 240],
+  "tracks": ["t2v", "i2v"],
+  "splits": ["development", "validation", "test"],
+  "motion_regimes": [
+    "one_way_transport",
+    "incoming_or_source_sink",
+    "periodic",
+    "turbulent_or_eddy",
+    "mixed"
+  ],
+  "direction_statuses": ["applicable", "not_applicable"],
+  "variant_kinds": ["base", "counterfactual"],
+  "normalized_coordinate_range": [0.0, 1.0],
+  "release_rules": {
+    "one_base_variant_per_scene_id": true,
+    "counterfactuals_do_not_increase_base_scene_count": true,
+    "direction_applicable_requires_path_and_roi": true,
+    "incoming_applicable_requires_boundary_and_target_side": true,
+    "i2v_requires_source_image_and_crop_policy": true,
+    "model_visible_prompt_must_not_name_evaluation_or_model_failures": true
+  }
+}

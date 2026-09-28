@@ -1,0 +1,68 @@
+{
+  "audit_date": "2026-09-28",
+  "repository": {
+    "url": "https://github.com/Vchitect/VBench",
+    "commit": "fd18b3d055cb0fc6f066ca90fe2c3c8cbb698490"
+  },
+  "papers": [
+    {
+      "name": "VBench++",
+      "url": "https://arxiv.org/abs/2411.13503",
+      "role": "contains VBench-I2V and documents the VBench family"
+    },
+    {
+      "name": "VBench-2.0",
+      "url": "https://arxiv.org/abs/2503.21755",
+      "role": "intrinsic-faithfulness suite; distinct from VBench-Long"
+    }
+  ],
+  "code_files_reviewed": [
+    "vbench2_beta_long/README.md",
+    "vbench2_beta_long/__init__.py",
+    "vbench2_beta_long/eval_long.py",
+    "vbench2_beta_long/utils.py",
+    "vbench2_beta_long/background_consistency.py",
+    "vbench2_beta_long/subject_consistency.py",
+    "vbench2_beta_long/static_filter.py",
+    "vbench2_beta_long/configs/clip_length_mix.yaml",
+    "vbench2_beta_long/configs/slow_fast_params.yaml",
+    "vbench2_beta_i2v/README.md",
+    "vbench2_beta_i2v/README-FAQ.md",
+    "vbench2_beta_i2v/i2v_subject.py",
+    "vbench2_beta_i2v/i2v_background.py",
+    "vbench2_beta_i2v/camera_motion.py",
+    "VBench-2.0/README.md",
+    "VBench-2.0/vbench2/mechanics.py",
+    "VBench-2.0/vbench2/motion_rationality.py",
+    "VBench-2.0/vbench2/camera_motion.py"
+  ],
+  "verified_observations": {
+    "vbench_long": {
+      "scene_split": "optional PySceneDetect preprocessing",
+      "default_clip_seconds": 2,
+      "long_clip_seconds": 10,
+      "long_clip_dimensions": ["human_action", "temporal_style", "overall_consistency"],
+      "slow_fast_dimensions": ["subject_consistency", "background_consistency"],
+      "fast_branch": "first frame from each split clip",
+      "development_fusion_weights": {"within_clip": 0.5, "clip_to_clip": 0.5},
+      "other_dimensions": "short-clip scores reorganized and averaged"
+    },
+    "vbench_i2v": {
+      "samples_per_image_prompt": 5,
+      "common_aspect_ratios": ["1:1", "8:5", "7:4", "16:9"],
+      "subject_features": "DINO",
+      "background_features": "DreamSim",
+      "consistency_weights": {"max_source_similarity": 0.4, "mean_consecutive_similarity": 0.3, "min_consecutive_similarity": 0.3},
+      "camera_classes": ["pan_left", "pan_right", "tilt_up", "tilt_down", "zoom_in", "zoom_out", "static"]
+    },
+    "vbench_2_0": {
+      "top_level_dimensions": ["Human Fidelity", "Controllability", "Creativity", "Physics", "Commonsense"],
+      "physics_subdimensions_reviewed": ["mechanics", "thermotics", "material", "multi_view_consistency"],
+      "motion_rationality_method": "video multi-question answering",
+      "released_vlm_frame_cap": 64,
+      "sampling": "uniform when the cap is reached",
+      "camera_classes_added": ["orbit", "oblique"]
+    }
+  },
+  "coverage_limit": "The configured Exa deep-research account returned a credit-limit error for four planned literature workstreams. This audit therefore records only the supplied primary papers and official repository, not an exhaustive adjacent-benchmark survey."
+}

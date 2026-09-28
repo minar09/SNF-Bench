@@ -1,0 +1,102 @@
+{
+  "schema_version": "snf-v2-dimension-contract-0.1",
+  "status": "provisional_until_held_out_validation",
+  "task": {
+    "name": "fixed-camera continuous natural-process video",
+    "scene_policy": "one continuous scene with no intended camera motion",
+    "tracks": ["t2v", "i2v"],
+    "primary_unit": "independent scene_id",
+    "replicate_unit": "seed nested within scene_id and model_id",
+    "horizon_policy": "score matched prefixes from one rollout when the model permits; report separately generated requested durations as a separate experiment",
+    "window_policy": "fixed wall-clock duration shared across horizons"
+  },
+  "headline_candidates": [
+    {
+      "id": "support_stability",
+      "question": "Do rigid scene anchors remain fixed at adjacent and long temporal baselines?",
+      "signal": "support_error_px",
+      "polarity": "lower",
+      "applicability": "requires visible rigid support",
+      "required_controls": ["translation", "rotation", "zoom", "moving_material_with_fixed_support", "sparse_nighttime_support"]
+    },
+    {
+      "id": "flow_presence",
+      "question": "Does non-trivial motion persist in the intended region?",
+      "signal": "dynamic_speed_px_s",
+      "polarity": "bounded_target",
+      "applicability": "requires intended-motion region and observable texture",
+      "required_controls": ["freeze", "attenuation", "static_camera_with_natural_flow", "flow_estimator_failure"]
+    },
+    {
+      "id": "directional_transport",
+      "question": "Does apparent transport follow the annotated image-plane path?",
+      "signal": "signed_path_speed_px_s",
+      "polarity": "higher",
+      "applicability": "only direction-eligible one-way prompts",
+      "required_controls": ["foreground_only_reversal", "ping_pong", "natural_eddy", "periodic_wave"]
+    },
+    {
+      "id": "incoming_transport",
+      "question": "Does material cross the annotated boundary toward the intended target while support remains fixed?",
+      "signal": "incoming_flux_px_s",
+      "polarity": "higher",
+      "applicability": "only source/destination prompts with a visible crossing boundary",
+      "required_controls": ["incoming_flow", "outgoing_flow", "zoom", "texture_swelling_without_transport"],
+      "joint_gate": "support_stability"
+    },
+    {
+      "id": "non_recurrence",
+      "question": "Does the process avoid exact or near-exact long-lag replay?",
+      "signal": "long_lag_recurrence",
+      "polarity": "lower",
+      "applicability": "requires a medium-specific natural-periodicity calibration",
+      "required_controls": ["exact_loop", "recolored_loop", "natural_surf", "natural_flame", "natural_foliage"]
+    },
+    {
+      "id": "reset_continuity",
+      "question": "Does the rollout avoid reset seams or discontinuous state jumps?",
+      "signal": "reset_seam_score",
+      "polarity": "lower",
+      "applicability": "all continuous-scene prompts",
+      "required_controls": ["reset_seam", "photometric_change", "occlusion", "natural_abrupt_event"]
+    }
+  ],
+  "context_axes": [
+    {
+      "id": "medium_identity",
+      "primary_evidence": "blind human label with validated VLM triage",
+      "purpose": "prevent semantic substitution from being interpreted as good flow"
+    },
+    {
+      "id": "physical_plausibility",
+      "primary_evidence": "blind human pairwise judgment",
+      "purpose": "validate whether mechanistic differences matter perceptually"
+    }
+  ],
+  "mandatory_incumbents": [
+    "VBench background consistency",
+    "VBench motion smoothness",
+    "VBench temporal flickering",
+    "VBench dynamic degree",
+    "VBench-Long subject/background slow-fast consistency when applicable",
+    "VBench-I2V source-image subject/background consistency for I2V",
+    "VBench-I2V or VBench-2.0 static-camera classification for I2V",
+    "VBench-2.0 mechanics or motion-rationality subset where prompts overlap"
+  ],
+  "reporting": {
+    "aggregate_score": false,
+    "required_per_axis_fields": [
+      "applicability",
+      "coverage",
+      "early",
+      "late",
+      "robust_slope",
+      "worst_window",
+      "time_to_failure_after_calibration",
+      "abstention_reason"
+    ],
+    "required_strata": ["track", "inference_setting", "medium", "horizon", "seed", "direction_eligibility"],
+    "uncertainty_unit": "scene_id",
+    "threshold_policy": "freeze on development scenes and real-video anchors; evaluate on held-out scenes and models"
+  }
+}

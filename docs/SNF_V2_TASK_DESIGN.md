@@ -37,9 +37,21 @@ and a prompt/physics-oriented comparator such as VideoPhy-2 on a suitable
 subset. No assertion that these benchmarks are blind to SNF's task is allowed.
 The contribution to test is *task-specific resolution and interpretation*.
 
+VBench-family comparison is versioned in
+`VBENCH_EXTENSION_GAP_ANALYSIS.md` and
+`manifest/vbench_extension_audit.json`. In particular, VBench-Long is a
+required long-range incumbent, VBench-I2V source consistency and static-camera
+classification are required on I2V, and the overlapping VBench-2.0 mechanics
+or motion-rationality prompts are contextual physics incumbents. SNF's distinct
+object is the time-resolved, spatially localized transport process.
+Operational comparator settings and required provenance are pinned in
+`configs/vbench_incumbent_protocol.json`.
+
 Primary sources:
 
 - VBench: https://openaccess.thecvf.com/content/CVPR2024/papers/Huang_VBench_Comprehensive_Benchmark_Suite_for_Video_Generative_Models_CVPR_2024_paper.pdf
+- VBench++ (including I2V and VBench-Long): https://arxiv.org/abs/2411.13503
+- VBench-2.0 intrinsic faithfulness: https://arxiv.org/abs/2503.21755
 - VMBench: https://openaccess.thecvf.com/content/ICCV2025/html/Ling_VMBench_A_Benchmark_for_Perception-Aligned_Video_Motion_Generation_ICCV_2025_paper.html
 - VideoPhy: https://research.google/pubs/videophy-evaluating-physical-commonsense-for-video-generation/
 - T2V-CompBench (motion binding and human validation): https://openaccess.thecvf.com/content/CVPR2025/html/Sun_T2V-CompBench_A_Comprehensive_Benchmark_for_Compositional_Text-to-video_Generation_CVPR_2025_paper.html
@@ -52,6 +64,11 @@ scenes** (initial allocation: 16 per existing medium category). Directional
 counterfactuals are variants of a base scene, not independent prompts. Water
 share and every cell size are checked by script, not asserted in prose. The
 number is a planning target; freeze it only after a prompt-level power pilot.
+
+The authoring record and release allocation are machine checked by
+`configs/snf_v2_scene_contract.json` and
+`scripts/validate_v2_scene_manifest.py`. Counterfactual variants never increase
+the independent-scene count.
 
 Every prompt has a stable `scene_id`, `variant_id`, track, medium, duration
 policy, visual scene text, rigid support description, moving material, motion
@@ -88,11 +105,15 @@ natural wave cycles or local eddies with a one-way-transport rule.
 | Incoming flow | Source-to-near-boundary crossings plus foreground expansion/occlusion, with rigid anchors fixed | Zoom, swelling texture without transport, wrong-way flow |
 | Reversal | Net signed path transport divided by absolute path transport in fixed-duration windows | Ping-pong motion; legitimate wave and eddy controls |
 | Replay | Long-lag dynamic-region appearance and flow recurrence, plus seam evidence, calibrated per medium against real footage | Exact short loop, repeated-but-recolored loop, natural surf periodicity |
+| Failure trajectory | Fixed-second window curve, robust slope, worst window, first calibrated failure and longest failing run | Same mean with one catastrophic late interval versus distributed mild error |
 | Semantic/plausibility audit | Medium identity and blind human ratings; VLM can triage after independent validation | Moving fog scored as a river; visually realistic wrong-direction clip |
 
 These diagnostics must be shown separately. A high optical-flow magnitude or a
 high persistence ratio is not evidence of physical correctness. A scalar may
 be promoted only if it has held-out validity and a clear failure interpretation.
+The executable trajectory contract is `scripts/long_horizon_protocol.py`; its
+axis registry is `configs/snf_v2_dimension_contract.json`. It intentionally
+does not emit a combined benchmark score.
 
 ## 4. Validation and decision rules
 
@@ -140,6 +161,12 @@ and human review. Compare sampled and full scoring on a stratified subset;
 report missed failures, rank changes, GPU time, and storage. Window duration
 must be fixed in seconds across horizon tiers; the current 12%-of-clip window
 changes the measured time scale.
+
+Store the full per-window trajectory even when the headline table shows only a
+summary. At minimum report early, late, robust slope, worst interval, coverage,
+and abstention. Add time-to-failure only after thresholds are frozen on
+development scenes and licensed real-video anchors. Incoming-flow results are
+descriptive until a support-stability gate has been calibrated.
 
 Keep T2V/I2V, released/common inference, medium, horizon, seed, and
 direction-eligible/unscorable strata visible in results. Publish per-video

@@ -13,6 +13,10 @@ pilot plan. Audit all model-visible prompt text for evaluator instructions and
 contradictions. Mark the existing horizon sets as unmatched. This repository's
 `scripts/audit_prompt_design.py` is the first implementation step.
 
+New structured assets use `configs/snf_v2_scene_contract.json` and
+`scripts/validate_v2_scene_manifest.py`; `--strict-release` enforces the
+96-scene, 16-per-medium allocation and matched prefixes.
+
 **Exit:** the audit runs reproducibly, reports counts and leakage candidates,
 and fails the release gate for model-visible benchmark instructions. Human
 review still decides whether a flagged prompt is truly defective.
@@ -37,6 +41,15 @@ Construct foreground-only reversal, zoom-vs-incoming, ping-pong, exact-loop,
 reset-seam, photometric, and natural-periodic controls. Add per-probe
 `unscorable` reasons. Run cheap probes on existing videos before dense GPU
 rescores.
+
+Use `configs/snf_v2_dimension_contract.json` as the machine-readable axis
+registry and emit estimator traces through `scripts/long_horizon_protocol.py`.
+Pin every VBench-family run to `configs/vbench_incumbent_protocol.json`.
+The protocol uses fixed-second windows and returns per-axis coverage, early and
+late values, robust slope, worst window, and optional calibrated failure time.
+It produces no combined score. Run official VBench-Long on the same inputs and
+retain its per-clip records rather than comparing only final means. Full source
+and code findings are in `VBENCH_EXTENSION_GAP_ANALYSIS.md`.
 
 **Exit:** held-out corruption detection, real-footage false positives,
 abstention, mask/backbone sensitivity, and runtime are reported. A probe that
@@ -74,6 +87,15 @@ contain model-visible evaluator instructions, including all four canonical
 240-second prompts. See
 `manifest/prompt_design_audit.json` for line-level findings. The audit flags
 possible contradictions for human review rather than deleting prompts.
+
+The VBench-extension audit and the estimator-independent long-horizon
+trajectory layer are now implemented. The audit pins official VBench commit
+`fd18b3d`, distinguishes VBench++/I2V/Long from VBench-2.0, and records the
+reviewed files in `manifest/vbench_extension_audit.json`. This completes the
+protocol implementation portion of M2, not the probe-estimator or validation
+portion: current videos do not yet have signed path, boundary-flux,
+long-lag-recurrence, or reset-seam traces in the new format, and no failure
+threshold has been calibrated.
 
 An M1 read-only control is complete: `scripts/paired_incumbent_resolution.py`
 compares the seven public T2V systems on their 23 shared 60-second prompts,

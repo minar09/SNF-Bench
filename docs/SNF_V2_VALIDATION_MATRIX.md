@@ -31,6 +31,10 @@ severity, paired effect size, uncertainty, and failure/abstention count.
 | Moving fog substituted for river or rain | Penalty: wrong medium | Some spatial/flow metrics may pass | Semantic medium check fails; plausibility judged separately | Prompt-alignment comparator should detect the mismatch |
 | Brightness/color ramp without geometry change | Nuisance, not a motion failure | Geometric/flow factors ideally ≈, but estimator sensitivity is measured | Transport/replay ideally ≈ | BC may move; report operating limit |
 | Mask erosion, dilation, label swap; video unchanged | Nuisance to the evaluator | Report score/rank sensitivity, particularly NBF/DAR | Report coverage and abstention changes | Incumbents without masks are a useful control |
+| Inward versus outward boundary crossing with matched magnitude | Correct versus wrong source/destination behavior | Magnitude factors may remain ≈ | Incoming flux changes sign | Whole-frame motion can remain matched |
+| Texture swelling without a boundary crossing | Local appearance confound for incoming flow | Support should remain ≈ | Boundary flux should remain near zero | Source-image/background similarity may change |
+| Recolored exact loop | Replay with weakened pixel identity | Persistence/magnitude may remain ≈ | Feature/flow recurrence should still respond; pixel-only recurrence may fail | Tests representation dependence |
+| One catastrophic late interval versus mild distributed errors, matched mean | Same mean, different long-horizon reliability | Final mean deliberately matched | Worst window and time-to-failure separate cases | VBench-Long aggregate is the direct comparator |
 
 ## Admission and reporting
 

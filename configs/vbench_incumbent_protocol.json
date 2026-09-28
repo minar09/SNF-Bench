@@ -1,0 +1,86 @@
+{
+  "schema_version": "snf-vbench-incumbent-0.1",
+  "official_repository": "https://github.com/Vchitect/VBench",
+  "official_revision": "fd18b3d055cb0fc6f066ca90fe2c3c8cbb698490",
+  "input_policy": {
+    "same_video_bytes_across_snf_and_incumbents": true,
+    "continuous_scene_precheck": "reject or separately report any detected scene cut; do not use scene splitting to hide a generation reset",
+    "preserve_native_aspect_ratio": true,
+    "store_native_fps_resolution_duration_and_sha256": true
+  },
+  "vbench_short": {
+    "role": "generic short-range incumbent panel",
+    "dimensions": [
+      "background_consistency",
+      "subject_consistency",
+      "temporal_flickering",
+      "motion_smoothness",
+      "dynamic_degree",
+      "aesthetic_quality",
+      "imaging_quality"
+    ],
+    "store_per_video_results": true
+  },
+  "vbench_long": {
+    "role": "direct long-range aggregation incumbent",
+    "mode": "long_custom_input",
+    "dev_flag": true,
+    "use_semantic_splitting": false,
+    "clip_length_config": "clip_length_mix.yaml",
+    "subject_clip_to_clip_features": "dinov2",
+    "background_clip_to_clip_features": "dreamsim",
+    "slow_fast_weights": {
+      "within_clip": 0.5,
+      "clip_to_clip": 0.5
+    },
+    "dimensions": [
+      "subject_consistency",
+      "background_consistency",
+      "temporal_flickering",
+      "motion_smoothness",
+      "dynamic_degree",
+      "aesthetic_quality",
+      "imaging_quality"
+    ],
+    "temporal_flickering_static_filter": {
+      "primary": true,
+      "required_sensitivity_run_without_filter": true
+    },
+    "store_split_clip_and_fused_per_video_results": true
+  },
+  "vbench_i2v": {
+    "role": "source-retention and fixed-camera incumbents",
+    "dimensions": ["i2v_subject", "i2v_background", "camera_motion"],
+    "camera_motion_target": "static",
+    "samples_per_image_prompt": 5,
+    "seed_policy": "random, not cherry-picked, and recorded per sample",
+    "source_image_policy": "use the same reviewed source crop and aspect-ratio transform for every model in a comparison",
+    "store_per_video_results": true
+  },
+  "vbench_2_0": {
+    "role": "contextual intrinsic-faithfulness incumbent",
+    "dimensions": ["mechanics", "motion_rationality", "camera_motion"],
+    "scope": "score only predeclared overlapping prompts; do not extrapolate the result to untested continuous-flow behavior",
+    "store_questions_auxiliary_info_frame_sampling_and_per_video_binary_results": true
+  },
+  "comparison_policy": {
+    "join_unit": ["scene_id", "model_id", "seed", "track", "inference_setting"],
+    "report_official_scores_and_snf_axes_separately": true,
+    "compare_mean_and_trajectory_summaries": true,
+    "retain_failed_and_abstained_inputs": true,
+    "threshold_tuning_on_evaluation_models": false
+  },
+  "required_provenance": [
+    "repository_revision",
+    "dimension",
+    "checkpoint_identifier_and_hash",
+    "command_and_arguments",
+    "input_video_sha256",
+    "input_fps_resolution_duration",
+    "split_clip_boundaries",
+    "frame_sampling",
+    "raw_per_video_output",
+    "runtime_and_peak_memory",
+    "failure_or_abstention_reason"
+  ]
+}
