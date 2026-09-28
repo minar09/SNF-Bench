@@ -1,0 +1,1047 @@
+{
+  "schema_version": 1,
+  "status": "exploratory_not_release_admitted",
+  "probe_version": "snf-flow-endpoint-probes-0.1",
+  "trajectory_protocol_version": "snf-long-trajectory-0.2",
+  "selection": {
+    "track": "i2v",
+    "duration": "60s",
+    "models": [
+      "chunk6",
+      "f2s_framewise"
+    ],
+    "scenes": 4,
+    "paired_records": 8,
+    "basis": "frozen four-scene held-out automatic shared-partition control subset"
+  },
+  "public_cache_audit": {
+    "public_cache_files": 336,
+    "coverage": [
+      {
+        "track": "i2v",
+        "model_id": "causvid",
+        "duration": "240s",
+        "files": 5
+      },
+      {
+        "track": "i2v",
+        "model_id": "causvid",
+        "duration": "5s",
+        "files": 10
+      },
+      {
+        "track": "i2v",
+        "model_id": "causvid",
+        "duration": "60s",
+        "files": 1
+      },
+      {
+        "track": "i2v",
+        "model_id": "cf++_1step",
+        "duration": "120s",
+        "files": 20
+      },
+      {
+        "track": "i2v",
+        "model_id": "cf++_1step",
+        "duration": "5s",
+        "files": 10
+      },
+      {
+        "track": "i2v",
+        "model_id": "cf_framewise",
+        "duration": "240s",
+        "files": 5
+      },
+      {
+        "track": "i2v",
+        "model_id": "cf_framewise",
+        "duration": "5s",
+        "files": 10
+      },
+      {
+        "track": "i2v",
+        "model_id": "chunk6",
+        "duration": "120s",
+        "files": 20
+      },
+      {
+        "track": "i2v",
+        "model_id": "chunk6",
+        "duration": "240s",
+        "files": 5
+      },
+      {
+        "track": "i2v",
+        "model_id": "chunk6",
+        "duration": "5s",
+        "files": 10
+      },
+      {
+        "track": "i2v",
+        "model_id": "chunk6",
+        "duration": "60s",
+        "files": 30
+      },
+      {
+        "track": "i2v",
+        "model_id": "f1s_framewise",
+        "duration": "120s",
+        "files": 20
+      },
+      {
+        "track": "i2v",
+        "model_id": "f1s_framewise",
+        "duration": "60s",
+        "files": 30
+      },
+      {
+        "track": "i2v",
+        "model_id": "f2s_framewise",
+        "duration": "120s",
+        "files": 20
+      },
+      {
+        "track": "i2v",
+        "model_id": "f2s_framewise",
+        "duration": "240s",
+        "files": 5
+      },
+      {
+        "track": "i2v",
+        "model_id": "f2s_framewise",
+        "duration": "5s",
+        "files": 10
+      },
+      {
+        "track": "i2v",
+        "model_id": "f2s_framewise",
+        "duration": "60s",
+        "files": 30
+      },
+      {
+        "track": "i2v",
+        "model_id": "ltx_i2v",
+        "duration": "5s",
+        "files": 10
+      },
+      {
+        "track": "i2v",
+        "model_id": "self_forcing",
+        "duration": "120s",
+        "files": 20
+      },
+      {
+        "track": "i2v",
+        "model_id": "self_forcing",
+        "duration": "240s",
+        "files": 5
+      },
+      {
+        "track": "i2v",
+        "model_id": "self_forcing",
+        "duration": "5s",
+        "files": 10
+      },
+      {
+        "track": "i2v",
+        "model_id": "self_forcing",
+        "duration": "60s",
+        "files": 30
+      },
+      {
+        "track": "i2v",
+        "model_id": "wan21_i2v",
+        "duration": "5s",
+        "files": 10
+      },
+      {
+        "track": "i2v",
+        "model_id": "wan22_i2v",
+        "duration": "5s",
+        "files": 10
+      }
+    ],
+    "limitations": [
+      "cache contains early and late windows only",
+      "public T2V systems have no persisted flow fields",
+      "cached role masks are automatic and model-specific",
+      "no screen-space path annotation is inferred from prompt text"
+    ]
+  },
+  "comparison_contract": {
+    "v1_1": "frozen clip-level early/late factors using each clip's automatic partition",
+    "m2_endpoint": "timestamped five-second early/late windows from the same cached RAFT correspondences",
+    "direct_replacement_delta": false,
+    "reason": "units, robust summaries, and temporal aggregation differ"
+  },
+  "limitations": [
+    "automatic model-specific partitions are unreviewed",
+    "only first and last complete five-second windows are observed",
+    "the middle 76 percent of a nominal 60-second clip is absent from this cache",
+    "direction, boundary flux, recurrence, and reset continuity abstain",
+    "four scenes and two public systems are a code-path pilot, not a model comparison",
+    "no threshold was calibrated"
+  ],
+  "aggregates": [
+    {
+      "model_id": "chunk6",
+      "n_clips": 4,
+      "v1_1_subset_medians": {
+        "fBD": 14.676093558175754,
+        "BFR": 0.6242864185716501,
+        "FP": 1.0786497577810472,
+        "MCFF_early": 0.27205318993513,
+        "MCFF_late": 0.30805576452168454,
+        "DD_raw_late": 0.4109645889451107,
+        "drift_frac_late": 0.6644491955930261,
+        "DAR_signed": 0.25347628133416006
+      },
+      "m2_endpoint_subset_medians": {
+        "support_early_p95_px": 0.7555382236838337,
+        "support_late_p95_px": 0.38359495550394046,
+        "dynamic_early_median_px_s": 2.501191109418869,
+        "dynamic_late_median_px_s": 1.1312576830387115
+      }
+    },
+    {
+      "model_id": "f2s_framewise",
+      "n_clips": 4,
+      "v1_1_subset_medians": {
+        "fBD": 10.076596569887752,
+        "BFR": 0.8905735455352252,
+        "FP": 0.9928329764693617,
+        "MCFF_early": 0.45875808041085275,
+        "MCFF_late": 0.22991476590304,
+        "DD_raw_late": 0.2805623802960965,
+        "drift_frac_late": 1.6436701228206014,
+        "DAR_signed": 0.1176475249236078
+      },
+      "m2_endpoint_subset_medians": {
+        "support_early_p95_px": 0.6560506775975227,
+        "support_late_p95_px": 0.35460171326994894,
+        "dynamic_early_median_px_s": 4.974849820137024,
+        "dynamic_late_median_px_s": 1.1446821987628937
+      }
+    }
+  ],
+  "records": [
+    {
+      "model_id": "chunk6",
+      "video": "A completely fixed, static, macro tripod-mounted camera records heavy urban rainfall from an extreme.mp4",
+      "scene_id": "A completely fixed, static, macro tripod-mounted camera records heavy urban rainfall from an extreme",
+      "medium": "precipitation",
+      "cache_audit": {
+        "cache_format": "snf-v1.1-early-late-sampled-flow",
+        "sampled_video_frames": 481,
+        "cached_window_transitions": 57,
+        "frame_width": 499,
+        "frame_height": 288,
+        "effective_fps": 8.0,
+        "available_transition_count": 114,
+        "scored_transition_count": 114,
+        "full_clip_transition_count": 480,
+        "temporal_coverage": 0.2375,
+        "missing_middle": 366,
+        "fit_failures": {}
+      },
+      "v1_1_frozen": {
+        "fBD": 26.188732458795943,
+        "BFR": 0.3165536750799808,
+        "FP": 0.44718660063256044,
+        "MCFF_early": 0.23095058760883516,
+        "MCFF_late": 0.10327845537348797,
+        "DD_raw_late": 0.14279383303303467,
+        "drift_frac_late": 1.2533062211631671,
+        "DAR_signed": 0.27673534693237
+      },
+      "m2_endpoint": {
+        "support_stability": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 0.28630988597869866,
+            "late": 0.25165885984897607,
+            "late_minus_early": -0.034651026129722595,
+            "theil_sen_slope_per_s": -0.0006300186569040472,
+            "worst_value": 0.28630988597869866,
+            "worst_window_mid_s": 2.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 0.11630018427968025,
+              "p95": 0.28630988597869866
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 0.13539931923151016,
+              "p95": 0.25165885984897607
+            }
+          ]
+        },
+        "flow_presence": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 1.2731707692146301,
+            "late": 0.7426900267601013,
+            "late_minus_early": -0.5304807424545288,
+            "theil_sen_slope_per_s": -0.00964510440826416,
+            "worst_value": 0.7426900267601013,
+            "worst_window_mid_s": 57.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 1.2731707692146301,
+              "p95": 3.6622658014297467
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 0.7426900267601013,
+              "p95": 1.6682391047477718
+            }
+          ]
+        },
+        "abstentions": {
+          "directional_transport": "missing_reviewed_path",
+          "incoming_transport": "missing_reviewed_boundary",
+          "non_recurrence": "appearance_frames_not_cached",
+          "reset_continuity": "appearance_frames_not_cached"
+        }
+      }
+    },
+    {
+      "model_id": "chunk6",
+      "video": "A completely fixed, static, tripod-mounted camera records a burning forest campfire at night from a .mp4",
+      "scene_id": "A completely fixed, static, tripod-mounted camera records a burning forest campfire at night from a ",
+      "medium": "fire_smoke",
+      "cache_audit": {
+        "cache_format": "snf-v1.1-early-late-sampled-flow",
+        "sampled_video_frames": 481,
+        "cached_window_transitions": 57,
+        "frame_width": 499,
+        "frame_height": 288,
+        "effective_fps": 8.0,
+        "available_transition_count": 114,
+        "scored_transition_count": 114,
+        "full_clip_transition_count": 480,
+        "temporal_coverage": 0.2375,
+        "missing_middle": 366,
+        "fit_failures": {}
+      },
+      "v1_1_frozen": {
+        "fBD": 0.5507155765334204,
+        "BFR": 0.41763080167661887,
+        "FP": 0.621622974739846,
+        "MCFF_early": 0.20942910629929157,
+        "MCFF_late": 0.13018656567784778,
+        "DD_raw_late": 0.19068072246093498,
+        "drift_frac_late": 0.7932221417485625,
+        "DAR_signed": 0.3172572389337466
+      },
+      "m2_endpoint": {
+        "support_stability": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 0.6152675479650496,
+            "late": 0.24158794283866875,
+            "late_minus_early": -0.3736796051263808,
+            "theil_sen_slope_per_s": -0.006794174638661469,
+            "worst_value": 0.6152675479650496,
+            "worst_window_mid_s": 2.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 0.23202332854270935,
+              "p95": 0.6152675479650496
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 0.1002155989408493,
+              "p95": 0.24158794283866875
+            }
+          ]
+        },
+        "flow_presence": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 2.0893312096595764,
+            "late": 0.8223804831504822,
+            "late_minus_early": -1.2669507265090942,
+            "theil_sen_slope_per_s": -0.023035467754710805,
+            "worst_value": 0.8223804831504822,
+            "worst_window_mid_s": 57.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 2.0893312096595764,
+              "p95": 4.851288652420043
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 0.8223804831504822,
+              "p95": 1.5433092832565307
+            }
+          ]
+        },
+        "abstentions": {
+          "directional_transport": "missing_reviewed_path",
+          "incoming_transport": "missing_reviewed_boundary",
+          "non_recurrence": "appearance_frames_not_cached",
+          "reset_continuity": "appearance_frames_not_cached"
+        }
+      }
+    },
+    {
+      "model_id": "chunk6",
+      "video": "A completely fixed, static, tripod-mounted camera records a calm winter river from a slightly elevat.mp4",
+      "scene_id": "A completely fixed, static, tripod-mounted camera records a calm winter river from a slightly elevat",
+      "medium": "river_stream",
+      "cache_audit": {
+        "cache_format": "snf-v1.1-early-late-sampled-flow",
+        "sampled_video_frames": 481,
+        "cached_window_transitions": 57,
+        "frame_width": 499,
+        "frame_height": 288,
+        "effective_fps": 8.0,
+        "available_transition_count": 114,
+        "scored_transition_count": 114,
+        "full_clip_transition_count": 480,
+        "temporal_coverage": 0.2375,
+        "missing_middle": 366,
+        "fit_failures": {}
+      },
+      "v1_1_frozen": {
+        "fBD": 9.70717562405506,
+        "BFR": 1.038880430226654,
+        "FP": 1.5356765408222484,
+        "MCFF_early": 0.5329234236687944,
+        "MCFF_late": 0.8183995354593846,
+        "DD_raw_late": 1.0526805859908723,
+        "drift_frac_late": 0.47950717568707135,
+        "DAR_signed": 0.2225573750403943
+      },
+      "m2_endpoint": {
+        "support_stability": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 2.1044942975044205,
+            "late": 0.76813605427742,
+            "late_minus_early": -1.3363582432270005,
+            "theil_sen_slope_per_s": -0.024297422604127282,
+            "worst_value": 2.1044942975044205,
+            "worst_window_mid_s": 2.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 0.4098533093929291,
+              "p95": 2.1044942975044205
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 0.34812551736831665,
+              "p95": 0.76813605427742
+            }
+          ]
+        },
+        "flow_presence": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 2.9130510091781616,
+            "late": 3.899928331375122,
+            "late_minus_early": 0.9868773221969604,
+            "theil_sen_slope_per_s": 0.017943224039944736,
+            "worst_value": 2.9130510091781616,
+            "worst_window_mid_s": 2.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 2.9130510091781616,
+              "p95": 9.857464933395363
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 3.899928331375122,
+              "p95": 7.957487010955811
+            }
+          ]
+        },
+        "abstentions": {
+          "directional_transport": "missing_reviewed_path",
+          "incoming_transport": "missing_reviewed_boundary",
+          "non_recurrence": "appearance_frames_not_cached",
+          "reset_continuity": "appearance_frames_not_cached"
+        }
+      }
+    },
+    {
+      "model_id": "chunk6",
+      "video": "A completely fixed, static, tripod-mounted camera records a desert dust storm sweeping across a flat.mp4",
+      "scene_id": "A completely fixed, static, tripod-mounted camera records a desert dust storm sweeping across a flat",
+      "medium": "windborne",
+      "cache_audit": {
+        "cache_format": "snf-v1.1-early-late-sampled-flow",
+        "sampled_video_frames": 481,
+        "cached_window_transitions": 57,
+        "frame_width": 499,
+        "frame_height": 288,
+        "effective_fps": 8.0,
+        "available_transition_count": 114,
+        "scored_transition_count": 114,
+        "full_clip_transition_count": 480,
+        "temporal_coverage": 0.2375,
+        "missing_middle": 366,
+        "fit_failures": {}
+      },
+      "v1_1_frozen": {
+        "fBD": 19.645011492296447,
+        "BFR": 0.8309420354666814,
+        "FP": 1.5516986230969847,
+        "MCFF_early": 0.3131557922614248,
+        "MCFF_late": 0.4859249633655213,
+        "DD_raw_late": 0.6312484554292863,
+        "drift_frac_late": 0.5356762494374895,
+        "DAR_signed": 0.2302172157359501
+      },
+      "m2_endpoint": {
+        "support_stability": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 0.8958088994026178,
+            "late": 0.5155310511589049,
+            "late_minus_early": -0.3802778482437129,
+            "theil_sen_slope_per_s": -0.006914142695340235,
+            "worst_value": 0.8958088994026178,
+            "worst_window_mid_s": 2.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 0.4052003473043442,
+              "p95": 0.8958088994026178
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 0.24044225364923477,
+              "p95": 0.5155310511589049
+            }
+          ]
+        },
+        "flow_presence": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 9.40792465209961,
+            "late": 1.440134882926941,
+            "late_minus_early": -7.9677897691726685,
+            "theil_sen_slope_per_s": -0.14486890489404852,
+            "worst_value": 1.440134882926941,
+            "worst_window_mid_s": 57.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 9.40792465209961,
+              "p95": 56.88306083679199
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 1.440134882926941,
+              "p95": 18.34597644805897
+            }
+          ]
+        },
+        "abstentions": {
+          "directional_transport": "missing_reviewed_path",
+          "incoming_transport": "missing_reviewed_boundary",
+          "non_recurrence": "appearance_frames_not_cached",
+          "reset_continuity": "appearance_frames_not_cached"
+        }
+      }
+    },
+    {
+      "model_id": "f2s_framewise",
+      "video": "A completely fixed, static, macro tripod-mounted camera records heavy urban rainfall from an extreme.mp4",
+      "scene_id": "A completely fixed, static, macro tripod-mounted camera records heavy urban rainfall from an extreme",
+      "medium": "precipitation",
+      "cache_audit": {
+        "cache_format": "snf-v1.1-early-late-sampled-flow",
+        "sampled_video_frames": 479,
+        "cached_window_transitions": 57,
+        "frame_width": 499,
+        "frame_height": 288,
+        "effective_fps": 8.0,
+        "available_transition_count": 114,
+        "scored_transition_count": 114,
+        "full_clip_transition_count": 478,
+        "temporal_coverage": 0.2384937238493724,
+        "missing_middle": 364,
+        "fit_failures": {}
+      },
+      "v1_1_frozen": {
+        "fBD": 13.00611554872976,
+        "BFR": 0.44613713337586614,
+        "FP": 0.5536054566742952,
+        "MCFF_early": 0.23805867436162212,
+        "MCFF_late": 0.1317911347406998,
+        "DD_raw_late": 0.21402011001319216,
+        "drift_frac_late": 0.8242176814364831,
+        "DAR_signed": 0.38421432010806655
+      },
+      "m2_endpoint": {
+        "support_stability": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 0.2426171824336048,
+            "late": 0.26452294141054145,
+            "late_minus_early": 0.02190575897693664,
+            "theil_sen_slope_per_s": 0.00039828652685339346,
+            "worst_value": 0.26452294141054145,
+            "worst_window_mid_s": 57.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 0.15349475294351578,
+              "p95": 0.2426171824336048
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 38,
+              "observed_span_fraction": 0.925,
+              "median": 0.15745334327220917,
+              "p95": 0.26452294141054145
+            }
+          ]
+        },
+        "flow_presence": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 2.5203431844711304,
+            "late": 0.7386515140533447,
+            "late_minus_early": -1.7816916704177856,
+            "theil_sen_slope_per_s": -0.032394394007596104,
+            "worst_value": 0.7386515140533447,
+            "worst_window_mid_s": 57.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 2.5203431844711304,
+              "p95": 5.931090211868276
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 38,
+              "observed_span_fraction": 0.925,
+              "median": 0.7386515140533447,
+              "p95": 1.3304626822471617
+            }
+          ]
+        },
+        "abstentions": {
+          "directional_transport": "missing_reviewed_path",
+          "incoming_transport": "missing_reviewed_boundary",
+          "non_recurrence": "appearance_frames_not_cached",
+          "reset_continuity": "appearance_frames_not_cached"
+        }
+      }
+    },
+    {
+      "model_id": "f2s_framewise",
+      "video": "A completely fixed, static, tripod-mounted camera records a burning forest campfire at night from a .mp4",
+      "scene_id": "A completely fixed, static, tripod-mounted camera records a burning forest campfire at night from a ",
+      "medium": "fire_smoke",
+      "cache_audit": {
+        "cache_format": "snf-v1.1-early-late-sampled-flow",
+        "sampled_video_frames": 479,
+        "cached_window_transitions": 57,
+        "frame_width": 499,
+        "frame_height": 288,
+        "effective_fps": 8.0,
+        "available_transition_count": 114,
+        "scored_transition_count": 114,
+        "full_clip_transition_count": 478,
+        "temporal_coverage": 0.2384937238493724,
+        "missing_middle": 364,
+        "fit_failures": {}
+      },
+      "v1_1_frozen": {
+        "fBD": 7.147077591045742,
+        "BFR": 1.3350099576945842,
+        "FP": 0.3407131402956649,
+        "MCFF_early": 0.8176536162694296,
+        "MCFF_late": 0.2785856719864042,
+        "DD_raw_late": 0.34710465057900075,
+        "drift_frac_late": 2.4631225642047196,
+        "DAR_signed": 0.1974038120044994
+      },
+      "m2_endpoint": {
+        "support_stability": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 0.7209568858146667,
+            "late": 0.4446804851293564,
+            "late_minus_early": -0.2762764006853103,
+            "theil_sen_slope_per_s": -0.00502320728518746,
+            "worst_value": 0.7209568858146667,
+            "worst_window_mid_s": 2.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 0.48094642162323,
+              "p95": 0.7209568858146667
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 38,
+              "observed_span_fraction": 0.925,
+              "median": 0.31037384271621704,
+              "p95": 0.4446804851293564
+            }
+          ]
+        },
+        "flow_presence": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 8.00351858139038,
+            "late": 1.485897183418274,
+            "late_minus_early": -6.517621397972107,
+            "theil_sen_slope_per_s": -0.11850220723585649,
+            "worst_value": 1.485897183418274,
+            "worst_window_mid_s": 57.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 8.00351858139038,
+              "p95": 16.40663785934448
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 38,
+              "observed_span_fraction": 0.925,
+              "median": 1.485897183418274,
+              "p95": 2.8024097204208376
+            }
+          ]
+        },
+        "abstentions": {
+          "directional_transport": "missing_reviewed_path",
+          "incoming_transport": "missing_reviewed_boundary",
+          "non_recurrence": "appearance_frames_not_cached",
+          "reset_continuity": "appearance_frames_not_cached"
+        }
+      }
+    },
+    {
+      "model_id": "f2s_framewise",
+      "video": "A completely fixed, static, tripod-mounted camera records a calm winter river from a slightly elevat.mp4",
+      "scene_id": "A completely fixed, static, tripod-mounted camera records a calm winter river from a slightly elevat",
+      "medium": "river_stream",
+      "cache_audit": {
+        "cache_format": "snf-v1.1-early-late-sampled-flow",
+        "sampled_video_frames": 479,
+        "cached_window_transitions": 57,
+        "frame_width": 499,
+        "frame_height": 288,
+        "effective_fps": 8.0,
+        "available_transition_count": 114,
+        "scored_transition_count": 114,
+        "full_clip_transition_count": 478,
+        "temporal_coverage": 0.2384937238493724,
+        "missing_middle": 364,
+        "fit_failures": {}
+      },
+      "v1_1_frozen": {
+        "fBD": 0.703009088169017,
+        "BFR": 0.3778156347077956,
+        "FP": 1.4320604962644283,
+        "MCFF_early": 0.12656059449440554,
+        "MCFF_late": 0.18124385981967575,
+        "DD_raw_late": 0.18838088253611013,
+        "drift_frac_late": 2.5130667593325793,
+        "DAR_signed": 0.0378912378427162
+      },
+      "m2_endpoint": {
+        "support_stability": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 1.6884606122970574,
+            "late": 0.21826779693365095,
+            "late_minus_early": -1.4701928153634065,
+            "theil_sen_slope_per_s": -0.026730778461152845,
+            "worst_value": 1.6884606122970574,
+            "worst_window_mid_s": 2.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 0.683976024389267,
+              "p95": 1.6884606122970574
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 38,
+              "observed_span_fraction": 0.925,
+              "median": 0.1012568511068821,
+              "p95": 0.21826779693365095
+            }
+          ]
+        },
+        "flow_presence": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 5.102006196975708,
+            "late": 1.0723065733909607,
+            "late_minus_early": -4.029699623584747,
+            "theil_sen_slope_per_s": -0.07326726588335904,
+            "worst_value": 1.0723065733909607,
+            "worst_window_mid_s": 57.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 5.102006196975708,
+              "p95": 18.29192810058593
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 38,
+              "observed_span_fraction": 0.925,
+              "median": 1.0723065733909607,
+              "p95": 2.107306456565856
+            }
+          ]
+        },
+        "abstentions": {
+          "directional_transport": "missing_reviewed_path",
+          "incoming_transport": "missing_reviewed_boundary",
+          "non_recurrence": "appearance_frames_not_cached",
+          "reset_continuity": "appearance_frames_not_cached"
+        }
+      }
+    },
+    {
+      "model_id": "f2s_framewise",
+      "video": "A completely fixed, static, tripod-mounted camera records a desert dust storm sweeping across a flat.mp4",
+      "scene_id": "A completely fixed, static, tripod-mounted camera records a desert dust storm sweeping across a flat",
+      "medium": "windborne",
+      "cache_audit": {
+        "cache_format": "snf-v1.1-early-late-sampled-flow",
+        "sampled_video_frames": 479,
+        "cached_window_transitions": 57,
+        "frame_width": 499,
+        "frame_height": 288,
+        "effective_fps": 8.0,
+        "available_transition_count": 114,
+        "scored_transition_count": 114,
+        "full_clip_transition_count": 478,
+        "temporal_coverage": 0.2384937238493724,
+        "missing_middle": 364,
+        "fit_failures": {}
+      },
+      "v1_1_frozen": {
+        "fBD": 29.058434203571203,
+        "BFR": 1.3820749598996769,
+        "FP": 2.0,
+        "MCFF_early": 0.6794574864600834,
+        "MCFF_late": 2.933792179090935,
+        "DD_raw_late": 2.9314586692734768,
+        "drift_frac_late": 0.5209396268633746,
+        "DAR_signed": -0.0007956820426038291
+      },
+      "m2_endpoint": {
+        "support_stability": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 0.5911444693803787,
+            "late": 0.5533311307430268,
+            "late_minus_early": -0.03781333863735192,
+            "theil_sen_slope_per_s": -0.0006875152479518531,
+            "worst_value": 0.5911444693803787,
+            "worst_window_mid_s": 2.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 0.3021882027387619,
+              "p95": 0.5911444693803787
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 38,
+              "observed_span_fraction": 0.925,
+              "median": 0.24804624915122986,
+              "p95": 0.5533311307430268
+            }
+          ]
+        },
+        "flow_presence": {
+          "status": "partially_scored",
+          "coverage": 0.16666666666666666,
+          "trajectory": {
+            "early": 4.84769344329834,
+            "late": 1.2170578241348267,
+            "late_minus_early": -3.630635619163513,
+            "theil_sen_slope_per_s": -0.06601155671206388,
+            "worst_value": 1.2170578241348267,
+            "worst_window_mid_s": 57.5
+          },
+          "scored_windows": [
+            {
+              "window_index": 0,
+              "start_s": 0.0,
+              "end_s": 5.0,
+              "n_samples": 40,
+              "observed_span_fraction": 0.975,
+              "median": 4.84769344329834,
+              "p95": 24.06036539077755
+            },
+            {
+              "window_index": 11,
+              "start_s": 55.0,
+              "end_s": 60.0,
+              "n_samples": 38,
+              "observed_span_fraction": 0.925,
+              "median": 1.2170578241348267,
+              "p95": 7.73054659366606
+            }
+          ]
+        },
+        "abstentions": {
+          "directional_transport": "missing_reviewed_path",
+          "incoming_transport": "missing_reviewed_boundary",
+          "non_recurrence": "appearance_frames_not_cached",
+          "reset_continuity": "appearance_frames_not_cached"
+        }
+      }
+    }
+  ],
+  "runtime_s": 1.8303577120095724
+}

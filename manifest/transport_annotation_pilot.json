@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "annotation_version": "snf-v2-transport-draft-0.1",
+  "status": "draft_pending_human_review",
+  "coordinate_space": "normalized_source_image_xy",
+  "entries": [
+    {
+      "scene_id": "legacy-i2v60-river-winter-01",
+      "track": "i2v",
+      "duration": "60s",
+      "prompt_id": "A completely fixed, static, tripod-mounted camera records a calm winter river from a slightly elevat",
+      "medium": "river_stream",
+      "source_image": "prompts/i2v/60s/images/76utyy1.webp",
+      "source_sha256": "346b322be2caba6541757185d2facd91efba1450372f0dbd77eb5f31466a1a0b",
+      "source_width": 480,
+      "source_height": 270,
+      "direction": {
+        "status": "applicable",
+        "path_xy": [[0.51, 0.36], [0.51, 0.94]],
+        "transport_roi_xy": [[0.44, 0.34], [0.58, 0.34], [0.76, 1.0], [0.27, 1.0]],
+        "rationale": "Downstream flow is visible from the central vanishing point toward the lower foreground."
+      },
+      "review": {
+        "status": "pending_human_review",
+        "reviewed_by": null,
+        "note": "Development draft from source-image and prompt inspection; prohibited from release scoring."
+      }
+    },
+    {
+      "scene_id": "legacy-i2v60-fire-campfire-01",
+      "track": "i2v",
+      "duration": "60s",
+      "prompt_id": "A completely fixed, static, tripod-mounted camera records a burning forest campfire at night from a ",
+      "medium": "fire_smoke",
+      "source_image": "prompts/i2v/60s/images/failarge.jpg",
+      "source_sha256": "62e24f3a0bbff51a6a7ac69016eba8a0563ab421438f0437d2abbb94c0e5ebe4",
+      "source_width": 740,
+      "source_height": 416,
+      "direction": {
+        "status": "not_applicable",
+        "reason": "turbulent_or_recirculating",
+        "rationale": "Flame and smoke have an upward tendency but local split, merge, and turbulent motion is intended."
+      },
+      "review": {"status": "pending_human_review", "reviewed_by": null}
+    },
+    {
+      "scene_id": "legacy-i2v60-rain-puddle-01",
+      "track": "i2v",
+      "duration": "60s",
+      "prompt_id": "A completely fixed, static, macro tripod-mounted camera records heavy urban rainfall from an extreme",
+      "medium": "precipitation",
+      "source_image": "prompts/i2v/60s/images/blur-close-up-color-1529360.jpg",
+      "source_sha256": "1a0588a713d16d41a52c7064309469caa1157cc43c3ca92f83a6c4fa9eb64686",
+      "source_width": 6000,
+      "source_height": 3375,
+      "direction": {
+        "status": "not_applicable",
+        "reason": "multiple_motion_regimes",
+        "rationale": "Falling drops, crown splashes, and radial ripple expansion cannot share one path vector."
+      },
+      "review": {"status": "pending_human_review", "reviewed_by": null}
+    },
+    {
+      "scene_id": "legacy-i2v60-dust-storm-01",
+      "track": "i2v",
+      "duration": "60s",
+      "prompt_id": "A completely fixed, static, tripod-mounted camera records a desert dust storm sweeping across a flat",
+      "medium": "windborne",
+      "source_image": "prompts/i2v/60s/images/menacing-dust-storm-stockcake.webp",
+      "source_sha256": "a9735ada42cdc7c4da1c83e6459ec518465b531ac7e242afa35fea3f37b4454f",
+      "source_width": 728,
+      "source_height": 408,
+      "direction": {
+        "status": "not_applicable",
+        "reason": "depth_motion_without_reliable_image_plane_path",
+        "rationale": "The requested storm approaches the camera in depth; a 2D path would confound transport with expansion."
+      },
+      "review": {"status": "pending_human_review", "reviewed_by": null}
+    }
+  ]
+}

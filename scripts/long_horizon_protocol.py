@@ -5,6 +5,7 @@ registration, or a human annotation pipeline can produce the timestamped input
 signals. This layer makes the long-horizon evaluation rule reproducible:
 
 * windows have a fixed duration in seconds rather than a fraction of the clip;
+* a window must span enough of that interval, not merely contain two samples;
 * every axis retains its own applicability and coverage;
 * direction uses time-weighted signed transport, not motion magnitude;
 * an aggregate leaderboard score is never produced;
@@ -49,7 +50,7 @@ from statistics import median
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 
-PROTOCOL_VERSION = "snf-long-trajectory-0.1"
+PROTOCOL_VERSION = "snf-long-trajectory-0.2"
 
 AXES = {
     "support_stability": {
@@ -190,21 +191,30 @@ def _applicability(record: Mapping[str, Any], axis: str) -> Tuple[str, Optional[
 
 def _window_rows(samples: Sequence[Mapping[str, Any]], signal: str,
                  windows: Sequence[Tuple[float, float]], min_samples: int,
+                 min_time_span_fraction: float,
                  signed: bool = False) -> List[Dict[str, Any]]:
     rows = []
     for wi, (start, end) in enumerate(windows):
         chosen = [s for s in samples if start <= s["t_s"] < end and signal in s]
         values = [float(s[signal]) for s in chosen]
         times = [float(s["t_s"]) for s in chosen]
+        observed_span = max(times) - min(times) if len(times) >= 2 else 0.0
+        span_fraction = observed_span / (end - start)
         row: Dict[str, Any] = {
             "window_index": wi,
             "start_s": start,
             "end_s": end,
             "n_samples": len(values),
-            "status": "scored" if len(values) >= min_samples else "unscorable",
+            "observed_span_s": observed_span,
+            "observed_span_fraction": span_fraction,
+            "status": "scored",
         }
         if len(values) < min_samples:
-            row["reason"] = "insufficient_samples"
+            row.update(status="unscorable", reason="insufficient_samples")
+            rows.append(row)
+            continue
+        if span_fraction + 1e-12 < min_time_span_fraction:
+            row.update(status="unscorable", reason="insufficient_temporal_span")
             rows.append(row)
             continue
         weights = _time_weights(times, start, end)
@@ -273,6 +283,7 @@ def _failure_summary(axis: str, rows: Sequence[Mapping[str, Any]],
 
 def summarize_axis(axis: str, record: Mapping[str, Any], samples: Sequence[Mapping[str, Any]],
                    windows: Sequence[Tuple[float, float]], min_samples: int,
+                   min_time_span_fraction: float,
                    threshold: Optional[Mapping[str, Any]]) -> Dict[str, Any]:
     status, reason = _applicability(record, axis)
     if status != "applicable":
@@ -284,7 +295,7 @@ def summarize_axis(axis: str, record: Mapping[str, Any], samples: Sequence[Mappi
         return {"status": "unscorable", "reason": f"missing_signal:{signal}",
                 "coverage": 0.0, "windows": []}
     rows = _window_rows(
-        samples, signal, windows, min_samples,
+        samples, signal, windows, min_samples, min_time_span_fraction,
         signed=axis in ("directional_transport", "incoming_transport"),
     )
     values = [
@@ -344,12 +355,15 @@ def _thresholds_for_medium(thresholds: Optional[Mapping[str, Any]],
 
 def summarize_record(record: Mapping[str, Any], window_s: float = 5.0,
                      stride_s: Optional[float] = None, min_samples: int = 2,
-                     thresholds: Optional[Mapping[str, Any]] = None) -> Dict[str, Any]:
+                     thresholds: Optional[Mapping[str, Any]] = None,
+                     min_time_span_fraction: float = 0.8) -> Dict[str, Any]:
     required = ("video_id", "scene_id", "model_id", "seed", "track", "medium", "duration_s")
     missing = [key for key in required if key not in record]
     if missing:
         raise ValueError(f"record missing required fields: {', '.join(missing)}")
     duration_s = float(record["duration_s"])
+    if not (_finite_number(min_time_span_fraction) and 0 <= min_time_span_fraction <= 1):
+        raise ValueError("min_time_span_fraction must be in [0, 1]")
     stride_s = window_s if stride_s is None else stride_s
     windows = make_windows(duration_s, window_s, stride_s)
     samples = _validate_samples(record.get("samples"), duration_s)
@@ -358,7 +372,7 @@ def summarize_record(record: Mapping[str, Any], window_s: float = 5.0,
     augmented["_support_threshold_available"] = "support_stability" in thresholds
     axes = {
         axis: summarize_axis(axis, augmented, samples, windows, min_samples,
-                             thresholds.get(axis))
+                             min_time_span_fraction, thresholds.get(axis))
         for axis in AXES
     }
     if "support_stability" in thresholds:
@@ -397,6 +411,7 @@ def summarize_record(record: Mapping[str, Any], window_s: float = 5.0,
         "duration_s": duration_s,
         "window_s": float(window_s),
         "stride_s": float(stride_s),
+        "min_time_span_fraction": float(min_time_span_fraction),
         "n_windows": len(windows),
         "aggregation": "none; report axes separately",
         "axes": axes,
@@ -422,6 +437,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--window-s", type=float, default=5.0)
     parser.add_argument("--stride-s", type=float)
     parser.add_argument("--min-samples", type=int, default=2)
+    parser.add_argument("--min-time-span-fraction", type=float, default=0.8)
     parser.add_argument("--thresholds", type=Path,
                         help="held-out calibration JSON; omit for descriptive output")
     args = parser.parse_args(argv)
@@ -430,7 +446,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     payload = json.loads(args.input.read_text())
     thresholds = json.loads(args.thresholds.read_text()) if args.thresholds else None
     results = [summarize_record(r, args.window_s, args.stride_s,
-                                args.min_samples, thresholds)
+                                args.min_samples, thresholds,
+                                args.min_time_span_fraction)
                for r in _records(payload)]
     output = {
         "protocol_version": PROTOCOL_VERSION,

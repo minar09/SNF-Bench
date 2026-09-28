@@ -172,6 +172,23 @@ the pilot, not the full-panel reliability gate: future records must expose
 usable-frame, match, inlier, and fallback counts, and a larger audit must freeze
 the minimum-support threshold.
 
+An exploratory M2 endpoint probe is now implemented in
+`scripts/flow_endpoint_probes.py`. The public cache audit found 336 cached files
+across 24 model-duration cells, all I2V; no public T2V flow caches exist. The
+eight-clip paired pilot in `manifest/m2_endpoint_pilot.json` scores only the
+first and last complete five-second windows (2/12 windows at 60 seconds) and
+stores frozen v1.1 factors beside the new summaries without treating their
+different estimands as deltas. The exercise found that trajectory protocol
+0.1 admitted partially observed windows; version 0.2 now requires at least 80%
+temporal span by default. Direction, flux, replay, and reset axes abstain. See
+`M2_ENDPOINT_PROBE_PILOT.md`.
+
+A four-scene draft transport annotation is structurally validated by
+`scripts/validate_transport_annotations.py`. It identifies one plausible
+screen-space path (winter river) and three non-applicable motion regimes. The
+strict release gate fails all four entries because they have no named human
+review, so the draft cannot influence scores.
+
 The remaining M1 work and M2-M4 still require rescoring, annotation,
 generation, or human collection and are not claimed complete. This order
 protects the study from tuning measures against the same seven systems and

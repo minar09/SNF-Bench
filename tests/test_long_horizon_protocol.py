@@ -94,3 +94,18 @@ def test_recurrence_range_is_validated():
             {"t_s": 9.0, "long_lag_recurrence": 0.3},
         ]))
 
+
+
+def test_partial_window_requires_temporal_span_not_only_sample_count():
+    samples = [
+        {"t_s": 0.1, "support_error_px": 0.2},
+        {"t_s": 1.9, "support_error_px": 0.3},
+        {"t_s": 5.1, "support_error_px": 0.4},
+        {"t_s": 9.2, "support_error_px": 0.5},
+    ]
+    out = summarize_record(_record(samples), window_s=5.0, min_samples=2)
+    rows = out["axes"]["support_stability"]["windows"]
+    assert rows[0]["status"] == "unscorable"
+    assert rows[0]["reason"] == "insufficient_temporal_span"
+    assert rows[1]["status"] == "scored"
+    assert out["min_time_span_fraction"] == pytest.approx(0.8)
