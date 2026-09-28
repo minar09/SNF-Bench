@@ -84,6 +84,19 @@ Weakest on-target `|d_z|` against strongest off-target:
 NBF is a headline factor and it moves more under partition perturbation than under
 rotational drift. This must be fixed or NBF must be scoped to translation/scale only.
 
+**2026-09-28 correction.** The exploratory script used numeric endpoint sorting,
+which treated a 24-frame loop as the strongest repetition and compared mask
+erosion at radius -4 directly with dilation at +4. The consolidated audit in
+`tables/validation_response_matrix.md` compares the 6-frame loop with baseline
+and treats erosion/dilation as separate radius-0 controls. It also uses the
+sample SD for paired `d_z` and includes both declared persistence targets
+(freeze and attenuation). The resulting selectivity ratios are: fBD 1.84, NBF
+0.49, MCFF-L 0.62, FP 0.30, DLR 0.20, DAR 0.58. Thus the earlier statement that
+FP and DLR pass selectivity is withdrawn. Under the frozen metric gate, DLR and
+DAR move to supplementary, FP is scoped to a decay indicator with MCFF, and
+NBF is scoped to translation/scale. The incumbent agreement results in §2.1
+are unaffected.
+
 ### 2.4 The horizon sweep is impossible with current assets
 Prompt sets are **fully disjoint**: 60∩120 = 0, 60∩240 = 0, 120∩240 = 0. No matched
 horizon analysis can be computed from what exists. For a paper titled "Long-Horizon"

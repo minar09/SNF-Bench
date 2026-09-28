@@ -14,15 +14,15 @@ claim is cut, not softened.** There is no rebuttal round.
 | **C3** | The disagreement produces rank *inversions*, not just weak correlation. | Fig. 5; Causal-Forcing rank 1→7, Infinite-Forcing rank 7→1 | **BUILT** |
 | **C4** | Low background flow can mean *frozen*, not *stable* — so static fidelity must be read jointly with flow persistence. | Fig. 4; Infinite-Forcing is rank 1 on NBF/fBD **and** rank 7 on MCFF | **BUILT** |
 | **C5** | The conclusions survive the averaging choice. | micro vs category-macro: Causal-Forcing stays 1st on DD and 7th on NBF/fBD; Infinite-Forcing stays 1st/7th. Mid-field does move (Self-Forcing NBF rank 5→2). | **BUILT** (`scripts/categories.py`) |
-| **C6** | SNF metrics respond monotonically to *known* injected corruption — translation, rotation, scale, attenuation. | Fig. 3(a–d); Tab. 2 | **BLOCKED** — affine compensation Aug 16, sweep Aug 18 |
-| **C7** | A standard metric moves the **wrong way** under injected background drift. | Fig. 3(e); Tab. 2 VBench-DD row | **BLOCKED** — Aug 18 |
-| **C8** | DAR is calibrated against ground-truth injected drift. | Fig. 3(d); §5.3 | **BLOCKED** — Aug 18 |
+| **C6** | ~~SNF metrics respond monotonically to translation, rotation, scale, and attenuation.~~ **SCOPED:** fBD responds across the three global transforms; NBF is retained for translation/scale; MCFF-L and FP do not clear the attenuation-versus-nuisance screen. | `tables/validation_response_matrix.md`; `manifest/validation_response_analysis.json` | **BROAD CLAIM REJECTED; SCOPED RESULTS BUILT** |
+| **C7** | VBench Dynamic Degree moves in its rewarding direction under injected background translation that a fixed-camera benchmark should penalise. | `tables/validation_response_matrix.md`, translation VBench-DD row: paired d_z 1.22 | **BUILT FOR TRANSLATION**; rotation uncertain |
+| **C8** | ~~DAR is calibrated as a headline drift factor.~~ DAR responds to global transforms but fails nuisance selectivity (0.58), so it remains supplementary. | `tables/validation_response_matrix.md`; §5.3 | **HEADLINE CLAIM REJECTED; DIAGNOSTIC BUILT** |
 | **C9** | Conclusions are stable to the optical-flow backbone. | Tab. 2 backbone-agreement columns; Fig. S4 | **BLOCKED** — P0#5 |
 | **C10** | Metrics have a documented noise floor. | Tab. 2 zero-motion floor (duplicated frames + real static regions) | **BLOCKED** — P0#5 |
 | **C11** | fBD does not silently abstain on hard scenes (fire at night → sparse ORB). | Tab. 2 match-coverage / abstention rate per category | **BLOCKED** — P0#5 |
 | **C12** | Masks are not contaminated by the failure being measured. | Fig. 2(a); per-model first-frame-blind protocol | **BLOCKED** — Aug 14 |
 | **C13** | Rain/snow do not break the partition. | Fig. 2(b); Ω_overlay excluded from headline fBD/NBF | **BLOCKED** — Aug 14 |
-| **C14** | Conclusions are stable to mask perturbation. | Fig. S3 dilation/erosion rank stability | **BLOCKED** — Aug 14 |
+| **C14** | ~~Conclusions are stable to mask perturbation.~~ NBF is materially mask-sensitive; reviewed-mask and full rank-sensitivity studies remain required. | `tables/validation_response_matrix.md`; `docs/SHARED_AUTO_CONTROL.md` | **BROAD CLAIM REJECTED; PILOT BUILT** |
 | **C15** | N is chosen for statistical power, not budget. | Tab. S8; "N selected such that CIs for primary metrics fall below a pre-specified tolerance" | **BLOCKED** — 60 s pilot (P0#7) |
 | **C16** | Methods are not being penalised for semantic failure misread as flow behaviour. | Tab. 3 semantic-context column | **BLOCKED** — P0#6 |
 | **C17** | The audit is scoped transparently: public T2V checkpoints share one recorded common configuration, I2V released-pipeline and wrapper rows are separated, and our own systems are excluded. | `tables/model_config_table.md`; `scripts/registry.py` status/setting fields; `docs/EXCLUSIONS.md` | **BUILT** except EXCLUSIONS.md |

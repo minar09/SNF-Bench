@@ -126,6 +126,20 @@ change. This is evidence of partition sensitivity, not mask validity: the
 shared masks are unreviewed and anchor-dependent. Reviewed masks and the full
 prompt/system panel remain M1 exit requirements.
 
+The frozen geometry, motion, and nuisance sweeps are now consolidated by
+`scripts/validation_response_analysis.py` into 63 paired response rows. The
+analysis corrects two endpoint errors in the earlier exploratory summary:
+short repetition cycles are more severe (6 frames, not 24), and mask erosion
+and dilation must each be compared with radius 0. It separates observed
+response from desirability, uses sample-SD paired effect sizes, adds a
+category/clip hierarchical bootstrap, and stores the full table in
+`tables/validation_response_matrix.md`. Under the frozen admission rule both
+DLR and DAR fail nuisance selectivity, so the drift-leakage axis leaves the
+headline set. NBF is scoped to translation and scale because its rotation
+response is weaker than its mask-boundary response. FP remains a decay
+indicator reported with MCFF magnitudes. These decisions still need backbone,
+feature-match coverage, reviewed-mask, and human-validity checks before release.
+
 The remaining M1 work and M2-M4 still require rescoring, annotation,
 generation, or human collection and are not claimed complete. This order
 protects the study from tuning measures against the same seven systems and
