@@ -1,5 +1,12 @@
 # SNF-Bench — plan for the next venue
 
+**2026-09-28 update:** The resolution claim in §2.1 is provisional. A
+paired, category-macro prompt bootstrap on the same seven public T2V systems
+finds NBF separation for 14/21 system pairs versus 13/21 for VBench background
+consistency (unadjusted 95% intervals). See `SNF_V2_MILESTONES.md` and
+`manifest/paired_incumbent_resolution.json`. Do not cite the 6.42 versus 1.66
+range/SD ratio as proof of substantially better model resolution.
+
 Status: WACV 2027 E&D returned three reviews (Reject/conf 5, Borderline-reject/conf 4,
 Reject/conf 5). All three are competent and largely agree. This plan is organised by
 what the reviews converge on, then by what we found when we actually computed the

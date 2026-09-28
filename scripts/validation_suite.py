@@ -25,8 +25,10 @@ rather than against a re-implementation of our own choosing.
 """
 
 import argparse
+import csv
 import json
 import os
+import re
 import sys
 
 import cv2
@@ -81,6 +83,34 @@ LEVELS = {
 
 FRAME_FAMILIES = {"translation", "rotation", "scale", "attenuation", "freeze",
                   "photometric", "repetition"}
+
+
+def select_reference_clips(candidates, count, stratified=False, category_csv=None,
+                           duration="60s"):
+    """Select one prompt per medium before reusing a medium.
+
+    The old alphabetical selection remains available to reproduce earlier
+    validation records. New multi-scene studies should set `stratified=True`.
+    """
+    if not stratified:
+        return sorted(candidates)[:count]
+    category_csv = category_csv or f"{MAN}/prompt_categories.csv"
+    categories = {(r["track"], r["duration"], r["prompt_id"]): r["category"]
+                  for r in csv.DictReader(open(category_csv))}
+    groups = {}
+    for path in sorted(candidates):
+        basename = os.path.basename(path)
+        prompt_id = re.sub(r"-\d+-\d+\.\d+\.mp4$", "", basename)
+        category = categories.get(("t2v", duration, prompt_id))
+        if category is None:
+            raise ValueError(f"no prompt category for {basename}")
+        groups.setdefault(category, []).append(path)
+    selected = []
+    while len(selected) < count and any(groups.values()):
+        for category in sorted(groups):
+            if groups[category] and len(selected) < count:
+                selected.append(groups[category].pop(0))
+    return selected
 
 
 def load_frames(path, max_frames=110):
@@ -255,7 +285,7 @@ def reference_masks(model, frames, device):
     return dyn, static
 
 
-def measure(model, frames, device, mask_radius=0):
+def measure(model, frames, device, mask_radius=0, bc_model=None):
     """SNF factors + Dynamic Degree on one (possibly perturbed) frame list."""
     import snf_task_metrics as S
     import snf_metrics_v11 as V11
@@ -306,6 +336,9 @@ def measure(model, frames, device, mask_radius=0):
         "DAR": float(1.0 - late / (raw_late + 1e-6)),
         "VB_DD": dynamic_degree(flows, h, w),
     }
+    if bc_model is not None:
+        from vbench_bc_frames import score_bgr_frames
+        out["VB_BC"] = score_bgr_frames(bc_model, frames, device)
     del tens
     torch.cuda.empty_cache()
     return out
@@ -318,6 +351,10 @@ def main():
     ap.add_argument("--max-frames", type=int, default=110)
     ap.add_argument("--duration", default="60s")
     ap.add_argument("--out", default=f"{MAN}/validation_response.json")
+    ap.add_argument("--stratified-clips", action="store_true",
+                    help="round-robin reference clips across scene media")
+    ap.add_argument("--with-vbench-bc", action="store_true",
+                    help="score official VBench BC formula on validation-sampled frames")
     ap.add_argument("--families", default="",
                     help="comma-separated subset of LEVELS to run")
     args = ap.parse_args()
@@ -327,12 +364,19 @@ def main():
     import snf_task_metrics as S
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model = S.load_raft(device)
+    if args.with_vbench_bc:
+        from vbench_bc_frames import load_model
+        bc_model = load_model(device)
+    else:
+        bc_model = None
 
-    # Reference clips: real generated videos, spread across scene categories so
-    # the response is not a property of one medium.
+    # Reference clips are generated videos. Earlier runs used alphabetical
+    # selection; new multi-medium pilots opt into explicit stratification.
     import glob
     cands = sorted(glob.glob(f"{ROOT}/videos/t2v/self_forcing/{args.duration}/*.mp4"))
-    clips = cands[:args.clips]
+    clips = select_reference_clips(cands, args.clips,
+                                   stratified=args.stratified_clips,
+                                   duration=args.duration)
     print(f"{len(clips)} reference clips @ {args.duration}", flush=True)
 
     records = []
@@ -348,15 +392,23 @@ def main():
             levels = LEVELS[kind]
             for lam in levels:
                 if kind == "mask_radius":
-                    m = measure(model, frames, device, mask_radius=int(lam))
+                    m = measure(model, frames, device, mask_radius=int(lam),
+                                bc_model=bc_model)
                 else:
-                    m = measure(model, perturb(frames, kind, lam, ref_dyn), device)
+                    m = measure(model, perturb(frames, kind, lam, ref_dyn), device,
+                                bc_model=bc_model)
                 m.update(clip=os.path.basename(path), family=kind, level=float(lam))
                 records.append(m)
                 print(f"   {kind:12s} {lam:<6} NBF={m['NBF']:7.2f} "
                       f"MCFF_L={m['MCFF_L']:6.3f} DD={m['VB_DD']:.3f}", flush=True)
         with open(args.out, "w") as f:
-            json.dump({"levels": LEVELS, "records": records}, f, indent=2)
+            json.dump({"levels": LEVELS, "records": records,
+                       "validation_duration": args.duration,
+                       "reference_selection": "category_round_robin" if args.stratified_clips else "alphabetical",
+                       "validation_max_frames": args.max_frames,
+                       "VB_BC_model": "CLIP ViT-B/32" if bc_model is not None else None,
+                       "VB_BC_sampling": "validation-suite subsampled frames; official VBench formula/transform"
+                       if bc_model is not None else None}, f, indent=2)
     print(f"\n{len(records)} measurements -> {args.out}")
 
 

@@ -26,6 +26,10 @@ What is unchanged
 fBD and NBF do not depend on compensation and are computed exactly as in v1.0,
 so v1.0 and v1.1 values for those two are directly comparable.
 
+The default `process_video` call remains the frozen v1.1 path. An explicit
+`external_masks` argument enters a separate `2-mask-pilot` control path and
+requires provenance; it does not replace historical v1.1 measurements.
+
 New outputs
 -----------
 `MCFF_early` is now stored explicitly (v1.0 kept it only implicitly inside FP),
@@ -108,8 +112,10 @@ def _translation_field(flow, static, H, W):
     return d, "translation_fallback"
 
 
-def process_video(model, path, device, seed=0):
-    """v1.1 replacement for S.process_video. Same masks, same backbones."""
+def process_video(model, path, device, seed=0, external_masks=None, mask_provenance=None):
+    """v1.1 scoring by default; explicit reviewed-mask control when provided."""
+    if external_masks is not None and not mask_provenance:
+        raise ValueError("external masks require provenance")
     tens, grays = S.read_frames(path, device)
     if tens is None:
         return None
@@ -117,12 +123,19 @@ def process_video(model, path, device, seed=0):
     win = max(S.MIN_WIN, int(F * S.WIN_FRAC))
     rng = np.random.default_rng(seed)
 
-    # ---- Pass A: early-window magnitude -> masks (identical to v1.0) ----
-    early_maps = [S.flow_mag(model, tens[i], tens[i + 1]).astype(np.float32)
-                  for i in range(min(win, F - 1))]
-    early = np.mean(early_maps, 0)
-    dyn, static = S.build_masks(early)
-    Wpx = early.shape[1]
+    # ---- Pass A: frozen v1.1 automatic mask, or experimental reviewed mask ----
+    if external_masks is None:
+        early_maps = [S.flow_mag(model, tens[i], tens[i + 1]).astype(np.float32)
+                      for i in range(min(win, F - 1))]
+        early = np.mean(early_maps, 0)
+        dyn, static = S.build_masks(early)
+    else:
+        dyn, static = (np.asarray(x, dtype=bool) for x in external_masks)
+        if dyn.shape != grays[0].shape or static.shape != grays[0].shape:
+            raise ValueError("external masks do not match evaluation frame")
+        if np.any(dyn & static) or static.sum() < 50 or dyn.mean() < 0.01:
+            raise ValueError("external masks overlap or have insufficient coverage")
+    Wpx = grays[0].shape[1]
 
     # ---- Pass B: vector flow -> similarity-compensated scalars ----
     P = F - 1
@@ -159,7 +172,7 @@ def process_video(model, path, device, seed=0):
     fbd = S.orb_drift(grays, static, late_idx)
 
     n_sim = sum(1 for m in modes if m == "similarity")
-    return {
+    result = {
         "video": os.path.basename(path),
         "fBD": fbd,
         "BFR": bfr,                       # stored under the v1.0 key; NBF at table time
@@ -177,5 +190,8 @@ def process_video(model, path, device, seed=0):
         "inlier_ratio_mean": float(np.mean(ratios)) if ratios else 0.0,
         "rotation_deg_mean": float(np.mean(rots)) if rots else 0.0,
         "scale_mean": float(np.mean(scales)) if scales else 1.0,
-        "metric_spec_version": SPEC_VERSION,
+        "metric_spec_version": SPEC_VERSION if external_masks is None else "2-mask-pilot",
     }
+    if external_masks is not None:
+        result.update(mask_provenance)
+    return result
