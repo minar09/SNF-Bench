@@ -140,6 +140,16 @@ response is weaker than its mask-boundary response. FP remains a decay
 indicator reported with MCFF magnitudes. These decisions still need backbone,
 feature-match coverage, reviewed-mask, and human-validity checks before release.
 
+An exact fBD support trace is complete on the same 12 perturbation-reference
+clips. It reproduces stored v1.1 scores within `8.95e-7`, finds all 684/684 late
+frames usable, and records no abstentions. However, 37 frames across two clips
+use unfiltered raw matches because RANSAC found only 6–7 inliers; the sole ocean
+clip falls back on 25/57 frames. See `FBD_RELIABILITY_PILOT.md` and
+`manifest/fbd_reliability_pilot.json`. This closes the instrumentation gap for
+the pilot, not the full-panel reliability gate: future records must expose
+usable-frame, match, inlier, and fallback counts, and a larger audit must freeze
+the minimum-support threshold.
+
 The remaining M1 work and M2-M4 still require rescoring, annotation,
 generation, or human collection and are not claimed complete. This order
 protects the study from tuning measures against the same seven systems and

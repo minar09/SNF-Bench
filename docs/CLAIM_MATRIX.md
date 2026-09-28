@@ -19,7 +19,7 @@ claim is cut, not softened.** There is no rebuttal round.
 | **C8** | ~~DAR is calibrated as a headline drift factor.~~ DAR responds to global transforms but fails nuisance selectivity (0.58), so it remains supplementary. | `tables/validation_response_matrix.md`; §5.3 | **HEADLINE CLAIM REJECTED; DIAGNOSTIC BUILT** |
 | **C9** | Conclusions are stable to the optical-flow backbone. | Tab. 2 backbone-agreement columns; Fig. S4 | **BLOCKED** — P0#5 |
 | **C10** | Metrics have a documented noise floor. | Tab. 2 zero-motion floor (duplicated frames + real static regions) | **BLOCKED** — P0#5 |
-| **C11** | fBD does not silently abstain on hard scenes (fire at night → sparse ORB). | Tab. 2 match-coverage / abstention rate per category | **BLOCKED** — P0#5 |
+| **C11** | fBD match support and fallback behavior are explicit rather than inferred from non-null values. | `docs/FBD_RELIABILITY_PILOT.md`; `manifest/fbd_reliability_pilot.json` | **12-CLIP PILOT BUILT** — 0 abstentions, but 37/684 frames use raw-match fallback; full public panel remains blocked |
 | **C12** | Masks are not contaminated by the failure being measured. | Fig. 2(a); per-model first-frame-blind protocol | **BLOCKED** — Aug 14 |
 | **C13** | Rain/snow do not break the partition. | Fig. 2(b); Ω_overlay excluded from headline fBD/NBF | **BLOCKED** — Aug 14 |
 | **C14** | ~~Conclusions are stable to mask perturbation.~~ NBF is materially mask-sensitive; reviewed-mask and full rank-sensitivity studies remain required. | `tables/validation_response_matrix.md`; `docs/SHARED_AUTO_CONTROL.md` | **BROAD CLAIM REJECTED; PILOT BUILT** |
