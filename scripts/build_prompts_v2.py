@@ -192,7 +192,12 @@ MAX_WORDS = 70
 def compose(sc):
     _id, cat, direction, setting, static, dynamic, light = sc
     dyn = dynamic if direction is None else f"{dynamic} {direction}"
-    return f"{setting}. A fixed tripod camera, unmoving. {static} hold their positions. {dyn}. {light}."
+    # "Recorded by ..." rather than the bare noun phrase: prompts/v2/core.txt was
+    # committed with that wording while this function still emitted the fragment,
+    # so regenerating silently rewrote the tracked artifact. The generator is the
+    # source of truth, so it emits what was reviewed.
+    return (f"{setting}. Recorded by a fixed tripod camera, unmoving. "
+            f"{static} hold their positions. {dyn}. {light}.")
 
 
 def validate(rows):

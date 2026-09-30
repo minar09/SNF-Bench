@@ -24,3 +24,16 @@ __pycache__/
 *.bbl
 *.aux
 raw/_internal_ablations/
+
+# Raw candidate image pool for the I2V v2 set: 52 MB of mixed-provenance
+# downloads with no licence record. The selected 40 crops live in
+# prompts/v2/i2v/images/ and their provenance is recorded in
+# manifest/i2v_pairs_v2.json; the unscreened pool is working material.
+prompts/v2/v2_images_extra/
+
+# Wikimedia Commons candidate pool. The images are redistributable, but the pool
+# is 53 MB and only the selected crops are needed; licences.json records source,
+# licence and attribution for every file, so fetch_commons_images.py can rebuild
+# the pool from it.
+prompts/v2/v2_images_commons/*
+!prompts/v2/v2_images_commons/licences.json
