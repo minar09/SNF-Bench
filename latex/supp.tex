@@ -253,6 +253,33 @@ tabulated rather than folded silently into a smaller $n$.
 \input{generated/tab_abstention}
 \input{generated/tab_coverage}
 
+\subsection{Behaviour of the Compensation Estimator}
+\label{sup:compensation}
+
+Section~\ref{sec:metrics} states that the similarity fit falls back to median
+translation where correspondences are insufficient, and that the fallback is
+recorded per sequence. Table~\ref{tab:compensation} reports what those records
+contain, which qualifies the estimator change in two directions.
+
+The fallback never fires: every audited clip in both tracks is scored through a
+fitted similarity. The fit is not uniformly tight, however---around one clip in
+ten sits below an inlier ratio of $0.8$, so the estimate is weaker on a minority
+of sequences than the median suggests, and we report the low tail rather than
+the mean alone.
+
+More consequentially, the fitted transform is close to a pure translation on
+this material: median rotation is of order $10^{-3}$ degrees and median scale is
+within $10^{-4}$ of unity in both tracks. The v1.0 median-translation estimator
+and the v1.1 similarity estimator therefore describe almost the same
+displacement field on the audited clips, and we make no claim that the estimator
+change reorders the audit. Its value is in the controlled validation of
+Sec.~\ref{sec:validation}, where rotation and scale are injected deliberately:
+there a translation-only estimator leaves precisely the corruption it is meant
+to remove uncompensated, which is why the compensation-dependent factors are
+reported under v1.1 throughout.
+
+\input{generated/tab_compensation}
+
 \section{Complete Audit, Both Tracks}
 \label{sup:allhorizons}
 

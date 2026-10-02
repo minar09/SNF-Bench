@@ -15,8 +15,8 @@
     },
     {
       "name": "FPS/size metadata",
-      "status": "PASS",
-      "detail": "1881 videos, fps+size present",
+      "status": "FAIL",
+      "detail": "1881/2817 videos have metadata",
       "required": true
     },
     {
@@ -39,14 +39,26 @@
     },
     {
       "name": "Similarity compensation",
-      "status": "FAIL",
-      "detail": "still translation-only (median of static flow)",
+      "status": "PASS",
+      "detail": "v1.1 fits similarity; v1.0 record unchanged",
       "required": true
     },
     {
       "name": "Compensation unit tests",
       "status": "PASS",
       "detail": "translation/rotation/scale recovered",
+      "required": true
+    },
+    {
+      "name": "Records newer than videos",
+      "status": "PASS",
+      "detail": "every record newer than its videos",
+      "required": true
+    },
+    {
+      "name": "Generated assets current",
+      "status": "PASS",
+      "detail": "22 generated files newer than every manifest",
       "required": true
     },
     {
@@ -76,7 +88,7 @@
     {
       "name": "Figure provenance footers",
       "status": "PASS",
-      "detail": "10 figures; footer enforced by figures.save()",
+      "detail": "12 figures; footer enforced by figures.save()",
       "required": false
     }
   ]

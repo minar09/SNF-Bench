@@ -28,6 +28,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PATTERNS = [
     r"steady[-_ ]?forcing", r"\bra[-_]i2v\b", r"\bphase7", r"\bnfpb\b",
     r"\brt500\b", r"\babl_[a-z0-9]+", r"region[-_]forcing",
+    # static-forcing was absent until the path audit: five scripts were caught by
+    # the region-forcing pattern while collect.py named this one freely.
+    r"static[-_ ]?forcing", r"ar[-_ ]image[-_ ]animation",
     r"OUR method", r"OUR prior work", r"\bredmd\b", r"\bgated_v2\b",
 ]
 RX = re.compile("|".join(PATTERNS), re.I)
@@ -41,6 +44,13 @@ MUST_NOT_SHIP = ("raw/_internal_ablations/",)
 
 SKIP_EXT = {".pdf", ".png", ".jpg", ".jpeg", ".mp4", ".pt", ".pth", ".npz"}
 
+# An absolute path into somebody's home directory cannot work for anyone else,
+# and is how the private repository names got into tracked source in the first
+# place: they were never typed as names, only as paths. Machine-local locations
+# belong in configs/local_paths.json, which is git-ignored.
+ABS_HOME = re.compile(r"/(?:home|Users)/[A-Za-z0-9._-]+/")
+ABS_HOME_ALLOWED = {"scripts/_paths.py"}   # documents the mechanism
+
 
 def tracked():
     out = subprocess.run(["git", "ls-files"], cwd=ROOT,
@@ -49,7 +59,7 @@ def tracked():
 
 
 def main():
-    hits, shipped_internal, allowed = {}, [], {}
+    hits, shipped_internal, allowed, abs_home = {}, [], {}, {}
     for rel in tracked():
         if any(rel.startswith(p) for p in MUST_NOT_SHIP):
             shipped_internal.append(rel)
@@ -59,9 +69,14 @@ def main():
         path = os.path.join(ROOT, rel)
         try:
             with open(path, "r", errors="ignore") as fh:
-                n = sum(1 for line in fh if RX.search(line))
+                lines = fh.readlines()
         except OSError:
             continue
+        n = sum(1 for line in lines if RX.search(line))
+        if rel not in ABS_HOME_ALLOWED:
+            h = sum(1 for line in lines if ABS_HOME.search(line))
+            if h:
+                abs_home[rel] = h
         if not n:
             continue
         (allowed if rel in SOURCE_OF_TRUTH else hits)[rel] = n
@@ -84,6 +99,14 @@ def main():
         print(f"\nFAIL: internal names in {len(hits)} tracked file(s):")
         for r, n in sorted(hits.items(), key=lambda kv: -kv[1]):
             print(f"   {n:6d}  {r}")
+    if abs_home:
+        ok = False
+        print(f"\nFAIL: absolute home-directory paths in {len(abs_home)} tracked "
+              f"file(s) -- these cannot resolve for anyone else:")
+        for r, n in sorted(abs_home.items(), key=lambda kv: -kv[1]):
+            print(f"   {n:6d}  {r}")
+        print("       move machine-local locations into configs/local_paths.json "
+              "(see scripts/_paths.py)")
 
     print("\nRELEASE CLEAN" if ok else "\nRELEASE NOT CLEAN")
     return 0 if ok else 1

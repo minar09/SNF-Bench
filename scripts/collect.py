@@ -2,10 +2,10 @@
 """Gather every already-computed SNF evaluation score into snf-bench/raw/.
 
 Re-runnable and non-destructive to the source repos: it only READS from
-  /home/minar/static-forcing        (T2V track)
-  /home/minar/region-forcing        (I2V track)
-  /home/minar/steady-forcing-plus-plus (I2V-track ablation jsons; superset check only)
-and WRITES only inside /home/minar/snf-bench.
+  the configured t2v_source_repo    (T2V track)
+  the configured i2v_source_repo    (I2V track)
+  the configured i2v_ablation_repo   (I2V-track ablation jsons; superset check only)
+and WRITES only inside this repository.
 
 No video is copied (that would be ~20 GB and the volume is 97% full); videos are
 recorded by path + size + mtime in manifest/video_index.csv and symlinked under
@@ -25,9 +25,12 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from registry import ALL, DURATIONS, T2V, I2V  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SF = "/home/minar/static-forcing"          # T2V
-RF = "/home/minar/region-forcing"          # I2V
-SFPP = "/home/minar/steady-forcing-plus-plus"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _paths                              # noqa: E402
+
+SF = _paths.resolve("t2v_source_repo")     # T2V
+RF = _paths.resolve("i2v_source_repo")     # I2V
+SFPP = _paths.resolve("i2v_ablation_repo", required=False)
 
 RAW = os.path.join(ROOT, "raw")
 MAN = os.path.join(ROOT, "manifest")
@@ -180,13 +183,33 @@ def collect_i2v(log):
 # Auxiliary: our own training-ablation sweeps (kept OUT of the benchmark, but
 # preserved so nothing is lost).  Verified identical between the two repos.
 # --------------------------------------------------------------------------
+def _provenance(path):
+    """Describe a source path without writing a machine-specific absolute path.
+
+    The video index and collection log recorded `abs_path`/`src` verbatim, which
+    put 1881 and 199 absolute paths into two tracked manifests -- every one of
+    them naming a private upstream repository and a home directory. What a
+    reader actually needs is which configured source the file came from and
+    where inside it, which is reproducible for anyone who configures their own.
+    """
+    for key, base in (("t2v_source_repo", SF), ("i2v_source_repo", RF),
+                      ("i2v_ablation_repo", SFPP)):
+        if base and path.startswith(base.rstrip("/") + "/"):
+            return key, os.path.relpath(path, base)
+    if path.startswith(ROOT.rstrip("/") + "/"):
+        return "repo", os.path.relpath(path, ROOT)
+    return "external", os.path.basename(path)
+
+
 def collect_internal_ablations(log):
     dst = f"{RAW}/_internal_ablations"
     for sub in ["drift_eval", "extra_eval", "novelty_eval", "novelty_extra",
                 "penalty_eval", "redmd_eval"]:
         for f in sorted(glob.glob(f"{RF}/snf_eval/task_results/{sub}/*.json")):
             _copy(f, f"{dst}/region-forcing/{sub}/{os.path.basename(f)}")
-        for f in sorted(glob.glob(f"{SFPP}/snf_eval/task_results/{sub}/*.json")):
+        # Optional superset check; skipped when that repo is not configured.
+        for f in (sorted(glob.glob(f"{SFPP}/snf_eval/task_results/{sub}/*.json"))
+                  if SFPP else []):
             _copy(f, f"{dst}/steady-forcing-pp/{sub}/{os.path.basename(f)}")
     for f in sorted(glob.glob(f"{SF}/SNF_Bench/task_results/r2_60s/*.json")):
         _copy(f, f"{dst}/static-forcing/r2_60s_arch_ablation/{os.path.basename(f)}")
@@ -220,7 +243,9 @@ def index_videos():
                 rows.append(dict(track=track, model=k, name=m["name"], status=m["status"],
                                  setting=m["setting"], duration=d,
                                  video=os.path.basename(p), bytes=os.path.getsize(p),
-                                 fingerprint=_sha(p), abs_path=p))
+                                 fingerprint=_sha(p),
+                                 **dict(zip(("source", "source_rel"),
+                                            _provenance(p)))))
     os.makedirs(MAN, exist_ok=True)
     with open(f"{MAN}/video_index.csv", "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0]))
@@ -279,7 +304,9 @@ def main():
     _w(f"{MAN}/video_counts.json", nvid)
 
     _w(f"{MAN}/collection_log.json",
-       [dict(track=t, model=m, dur=d, kind=k, src=s) for t, m, d, k, s in log])
+       [dict(track=t, model=m, dur=d, kind=k,
+             **dict(zip(("source", "source_rel"), _provenance(s))))
+        for t, m, d, k, s in log])
     # Only the public roster is snapshotted. The registry also carries internal
     # and scratch entries, and their keys, checkpoint paths and notes name
     # unpublished work; shipping them in a reproducibility manifest would

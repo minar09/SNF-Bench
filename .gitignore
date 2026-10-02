@@ -37,3 +37,8 @@ prompts/v2/v2_images_extra/
 # the pool from it.
 prompts/v2/v2_images_commons/*
 !prompts/v2/v2_images_commons/licences.json
+
+# Machine-local paths to things outside this repository (private upstream
+# repos, a VBench checkout). scripts/_paths.py reads it; keeping it untracked
+# is what stops those paths shipping in the released source.
+configs/local_paths.json

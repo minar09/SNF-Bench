@@ -16,7 +16,7 @@ Every evaluated system is declared here with:
 """
 
 # ---------------------------------------------------------------- T2V track
-# Source repo: /home/minar/static-forcing  (videos in output/<key>/t2v_<dur>)
+# Source repo: the configured t2v_source_repo (videos in output/<key>/t2v_<dur>)
 # SNF task metrics: SNF_Bench/task_results/r1_60s/<file>.json   (60s only)
 # VBench:           SNF_Bench/results/<key>/<dur>/*eval_results.json
 _T2V_MATCHED = ("released checkpoint evaluated in the recorded common T2V configuration "
@@ -50,7 +50,7 @@ T2V = [
 ]
 
 # ---------------------------------------------------------------- I2V track
-# Source repo: /home/minar/region-forcing (videos in output/eval/<key>/<dur>)
+# Source repo: the configured i2v_source_repo (videos in output/eval/<key>/<dur>)
 # Metrics:     snf_eval/results/metrics/<key>/<dur>/{snf_task_metrics,snf_extra_metrics}.json
 #              + vbench_std/*eval_results.json
 # Config names are deliberately neutral in anything that ships: a released

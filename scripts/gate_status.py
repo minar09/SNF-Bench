@@ -29,7 +29,8 @@ from registry import ALL, contestants                      # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RAW, MAN, TAB = f"{ROOT}/raw", f"{ROOT}/manifest", f"{ROOT}/tables"
 DOCS, SCRIPTS = f"{ROOT}/docs", f"{ROOT}/scripts"
-SNF_EVAL = "/home/minar/region-forcing/snf_eval"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _paths                                   # noqa: E402
 
 PASS, FAIL, PEND = "PASS", "FAIL", "PENDING"
 
@@ -146,16 +147,29 @@ def gate_i2v_track():
 
 
 def gate_similarity_compensation():
-    """Has median-translation actually been replaced in the metric source?"""
-    p = f"{SNF_EVAL}/snf_task_metrics.py"
-    if not os.path.exists(p):
-        return PEND, "metric source not found"
-    t = open(p).read()
-    if "estimateAffinePartial2D" in t:
-        return PASS, "similarity estimator present"
-    if "np.median(f[..., 0][static])" in t or "median" in t:
-        return FAIL, "still translation-only (median of static flow)"
-    return PEND, "indeterminate"
+    """Is the scoring path on the similarity estimator, with v1.0 preserved?
+
+    This gate used to read `snf_task_metrics.py` and look for
+    `estimateAffinePartial2D`. That file is the frozen v1.0 provenance record;
+    it is *supposed* to remain translation-only, and the v1.1 estimator has
+    always lived in `snf_metrics_v11.py`. So the gate reported FAIL
+    unconditionally -- a permanently-red light nobody could act on, which is
+    worse than no light. It now checks the two things that are actually true
+    when the spec change is in force: the scoring module fits a similarity, and
+    the v1.0 record still does not.
+    """
+    v11 = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                       "snf_metrics_v11.py")
+    v10 = _paths.metric_source()
+    if not os.path.exists(v11):
+        return FAIL, "snf_metrics_v11.py missing"
+    if "estimateAffinePartial2D" not in open(v11).read():
+        return FAIL, "v1.1 scoring module is not fitting a similarity"
+    if not os.path.exists(v10):
+        return PEND, "v1.0 provenance record not found"
+    if "estimateAffinePartial2D" in open(v10).read():
+        return FAIL, "v1.0 provenance record was edited; it must stay v1.0"
+    return PASS, "v1.1 fits similarity; v1.0 record unchanged"
 
 
 def gate_unit_tests():
@@ -202,6 +216,61 @@ def gate_figure_provenance():
 
 
 # Required for the final sweep. PENDING counts as not-passed.
+def gate_records_not_outdated():
+    """No metric record may predate the videos it describes.
+
+    The spec-version gate above catches a record computed under the wrong
+    estimator; it cannot catch a correctly-versioned record left over from a
+    superseded run. That failure mode is not hypothetical -- a sibling repo
+    scored an arm against three-week-old JSONs and the numbers reached its
+    tables. Cheap enough to run every time: it stats files, nothing more.
+    """
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    try:
+        import rerun_metrics
+    except Exception as exc:                     # pragma: no cover
+        return PEND, f"rerun_metrics unavailable ({exc})"
+    bad = rerun_metrics.outdated_entries(slack_s=5)
+    if bad:
+        head = "; ".join(f"{e} ({why})" for e, why in bad[:3])
+        return FAIL, f"{len(bad)} entr{'y' if len(bad)==1 else 'ies'} stale: {head}"
+    return PASS, "every record newer than its videos"
+
+
+def gate_assets_current():
+    """Generated LaTeX must be newer than every manifest it is derived from.
+
+    `paper_assets.py` globs `manifest/validation_response*.json`, so a peer
+    adding a consolidated perturbation audit on 28 Sep silently entered the
+    validation table and macros -- and because nobody regenerated, the paper
+    kept numbers built on 25 Aug. That drift moved the headline translation
+    ratios (fBD 1.86 -> 1.97, NBF 1.32 -> 1.55, Dynamic Degree 1.07 -> 1.15) and
+    changed one factor's admission verdict. A glob that silently widens is worth
+    a guard.
+
+    mtime-based, so a fresh clone can trip it; the remedy is to re-run
+    `paper_assets.py`, which is idempotent.
+    """
+    # Reports written *by* the gate and its siblings are outputs, not inputs;
+    # gate_status.json is rewritten every run, so comparing against it would
+    # make this gate fail permanently against itself.
+    outputs = {"gate_status.json", "schema_scan.json", "coverage.json",
+               "video_counts.json"}
+    gen = glob.glob(f"{ROOT}/latex/generated/*.tex")
+    src = [f for f in glob.glob(f"{ROOT}/manifest/*.json") +
+           glob.glob(f"{ROOT}/manifest/*.csv")
+           if os.path.basename(f) not in outputs]
+    if not gen or not src:
+        return PEND, "no generated assets or no manifests"
+    newest_src = max(src, key=os.path.getmtime)
+    stale = [g for g in gen
+             if os.path.getmtime(g) < os.path.getmtime(newest_src)]
+    if stale:
+        return FAIL, (f"{len(stale)} generated file(s) older than "
+                      f"{os.path.basename(newest_src)}; re-run paper_assets.py")
+    return PASS, f"{len(gen)} generated files newer than every manifest"
+
+
 GATES = [
     ("Metric spec v1.1 parity", gate_metric_spec, True),
     ("Banned terms purged (paper)", gate_banned_terms, True),
@@ -211,6 +280,8 @@ GATES = [
     ("I2V >=3 published models @60s", gate_i2v_track, True),
     ("Similarity compensation", gate_similarity_compensation, True),
     ("Compensation unit tests", gate_unit_tests, True),
+    ("Records newer than videos", gate_records_not_outdated, True),
+    ("Generated assets current", gate_assets_current, True),
     ("Mask schema frozen", gate_mask_schema, True),
     ("Overlay masks built", gate_overlay_masks, True),
     ("Zero-motion floor", gate_zero_motion_floor, True),

@@ -43,10 +43,10 @@ import sys
 import cv2
 import numpy as np
 
-SNF_EVAL = "/home/minar/region-forcing/snf_eval"
-if SNF_EVAL not in sys.path:
-    sys.path.insert(0, SNF_EVAL)
-os.environ.setdefault("VBENCH_CACHE_DIR", "/home/minar/ckpt/vbench")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _paths                                   # noqa: E402
+_paths.bootstrap_metric_imports()
+os.environ.setdefault("VBENCH_CACHE_DIR", _paths.vbench_cache())
 
 import snf_task_metrics as S                                   # noqa: E402
 

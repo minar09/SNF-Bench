@@ -38,7 +38,9 @@ def load_model(device):
 
 def official_transform():
     """Import VBench's video-frame transform, not CLIP's PIL preprocessing."""
-    root = os.environ.get("SNF_VBENCH_ROOT", "/home/minar/VBench")
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import _paths
+    root = _paths.resolve("vbench_repo")
     if root not in sys.path:
         sys.path.insert(0, root)
     from vbench.utils import clip_transform

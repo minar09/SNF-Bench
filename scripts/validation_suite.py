@@ -35,9 +35,10 @@ import cv2
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-os.environ.setdefault("VBENCH_CACHE_DIR", "/home/minar/ckpt/vbench")
-SNF_EVAL = "/home/minar/region-forcing/snf_eval"
-sys.path.insert(0, SNF_EVAL)
+import _paths                                   # noqa: E402
+
+os.environ.setdefault("VBENCH_CACHE_DIR", _paths.vbench_cache())
+_paths.bootstrap_metric_imports()
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MAN = f"{ROOT}/manifest"

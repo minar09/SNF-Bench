@@ -23,7 +23,9 @@ def textured_frames():
 
 
 def test_trace_reproduces_frozen_orb_drift():
-    sys.path.insert(0, "/home/minar/region-forcing/snf_eval")
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import _paths
+    _paths.bootstrap_metric_imports()
     import snf_task_metrics as frozen
 
     frames = textured_frames()

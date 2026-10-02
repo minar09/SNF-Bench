@@ -4,8 +4,8 @@ Status: M1 pilot on the 12 T2V-60s clips used by the frozen perturbation
 sweep. Run with:
 
 ```bash
-/home/minar/miniconda3/envs/snfeval/bin/python scripts/audit_fbd_reliability.py --check-only
-/home/minar/miniconda3/envs/snfeval/bin/python scripts/audit_fbd_reliability.py --gpu 4
+python scripts/audit_fbd_reliability.py --check-only
+python scripts/audit_fbd_reliability.py --gpu 4
 ```
 
 ## Why this audit exists

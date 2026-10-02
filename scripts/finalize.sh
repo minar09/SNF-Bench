@@ -5,7 +5,7 @@
 #
 #   setsid nohup scripts/finalize.sh > finalize.log 2>&1 < /dev/null &
 set -u
-cd /home/minar/snf-bench
+cd "$(dirname "$(readlink -f "$0")")/.."   # repo root, wherever it is
 PY=~/miniconda3/envs/snfeval/bin/python
 TEX=~/miniconda3/envs/tex/bin/tectonic
 

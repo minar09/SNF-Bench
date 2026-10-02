@@ -32,13 +32,14 @@ import traceback
 import numpy as np
 
 DEFAULT_SPEC = "1.1"
-SNF_EVAL = "/home/minar/region-forcing/snf_eval"
-sys.path.insert(0, SNF_EVAL)
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _paths                                   # noqa: E402
+_paths.bootstrap_metric_imports()
 
 # load_raft() resolves the RAFT checkpoint under VBENCH_CACHE_DIR, defaulting to
 # ~/.cache/vbench, which does not exist on this machine. Pin it so the worker is
 # not silently dependent on the caller's environment.
-os.environ.setdefault("VBENCH_CACHE_DIR", "/home/minar/ckpt/vbench")
+os.environ.setdefault("VBENCH_CACHE_DIR", _paths.vbench_cache())
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 

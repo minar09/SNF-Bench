@@ -31,7 +31,7 @@ import json
 import os
 import shutil
 import sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from registry import ALL, DURATIONS, METRICS, contestants      # noqa: E402
@@ -1174,6 +1174,92 @@ def abstention_table(label="tab:abstention"):
     return "\n".join(lines)
 
 
+def compensation_table(label="tab:compensation"):
+    """How well the v1.1 similarity fit actually behaved on the audited clips.
+
+    Sec. 4 states that insufficient correspondences fall back to median
+    translation and that the fallback is recorded per sequence. Both are true
+    and neither was ever reported, so a reader had no way to tell whether the
+    estimator was working or quietly degrading. It is worth reporting for two
+    reasons that point in opposite directions.
+
+    The reassuring one: the fallback never fires. The qualifying one: on real
+    fixed-camera audit clips the fitted transform is numerically almost pure
+    translation -- median rotation is a thousandth of a degree and median scale
+    is within 1e-4 of unity -- so v1.0 and v1.1 should agree closely *here*, and
+    the estimator change earns its keep on the validation corruptions, which
+    inject the rotation and zoom that v1.0 cannot see. Claiming the upgrade
+    reorders the audit would not survive this table, so the paper should not
+    claim it.
+    """
+    import glob as _g
+    public = {(m["track"], m["key"]) for m in ALL if m["status"] == "public"}
+    per_track = defaultdict(lambda: defaultdict(list))
+    modes = defaultdict(Counter)
+    for path in sorted(_g.glob(f"{ROOT}/raw/*/*/*/snf_task_metrics.json")):
+        parts = path.split(os.sep)
+        track, key = parts[-4], parts[-3]
+        if (track, key) not in public:
+            continue
+        try:
+            d = json.load(open(path))
+        except (OSError, ValueError):
+            continue
+        if str(d.get("metric_spec_version")) != "1.1":
+            continue
+        for v in d.get("per_video", []):
+            if not isinstance(v, dict) or "error" in v:
+                continue
+            modes[track][v.get("compensation_mode")] += 1
+            for k in ("inlier_ratio_mean", "rotation_deg_mean", "scale_mean",
+                      "similarity_frac"):
+                if isinstance(v.get(k), (int, float)):
+                    per_track[track][k].append(float(v[k]))
+    if not per_track:
+        return None
+
+    def q(vals, frac):
+        vals = sorted(vals)
+        return vals[min(len(vals) - 1, int(frac * len(vals)))]
+
+    rows = []
+    for track in sorted(per_track):
+        d = per_track[track]
+        n = modes[track].total() if hasattr(modes[track], "total") else sum(modes[track].values())
+        fb = sum(1 for x in d["similarity_frac"] if x < 1.0)
+        rows.append([
+            track.upper(), str(n),
+            f"{sum(1 for x in d['inlier_ratio_mean'] if x < 0.8)}",
+            f"{q(d['inlier_ratio_mean'], 0.05):.2f}",
+            f"{q(d['inlier_ratio_mean'], 0.50):.3f}",
+            f"{q(d['rotation_deg_mean'], 0.50):.4f}",
+            f"{max(abs(x) for x in d['rotation_deg_mean']):.2f}",
+            f"{q(d['scale_mean'], 0.50):.4f}",
+            str(fb)])
+    lines = [r"\begin{table}[tb]", r"\centering", r"\footnotesize",
+             r"\begin{tabular}{lrrrrrrrr}", r"\toprule",
+             r"& & \multicolumn{3}{c}{RANSAC inlier ratio} & "
+             r"\multicolumn{2}{c}{rotation ($^\circ$)} & scale & \\",
+             r"\cmidrule(lr){3-5}\cmidrule(lr){6-7}",
+             r"track & clips & $<0.8$ & p05 & median & median & max $|\cdot|$ "
+             r"& median & fallbacks \\", r"\midrule"]
+    for r_ in rows:
+        lines.append(" & ".join(r_) + r" \\")
+    lines += [r"\bottomrule", r"\end{tabular}",
+              r"\caption{\textbf{Behaviour of the v1.1 similarity compensation on the "
+              r"audited clips.} The median-translation fallback never fires, so every "
+              r"reported value comes from a fitted similarity. The fit is not uniformly "
+              r"tight: a minority of clips sit well below the typical inlier ratio. The "
+              r"fitted transform is also nearly a pure translation in practice "
+              r"(median rotation $\sim10^{-3}$ degrees, median scale within $10^{-4}$ "
+              r"of unity), so v1.0 and v1.1 are expected to agree closely on this "
+              r"material; the estimator change matters for the injected-rotation and "
+              r"scale corruptions of Sec.~\ref{sec:validation}, which median translation "
+              r"cannot represent, not for reordering the audit.}",
+              r"\label{%s}" % label, r"\end{table}"]
+    return "\n".join(lines)
+
+
 # --------------------------------------------------------------------- macros
 def macros(ix, rows):
     """Every number the prose quotes, as a \\newcommand."""
@@ -1356,6 +1442,7 @@ def main():
     # at the same resolution, frame rate and maximum horizon, so the table was
     # seven identical rows. The single distinct fact is stated in Sec. 7 text.
     for fn, name in ((abstention_table(), "tab_abstention.tex"),
+                     (compensation_table(), "tab_compensation.tex"),
                      (validation_table(), "tab_validation.tex"),
                      (interpretation_table(ix), "tab_interpretation.tex"),
                      (aggregation_table(ix), "tab_aggregation.tex"),

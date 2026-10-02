@@ -6,8 +6,8 @@ Run the command below in the `snfeval` environment after the linked videos and
 RAFT checkpoint are available:
 
 ```bash
-/home/minar/miniconda3/envs/snfeval/bin/python scripts/score_shared_auto_control.py --check-only
-/home/minar/miniconda3/envs/snfeval/bin/python scripts/score_shared_auto_control.py --gpu 4
+python scripts/score_shared_auto_control.py --check-only
+python scripts/score_shared_auto_control.py --gpu 4
 ```
 
 ## What is held fixed

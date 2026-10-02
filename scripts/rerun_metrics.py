@@ -63,6 +63,48 @@ def broken_entries():
     return out
 
 
+
+def outdated_entries(public_only=True, slack_s=0):
+    """-> [(entry, detail)] whose metric record predates the videos it describes.
+
+    Spec-version drift is not the only way a record goes wrong. A sibling
+    repository had an arm "score" in 2m21s where comparable arms take 32-38
+    minutes: its metric JSONs were three weeks old, left over from a discarded
+    run, and every downstream table silently used them. A record older than its
+    own inputs is stale by definition, and nothing here checked for it -- the
+    existing guard compares `metric_spec_version`, which a stale file carries
+    just as correctly as a fresh one.
+
+    Videos are symlinks into the upstream repositories; `getmtime` follows them,
+    so this compares against the real file. `slack_s` tolerates filesystems with
+    coarse timestamps.
+    """
+    import registry
+    pub = {(m["track"], m["key"]) for m in registry.ALL
+           if not public_only or m["status"] == "public"}
+    out = []
+    for rec in sorted(glob.glob(f"{RAW}/*/*/*/snf_task_metrics.json")):
+        parts = rec.split(os.sep)
+        track, key, dur = parts[-4], parts[-3], parts[-2]
+        if (track, key) not in pub:
+            continue
+        vdir = os.path.join(ROOT, "videos", track, key, dur)
+        vids = [v for v in glob.glob(os.path.join(vdir, "*.mp4"))
+                if os.path.exists(v)]
+        if not vids:
+            continue
+        try:
+            t_rec = os.path.getmtime(rec)
+        except OSError:
+            continue
+        newer = [v for v in vids if os.path.getmtime(v) > t_rec + slack_s]
+        if newer:
+            age = max(os.path.getmtime(v) for v in newer) - t_rec
+            out.append((f"{track}/{key}/{dur}",
+                        f"{len(newer)}/{len(vids)} videos newer by up to "
+                        f"{age / 3600:.1f} h"))
+    return out
+
 def stale_entries(target="1.1", public_only=True):
     """-> [entry] whose records were not all computed under the target spec.
 
@@ -193,6 +235,10 @@ def main():
     ap.add_argument("--all-broken", action="store_true")
     ap.add_argument("--stale", action="store_true",
                     help="re-run entries not computed under --spec")
+    ap.add_argument("--outdated", action="store_true",
+                    help="re-run entries whose record predates its videos")
+    ap.add_argument("--check-only", action="store_true",
+                    help="list what would be re-run and exit")
     ap.add_argument("--entry", action="append", default=[])
     ap.add_argument("--gpu", default="0")
     ap.add_argument("--no-persist", action="store_true")
@@ -206,9 +252,21 @@ def main():
         entries += [e for e in broken_entries() if e not in entries]
     if args.stale:
         entries += [e for e in stale_entries(args.spec) if e not in entries]
+    if args.outdated:
+        od = outdated_entries()
+        for e, why in od:
+            print(f"outdated: {e}  ({why})")
+        entries += [e for e, _ in od if e not in entries]
     if not entries:
-        print("nothing selected; use --gate, --all-broken, --stale or --entry")
+        print("nothing selected; use --gate, --all-broken, --stale, "
+              "--outdated or --entry")
         return 2
+    if args.check_only:
+        print(f"{len(entries)} entr{'y' if len(entries) == 1 else 'ies'} "
+              f"selected:")
+        for e in entries:
+            print(f"   {e}")
+        return 0
 
     results, failed_any = {}, False
     for e in entries:

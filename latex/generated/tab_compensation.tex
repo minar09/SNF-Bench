@@ -1,0 +1,16 @@
+\begin{table}[tb]
+\centering
+\footnotesize
+\begin{tabular}{lrrrrrrrr}
+\toprule
+& & \multicolumn{3}{c}{RANSAC inlier ratio} & \multicolumn{2}{c}{rotation ($^\circ$)} & scale & \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-7}
+track & clips & $<0.8$ & p05 & median & median & max $|\cdot|$ & median & fallbacks \\
+\midrule
+I2V & 470 & 46 & 0.70 & 0.989 & 0.0019 & 0.35 & 1.0002 & 0 \\
+T2V & 280 & 32 & 0.66 & 0.967 & 0.0032 & 0.42 & 1.0002 & 0 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Behaviour of the v1.1 similarity compensation on the audited clips.} The median-translation fallback never fires, so every reported value comes from a fitted similarity. The fit is not uniformly tight: a minority of clips sit well below the typical inlier ratio. The fitted transform is also nearly a pure translation in practice (median rotation $\sim10^{-3}$ degrees, median scale within $10^{-4}$ of unity), so v1.0 and v1.1 are expected to agree closely on this material; the estimator change matters for the injected-rotation and scale corruptions of Sec.~\ref{sec:validation}, which median translation cannot represent, not for reordering the audit.}
+\label{tab:compensation}
+\end{table}
