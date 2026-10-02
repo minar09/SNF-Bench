@@ -42,3 +42,14 @@ prompts/v2/v2_images_commons/*
 # repos, a VBench checkout). scripts/_paths.py reads it; keeping it untracked
 # is what stops those paths shipping in the released source.
 configs/local_paths.json
+
+# Generated-video trees are symlinks into wherever each generator wrote its
+# output -- machine-local by construction, and tens of GB behind them.
+# manifest/video_index.csv records each video's source and fingerprint, which
+# is what reproduces them. v1 uses videos/, v2 uses videos_v2/ (prompt_sets.py).
+videos/
+videos_v2/
+raw_v2/**/.tmp*
+.metric_staging_v2/
+.flow_fields_v2/
+failures_v2/

@@ -15,6 +15,8 @@ Similarity compensation ........ PASS     v1.1 fits similarity; v1.0 record unch
 Compensation unit tests ........ PASS     translation/rotation/scale recovered
 Records newer than videos ...... PASS     every record newer than its videos
 Generated assets current ....... PASS     22 generated files newer than every manifest
+Prompt-set separation .......... PASS     2561 per-video records, each in its own set's tree
+v2 consumer files current ...... PASS     v2 consumer files current (8 files, 192 links)
 Mask schema frozen ............. PENDING  MASK_SPEC_v1.0.md not written (gate Aug 14)
 Overlay masks built ............ PENDING  no overlay masks built (Aug 14)
 Zero-motion floor .............. PENDING  not run (P0#5)

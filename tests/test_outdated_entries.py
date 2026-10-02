@@ -41,6 +41,7 @@ def fake_tree(tmp_path, monkeypatch):
     video.write_bytes(b"\0")
 
     monkeypatch.setattr(R, "RAW", str(tmp_path / "raw"))
+    monkeypatch.setattr(R, "VIDEOS", str(tmp_path / "videos"))
     monkeypatch.setattr(R, "ROOT", str(tmp_path))
     return R, f"{track}/{key}/{dur}", rec, video
 

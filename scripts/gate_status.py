@@ -255,7 +255,9 @@ def gate_assets_current():
     # gate_status.json is rewritten every run, so comparing against it would
     # make this gate fail permanently against itself.
     outputs = {"gate_status.json", "schema_scan.json", "coverage.json",
-               "video_counts.json"}
+               "video_counts.json",
+               # integrity records about inputs; the paper is not built from them
+               "prompt_set_hashes.json", "i2v_review_sha.json"}
     gen = glob.glob(f"{ROOT}/latex/generated/*.tex")
     src = [f for f in glob.glob(f"{ROOT}/manifest/*.json") +
            glob.glob(f"{ROOT}/manifest/*.csv")
@@ -271,6 +273,48 @@ def gate_assets_current():
     return PASS, f"{len(gen)} generated files newer than every manifest"
 
 
+def gate_prompt_set_separation():
+    """No record in one prompt set's tree may score another set's videos.
+
+    v1 and v2 records live under disjoint roots (raw/ and raw_v2/); this checks
+    the roots actually hold what their names say, by matching every per-video
+    filename against both sets' prompt text. A v2 video scored into raw/ would
+    otherwise enter every v1 table through the `raw/*/*/*` globs unnoticed.
+    """
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import prompt_sets
+    bad, n = [], 0
+    for name in prompt_sets.SETS:
+        base = prompt_sets.root(name, "raw")
+        for rec in glob.glob(f"{base}/*/*/*/snf_task_metrics.json"):
+            try:
+                d = json.load(open(rec))
+            except (OSError, ValueError):
+                continue
+            declared = d.get("prompt_set", "v1")
+            if declared != name:
+                bad.append(f"{os.path.relpath(rec, ROOT)} declares {declared}")
+            for v in d.get("per_video", []):
+                k = prompt_sets.classify(v.get("video", ""))
+                n += 1
+                if k not in (None, name):
+                    bad.append(f"{os.path.relpath(rec, ROOT)} holds a {k} video")
+                    break
+    if bad:
+        return FAIL, f"{len(bad)} cross-set record(s): {bad[0]}"
+    return PASS, f"{n} per-video records, each in its own set's tree"
+
+
+def gate_v2_consumer_files():
+    """The per-horizon files generators read must match the v2 manifests."""
+    import subprocess
+    r = subprocess.run([sys.executable, os.path.join(os.path.dirname(
+        os.path.abspath(__file__)), "export_prompt_set.py"), "--check"],
+        capture_output=True, text=True)
+    msg = (r.stdout or r.stderr).strip().splitlines()[-1] if (r.stdout or r.stderr) else ""
+    return (PASS if r.returncode == 0 else FAIL), msg
+
+
 GATES = [
     ("Metric spec v1.1 parity", gate_metric_spec, True),
     ("Banned terms purged (paper)", gate_banned_terms, True),
@@ -282,6 +326,8 @@ GATES = [
     ("Compensation unit tests", gate_unit_tests, True),
     ("Records newer than videos", gate_records_not_outdated, True),
     ("Generated assets current", gate_assets_current, True),
+    ("Prompt-set separation", gate_prompt_set_separation, True),
+    ("v2 consumer files current", gate_v2_consumer_files, True),
     ("Mask schema frozen", gate_mask_schema, True),
     ("Overlay masks built", gate_overlay_masks, True),
     ("Zero-motion floor", gate_zero_motion_floor, True),

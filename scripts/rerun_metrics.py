@@ -32,9 +32,38 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-RAW, MAN = f"{ROOT}/raw", f"{ROOT}/manifest"
-STAGE = f"{ROOT}/.metric_staging"
+import prompt_sets  # noqa: E402
+
+# Roots are per prompt set (see prompt_sets.py). v1 keeps the paths it always
+# had; `--prompt-set v2` swaps all four together so a v2 score can never be
+# assembled into, staged beside, or merged with a v1 record.
+PROMPT_SET = prompt_sets.DEFAULT
+RAW, MAN = prompt_sets.root(PROMPT_SET, "raw"), f"{ROOT}/manifest"
+STAGE = prompt_sets.root(PROMPT_SET, "staging")
+VIDEOS = prompt_sets.root(PROMPT_SET, "videos")
+FLOW = prompt_sets.root(PROMPT_SET, "flow")
 FAIL = f"{ROOT}/failures"
+
+
+def select_prompt_set(name):
+    """Point every root at one prompt set's tree."""
+    global PROMPT_SET, RAW, STAGE, VIDEOS, FLOW, FAIL
+    PROMPT_SET = prompt_sets.get(name) and name
+    RAW = prompt_sets.root(name, "raw")
+    STAGE = prompt_sets.root(name, "staging")
+    VIDEOS = prompt_sets.root(name, "videos")
+    FLOW = prompt_sets.root(name, "flow")
+    FAIL = f"{ROOT}/failures" if name == "v1" else f"{ROOT}/failures_{name}"
+
+
+def foreign_videos(vids, name):
+    """Videos whose filename belongs to a *different* prompt set than `name`."""
+    out = []
+    for v in vids:
+        k = prompt_sets.classify(v)
+        if k is not None and k != name:
+            out.append((os.path.basename(v), k))
+    return out
 WORKER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "metric_worker.py")
 PY = os.environ.get("SNF_PY", os.path.expanduser("~/miniconda3/envs/snfeval/bin/python"))
 
@@ -88,7 +117,7 @@ def outdated_entries(public_only=True, slack_s=0):
         track, key, dur = parts[-4], parts[-3], parts[-2]
         if (track, key) not in pub:
             continue
-        vdir = os.path.join(ROOT, "videos", track, key, dur)
+        vdir = os.path.join(VIDEOS, track, key, dur)
         vids = [v for v in glob.glob(os.path.join(vdir, "*.mp4"))
                 if os.path.exists(v)]
         if not vids:
@@ -135,17 +164,23 @@ def stale_entries(target="1.1", public_only=True):
 
 def videos_for(entry):
     track, key, dur = entry.split("/")
-    return sorted(glob.glob(f"{ROOT}/videos/{track}/{key}/{dur}/*.mp4"))
+    return sorted(glob.glob(f"{VIDEOS}/{track}/{key}/{dur}/*.mp4"))
 
 
 def run_entry(entry, gpu, persist=True, spec="1.1"):
     track, key, dur = entry.split("/")
     stage = f"{STAGE}/{track}/{key}/{dur}"
-    pdir = f"{ROOT}/.flow_fields/{track}/{key}/{dur}" if persist else ""
+    pdir = f"{FLOW}/{track}/{key}/{dur}" if persist else ""
     os.makedirs(stage, exist_ok=True)
     vids = videos_for(entry)
     if not vids:
         print(f"!! {entry}: no videos on disk -- generation gap, not a metric gap")
+        return None
+    wrong = foreign_videos(vids, PROMPT_SET)
+    if wrong:
+        print(f"!! {entry}: {len(wrong)} video(s) belong to prompt set "
+              f"{wrong[0][1]!r}, not {PROMPT_SET!r} (e.g. {wrong[0][0][:70]}); "
+              f"refusing to score them into the {PROMPT_SET} tree")
         return None
 
     for attempt in range(1, MAX_ATTEMPTS + 1):
@@ -190,6 +225,11 @@ def assemble(entry, ok, bad, spec="1.1"):
             prev = json.load(open(outp))
         except ValueError:
             pass
+    have = prev.get("prompt_set", "v1") if prev else PROMPT_SET
+    if have != PROMPT_SET:
+        # merging would keep the other set's fields and relabel the record
+        raise SystemExit(f"{outp} holds prompt set {have!r}; refusing to merge "
+                         f"{PROMPT_SET!r} results into it")
 
     def agg(k, fn):
         xs = [r[k] for r in ok if r.get(k) is not None]
@@ -197,7 +237,9 @@ def assemble(entry, ok, bad, spec="1.1"):
 
     summary = dict(prev)
     summary.update({
-        "videos_dir": f"{ROOT}/videos/{track}/{key}/{dur}",
+        # repo-relative: an absolute path here names the machine it ran on
+        "videos_dir": os.path.relpath(f"{VIDEOS}/{track}/{key}/{dur}", ROOT),
+        "prompt_set": PROMPT_SET,
         "n_videos": len(ok),
         "n_failed": len(bad),
         # Must reflect the spec actually run. This was hardcoded to "1.0",
@@ -243,7 +285,14 @@ def main():
     ap.add_argument("--gpu", default="0")
     ap.add_argument("--no-persist", action="store_true")
     ap.add_argument("--spec", default="1.1")
+    ap.add_argument("--prompt-set", default=prompt_sets.DEFAULT,
+                    choices=sorted(prompt_sets.SETS),
+                    help="which prompt set's tree to read and write "
+                         "(v1: raw/, videos/; v2: raw_v2/, videos_v2/)")
     args = ap.parse_args()
+    select_prompt_set(args.prompt_set)
+    print(f"prompt set {PROMPT_SET}: records -> {os.path.relpath(RAW, ROOT)}/, "
+          f"videos <- {os.path.relpath(VIDEOS, ROOT)}/")
 
     entries = list(args.entry)
     if args.gate:

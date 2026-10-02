@@ -67,6 +67,18 @@ def main():
         if os.path.splitext(rel)[1].lower() in SKIP_EXT:
             continue
         path = os.path.join(ROOT, rel)
+        if os.path.islink(path):
+            # A tracked symlink ships its *target string*, not the file behind it.
+            # open() follows it -- into a directory, which raises and was skipped --
+            # so absolute targets naming private repositories were never scanned.
+            # v1's I2V images were tracked exactly this way, as links into an
+            # internal repo, until they were vendored.
+            target = os.readlink(path)
+            if ABS_HOME.search(target) or os.path.isabs(target):
+                abs_home[rel] = abs_home.get(rel, 0) + 1
+            if RX.search(target):
+                (allowed if rel in SOURCE_OF_TRUTH else hits)[rel] = 1
+            continue
         try:
             with open(path, "r", errors="ignore") as fh:
                 lines = fh.readlines()

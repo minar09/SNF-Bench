@@ -1,7 +1,7 @@
 """Resolve paths to things outside this repository.
 
 Six tracked scripts used to carry absolute paths into two private repositories
-(`/home/minar/region-forcing/snf_eval`, `/home/minar/static-forcing`). That is
+(absolute paths into sibling working repositories). That is
 two defects at once:
 
 * **Reproducibility.** Nobody outside this machine can run the metric worker,
