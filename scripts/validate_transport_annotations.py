@@ -17,7 +17,13 @@ def _inside_repo(relative):
     path = Path(relative)
     if path.is_absolute() or ".." in path.parts:
         raise ValueError("source_image must be a repository-relative path")
-    return ROOT / path
+    # Recorded pilots keep the paths they were written with; v1 inputs have since
+    # moved to prompts/v1/ byte-for-byte, and the sha256 check below still binds
+    # the record to the exact image.
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import prompt_sets
+    return ROOT / prompt_sets.migrate_path(str(path))
 
 
 def _sha256(path):

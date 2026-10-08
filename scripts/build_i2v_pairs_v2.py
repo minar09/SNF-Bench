@@ -7,7 +7,7 @@ the prompt must describe *that* frame.  So the scene fields here are transcribed
 from the image rather than invented, but they go through the **same** `compose()`
 and `validate()` as the T2V set, for one reason: every v1 defect the reviewers
 objected to was worse on the I2V side.  The v1 I2V captions in
-`prompts/i2v/60s/target_crop_info_16-9.json` run past 200 words, open with the
+`prompts/v1/i2v/60s/target_crop_info_16-9.json` run past 200 words, open with the
 camera boilerplate, and carry both evaluator framing and explicit negation
 ("does not move, tilt, pan, or zoom at any point"), which is exactly the text a
 77-token encoder truncates and a diffusion model mishandles.
@@ -41,7 +41,7 @@ import screen_i2v_images as screen   # reuse its AVIF-capable decoder
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 POOLS = {
     "v2_extra": f"{ROOT}/prompts/v2/v2_images_extra",
-    "v1": f"{ROOT}/prompts/i2v/60s/images",
+    "v1": f"{ROOT}/prompts/v1/i2v/60s/images",
     # Fetched from Wikimedia Commons with a recorded licence. These are the only
     # images in the set whose redistribution is unambiguous today.
     "commons": f"{ROOT}/prompts/v2/v2_images_commons",

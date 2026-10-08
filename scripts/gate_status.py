@@ -254,14 +254,19 @@ def gate_assets_current():
     # Reports written *by* the gate and its siblings are outputs, not inputs;
     # gate_status.json is rewritten every run, so comparing against it would
     # make this gate fail permanently against itself.
-    outputs = {"gate_status.json", "schema_scan.json", "coverage.json",
-               "video_counts.json",
-               # integrity records about inputs; the paper is not built from them
-               "prompt_set_hashes.json", "i2v_review_sha.json"}
+    import fnmatch
+    # Not inputs to the (v1) paper, by family rather than by an ever-growing
+    # list: reports the gate writes itself, integrity records about inputs, and
+    # every v2 build artifact -- the v1 paper is never built from v2 manifests,
+    # and listing them one at a time failed three times as v2 grew.
+    not_inputs = ["gate_status.json", "schema_scan.json", "coverage.json",
+                  "video_counts.json", "prompt_set_hashes.json",
+                  "i2v_review_sha.json", "v2_*", "*_v2*", "prompts_v2*",
+                  "i2v_image_*", "i2v_pair*"]
     gen = glob.glob(f"{ROOT}/latex/generated/*.tex")
     src = [f for f in glob.glob(f"{ROOT}/manifest/*.json") +
            glob.glob(f"{ROOT}/manifest/*.csv")
-           if os.path.basename(f) not in outputs]
+           if not any(fnmatch.fnmatch(os.path.basename(f), pat) for pat in not_inputs)]
     if not gen or not src:
         return PEND, "no generated assets or no manifests"
     newest_src = max(src, key=os.path.getmtime)
@@ -315,6 +320,38 @@ def gate_v2_consumer_files():
     return (PASS if r.returncode == 0 else FAIL), msg
 
 
+def gate_single_measurement():
+    """Each public table cell (prompt set x track x horizon) is one measurement.
+
+    Different masks, compensation models or prompt sets are different
+    measurements; `measurement.assert_poolable` refuses to pool them. This runs
+    it over exactly the records a table cell would aggregate.
+    """
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import measurement, prompt_sets, registry
+    public = {(m["track"], m["key"]) for m in registry.ALL if m["status"] == "public"}
+    cells, bad = {}, []
+    for name in prompt_sets.SETS:
+        base = prompt_sets.root(name, "raw")
+        for rec in glob.glob(f"{base}/*/*/*/snf_task_metrics.json"):
+            track, key, dur = rec.split(os.sep)[-4:-1]
+            if (track, key) not in public:
+                continue
+            try:
+                d = json.load(open(rec))
+            except (OSError, ValueError):
+                continue
+            cells.setdefault((name, track, dur), []).append((f"{key}/{dur}", d))
+    for cell, recs in sorted(cells.items()):
+        try:
+            measurement.assert_poolable(recs)
+        except ValueError as e:
+            bad.append(f"{'/'.join(cell)}: {str(e).splitlines()[1].strip()}")
+    if bad:
+        return FAIL, f"{len(bad)} cell(s) mix measurements; {bad[0]}"
+    return PASS, f"{len(cells)} public table cells, each a single measurement"
+
+
 GATES = [
     ("Metric spec v1.1 parity", gate_metric_spec, True),
     ("Banned terms purged (paper)", gate_banned_terms, True),
@@ -327,6 +364,7 @@ GATES = [
     ("Records newer than videos", gate_records_not_outdated, True),
     ("Generated assets current", gate_assets_current, True),
     ("Prompt-set separation", gate_prompt_set_separation, True),
+    ("Single measurement per cell", gate_single_measurement, True),
     ("v2 consumer files current", gate_v2_consumer_files, True),
     ("Mask schema frozen", gate_mask_schema, True),
     ("Overlay masks built", gate_overlay_masks, True),

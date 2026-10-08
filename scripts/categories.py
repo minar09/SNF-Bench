@@ -147,7 +147,7 @@ def scene_descriptor(prompt):
 def t2v_prompts():
     """-> {slug: full prompt text}. slug matches build_tables.prompt_id()."""
     out = {}
-    for f in sorted(glob.glob(f"{ROOT}/prompts/t2v/*.txt")):
+    for f in sorted(glob.glob(f"{ROOT}/prompts/v1/t2v/*.txt")):
         for line in open(f):
             line = line.strip()
             if line:
@@ -159,9 +159,10 @@ def i2v_prompts():
     """-> {(duration, caption-prefix): (type, caption, file_name)}."""
     out = {}
     for d in DURATIONS:
-        p = f"{ROOT}/prompts/i2v/{d}/target_crop_info_16-9.json"
+        p = f"{ROOT}/prompts/v1/i2v/{d}/target_crop_info_16-9.json"
         if not os.path.exists(p):
-            continue
+            # skipping silently is how a path move would empty the category axis
+            raise FileNotFoundError(f"v1 I2V metadata missing: {p}")
         for x in json.load(open(p)):
             out[(d, x["caption"][:100])] = (x["type"], x["caption"], x["file_name"])
     return out

@@ -50,6 +50,9 @@ ENV = {
     "t2v_source_repo": "SNF_T2V_SOURCE_REPO",
     "i2v_source_repo": "SNF_I2V_SOURCE_REPO",
     "i2v_ablation_repo": "SNF_I2V_ABLATION_REPO",
+    # A method project that evaluates on SNF-Bench; its training, development and
+    # validation images are what a test split must be checked against.
+    "method_repo": "SNF_METHOD_REPO",
     "vbench_cache": "VBENCH_CACHE_DIR",
     "vbench_repo": "SNF_VBENCH_ROOT",
 }

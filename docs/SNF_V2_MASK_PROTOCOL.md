@@ -44,9 +44,9 @@ existing annotation):
     "track": "i2v",
     "duration": "60s",
     "prompt_id": "first 100 characters of the conditioning caption",
-    "source_image": "prompts/i2v/60s/images/example.jpg",
+    "source_image": "prompts/v1/i2v/60s/images/example.jpg",
     "source_sha256": "sha256 of the exact source file",
-    "label_png": "prompts/i2v/reviewed_masks/60s/example.png",
+    "label_png": "prompts/v1/i2v/reviewed_masks/60s/example.png",
     "geometry": "direct_resize",
     "reviewed": true,
     "reviewed_by": "annotator identifier"

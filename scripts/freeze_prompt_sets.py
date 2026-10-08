@@ -32,9 +32,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "manifest", "prompt_set_hashes.json")
 
 PATTERNS = {
-    "v1": ["prompts/t2v/*.txt",
-           "prompts/i2v/*/*.json",
-           "prompts/i2v/*/*/*"],
+    "v1": ["prompts/v1/t2v/*.txt",
+           "prompts/v1/i2v/*/*.json",
+           "prompts/v1/i2v/*/*/*"],
     "v2": ["manifest/prompts_v2.json",
            "manifest/i2v_pairs_v2.json",
            "manifest/i2v_pair_sources.json",
@@ -87,7 +87,11 @@ def fingerprint(files):
     from one made after. `python scripts/freeze_prompt_sets.py --fingerprint v2`
     prints it.
     """
-    blob = json.dumps(files, sort_keys=True).encode()
+    # File *name* and content, not directory: v1 moved to prompts/v1/ without a
+    # byte changing, and that must not change its identity. Names stay in so a
+    # swap (prompts60s.txt <-> prompts120s.txt) is still a different set.
+    items = sorted(f"{os.path.basename(p)}\0{h}" for p, h in files.items())
+    blob = "\n".join(items).encode()
     return "sha256:" + hashlib.sha256(blob).hexdigest()[:16]
 
 

@@ -198,8 +198,8 @@ Lists:
 
 | id | content | status |
 |---|---|---|
-| L1 | Full T2V prompt list (35 prompts) | **BUILT** `prompts/t2v/*.txt` |
-| L2 | Full I2V prompt+image list (65 pairs, with `type`) | **BUILT** `prompts/i2v/*/` |
+| L1 | Full T2V prompt list (35 prompts) | **BUILT** `prompts/v1/t2v/*.txt` |
+| L2 | Full I2V prompt+image list (65 pairs, with `type`) | **BUILT** `prompts/v1/i2v/*/` |
 | L3 | Per-video score dump (25,579 rows) | **BUILT** `manifest/per_video_scores.csv` |
 | L4 | Per-video FPS/resolution/frame-count | **BUILT** `manifest/video_meta.csv` |
 | L5 | Per-prompt category assignment with rule + evidence | **BUILT** `manifest/prompt_categories.csv` |

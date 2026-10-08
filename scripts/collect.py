@@ -258,19 +258,36 @@ def index_videos():
 # Prompts / conditioning assets
 # --------------------------------------------------------------------------
 def collect_prompts():
+    """Verify the frozen v1 inputs against upstream; never write them.
+
+    This used to copy upstream prompt files into `prompts/t2v/` and
+    `prompts/i2v/` and to (re)create `prompts/i2v/<H>/images` as a symlink into
+    the upstream repository. v1 is now frozen and vendored under `prompts/v1/`
+    (see docs/VERSIONS.md), so a re-run would have recreated the old layout and
+    the very links the vendoring removed. Upstream drift is reported instead,
+    because a change there is either a mistake or a new version -- never a
+    silent update to v1.
+    """
+    drift = []
+
+    def same(a, b):
+        return os.path.exists(b) and open(a, "rb").read() == open(b, "rb").read()
+
     for f in sorted(glob.glob(f"{SF}/SNF_Bench/prompts/*.txt")):
-        _copy(f, f"{ROOT}/prompts/t2v/{os.path.basename(f)}")
+        if not same(f, f"{ROOT}/prompts/v1/t2v/{os.path.basename(f)}"):
+            drift.append(f"t2v/{os.path.basename(f)}")
     for d in DURATIONS:
         src = f"{RF}/prompts/eval/{d}/target_crop_info_16-9.json"
-        _copy(src, f"{ROOT}/prompts/i2v/{d}/target_crop_info_16-9.json")
-        imgs = sorted(glob.glob(f"{RF}/prompts/eval/{d}/16-9/*"))
-        link = f"{ROOT}/prompts/i2v/{d}/images"
-        if imgs:
-            if os.path.islink(link):
-                os.unlink(link)
-            if not os.path.exists(link):
-                os.makedirs(os.path.dirname(link), exist_ok=True)
-                os.symlink(f"{RF}/prompts/eval/{d}/16-9", link)
+        if os.path.exists(src) and not same(src, f"{ROOT}/prompts/v1/i2v/{d}/target_crop_info_16-9.json"):
+            drift.append(f"i2v/{d}/target_crop_info_16-9.json")
+        for img in sorted(glob.glob(f"{RF}/prompts/eval/{d}/16-9/*")):
+            if not same(img, f"{ROOT}/prompts/v1/i2v/{d}/images/{os.path.basename(img)}"):
+                drift.append(f"i2v/{d}/images/{os.path.basename(img)}")
+    if drift:
+        print(f"   !! upstream v1 inputs differ from the frozen copy in {len(drift)} file(s), "
+              f"e.g. {drift[0]}; v1 left untouched")
+    else:
+        print("   v1 inputs: upstream matches the frozen copy")
     # metric code, verbatim
     for f, dst in [(f"{RF}/snf_eval/snf_task_metrics.py", "snf_task_metrics.py"),
                    (f"{RF}/snf_eval/snf_extra_metrics.py", "snf_extra_metrics.py"),

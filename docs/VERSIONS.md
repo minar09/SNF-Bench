@@ -21,8 +21,8 @@ will be scored under 1.1. "v1.1" always means the metric spec, never a prompt se
 
 | | path |
 |---|---|
-| T2V prompts | `prompts/t2v/prompts{5s,60s,120s,240s}.txt` (+ `prompts240s0[1-4].txt`, `prompts_ext.txt`) |
-| I2V | `prompts/i2v/<H>/target_crop_info_16-9.json`, images in `prompts/i2v/<H>/images/` (`16-9 -> images` alias for the loader) |
+| T2V prompts | `prompts/v1/t2v/prompts{5s,60s,120s,240s}.txt` (+ `prompts240s0[1-4].txt`, `prompts_ext.txt`) |
+| I2V | `prompts/v1/i2v/<H>/target_crop_info_16-9.json`, images in `prompts/v1/i2v/<H>/images/` (`16-9 -> images` alias for the loader) |
 | results | `raw/<track>/<key>/<H>/snf_task_metrics.json` |
 | videos | `videos/<track>/<key>/<H>/` (local symlinks, untracked) |
 | staging / flow | `.metric_staging/`, `.flow_fields/` |
@@ -91,6 +91,15 @@ marker before encoding, so the model sees the manifest text exactly.
 
 ---
 
+## Layout history
+
+* 2026-10-02: v1 inputs moved from `prompts/{t2v,i2v}/` to `prompts/v1/{t2v,i2v}/`
+  (pure rename, all 78 files verified byte-identical). Recorded artifacts written
+  earlier -- the alignment pilots, the transport-annotation pilot and the
+  prompt-design audit -- keep the old paths as provenance; readers resolve them
+  with `prompt_sets.migrate_path()`. Regenerating every paper asset after the
+  move produced byte-identical LaTeX.
+
 ## Rules that keep the versions apart
 
 1. **Score v2 only with `--prompt-set v2`.**
@@ -113,8 +122,14 @@ marker before encoding, so the model sees the manifest text exactly.
 
    | set | files | fingerprint |
    |---|---|---|
-   | v1 | 78 | `sha256:99799499d912d4ca` |
-   | v2 | 61 | `sha256:92bd38f05bd49b39` |
+   | v1 | 78 | `sha256:c004db4426968756` |
+   | v2 | 61 | `sha256:ed0e79351381586f` |
+
+   The fingerprint covers file names and contents, not directories, so moving a
+   set (as v1 moved from `prompts/{t2v,i2v}/` to `prompts/v1/` on 2026-10-02,
+   byte for byte) does not change its identity. Fingerprints issued before that
+   date (`99799499…`, `92bd38f0…`) used a path-dependent definition, were never
+   recorded in a run, and are retired.
 
    A run record that stores it can always be matched to the exact inputs it
    consumed, even if a later version reuses the same paths.

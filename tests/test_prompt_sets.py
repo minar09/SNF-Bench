@@ -132,3 +132,8 @@ def test_v1_loader_layout_present():
         assert os.path.isdir(os.path.join(d, "16-9")), h
         assert not os.path.islink(os.path.join(d, "images")), \
             f"{h}: v1 images must be vendored, not a link into another repo"
+
+
+def test_v2_splits_match_the_audit():
+    r = _run("assign_v2_splits.py", "--check")
+    assert r.returncode == 0, r.stdout + r.stderr

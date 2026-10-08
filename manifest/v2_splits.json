@@ -1,0 +1,120 @@
+{
+ "role": "split assignment for SNF-Bench v2 I2V; inputs are provenance only",
+ "audit": "manifest/v2_split_audit.json",
+ "audit_sha256": "59b918826c2ef44e1cb3ac41de05948d0dfbab0288cf580a7088e9221389d914",
+ "seed": "snf-bench-v2-stress-2026-10-02",
+ "horizons": {
+  "principal": [
+   "60s",
+   "120s"
+  ],
+  "stress": [
+   "240s"
+  ]
+ },
+ "test": [
+  "ial01",
+  "ial02",
+  "ial03",
+  "ial04",
+  "ial05",
+  "ibp01",
+  "ibp02",
+  "ibp03",
+  "ibp04",
+  "ibp05",
+  "ibp06",
+  "icb01",
+  "icb02",
+  "icb03",
+  "icb04",
+  "icb05",
+  "icf01",
+  "icf02",
+  "icf03",
+  "icf04",
+  "icf05",
+  "icf06",
+  "ifp05",
+  "ifp06",
+  "ifw01",
+  "ifw02",
+  "ifw03",
+  "ifw04",
+  "ifw05",
+  "igt01",
+  "igt02",
+  "igt03",
+  "igt04",
+  "iow02",
+  "iow03",
+  "iow04",
+  "iow05",
+  "iwb01",
+  "iwb02",
+  "iwb05",
+  "iwb06"
+ ],
+ "seen_overlap": [
+  "ifp01",
+  "ifp02",
+  "ifp03",
+  "ifp04",
+  "iow01",
+  "iwb03",
+  "iwb04"
+ ],
+ "stress_240s": [
+  "ial05",
+  "ibp06",
+  "icb04",
+  "icf05",
+  "ifp05",
+  "ifw05",
+  "igt04",
+  "iow02",
+  "iwb02"
+ ],
+ "per_category": {
+  "accumulating_level": {
+   "test": 5,
+   "seen_overlap": 0
+  },
+  "buoyant_plume": {
+   "test": 6,
+   "seen_overlap": 0
+  },
+  "channel_flow": {
+   "test": 6,
+   "seen_overlap": 0
+  },
+  "combustion": {
+   "test": 5,
+   "seen_overlap": 0
+  },
+  "falling_precip": {
+   "test": 2,
+   "seen_overlap": 4
+  },
+  "falling_water": {
+   "test": 5,
+   "seen_overlap": 0
+  },
+  "geothermal": {
+   "test": 4,
+   "seen_overlap": 0
+  },
+  "oscillatory_water": {
+   "test": 4,
+   "seen_overlap": 1
+  },
+  "windborne": {
+   "test": 4,
+   "seen_overlap": 2
+  }
+ },
+ "notes": [
+  "seen_overlap = reused v1 evaluation images; v1 was the method project's development set. Report separately; never pool into test.",
+  "stress_240s: one test pair per transport regime, chosen by seeded hash, before any rendering or scoring of v2."
+ ]
+}

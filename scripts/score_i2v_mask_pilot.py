@@ -8,6 +8,7 @@ Use --check-only before any GPU scoring.
 
 import argparse
 import json
+import sys
 import os
 from pathlib import Path
 
@@ -28,7 +29,7 @@ def first_frame_eval_size(video):
 
 def prepared_items(mask_manifest, alignment_report, model, duration, limit=0):
     entries = read_manifest(mask_manifest)
-    metadata_path = ROOT / "prompts" / "i2v" / duration / "target_crop_info_16-9.json"
+    metadata_path = ROOT / "prompts" / "v1" / "i2v" / duration / "target_crop_info_16-9.json"
     metadata = {x["caption"][:100]: x for x in json.loads(metadata_path.read_text())}
     output = []
     for (entry_duration, prompt_id), entry in sorted(entries.items()):
@@ -36,8 +37,10 @@ def prepared_items(mask_manifest, alignment_report, model, duration, limit=0):
             continue
         if prompt_id not in metadata:
             raise ValueError(f"mask prompt absent from conditioning manifest: {prompt_id}")
-        expected_source = f"prompts/i2v/{duration}/images/{metadata[prompt_id]['file_name']}"
-        if entry.get("source_image") != expected_source:
+        expected_source = f"prompts/v1/i2v/{duration}/images/{metadata[prompt_id]['file_name']}"
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import prompt_sets
+        if prompt_sets.migrate_path(entry.get("source_image", "")) != expected_source:
             raise ValueError(f"source image mismatch for {prompt_id}")
         video_relative = f"videos/i2v/{model}/{duration}/{prompt_id}.mp4"
         video = ROOT / video_relative

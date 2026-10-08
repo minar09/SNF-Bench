@@ -40,19 +40,19 @@ SETS = {
         "flow": ".flow_fields",
         # frozen inputs, relative to ROOT
         "t2v_prompt_files": {
-            "5s": "prompts/t2v/prompts5s.txt",
-            "60s": "prompts/t2v/prompts60s.txt",
-            "120s": "prompts/t2v/prompts120s.txt",
-            "240s": "prompts/t2v/prompts240s.txt",
+            "5s": "prompts/v1/t2v/prompts5s.txt",
+            "60s": "prompts/v1/t2v/prompts60s.txt",
+            "120s": "prompts/v1/t2v/prompts120s.txt",
+            "240s": "prompts/v1/t2v/prompts240s.txt",
             # the 240 s tier was also run in four batches, and an extension set
             # exists beside the per-horizon files; all are v1 model-visible text
-            "240s_01": "prompts/t2v/prompts240s01.txt",
-            "240s_02": "prompts/t2v/prompts240s02.txt",
-            "240s_03": "prompts/t2v/prompts240s03.txt",
-            "240s_04": "prompts/t2v/prompts240s04.txt",
-            "ext": "prompts/t2v/prompts_ext.txt",
+            "240s_01": "prompts/v1/t2v/prompts240s01.txt",
+            "240s_02": "prompts/v1/t2v/prompts240s02.txt",
+            "240s_03": "prompts/v1/t2v/prompts240s03.txt",
+            "240s_04": "prompts/v1/t2v/prompts240s04.txt",
+            "ext": "prompts/v1/t2v/prompts_ext.txt",
         },
-        "i2v_dirs": {d: f"prompts/i2v/{d}" for d in ("5s", "60s", "120s", "240s")},
+        "i2v_dirs": {d: f"prompts/v1/i2v/{d}" for d in ("5s", "60s", "120s", "240s")},
         "i2v_meta_name": "target_crop_info_16-9.json",
     },
     "v2": {
@@ -73,6 +73,20 @@ SETS = {
 }
 
 DEFAULT = "v1"          # every pre-existing script keeps v1 behaviour unchanged
+
+_LEGACY = re.compile(r"^prompts/(t2v|i2v)/")
+
+
+def migrate_path(rel):
+    """Map a pre-2026-10-02 v1 path to its current location.
+
+    v1 inputs moved from `prompts/{t2v,i2v}/` to `prompts/v1/{t2v,i2v}/` (a pure
+    rename; every file is byte-identical). Recorded artifacts -- alignment
+    pilots, the transport annotation pilot, the prompt-design audit -- still
+    carry the old paths, and they are left as written because they are
+    provenance. Code that *reads* such a path resolves it through here.
+    """
+    return _LEGACY.sub(r"prompts/v1/\1/", rel)
 
 _MARKER = re.compile(r"\s*\[\d+(?:\.\d+)?s\]\s*$")
 
@@ -96,16 +110,25 @@ def _norm(text):
 
 
 def prompt_texts(name):
-    """Every model-visible prompt in a set (duration markers removed)."""
+    """Every model-visible prompt in a set (duration markers removed).
+
+    Raises if a declared file is missing. It used to skip missing files, and
+    when v1 moved to `prompts/v1/` the set silently became empty: every v1
+    video then classified as "unknown", which the separation gate permits, so
+    the gate kept passing while checking nothing.
+    """
     s, out = get(name), []
     for rel in s["t2v_prompt_files"].values():
         p = os.path.join(ROOT, rel)
-        if os.path.exists(p):
-            out += [l for l in open(p).read().splitlines() if l.strip()]
+        if not os.path.exists(p):
+            raise FileNotFoundError(f"prompt set {name}: declared file missing: {rel}")
+        out += [l for l in open(p).read().splitlines() if l.strip()]
     for rel in s["i2v_dirs"].values():
         p = os.path.join(ROOT, rel, s["i2v_meta_name"])
-        if os.path.exists(p):
-            out += [r["caption"] for r in json.load(open(p))]
+        if not os.path.exists(p):
+            raise FileNotFoundError(f"prompt set {name}: declared file missing: "
+                                    f"{os.path.relpath(p, ROOT)}")
+        out += [r["caption"] for r in json.load(open(p))]
     if name == "v2":                      # also the authoritative manifests
         for key, field, sub in (("t2v_manifest", "text", "scenes"),
                                 ("i2v_manifest", "text", "pairs")):
