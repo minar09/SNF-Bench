@@ -19,16 +19,40 @@ Unlabelled records (the v1.0 sweep wrote none of these fields) get an explicit
 """
 
 FIELDS = ("prompt_set", "metric_spec_version", "mask_version",
-          "flow_backbone", "feature_backbone")
+          "flow_backbone", "feature_backbone",
+          # Added 2026-10-08 after the source-fixed review: two records can share
+          # spec and backbones and still measure different things.
+          "reference_policy",   # output_frame0 | source_image | early_window
+          "mask_set",           # identity of the role-mask set (manifest hash), or
+                                # "output-derived" when each output makes its own
+          "mask_review_scope",  # none | ai | human-independent
+          "window_policy",      # e.g. frac12 | fixed:51-60s
+          "sample_fps",         # analysis sampling rate
+          "failure_policy")     # fallback_included | registered_only | imputed
 UNLABELLED = "unlabelled"
+
+# Policies the v1.0/v1.1 scorer always used. Those records predate the fields,
+# so they are derived here rather than assumed: a record that declares a field
+# explicitly always wins, and a spec this table does not know stays unlabelled.
+LEGACY_POLICY = {
+    "1.1": {"reference_policy": "output_frame0", "mask_set": "output-derived",
+            "mask_review_scope": "none", "window_policy": "frac12",
+            "sample_fps": "8", "failure_policy": "fallback_included"},
+}
 
 
 def signature(summary, per_video):
     """The measurement key of one per-video record inside one entry record."""
+    legacy = LEGACY_POLICY.get(str(per_video.get("metric_spec_version")), {})
+
     def get(k):
         if k == "prompt_set":
             return summary.get("prompt_set", "v1")      # pre-label records are v1
         v = per_video.get(k)
+        if v in (None, ""):
+            v = summary.get(k)
+        if v in (None, ""):
+            v = legacy.get(k)
         return UNLABELLED if v in (None, "") else str(v)
     return tuple(get(k) for k in FIELDS)
 

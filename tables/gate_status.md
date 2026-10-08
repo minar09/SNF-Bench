@@ -14,7 +14,7 @@ I2V >=3 published models @60s .. PASS     4 families >= 27 valid (CausVid:29, Ca
 Similarity compensation ........ PASS     v1.1 fits similarity; v1.0 record unchanged
 Compensation unit tests ........ PASS     translation/rotation/scale recovered
 Records newer than videos ...... PASS     every record newer than its videos
-Generated assets current ....... PASS     22 generated files newer than every manifest
+Generated assets current ....... FAIL     22 generated file(s) older than i2v_metric_review_2026_10_08.json; re-run paper_assets.py
 Prompt-set separation .......... PASS     2561 per-video records, each in its own set's tree
 Single measurement per cell .... PASS     8 public table cells, each a single measurement
 v2 consumer files current ...... PASS     v2 consumer files current (8 files, 192 links)
@@ -26,5 +26,5 @@ Figure provenance footers ...... PASS     12 figures; footer enforced by figures
 ===========================================================
 FINAL_SWEEP_ALLOWED = FALSE
 
-blocked by 7: FPS/size metadata; Artifact schema scan; Valid-record coverage; Mask schema frozen; Overlay masks built; Zero-motion floor; Validation suite
+blocked by 8: FPS/size metadata; Artifact schema scan; Valid-record coverage; Generated assets current; Mask schema frozen; Overlay masks built; Zero-motion floor; Validation suite
 ```

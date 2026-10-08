@@ -42,3 +42,26 @@ def test_unlabelled_records_are_not_assumed_compatible():
     bare = {"per_video": [{"fBD": 1.0}]}
     with pytest.raises(ValueError):
         M.assert_poolable([("a", rec()), ("b", bare)])
+
+
+@pytest.mark.parametrize("over", [
+    {"reference_policy": "source_image"},           # frame 0 vs source image
+    {"mask_set": "sha256:a46afad8333e"},             # output-derived vs shared masks
+    {"mask_review_scope": "ai"},
+    {"window_policy": "fixed:51-60s"},
+    {"failure_policy": "registered_only"},
+])
+def test_source_fixed_policies_never_pool_with_v11(over):
+    with pytest.raises(ValueError):
+        M.assert_poolable([("a", rec()), ("b", rec(**over))])
+
+
+def test_v11_records_get_their_known_policies():
+    sig = dict(zip(M.FIELDS, M.signature({}, dict(V11))))
+    assert sig["reference_policy"] == "output_frame0"
+    assert sig["mask_set"] == "output-derived"
+
+
+def test_explicit_field_beats_legacy_default():
+    sig = dict(zip(M.FIELDS, M.signature({}, dict(V11, reference_policy="source_image"))))
+    assert sig["reference_policy"] == "source_image"

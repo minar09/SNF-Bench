@@ -67,6 +67,16 @@ stronger answer to objection A than either alone.
 
 ---
 
+### Addendum (2026-10-08): WorldScore is earlier still
+
+WorldScore (arXiv 2504.00983, 2025) defines *motion accuracy* as the maximum
+optical-flow magnitude inside a SAM2-tracked dynamic mask minus the maximum
+outside it — a static/dynamic separation predating both SGC and SNF-Bench. It
+also measures Gram-based style consistency (first vs last frame) and
+forward–backward flow-cycle consistency. Its 400-participant study selects a
+subjective-quality metric combination; it must not be presented as separate
+validation of every dynamics instrument. Cite it beside SGC. See `METRIC_UPGRADE_PROPOSAL_v2.md` for what to adopt.
+
 ## 2. Our motion-vs-quality finding has prior art too
 
 **DEVIL — "Evaluation of Text-to-Video Generation Models: A Dynamics
@@ -208,3 +218,24 @@ and NBF definitions — after SGC, which matters for how §1 is worded.
 * NeurIPS 2026 Evaluations & Datasets call — [neurips.cc](https://neurips.cc/Conferences/2026/CallForEvaluationsDatasets)
 * NeurIPS D&B bar-raising / metadata — [blog](https://blog.neurips.cc/2025/03/10/neurips-datasets-benchmarks-raising-the-bar-for-dataset-submissions/),
   [RAI metadata](https://blog.neurips.cc/2026/05/04/responsible-ai-metadata-requirements-for-the-evaluations-and-datasets-track-neurips-2026/)
+
+## 2026-10-08 I2V decision amendment
+
+The current task-specific recommendation is documented in
+[I2V_METRIC_REVIEW_2026_10_08.md](I2V_METRIC_REVIEW_2026_10_08.md). It qualifies
+the proposals above: keep source-defined I2V masks as the main partition;
+use generated-video segmentation only as a sensitivity/control instrument.
+Generic temporal coherence and texture retention do not establish absence of
+replay, and a longer horizon alone does not establish novelty. Source fidelity,
+absolute fixed-camera motion, material intent, long-lag replay and independent
+human validation define the evaluation profile. Published correlations and
+study participant counts are context, not universal admission thresholds.
+
+Additional direct I2V/motion comparators include
+[DIVE](https://arxiv.org/abs/2505.19901v3),
+[AIGCBench](https://arxiv.org/html/2401.01651v1), and
+[VMBench](https://openaccess.thecvf.com/content/ICCV2025/papers/Ling_VMBench_A_Benchmark_for_Perception-Aligned_Video_Motion_Generation_ICCV_2025_paper.pdf).
+The released TRAJAN model uses 150-frame episodes; fixed-duration windowing
+requires documented sampling and does not make it a full-video loop detector.
+FreqForcing is relevant spectral prior art but its audited repository still
+lists inference release as TODO. All new SNF candidate metrics remain provisional.

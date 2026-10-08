@@ -1,6 +1,6 @@
 # SNF-Bench v2 — evaluation specification (CVPR 2027 evidence package)
 
-Status: 2026-10-02. This is the single current specification of v2: what is
+Status: 2026-10-02 protocol; research amendment 2026-10-08 KST. This is the single current specification of v2: what is
 frozen, how it is split, what each reported number measures, and how human and
 VLM judgements are collected. `VERSIONS.md` covers the version mechanics;
 `NEXT_VENUE_PLAN.md` covers the benchmark paper. Where a decision is still open
@@ -17,7 +17,7 @@ it is listed in §1 with the date it must close.
 | consumer files (both tracks, 4 horizons) | frozen, exported | `scripts/export_prompt_set.py --check` |
 | I2V splits + 240 s stress subset | frozen | `manifest/v2_splits.json` (§3) |
 | measurement identity / no-pooling rule | enforced | `scripts/measurement.py`, gate *Single measurement per cell* |
-| headline metric set and admission | **open** | §4; the Sep 28 response audit demotes four of six factors |
+| headline metric set and admission | **open** | §4; the Sep 28 response audit demotes four of six factors; the source-fixed re-score shows fBD's weaknesses; reviewed candidate decisions and independent validation plan in `I2V_METRIC_REVIEW_2026_10_08.md` |
 | zero-motion floor ("glassy water" threshold) | **open, needs GPU** | gate *Zero-motion floor* is PENDING |
 | direction / regime measure | **open, exploratory** | M2 probes, not validated |
 | combustion direction rule (one rule, both tracks) | **open** | §2 |
@@ -27,11 +27,13 @@ Input fingerprints (`python scripts/freeze_prompt_sets.py --fingerprint v2`):
 v2 `sha256:ed0e79351381586f`, v1 `sha256:c004db4426968756`. Every render and
 every score should record the v2 fingerprint.
 
-**The open rows must close before any method selection.** The method plan's
-first selection step is the granularity × memory factorial scheduled from
-Oct 4; a metric set or admission rule decided after its outputs exist is a
-benchmark modified around candidate outputs, which is the failure the review
-warns about.
+**2026-10-08 amendment: selection exposure.** The 48-scene factorial
+already exists and has been examined. Changes motivated by its endpoint
+significance are retrospective; they cannot now be presented as frozen before
+those results. Preserve the existing compatibility analysis, qualify new
+metrics on independent controls, and confirm on untouched sources/models.
+The benchmark's 41 test / seven overlapping split remains authoritative. See
+`I2V_METRIC_REVIEW_2026_10_08.md` for the current decision and execution order.
 
 ## 2. Assets
 
@@ -99,7 +101,9 @@ Five families, never combined into a score, with this rule set:
 
 * **R1** A low drift value cannot compensate for frozen or glassy flow. A clip
   whose late flow (MCFF-L) is below the zero-motion floor is reported as
-  *frozen*, and its static-fidelity values are not credited.
+  *frozen*. Keep its static-fidelity values visible so the activity/fidelity
+  tradeoff is observable; a calibrated joint task outcome cannot pass on
+  source fidelity alone.
 * **R2** A high motion value cannot compensate for wrong-direction transport.
   Where direction is declared applicable, activity is reported beside direction
   correctness, not instead of it.
@@ -108,15 +112,19 @@ Five families, never combined into a score, with this rule set:
 
 | family | SNF measure | status | incumbent / complement |
 |---|---|---|---|
-| source / geometry fidelity | fBD, NBF (static region) | fBD retained as a drift diagnostic; NBF scoped to translation and scale (Sep 28 audit) | VBench-I2V background consistency |
+| source / geometry fidelity | source-support PSNR, legacy color distance and registration coverage as compatibility panel; pixelwise ΔE00 and regional perceptual distance as candidates; fBD/NBF diagnostics | no new candidate admitted; source reference and mask review scope required; fBD demoted, NBF scoped to translation/scale | official VBench-I2V source consistency; LPIPS/DreamSim candidates |
 | activity and persistence | MCFF-E, MCFF-L; FP as decay indicator only | MCFF-L responds to freezing, fails the attenuation-vs-nuisance selectivity screen; FP fails it too | VBench dynamic degree |
 | direction / regime | M2 endpoint probes against declared direction | **exploratory, not validated** | human judgement (§6) |
 | replay / flicker / naturalness | none validated | **gap** | VBench temporal flickering; human and VLM (§6–7) |
 | runtime | not measured by SNF | **gap** | seconds of compute per generated second, GPU type, steps — recorded by the generator in its run record |
 
-Until §1's open rows close, the honest headline is: fidelity and activity are
-measured; direction, naturalness and replay rest on human judgement with VLM
-and VBench as complements.
+Until §1's open rows close, fidelity and activity are available descriptive
+measurements with known validity limits. Direction, naturalness and replay
+require axis-specific human evidence; existing protocols do not establish
+that this evidence has already been collected. VLM and official incumbents
+remain complements. The architecture decision is frozen in the Oct 8 review;
+candidate headline admission remains open.
+
 
 ### Measurement identity
 
@@ -127,6 +135,21 @@ different temporal references and different fps conventions are different
 measurements. Historical (v1) and current (v2) tables are never merged, and the
 gate fails if any public cell mixes signatures. v2 scores live in `raw_v2/`
 only and are written with `rerun_metrics.py --prompt-set v2`.
+
+**Integration requirement (Oct 8).** The present five-field signature does
+not distinguish all proposed candidates. Before migration, add explicit source
+and reference policy, role-mask hash and review scope, fps/pair interval, fixed
+window policy, crop/feature preprocessing and failure/occlusion accounting.
+Different values in those fields are different measurements even when
+`metric_spec_version` and backbone names match. **Enforced since 2026-10-08:**
+`scripts/measurement.py` now keys on reference policy, mask set, mask review
+scope, window policy, sample fps and failure policy, in addition to the original
+five fields. v1.1 records predate these fields; their fixed policies are
+derived from spec 1.1 (frame-0 reference, output-derived mask, 12% windows,
+fallbacks included), so existing cells still pool. Any new record that declares
+a different policy is refused. Remaining: crop/feature preprocessing has no
+field yet, and a source-fixed writer must emit all of these explicitly.
+
 
 ## 5. Seeds
 
