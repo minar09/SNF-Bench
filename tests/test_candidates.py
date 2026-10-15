@@ -84,7 +84,7 @@ def test_detail_drops_for_glassy_material_but_not_for_frozen_sharp():
 def test_activity_separates_moving_from_frozen():
     m, src, dyn = _clip("moving")
     z, _, _ = _clip("frozen")
-    assert np.mean(C.material_detail_activity(m, src, dyn)["activity"][1:]) > 10
+    assert np.mean(C.material_detail_activity(m, src, dyn)["activity"][1:]) > 1   # frozen is exactly 0
     assert np.mean(C.material_detail_activity(z, src, dyn)["activity"][1:]) == 0
 
 

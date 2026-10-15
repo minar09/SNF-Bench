@@ -94,11 +94,24 @@ def resolve(key, required=True):
         f"  see scripts/_paths.py for what each key must point at.")
 
 
+RAFT_REL = "raft_model/models/models/raft-things.pth"   # as snf_task_metrics.load_raft builds it
+
+
 def vbench_cache():
-    """Directory holding VBench's RAFT checkpoint; created if absent."""
+    """Directory holding VBench's RAFT checkpoint. Raises if it holds none.
+
+    This used to create the directory when absent and return it. On this machine
+    that silently swapped the real cache for an empty `~/.cache/vbench`, and the
+    first RAFT load failed far from the cause. A cache without the checkpoint is
+    now a configuration error reported here.
+    """
     p = (os.environ.get("VBENCH_CACHE_DIR") or _local().get("vbench_cache")
          or CACHE_DEFAULT)
-    os.makedirs(p, exist_ok=True)
+    if not os.path.isfile(os.path.join(p, RAFT_REL)):
+        raise SystemExit(
+            f"no RAFT checkpoint under {p} ({RAFT_REL}).\n"
+            f"  set $VBENCH_CACHE_DIR, or add 'vbench_cache' to "
+            f"{os.path.relpath(LOCAL, ROOT)}.")
     return p
 
 

@@ -71,6 +71,7 @@ _mods = {}
 def snf_modules():
     """(S, V11, E): this repository's metric modules, the ones upstream imports."""
     if not _mods:
+        os.environ.setdefault("VBENCH_CACHE_DIR", _paths.vbench_cache())
         _paths.bootstrap_metric_imports()
         import snf_task_metrics as S       # noqa: E402
         import snf_metrics_v11 as V11      # noqa: E402

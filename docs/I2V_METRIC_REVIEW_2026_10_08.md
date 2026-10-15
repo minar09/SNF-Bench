@@ -46,11 +46,11 @@ contrast 45 eligible scenes. These are different
 endpoint populations and conditional measurements, not four interchangeable
 estimates of camera drift. The table and protocol are:
 
-- [pooled table](/home/minar/ar-image-animation/results/factorial/tables/interaction_pooled_sourcefixed.md)
-- [factorial analysis and mask review scope](/home/minar/ar-image-animation/docs/89_FACTORIAL_ANALYSIS_PLAN.md)
-- [source-fixed scorer](/home/minar/ar-image-animation/tools/factorial_scoring/sourcefixed_metrics.py)
-- [CPU motion guard](/home/minar/ar-image-animation/tools/factorial_scoring/sourcefixed_flow.py)
-- [latest development qualifications](/home/minar/ar-image-animation/docs/95_I2V_TAKEOVER_OCT08.md)
+- [pooled table](method repository: `results/factorial/tables/interaction_pooled_sourcefixed.md`)
+- [factorial analysis and mask review scope](method repository: `docs/89_FACTORIAL_ANALYSIS_PLAN.md`)
+- [source-fixed scorer](method repository: `tools/factorial_scoring/sourcefixed_metrics.py`)
+- [CPU motion guard](method repository: `tools/factorial_scoring/sourcefixed_flow.py`)
+- [latest development qualifications](method repository: `docs/95_I2V_TAKEOVER_OCT08.md`)
 
 The findings support four repairs: shared source-defined masks, source-image
 reference, an appearance channel alongside geometry, and explicit failure

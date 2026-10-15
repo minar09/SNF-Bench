@@ -31,8 +31,10 @@ def test_copied_bodies_are_unedited():
 
 
 def test_upstream_has_not_drifted_if_present():
-    up = "/home/minar/ar-image-animation/tools/factorial_scoring/sourcefixed_metrics.py"
-    if not os.path.exists(up):
+    import _paths
+    method = _paths.resolve("method_repo", required=False)
+    up = os.path.join(method or "", "tools/factorial_scoring/sourcefixed_metrics.py")
+    if not method or not os.path.exists(up):
         pytest.skip("upstream not on this machine")
     src = open(up).read()
     tree = ast.parse(src)
