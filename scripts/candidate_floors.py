@@ -3,7 +3,7 @@
 
 Each v2 source image is encoded as a 10 s static video with the generators' own
 writer (`torchvision.io.write_video(fps=16)`, libx264 defaults, run inside the
-generation image). Nothing moves, nothing drifts, so any value a measurement
+generation image by `scripts/encode_static_controls.py`). Nothing moves, nothing drifts, so any value a measurement
 reports on these clips is codec, mask-edge or measurement floor -- the
 baseline every real score must clear before it means anything. This is the
 "control mask edges, codec and resize effects" item of step 2 in

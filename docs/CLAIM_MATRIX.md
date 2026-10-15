@@ -7,11 +7,18 @@ beating a baseline, so an unbacked claim costs more here than a missing result.
 **Rule for this table: if a claim has no BUILT evidence by the Aug 20 freeze, the
 claim is cut, not softened.** There is no rebuttal round.
 
+**2026-10-15 review assessment:** The rule above refers to the historical WACV
+freeze. Current CVPR v2 evidence is governed by `SNF_V2_EVAL_SPEC.md` and
+`WACV2027_OFFICIAL_REVIEW_ASSESSMENT.md`. The official record has four reviews
+and an AC rejection recommendation. Built correlations, kernels, or protocols
+must not be relabelled as independent construct validity or incumbent
+superiority. Human alignment and replay admission remain open.
+
 | # | claim | evidence | status |
 |---|---|---|---|
-| **C1** | In fixed-camera scenes, whole-frame motion metrics cannot distinguish desired local flow from static-support drift. | Fig. 1 teaser; Fig. 5 slopegraph; `tables/t2v_disagreement_60s.md` — Spearman(VBench-DD, NBF) = **+0.93** | Fig. 5 + table **BUILT**; Fig. 1 partial |
-| **C2** | The disagreement is not a fluke of one metric pair: higher "dynamic degree" tracks *more background flow* across the board. | `tables/t2v_disagreement_60s.md` — DD vs NBF +0.93, DD vs MCFF +0.89, DD vs fBD +0.75 | **BUILT** |
-| **C3** | The disagreement produces rank *inversions*, not just weak correlation. | Fig. 5; Causal-Forcing rank 1→7, Infinite-Forcing rank 7→1 | **BUILT** |
+| **C1** | Whole-frame Dynamic Degree does not specify whether measured motion occurs in intended material or rigid support. | `tables/t2v_disagreement_60s.md` — Spearman(VBench-DD, NBF) = **+0.93**; translation corruption response | **DESCRIPTIVE DD RESULT BUILT; BROAD INCUMBENT-BLINDNESS/NOVELTY CLAIM REJECTED**; Fig. 1 selection must be disclosed |
+| **C2** | In the seven-system common-configuration audit, Dynamic Degree correlates positively with NBF and fBD. | `tables/t2v_disagreement_60s.md` — DD vs NBF +0.93, DD vs fBD +0.75; also DD vs MCFF +0.89 | **DESCRIPTIVE ASSOCIATIONS BUILT**; agreeing background-consistency/motion-smoothness dimensions must also be reported |
+| **C3** | Dynamic Degree and support-drift rankings invert at the extremes in the recorded common-configuration audit. | Fig. 5; Causal-Forcing rank 1→7, Infinite-Forcing rank 7→1 | **AUDIT RANK RESULT BUILT**; not proof that an incumbent ranking is wrong or SNF matches human preference |
 | **C4** | Low background flow can mean *frozen*, not *stable* — so static fidelity must be read jointly with flow persistence. | Fig. 4; Infinite-Forcing is rank 1 on NBF/fBD **and** rank 7 on MCFF | **BUILT** |
 | **C5** | The conclusions survive the averaging choice. | micro vs category-macro: Causal-Forcing stays 1st on DD and 7th on NBF/fBD; Infinite-Forcing stays 1st/7th. Mid-field does move (Self-Forcing NBF rank 5→2). | **BUILT** (`scripts/categories.py`) |
 | **C6** | ~~SNF metrics respond monotonically to translation, rotation, scale, and attenuation.~~ **SCOPED:** fBD responds across the three global transforms; NBF is retained for translation/scale; MCFF-L and FP do not clear the attenuation-versus-nuisance screen. | `tables/validation_response_matrix.md`; `manifest/validation_response_analysis.json` | **BROAD CLAIM REJECTED; SCOPED RESULTS BUILT** |
@@ -33,7 +40,7 @@ claim is cut, not softened.** There is no rebuttal round.
 | **C22** | SNF's proposed v2 scope is distinct from VBench-I2V, VBench-Long, and VBench-2.0 at the protocol level. | `docs/VBENCH_EXTENSION_GAP_ANALYSIS.md`; `manifest/vbench_extension_audit.json`; official source snapshot `fd18b3d` | **SOURCE/CODE AUDIT BUILT; NOVELTY CLAIM REQUIRES BROADER LITERATURE AUDIT** |
 | **C23** | Long-horizon results retain failure timing rather than only a clip mean. | `scripts/long_horizon_protocol.py`; v0.2 temporal-span gate; endpoint pilot; later matched-horizon traces | **PROTOCOL + ENDPOINT PILOT BUILT; FULL TRAJECTORIES BLOCKED — M2/M3** |
 | **C24** | Direction, incoming transport, reversal, replay, and reset seams are separately measurable and human-aligned. | vector-field reversal/ping-pong tests; draft annotation gate; controlled video probes, real-video false positives, per-axis human study | **MATH/ANNOTATION GATE BUILT; EMPIRICAL VALIDITY BLOCKED — M2/M4** |
-| **C25** | The v2 asset release contains 96 independent, balanced base scenes with matched 60/120/240-second prefixes; counterfactuals are not counted as independent scenes. | `configs/snf_v2_scene_contract.json`; `scripts/validate_v2_scene_manifest.py`; future frozen scene manifest | **RELEASE GATE BUILT; ASSET CLAIM BLOCKED — M3** |
+| **C25** | v2 has frozen matched-scene input assets; completed matched-prefix evaluation and balanced per-regime evidence require separate verification. | `manifest/prompts_v2.json`; `manifest/i2v_pairs_v2.json`; `manifest/v2_splits.json`; `docs/SNF_V2_EVAL_SPEC.md` | **INPUTS BUILT: 96 T2V / 48 I2V, OF WHICH 41 TEST / 7 OVERLAP**; separate requested rollouts are not matched prefixes; scored coverage remains a gate |
 
 ---
 

@@ -1,5 +1,7 @@
 # SNF-Bench — plan for the next venue
 
+> **2026-10-15: final decision received — Reject.** The AC's two conditions (broaden the evaluation set; human validation of the metrics) and the fourth reviewer's points are mapped against v2 in `WACV27_OFFICIAL_REVIEW_RESPONSE.md`, which supersedes §1 here where they differ.
+
 **2026-09-28 update:** The resolution claim in §2.1 is provisional. A
 paired, category-macro prompt bootstrap on the same seven public T2V systems
 finds NBF separation for 14/21 system pairs versus 13/21 for VBench background
@@ -7,14 +9,22 @@ consistency (unadjusted 95% intervals). See `SNF_V2_MILESTONES.md` and
 `manifest/paired_incumbent_resolution.json`. Do not cite the 6.42 versus 1.66
 range/SD ratio as proof of substantially better model resolution.
 
-Status: WACV 2027 E&D returned three reviews (Reject/conf 5, Borderline-reject/conf 4,
-Reject/conf 5). All three are competent and largely agree. This plan is organised by
-what the reviews converge on, then by what we found when we actually computed the
-things they asked for — which is worse than they knew.
+**2026-10-15 official-review correction:** The author-provided OpenReview
+record for submission 1825 contains **four** reviews: YFhf 2 (Weak Reject,
+confidence 4), XNQG 4 (Borderline Accept, confidence 3), XzUA 3 (Borderline
+Reject, confidence 3), and BsRf 3 (Borderline Reject, confidence 3). The AC's
+final recommendation is **Reject in round 2**. The earlier three-review count
+and score/confidence summary were inaccurate for this official record.
+See `WACV2027_OFFICIAL_REVIEW_ASSESSMENT.md` for reviewer-specific concerns,
+current implementation status, and priorities for the CVPR I2V method paper.
+The older standalone-venue discussion below is historical planning, not a
+change to the current CVPR method-paper objective.
 
-## 1. What all three reviewers independently raised
+## 1. Earlier triage (historical)
 
-Unanimity matters more than individual severity. These appeared in all three:
+This table predates the complete official record and must not be cited as
+unanimous agreement among the four reviewers. Use the Oct 15 assessment for
+attribution. Several early factual interpretations are corrected in §2.
 
 | # | Objection | Verdict |
 |---|---|---|
