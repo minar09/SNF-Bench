@@ -1,5 +1,12 @@
 # SNF-Bench v2 — evaluation specification (CVPR 2027 evidence package)
 
+**Publication scope, 2026-10-30 KST:** This is the SceneTether-era evaluation
+protocol. The CVPR paper uses it as a versioned measurement resource; independent
+benchmark construct validity is not claimed. A subsequent journal protocol,
+including Steady-Forcing and SceneTether, is planned separately in
+`PUBLICATION_STRATEGY_AND_JOURNAL_ROADMAP.md`. Do not relabel current scores,
+source splits or study modules as that future validation study.
+
 Status: 2026-10-02 protocol; research amendment 2026-10-08 KST. This is the single current specification of v2: what is
 frozen, how it is split, what each reported number measures, and how human and
 VLM judgements are collected. `VERSIONS.md` covers the version mechanics;

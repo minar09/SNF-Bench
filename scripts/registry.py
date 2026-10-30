@@ -5,7 +5,9 @@ Every evaluated system is declared here with:
   name       display name for papers/tables
   track      't2v' | 'i2v'
   status     'public'   -> external published model, eligible as a benchmark contestant
-             'internal' -> our own model/ablation. NEVER a contestant (see docs/EXCLUSIONS.md)
+             'internal' -> excluded by the historical contestant filter; future
+                           author-inclusive journal eligibility is profile-specific
+                           (see docs/EXCLUSIONS.md; adapter not implemented yet)
              'postproc' -> a color-matched post-process variant of another entry
              'scratch'  -> smoke/debug run, not evaluation data
   setting    'native'   -> recorded output from a released pipeline

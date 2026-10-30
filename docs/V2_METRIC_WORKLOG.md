@@ -116,3 +116,31 @@ exceeds their ±0.5 "tied" margin, and on static or near-static content the
 mean-colour distance is dominated by it. Recommendation: any future
 mean-colour measure accumulates in float64 under a new identity. Pixelwise
 ΔE00 (candidate) is already float64.
+
+
+### 2026-10-30: full-length GPU parity and recurrence pilot
+
+The planned nine-regime, 60-second `sourcefixed-1.0` GPU port comparison
+completed on GPU 3: 9/9 scenes passed, with 547/547 comparable numeric leaves
+exactly matching the stored method-project records, including matching nulls
+and abstention flags. The report and side-by-side scores are in
+[`manifest/sourceref_gpu_parity_2026_10_30.json`](../manifest/sourceref_gpu_parity_2026_10_30.json).
+This establishes same-input parity, not validity of the metrics or masks.
+
+An exploratory generated-video recurrence pilot found original-window scores
+of 0.964–0.997, exact-loop and freeze scores near 1.0, and an abstention on
+the zero-dynamic-pixel combustion mask. The baseline clips are not independently
+labeled natural nulls, so these results cannot estimate false-positive rates.
+See the [GPU validation report](GPU3_VALIDATION_2026_10_30.md) for settings,
+raw result links, limitations, and next validation requirements. All 111
+local tests passed.
+
+### 2026-10-30: SceneTether parity and subject-track inventory
+
+On GPU 2, nine additional 60 s SceneTether clips reproduced 549/549 common
+numeric fields exactly. A hash-matched, descriptive Echo–SceneTether paired
+comparison was stored separately; it is not a naturalness or population
+validation. Fourteen VBench-I2V-derived subject images and existing 60 s
+clips were inventoried and smoke-tested, but they are exposed development data,
+not a held-out benchmark. See [subject extension and model inventory](JOURNAL_SUBJECT_EXTENSION_AND_MODELS_2026_10_30.md)
+for results, candidate model readiness and remaining experimental gates.

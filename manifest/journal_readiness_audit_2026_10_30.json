@@ -1,0 +1,290 @@
+{
+  "schema_version": 1,
+  "audit_version": "snf-journal-readiness-audit-0.1",
+  "assessment_date_kst": "2026-10-30",
+  "status": "artifact_inventory_not_independent_validation",
+  "method_project": "configured method repository",
+  "source_masks": {
+    "benchmark": {
+      "path": "results/factorial/source_masks",
+      "label_png_count": 48,
+      "review_record_count": 48,
+      "review_status_counts": {
+        "approved": 48
+      },
+      "ai_reviewer_mentioned_count": 48,
+      "human_approval_mentioned_count": 4,
+      "independent_human_annotation": "not established by status or reviewer-name counts",
+      "review_manifest": {
+        "path": "results/factorial/source_masks/review_manifest.json",
+        "exists": true,
+        "sha256": "703805295ae2882ea08a565557736bc8522d265b526572a1c09ae03fbe825a8e"
+      }
+    },
+    "fresh": {
+      "path": "results/factorial/source_masks_fresh",
+      "label_png_count": 24,
+      "review_record_count": 24,
+      "review_status_counts": {
+        "approved": 24
+      },
+      "ai_reviewer_mentioned_count": 24,
+      "human_approval_mentioned_count": 0,
+      "independent_human_annotation": "not established by status or reviewer-name counts",
+      "review_manifest": {
+        "path": "results/factorial/source_masks_fresh/review_manifest.json",
+        "exists": true,
+        "sha256": "76cb7afcc606c247728938a53d42294346702ea0e14f73f6893251282f98d18f"
+      }
+    }
+  },
+  "cohorts": {
+    "method_benchmark": {
+      "path": "results/snf_v2/TEST_SPLIT_FROZEN.json",
+      "status": "manifest_present_not_a_video_completion_check",
+      "count": 48,
+      "category_counts": {
+        "channel_flow": 6,
+        "falling_precip": 6,
+        "oscillatory_water": 5,
+        "accumulating_level": 5,
+        "buoyant_plume": 6,
+        "combustion": 5,
+        "windborne": 6,
+        "geothermal": 4,
+        "falling_water": 5
+      },
+      "declared_role": "TEST split for the CVPR 2027 submission (docs/84 \u00a75): no tuning, no method selection on it",
+      "sha256": "f9c6bd795182abf6762fb86e5a8a703872b5feb684bcbd40fd380ac0a82cf43a"
+    },
+    "method_fresh": {
+      "path": "results/fresh_sources/FRESH_SPLIT_FROZEN.json",
+      "status": "manifest_present_not_a_video_completion_check",
+      "count": 24,
+      "category_counts": {
+        "channel_flow": 3,
+        "falling_precip": 3,
+        "oscillatory_water": 3,
+        "accumulating_level": 2,
+        "buoyant_plume": 3,
+        "combustion": 2,
+        "windborne": 3,
+        "geothermal": 2,
+        "falling_water": 3
+      },
+      "declared_role": "FRESH confirmation split (docs/91): prospective; frozen before any generation on these sources",
+      "sha256": "3a5547881ea16fd37d18e99edf3f979242876b98093e50594f8a579953a8084e"
+    },
+    "method_primary_240s": {
+      "path": "results/snf_v2/HORIZON240_SUBSET_FROZEN.json",
+      "status": "manifest_present_not_a_video_completion_check",
+      "count": 12,
+      "category_counts": {},
+      "declared_role": "240 s horizon analysis subset (docs/115 F): primary 240 s endpoints on these 12 test pairs; all 48 are generated and reported as secondary",
+      "sha256": "0134e255a8e0e90652b58e684e3c49ce436ea15166a2e61351d74513365248c9"
+    },
+    "snf_split_counts": {
+      "test": 41,
+      "seen_overlap": 7,
+      "stress_240s": 9
+    },
+    "historical_fresh_duplicate_audit": {
+      "n": 24,
+      "n_without_detected_match": 24,
+      "meaning": "no match detected in that audited pool; not proof of current journal-test independence"
+    }
+  },
+  "rights_metadata": {
+    "snf_i2v_pairs": 48,
+    "nonempty_licence_fields": 2,
+    "meaning": "metadata completeness only; no rights clearance inferred"
+  },
+  "human_study": {
+    "analysis_artifact": {
+      "path": "results/human_study/progress_oct29_kit/analysis_interim.json",
+      "exists": true,
+      "sha256": "930dd93a43349d10fd7103d27caad55347b40c508ef0917881f066977a42d00d"
+    },
+    "status": "aggregate_snapshot_only_not_metric_admission",
+    "collection_status": "interim_descriptive_collection_open",
+    "snapshot_utc": "2026-10-29T05:34:33.276Z",
+    "counts_by_module": {
+      "original": {
+        "registered": 21,
+        "responses": 348,
+        "pilot_sessions": 5,
+        "valid_complete": 12,
+        "incomplete_real": 4,
+        "attention_excluded_real": 0
+      },
+      "comparisons": {
+        "registered": 6,
+        "responses": 84,
+        "pilot_sessions": 1,
+        "valid_complete": 5,
+        "incomplete_real": 0,
+        "attention_excluded_real": 0
+      },
+      "long": {
+        "registered": 6,
+        "responses": 36,
+        "pilot_sessions": 1,
+        "valid_complete": 5,
+        "incomplete_real": 0,
+        "attention_excluded_real": 0
+      },
+      "validation": {
+        "registered": 6,
+        "responses": 156,
+        "pilot_sessions": 1,
+        "valid_complete": 5,
+        "incomplete_real": 0,
+        "attention_excluded_real": 0
+      },
+      "full60": {
+        "registered": 5,
+        "responses": 70,
+        "pilot_sessions": 1,
+        "valid_complete": 4,
+        "incomplete_real": 0,
+        "attention_excluded_real": 0
+      },
+      "composite60": {
+        "registered": 5,
+        "responses": 70,
+        "pilot_sessions": 1,
+        "valid_complete": 4,
+        "incomplete_real": 0,
+        "attention_excluded_real": 0
+      }
+    },
+    "warning": "Modules, source coverage, questions and exclusions differ; do not sum valid_complete as unique raters or treat response counts as comparison votes."
+  },
+  "method_evidence": [
+    {
+      "path": "AGENTS.md",
+      "exists": true,
+      "sha256": "05769ec9d24050fa58a310702b19dea95f0695c971461751a5974f69c55bf7fe"
+    },
+    {
+      "path": "docs/129_SCENETETHER_FINAL_LOCK_AND_EVALUATION_OCT16.md",
+      "exists": true,
+      "sha256": "4acabaaf05b9a1378c4d18fe4369d4e6c356de3d752cde84019cd660737b9aa8"
+    },
+    {
+      "path": "docs/140_LONG_HORIZON_TABLES_AND_VISUALS_OCT20.md",
+      "exists": true,
+      "sha256": "a6409887e38f5503273ea55b2f8890a509982de136a84f15affe4bf55ecb8963"
+    },
+    {
+      "path": "docs/143_REVIEW_APPLICATION_AND_ADDITIVE_STUDY_OCT21.md",
+      "exists": true,
+      "sha256": "da0e931c7cbe5208701cbd1ba393313f5c2b8a8ac436bbf1c5caca06f041d21e"
+    },
+    {
+      "path": "docs/156_COMPOSITE_FULL_DURATION_HUMAN_STUDY_OCT28.md",
+      "exists": true,
+      "sha256": "368012bbb3d23111d49a5c70e7b02774e44fb44da7d26a58b32c04223804422a"
+    },
+    {
+      "path": "docs/161_ACCEPTANCE_EVIDENCE_DECISION_PLAN_OCT28.md",
+      "exists": true,
+      "sha256": "a8c1dd5566311fdd1773623f8867373fff31f9489669f50cae33631e3faadba4"
+    },
+    {
+      "path": "docs/164_CVPR_LLM_AND_HUMAN_STUDY_STATUS_OCT29.md",
+      "exists": true,
+      "sha256": "3ef6a62e92af6e9e7c5b9d7787c6c054b4a2f5227b8e415b12bd93d84d83bac5"
+    },
+    {
+      "path": "docs/locked_final_scenetether_oct16.json",
+      "exists": true,
+      "sha256": "90cc9d5932f4865d1d555a0c4101211e8a40f488ecf657153d06b751d3a62a13"
+    },
+    {
+      "path": "CVPR_2027_AR_I2V/sec/fm_5_protocol.tex",
+      "exists": true,
+      "sha256": "2a11a3c22b180ef5039ebebcd5f00905afda02854ea582d98c1c054d0101b20c"
+    },
+    {
+      "path": "CVPR_2027_AR_I2V/sec/fm_7_limitations.tex",
+      "exists": true,
+      "sha256": "00dd599e56323da9892de4268fb6a623902f429535c9fcfb44086922a6837b8d"
+    },
+    {
+      "path": "CVPR_2027_AR_I2V/sec/st_X_suppl.tex",
+      "exists": true,
+      "sha256": "69754bb27f09d5f1281f4d6a72d6c0966b6a39b9ca4c59f2e76f8511b97e59ef"
+    },
+    {
+      "path": "CVPR_2027_AR_I2V/tables/main_human_summary.tex",
+      "exists": true,
+      "sha256": "ebf798ea7881c736fb5342dfec7752b228e0e76545032fd729c1beb237499cd8"
+    },
+    {
+      "path": "CVPR_2027_AR_I2V/tables/human_all_pairs_interim_oct22.tex",
+      "exists": true,
+      "sha256": "4927100d50353ce0e973a947ab546444a9459ca58325b15c8a9c09a644bb3dae"
+    },
+    {
+      "path": "CVPR_2027_AR_I2V/tables/main_all_horizons_oct23.tex",
+      "exists": true,
+      "sha256": "9919f83a04e900b7a42098e3720dc349f0d170513080c536ff80ff2671115e1b"
+    },
+    {
+      "path": "tools/factorial_scoring/sourcefixed_metrics.py",
+      "exists": true,
+      "sha256": "f4782bc63731c98b1cdd821a5ec4fbcb2eb573a6a5d6c42fe3af93a9f22e3440"
+    },
+    {
+      "path": "tools/factorial_scoring/sourcefixed_flow.py",
+      "exists": true,
+      "sha256": "091b972c44b977d02edba2e2c93cc4c29f902d1143ee05ddf48f7f95ff175d6c"
+    },
+    {
+      "path": "tools/factorial_scoring/latereg.py",
+      "exists": true,
+      "sha256": "e130aad835e019852f780b3fca6f391bf8b331a898950ad65ae44de2641a8aa0"
+    },
+    {
+      "path": "tools/snf_v2/make_prefixes.py",
+      "exists": true,
+      "sha256": "e325bf6c25874851a30202801408fb0195666ab5d6cf5eaaba6d1e2cbb95c0ec"
+    },
+    {
+      "path": "tools/snf_v2/run_snf_traj.py",
+      "exists": true,
+      "sha256": "82ecdb0a21868596e31b218cbab059d16e696c511a39822c234bb9c1c3e97915"
+    },
+    {
+      "path": "tools/analysis/copy_brackets_oct21.py",
+      "exists": true,
+      "sha256": "ec7db7aa5b3978aa7720291ac7605cc5deeb97565fe36d09a628c56ff34c44bf"
+    },
+    {
+      "path": "tools/human_study/analyze.py",
+      "exists": true,
+      "sha256": "ce6e0026fd8747d5e160e485bfa65e2f5bd1af46da9126798edb3f09ebb4bfe8"
+    },
+    {
+      "path": "tools/human_study/prepare_extensions_oct21.py",
+      "exists": true,
+      "sha256": "1d30e4dc8da1ef5c1513055607f716efc2b3e223feb634d578f55deec887666b"
+    },
+    {
+      "path": "tools/human_study/prepare_composite_matched_oct28.py",
+      "exists": true,
+      "sha256": "7ad9990cb71321a8bc53737188931ee8b49f5982dcf70293d3bf89c572dee962"
+    }
+  ],
+  "journal_evidence_still_required": [
+    "independent role annotation and visibility validation",
+    "new confirmation sources not used to design methods or select metrics",
+    "held-out natural-periodicity and replay/intent validation",
+    "multi-family human metric alignment with source/rater uncertainty",
+    "native T2V/I2V journal-profile adapters including author methods",
+    "rights, portability and release/overlap verification"
+  ],
+  "raw_participant_data_exported": false,
+  "code_metrics_or_existing_results_changed": false
+}

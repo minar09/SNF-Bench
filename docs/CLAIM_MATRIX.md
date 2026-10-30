@@ -1,5 +1,12 @@
 # SNF-Bench — claim → evidence matrix
 
+**2026-10-30 policy scope:** The future journal protocol includes author-affiliated
+Steady-Forcing and SceneTether under the same run/reporting rules as external
+systems. Historical external-only exclusions below apply to the WACV audit,
+not permanently to journal contestants. See `EXCLUSIONS.md` and
+`PUBLICATION_STRATEGY_AND_JOURNAL_ROADMAP.md`. Existing empirical claims do not
+graduate to independently validated journal claims through this policy change.
+
 Every claim the paper makes, and the exact artifact that backs it. NeurIPS/WACV
 E&D criteria grade benchmark papers on rigor and reproducibility rather than on
 beating a baseline, so an unbacked claim costs more here than a missing result.
@@ -32,7 +39,7 @@ superiority. Human alignment and replay admission remain open.
 | **C14** | ~~Conclusions are stable to mask perturbation.~~ NBF is materially mask-sensitive; reviewed-mask and full rank-sensitivity studies remain required. | `tables/validation_response_matrix.md`; `docs/SHARED_AUTO_CONTROL.md` | **BROAD CLAIM REJECTED; PILOT BUILT** |
 | **C15** | N is chosen for statistical power, not budget. | Tab. S8; "N selected such that CIs for primary metrics fall below a pre-specified tolerance" | **BLOCKED** — 60 s pilot (P0#7) |
 | **C16** | Methods are not being penalised for semantic failure misread as flow behaviour. | Tab. 3 semantic-context column | **BLOCKED** — P0#6 |
-| **C17** | The audit is scoped transparently: public T2V checkpoints share one recorded common configuration, I2V released-pipeline and wrapper rows are separated, and our own systems are excluded. | `tables/model_config_table.md`; `scripts/registry.py` status/setting fields; `docs/EXCLUSIONS.md` | **BUILT** except EXCLUSIONS.md |
+| **C17** | The audit is scoped transparently: public T2V checkpoints share one recorded common configuration, I2V released-pipeline and wrapper rows are separated, and our own systems are excluded. | `tables/model_config_table.md`; `scripts/registry.py` status/setting fields; `docs/EXCLUSIONS.md` | **HISTORICAL AUDIT POLICY BUILT**; future journal eligibility is separately specified in `docs/EXCLUSIONS.md` |
 | **C18** | Deployment configuration changes the conclusions. | Tab. 4 Δ-table | **BUILT**, needs compression |
 | **C19** | ~~Frame rate is a hidden confound and normalizing changes rankings.~~ **RETRACTED 2026-08-13.** The metric subsamples to `SAMPLE_FPS=8` before computing flow, so all 1881 videos are already measured at exactly 8.000 Hz. Scaling by native fps *introduced* a 1.5× error; LTX ranks 6th as it always did. NBF keeps per-second units (uniform ×8, no ranking change) for physical meaning and future-proofing. | `manifest/video_meta.csv`; `registry.effective_fps` | **RETRACTED — do not claim** |
 | **C20** | Results are reproducible from the released artifacts. | `manifest/video_index.csv` (SHA fingerprints), `per_video_scores.csv`, `video_meta.csv`, `prompt_categories.csv`, verbatim `metric_code/` | **BUILT** |
@@ -59,7 +66,7 @@ superiority. Human alignment and replay admission remain open.
 | "global compensation isolates physical foreground flow" | It reports signed relative attenuation after fitted global similarity compensation—no more. | "…reports the signed relative attenuation after fitted global similarity compensation" |
 | "VBench ranking is wrong" | We show interpretation change, not error. Accusing a published metric of being wrong invites a fight we do not need. | "whole-frame motion and SNF's spatially resolved diagnostics can yield different interpretations of the same outputs" |
 | "SNF-Bench measures physical realism" | It does not, by construction. | "persistence ≠ physical correctness" |
-| "Steady-Forcing / RA-I2V performs well on SNF-Bench" | Our own systems are excluded by construction; including them would void the audit. | nothing — they do not appear |
+| "Author methods were contestants in the historical WACV audit" | They were excluded from that frozen audit; do not rewrite its population. | Future journal rows may include Steady-Forcing and SceneTether with affiliation, independent metric validation and exact protocol identity |
 
 ---
 

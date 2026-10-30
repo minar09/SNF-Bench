@@ -1,5 +1,12 @@
 # SNF-Bench — plan for the next venue
 
+> **2026-10-30 publication decision:** SceneTether goes to CVPR 2027 with
+> SNF v2 as an evaluation protocol. The standalone SNF upgrade targets an SCIE
+> journal after independent measurement/human validation. Steady-Forcing (T2V)
+> and SceneTether (I2V) are explicitly eligible in that future panel.
+> `PUBLICATION_STRATEGY_AND_JOURNAL_ROADMAP.md` is the controlling plan;
+> the conference-venue recommendations below remain historical.
+
 > **2026-10-15: final decision received — Reject.** The AC's two conditions (broaden the evaluation set; human validation of the metrics) and the fourth reviewer's points are mapped against v2 in `WACV27_OFFICIAL_REVIEW_RESPONSE.md`, which supersedes §1 here where they differ.
 
 **2026-09-28 update:** The resolution claim in §2.1 is provisional. A

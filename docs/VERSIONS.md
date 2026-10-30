@@ -1,5 +1,13 @@
 # SNF-Bench versions: what each one is, where it lives, how to go back
 
+**Future journal release, 2026-10-30:** Unified reporting does not mean pooling
+v1/v2 measurements. The journal plan in `configs/snf_journal_plan.json` has no
+executable score identity yet. Source-fixed `sourcefixed-1.0` and candidate
+identities also exist in the current code; their policies are recorded in
+`V2_METRIC_WORKLOG.md` and `scripts/measurement.py`. Define any future corrected
+metric, new source set and author-inclusive panel in a new protocol profile;
+keep historical prompt fingerprints and results intact.
+
 Two independent version axes. Every result carries both labels.
 
 | axis | values | what changes | where it is declared |
@@ -157,4 +165,6 @@ To score one:
 
 `<key>` must be registered in `scripts/registry.py`. A configuration that is not
 a published baseline must be registered with `status="internal"` so it stays out
-of every public table.
+of the historical public tables. The approved author-inclusive journal panel
+requires a separate profile/allowlist; see `EXCLUSIONS.md`. Do not relabel
+historical internal ablations or old results to implement that future profile.

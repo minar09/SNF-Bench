@@ -1,5 +1,11 @@
 # SNF-Bench v2 implementation milestones
 
+**2026-10-30 scope update:** The M0–M4 plan below is the historical v2 development
+sequence. The current publication route is SceneTether/CVPR protocol first,
+then an independently validated SNF journal paper. Use J0–J5 in
+`PUBLICATION_STRATEGY_AND_JOURNAL_ROADMAP.md` for future execution and
+`SCENETETHER_REUSE_AND_GAP_AUDIT_2026_10_30.md` for the newer evidence inventory.
+
 Status: execution plan, 2026-09-28. The design and validity requirements are
 in `SNF_V2_TASK_DESIGN.md`. This plan extends, and does not silently supersede,
 `NEXT_VENUE_PLAN.md`. Existing v1.1 records remain frozen provenance.
@@ -193,3 +199,14 @@ The remaining M1 work and M2-M4 still require rescoring, annotation,
 generation, or human collection and are not claimed complete. This order
 protects the study from tuning measures against the same seven systems and
 23 T2V-60s prompts used to define the problem.
+
+### 2026-10-30: exploratory fixed-camera human/animal extension
+
+Keep the nature-flow core and define human and animal/insect results as separate
+extension tracks with separate task eligibility and validity gates. Fourteen
+local VBench-I2V-derived candidates have a source/crop/render hash inventory;
+their existing SceneTether 60-second clips passed a media-decode smoke test.
+These are previously exposed development cases, not a released or independent
+confirmation set. Source rights, manual role/visibility annotations, subject
+metric controls, matched external models and human validation remain open.
+See [subject extension and model inventory](JOURNAL_SUBJECT_EXTENSION_AND_MODELS_2026_10_30.md).

@@ -1,0 +1,936 @@
+{
+  "schema_version": 1,
+  "version": "sourceref-gpu-parity-0.1",
+  "status": "PASS",
+  "measurement": "sourcefixed-1.0",
+  "interpretation": "same-input parity, not human validity",
+  "cell": "cfpp/echo_nfpb1_h1_fm_tether100_lr/seed42",
+  "gpu_index": 2,
+  "gpu_before": {
+    "uuid": "GPU-2c66b444-105b-5e8d-1968-1405066391fe",
+    "free_mib": 77849,
+    "utilization_percent": 0
+  },
+  "rtol": 0.001,
+  "atol": 1e-06,
+  "requested_scenes": [
+    "ial01",
+    "icf04",
+    "ifp05",
+    "icb04",
+    "iow02",
+    "ifw03",
+    "ibp03",
+    "igt02",
+    "iwb03"
+  ],
+  "mask_manifest_sha256": "a46afad8333e237e4c87dbaa4a816d2ae7564e0a168cd41baf9c21a79f9088fe",
+  "port_sha256": "9b67fbd2d59a3a1850a29cc278e2822a374bb0bb068ebee0df0c8f84c22e5858",
+  "runner_sha256": "3e9596d94043f7fc88c56f7e11e85e6c1cc44126e330c5146e1e5393490be8f5",
+  "upstream_scorer_sha256": "f4782bc63731c98b1cdd821a5ec4fbcb2eb573a6a5d6c42fe3af93a9f22e3440",
+  "rows": [
+    {
+      "scene_id": "ial01",
+      "status": "PASS",
+      "category": "accumulating_level",
+      "input_hash_checks": {
+        "video": true,
+        "source": true,
+        "mask": true,
+        "upstream_scorer": true
+      },
+      "previous_record_sha256": "b9dce67ba77d7dc4b1a8cd141203583c607531b931db27f0162f7f380991a64c",
+      "video_sha256": "e5acf81983243737c73beca671c975469a3a5e993f3b0f9bd3f6c2370e1afd86",
+      "source_sha256": "9dd820f0c4db4244ae5ce452060d82baf47b573eae6c7e47f8201c6909d215a2",
+      "mask_sha256": "cbed0e96054da03d989cc5367eee12b93c52fbd2550206fb9d9f9085846ff1fd",
+      "gpu_before": {
+        "uuid": "GPU-2c66b444-105b-5e8d-1968-1405066391fe",
+        "free_mib": 77849,
+        "utilization_percent": 0
+      },
+      "n_common_numeric_leaves": 64,
+      "n_exact_numeric_leaves": 64,
+      "n_outside_tolerance": 0,
+      "outside_tolerance": [],
+      "missing_required_keys": [],
+      "null_mismatches": [],
+      "abstention_mismatches": [],
+      "scores": {
+        "fBD_src": {
+          "previous": 1.4811167989005387,
+          "rescore": 1.4811167989005387
+        },
+        "fBD_f0": {
+          "previous": 1.481167615476234,
+          "rescore": 1.481167615476234
+        },
+        "BFR": {
+          "previous": 2.4076584870283133,
+          "rescore": 2.4076584870283133
+        },
+        "NBF": {
+          "previous": 19.261267896226506,
+          "rescore": 19.261267896226506
+        },
+        "FP": {
+          "previous": 1.528875113875525,
+          "rescore": 1.528875113875525
+        },
+        "MCFF_early": {
+          "previous": 0.9240732357690209,
+          "rescore": 0.9240732357690209
+        },
+        "MCFF_late": {
+          "previous": 1.4127941024408006,
+          "rescore": 1.4127941024408006
+        },
+        "DAR_signed": {
+          "previous": -1.6255429897916467,
+          "rescore": -1.6255429897916467
+        },
+        "dE_static_src": {
+          "previous": 3.6070170402526855,
+          "rescore": 3.6070170402526855
+        },
+        "idPSNR_late_src": {
+          "previous": 15.584121814661886,
+          "rescore": 15.584121814661886
+        }
+      },
+      "abstentions": {
+        "motion_abstained": {
+          "previous": false,
+          "rescore": false
+        },
+        "fBD_abstained": {
+          "previous": false,
+          "rescore": false
+        }
+      },
+      "registration": {
+        "previous": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        },
+        "rescore": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        }
+      },
+      "elapsed_s": 44.76
+    },
+    {
+      "scene_id": "icf04",
+      "status": "PASS",
+      "category": "channel_flow",
+      "input_hash_checks": {
+        "video": true,
+        "source": true,
+        "mask": true,
+        "upstream_scorer": true
+      },
+      "previous_record_sha256": "fc2628b6ca497f06dccbb714ff35a63b6981b73c906540ea3df0ba2f91fad821",
+      "video_sha256": "2b30582f989e389bf48acd31722adc6e8d9a4a0fabb81f08f94e3f77f0af7633",
+      "source_sha256": "cd12c1ce8e17b2b36622902daa0b72af3ba7fe0378d6bc7b8d799413527cd4e5",
+      "mask_sha256": "1d7a9104483e253d093686e82274c82c6bfe718eb8b858742f96f8404c9d7a72",
+      "gpu_before": {
+        "uuid": "GPU-2c66b444-105b-5e8d-1968-1405066391fe",
+        "free_mib": 73735,
+        "utilization_percent": 40
+      },
+      "n_common_numeric_leaves": 64,
+      "n_exact_numeric_leaves": 64,
+      "n_outside_tolerance": 0,
+      "outside_tolerance": [],
+      "missing_required_keys": [],
+      "null_mismatches": [],
+      "abstention_mismatches": [],
+      "scores": {
+        "fBD_src": {
+          "previous": 0.1971200420893032,
+          "rescore": 0.1971200420893032
+        },
+        "fBD_f0": {
+          "previous": 0.19606694304485392,
+          "rescore": 0.19606694304485392
+        },
+        "BFR": {
+          "previous": 0.4119397043054531,
+          "rescore": 0.4119397043054531
+        },
+        "NBF": {
+          "previous": 3.295517634443625,
+          "rescore": 3.295517634443625
+        },
+        "FP": {
+          "previous": 1.2224885756083388,
+          "rescore": 1.2224885756083388
+        },
+        "MCFF_early": {
+          "previous": 1.0532059226381152,
+          "rescore": 1.0532059226381152
+        },
+        "MCFF_late": {
+          "previous": 1.2875334306767112,
+          "rescore": 1.2875334306767112
+        },
+        "DAR_signed": {
+          "previous": 0.03570866313738763,
+          "rescore": 0.03570866313738763
+        },
+        "dE_static_src": {
+          "previous": 2.416214942932129,
+          "rescore": 2.416214942932129
+        },
+        "idPSNR_late_src": {
+          "previous": 19.89420146794665,
+          "rescore": 19.89420146794665
+        }
+      },
+      "abstentions": {
+        "motion_abstained": {
+          "previous": false,
+          "rescore": false
+        },
+        "fBD_abstained": {
+          "previous": false,
+          "rescore": false
+        }
+      },
+      "registration": {
+        "previous": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        },
+        "rescore": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        }
+      },
+      "elapsed_s": 30.36
+    },
+    {
+      "scene_id": "ifp05",
+      "status": "PASS",
+      "category": "falling_precip",
+      "input_hash_checks": {
+        "video": true,
+        "source": true,
+        "mask": true,
+        "upstream_scorer": true
+      },
+      "previous_record_sha256": "38d93395ed0b73011114c3d52ed94211a41d5572bd4724d3cea67da2672f9042",
+      "video_sha256": "d7cdce0d518bc930b6373b871921be098d2fe4d9a8cfa914ccc41c972d947557",
+      "source_sha256": "82a52f9602699ac619b7a1aa786ca4cf2dd2c93089e088fbf5120227a7235eb7",
+      "mask_sha256": "9c766df77174ad7f29fc1e3b8a42114e2b662df49047cfa144776e2005efe093",
+      "gpu_before": {
+        "uuid": "GPU-2c66b444-105b-5e8d-1968-1405066391fe",
+        "free_mib": 73735,
+        "utilization_percent": 76
+      },
+      "n_common_numeric_leaves": 51,
+      "n_exact_numeric_leaves": 51,
+      "n_outside_tolerance": 0,
+      "outside_tolerance": [],
+      "missing_required_keys": [],
+      "null_mismatches": [],
+      "abstention_mismatches": [],
+      "scores": {
+        "fBD_src": {
+          "previous": 0.906794895259378,
+          "rescore": 0.906794895259378
+        },
+        "fBD_f0": {
+          "previous": 0.886195808682874,
+          "rescore": 0.886195808682874
+        },
+        "BFR": {
+          "previous": 0.5330975018765183,
+          "rescore": 0.5330975018765183
+        },
+        "NBF": {
+          "previous": 4.264780015012146,
+          "rescore": 4.264780015012146
+        },
+        "FP": {
+          "previous": null,
+          "rescore": null
+        },
+        "MCFF_early": {
+          "previous": null,
+          "rescore": null
+        },
+        "MCFF_late": {
+          "previous": null,
+          "rescore": null
+        },
+        "DAR_signed": {
+          "previous": null,
+          "rescore": null
+        },
+        "dE_static_src": {
+          "previous": 1.7944329977035522,
+          "rescore": 1.7944329977035522
+        },
+        "idPSNR_late_src": {
+          "previous": 17.657178201340404,
+          "rescore": 17.657178201340404
+        }
+      },
+      "abstentions": {
+        "motion_abstained": {
+          "previous": true,
+          "rescore": true
+        },
+        "fBD_abstained": {
+          "previous": false,
+          "rescore": false
+        }
+      },
+      "registration": {
+        "previous": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        },
+        "rescore": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        }
+      },
+      "elapsed_s": 30.8
+    },
+    {
+      "scene_id": "icb04",
+      "status": "PASS",
+      "category": "combustion",
+      "input_hash_checks": {
+        "video": true,
+        "source": true,
+        "mask": true,
+        "upstream_scorer": true
+      },
+      "previous_record_sha256": "18ffe9f21edc0b5b6543f3dbf6f0ab7ba2ed1772518faa18e22ba32e214c4ad1",
+      "video_sha256": "d417fa969ef1cd899d9354882a6697ad8221ce75746364ca5da8b1d4f40ef4b1",
+      "source_sha256": "eaaef2f74af2a74853af4f18faa9b3555cc4754003eb66626d723a1585f2233e",
+      "mask_sha256": "c7dbce80887a7280608f1433ed5419452ca0fc3384ad37246ec0c760fcc0b429",
+      "gpu_before": {
+        "uuid": "GPU-2c66b444-105b-5e8d-1968-1405066391fe",
+        "free_mib": 73735,
+        "utilization_percent": 46
+      },
+      "n_common_numeric_leaves": 51,
+      "n_exact_numeric_leaves": 51,
+      "n_outside_tolerance": 0,
+      "outside_tolerance": [],
+      "missing_required_keys": [],
+      "null_mismatches": [],
+      "abstention_mismatches": [],
+      "scores": {
+        "fBD_src": {
+          "previous": 0.09413337175556541,
+          "rescore": 0.09413337175556541
+        },
+        "fBD_f0": {
+          "previous": 0.061073087316973126,
+          "rescore": 0.061073087316973126
+        },
+        "BFR": {
+          "previous": 0.30497038107347946,
+          "rescore": 0.30497038107347946
+        },
+        "NBF": {
+          "previous": 2.4397630485878357,
+          "rescore": 2.4397630485878357
+        },
+        "FP": {
+          "previous": null,
+          "rescore": null
+        },
+        "MCFF_early": {
+          "previous": null,
+          "rescore": null
+        },
+        "MCFF_late": {
+          "previous": null,
+          "rescore": null
+        },
+        "DAR_signed": {
+          "previous": null,
+          "rescore": null
+        },
+        "dE_static_src": {
+          "previous": 6.032514572143555,
+          "rescore": 6.032514572143555
+        },
+        "idPSNR_late_src": {
+          "previous": 15.648217998543329,
+          "rescore": 15.648217998543329
+        }
+      },
+      "abstentions": {
+        "motion_abstained": {
+          "previous": true,
+          "rescore": true
+        },
+        "fBD_abstained": {
+          "previous": false,
+          "rescore": false
+        }
+      },
+      "registration": {
+        "previous": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        },
+        "rescore": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        }
+      },
+      "elapsed_s": 31.43
+    },
+    {
+      "scene_id": "iow02",
+      "status": "PASS",
+      "category": "oscillatory_water",
+      "input_hash_checks": {
+        "video": true,
+        "source": true,
+        "mask": true,
+        "upstream_scorer": true
+      },
+      "previous_record_sha256": "43501cfa4593a67bdc5dd554102b8afbd4314eac82d51dbb6192e47b8afebd76",
+      "video_sha256": "042330a4cf0574e92b35f6e98bc705a38b94c187d09326855ee4747036e25a2f",
+      "source_sha256": "97cddd9625d569cb14e5deba60491c95f12a957ff78601d173e5aaf3c1d616df",
+      "mask_sha256": "e6d9afd0ee72c32ab7f5255fa2867578ad8ad83f0828a0652dc3d4573c2f860e",
+      "gpu_before": {
+        "uuid": "GPU-2c66b444-105b-5e8d-1968-1405066391fe",
+        "free_mib": 73735,
+        "utilization_percent": 43
+      },
+      "n_common_numeric_leaves": 64,
+      "n_exact_numeric_leaves": 64,
+      "n_outside_tolerance": 0,
+      "outside_tolerance": [],
+      "missing_required_keys": [],
+      "null_mismatches": [],
+      "abstention_mismatches": [],
+      "scores": {
+        "fBD_src": {
+          "previous": 0.05120102605728567,
+          "rescore": 0.05120102605728567
+        },
+        "fBD_f0": {
+          "previous": 0.04330533336355524,
+          "rescore": 0.04330533336355524
+        },
+        "BFR": {
+          "previous": 0.35756491659658307,
+          "rescore": 0.35756491659658307
+        },
+        "NBF": {
+          "previous": 2.8605193327726646,
+          "rescore": 2.8605193327726646
+        },
+        "FP": {
+          "previous": 1.227300469560673,
+          "rescore": 1.227300469560673
+        },
+        "MCFF_early": {
+          "previous": 1.15372413239981,
+          "rescore": 1.15372413239981
+        },
+        "MCFF_late": {
+          "previous": 1.4159673967382365,
+          "rescore": 1.4159673967382365
+        },
+        "DAR_signed": {
+          "previous": 0.0006655616261150854,
+          "rescore": 0.0006655616261150854
+        },
+        "dE_static_src": {
+          "previous": 11.318824768066406,
+          "rescore": 11.318824768066406
+        },
+        "idPSNR_late_src": {
+          "previous": 18.789820452866092,
+          "rescore": 18.789820452866092
+        }
+      },
+      "abstentions": {
+        "motion_abstained": {
+          "previous": false,
+          "rescore": false
+        },
+        "fBD_abstained": {
+          "previous": false,
+          "rescore": false
+        }
+      },
+      "registration": {
+        "previous": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        },
+        "rescore": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        }
+      },
+      "elapsed_s": 31.48
+    },
+    {
+      "scene_id": "ifw03",
+      "status": "PASS",
+      "category": "falling_water",
+      "input_hash_checks": {
+        "video": true,
+        "source": true,
+        "mask": true,
+        "upstream_scorer": true
+      },
+      "previous_record_sha256": "082525b1ab6580c20b969e2fdf0af9fcaff2f4b632c11f41764729413abd7655",
+      "video_sha256": "c9fc457fe31b92bb6b585b488242361769bb26fe370750f884fde35dc47ad206",
+      "source_sha256": "6cfad6da83126b5f9e01c6faece93ab0ec22cb39697656082a2890a4ca1ca704",
+      "mask_sha256": "ba38364b304c5f1526651359ee1c704a57042f107b8fb68d0d03bc140999d14c",
+      "gpu_before": {
+        "uuid": "GPU-2c66b444-105b-5e8d-1968-1405066391fe",
+        "free_mib": 73735,
+        "utilization_percent": 53
+      },
+      "n_common_numeric_leaves": 64,
+      "n_exact_numeric_leaves": 64,
+      "n_outside_tolerance": 0,
+      "outside_tolerance": [],
+      "missing_required_keys": [],
+      "null_mismatches": [],
+      "abstention_mismatches": [],
+      "scores": {
+        "fBD_src": {
+          "previous": 0.22568170950492805,
+          "rescore": 0.22568170950492805
+        },
+        "fBD_f0": {
+          "previous": 0.22488782465441667,
+          "rescore": 0.22488782465441667
+        },
+        "BFR": {
+          "previous": 0.7638965615923047,
+          "rescore": 0.7638965615923047
+        },
+        "NBF": {
+          "previous": 6.111172492738437,
+          "rescore": 6.111172492738437
+        },
+        "FP": {
+          "previous": 0.7013996340517956,
+          "rescore": 0.7013996340517956
+        },
+        "MCFF_early": {
+          "previous": 0.6378740848679292,
+          "rescore": 0.6378740848679292
+        },
+        "MCFF_late": {
+          "previous": 0.44740535109712365,
+          "rescore": 0.44740535109712365
+        },
+        "DAR_signed": {
+          "previous": 0.08774610198192223,
+          "rescore": 0.08774610198192223
+        },
+        "dE_static_src": {
+          "previous": 5.008577346801758,
+          "rescore": 5.008577346801758
+        },
+        "idPSNR_late_src": {
+          "previous": 21.939529384966505,
+          "rescore": 21.939529384966505
+        }
+      },
+      "abstentions": {
+        "motion_abstained": {
+          "previous": false,
+          "rescore": false
+        },
+        "fBD_abstained": {
+          "previous": false,
+          "rescore": false
+        }
+      },
+      "registration": {
+        "previous": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        },
+        "rescore": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        }
+      },
+      "elapsed_s": 32.54
+    },
+    {
+      "scene_id": "ibp03",
+      "status": "PASS",
+      "category": "buoyant_plume",
+      "input_hash_checks": {
+        "video": true,
+        "source": true,
+        "mask": true,
+        "upstream_scorer": true
+      },
+      "previous_record_sha256": "848d2869f886ca8bf5206a2851cf9e7dd718a52515678d3b8d96d0a55c3f412f",
+      "video_sha256": "4f342868d4f49456a59e6849838a68a3e838a364fbbc6ab2b36b182d57d4a516",
+      "source_sha256": "ea02324ea7bc173558426ea55db75b04cd98458f4d91e6aa0649de029421f910",
+      "mask_sha256": "9ca7b18e8c14116bef2de87e16fe98400afb08e508755a85a24bda934684b135",
+      "gpu_before": {
+        "uuid": "GPU-2c66b444-105b-5e8d-1968-1405066391fe",
+        "free_mib": 73735,
+        "utilization_percent": 60
+      },
+      "n_common_numeric_leaves": 63,
+      "n_exact_numeric_leaves": 63,
+      "n_outside_tolerance": 0,
+      "outside_tolerance": [],
+      "missing_required_keys": [],
+      "null_mismatches": [],
+      "abstention_mismatches": [],
+      "scores": {
+        "fBD_src": {
+          "previous": 0.06942746892049462,
+          "rescore": 0.06942746892049462
+        },
+        "fBD_f0": {
+          "previous": null,
+          "rescore": null
+        },
+        "BFR": {
+          "previous": 0.49665041277825867,
+          "rescore": 0.49665041277825867
+        },
+        "NBF": {
+          "previous": 3.9732033022260693,
+          "rescore": 3.9732033022260693
+        },
+        "FP": {
+          "previous": 1.0011882970903936,
+          "rescore": 1.0011882970903936
+        },
+        "MCFF_early": {
+          "previous": 10.278646812104343,
+          "rescore": 10.278646812104343
+        },
+        "MCFF_late": {
+          "previous": 10.290861899392647,
+          "rescore": 10.290861899392647
+        },
+        "DAR_signed": {
+          "previous": 0.006256942659849218,
+          "rescore": 0.006256942659849218
+        },
+        "dE_static_src": {
+          "previous": 4.651226043701172,
+          "rescore": 4.651226043701172
+        },
+        "idPSNR_late_src": {
+          "previous": 30.243194439861394,
+          "rescore": 30.243194439861394
+        }
+      },
+      "abstentions": {
+        "motion_abstained": {
+          "previous": false,
+          "rescore": false
+        },
+        "fBD_abstained": {
+          "previous": false,
+          "rescore": false
+        }
+      },
+      "registration": {
+        "previous": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 0.05263157894736842,
+          "source_failure_count": 54,
+          "n_late_frames": 57
+        },
+        "rescore": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 0.05263157894736842,
+          "source_failure_count": 54,
+          "n_late_frames": 57
+        }
+      },
+      "elapsed_s": 34.8
+    },
+    {
+      "scene_id": "igt02",
+      "status": "PASS",
+      "category": "geothermal",
+      "input_hash_checks": {
+        "video": true,
+        "source": true,
+        "mask": true,
+        "upstream_scorer": true
+      },
+      "previous_record_sha256": "95c77ba29035faac73eb6a48e803dfd78b6ac5e1da83a859b596498f62d08f7a",
+      "video_sha256": "218f52e31a80af481be693ac98fd50c2b15ec211c575ad3a52c80fad8ee39856",
+      "source_sha256": "c5d529a1ea0e72baaa020f841410577c3c8f4b7a1d2a013c283e90b6f9bf6267",
+      "mask_sha256": "a4cb648aa8a228b1952dad23b1fc72743211711022377312b6ed39ef91a1f916",
+      "gpu_before": {
+        "uuid": "GPU-2c66b444-105b-5e8d-1968-1405066391fe",
+        "free_mib": 73735,
+        "utilization_percent": 55
+      },
+      "n_common_numeric_leaves": 64,
+      "n_exact_numeric_leaves": 64,
+      "n_outside_tolerance": 0,
+      "outside_tolerance": [],
+      "missing_required_keys": [],
+      "null_mismatches": [],
+      "abstention_mismatches": [],
+      "scores": {
+        "fBD_src": {
+          "previous": 0.3192562747995436,
+          "rescore": 0.3192562747995436
+        },
+        "fBD_f0": {
+          "previous": 0.33131275567272916,
+          "rescore": 0.33131275567272916
+        },
+        "BFR": {
+          "previous": 1.9852646710441317,
+          "rescore": 1.9852646710441317
+        },
+        "NBF": {
+          "previous": 15.882117368353054,
+          "rescore": 15.882117368353054
+        },
+        "FP": {
+          "previous": 0.5055067483722745,
+          "rescore": 0.5055067483722745
+        },
+        "MCFF_early": {
+          "previous": 1.4938082410708855,
+          "rescore": 1.4938082410708855
+        },
+        "MCFF_late": {
+          "previous": 0.7551306521421984,
+          "rescore": 0.7551306521421984
+        },
+        "DAR_signed": {
+          "previous": -0.03454159683541569,
+          "rescore": -0.03454159683541569
+        },
+        "dE_static_src": {
+          "previous": 2.646172285079956,
+          "rescore": 2.646172285079956
+        },
+        "idPSNR_late_src": {
+          "previous": 17.37400064446432,
+          "rescore": 17.37400064446432
+        }
+      },
+      "abstentions": {
+        "motion_abstained": {
+          "previous": false,
+          "rescore": false
+        },
+        "fBD_abstained": {
+          "previous": false,
+          "rescore": false
+        }
+      },
+      "registration": {
+        "previous": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        },
+        "rescore": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        }
+      },
+      "elapsed_s": 34.18
+    },
+    {
+      "scene_id": "iwb03",
+      "status": "PASS",
+      "category": "windborne",
+      "input_hash_checks": {
+        "video": true,
+        "source": true,
+        "mask": true,
+        "upstream_scorer": true
+      },
+      "previous_record_sha256": "8b1d8950f4545c8142ad7463d6b3d472dae0ea73909d7baa402baabc0b413a4c",
+      "video_sha256": "ea5fd29d3d3dcdd4fa7ac827eeff712e5bf036397b35b4e2a21b92dc5d4aebb9",
+      "source_sha256": "58ff9f55764c573e0d0d6a6637e7a2299a97b57509e0c560fe09a5ed516233f4",
+      "mask_sha256": "e319a2a920e706804549ad7b57144283d89e9ad32d6247f79e1eebe48d8d8b29",
+      "gpu_before": {
+        "uuid": "GPU-2c66b444-105b-5e8d-1968-1405066391fe",
+        "free_mib": 73735,
+        "utilization_percent": 53
+      },
+      "n_common_numeric_leaves": 64,
+      "n_exact_numeric_leaves": 64,
+      "n_outside_tolerance": 0,
+      "outside_tolerance": [],
+      "missing_required_keys": [],
+      "null_mismatches": [],
+      "abstention_mismatches": [],
+      "scores": {
+        "fBD_src": {
+          "previous": 0.1413364978631035,
+          "rescore": 0.1413364978631035
+        },
+        "fBD_f0": {
+          "previous": 0.0917090321080788,
+          "rescore": 0.0917090321080788
+        },
+        "BFR": {
+          "previous": 0.7943680849761199,
+          "rescore": 0.7943680849761199
+        },
+        "NBF": {
+          "previous": 6.354944679808959,
+          "rescore": 6.354944679808959
+        },
+        "FP": {
+          "previous": 0.32692022228511497,
+          "rescore": 0.32692022228511497
+        },
+        "MCFF_early": {
+          "previous": 3.237533959380367,
+          "rescore": 3.237533959380367
+        },
+        "MCFF_late": {
+          "previous": 1.0584156485764604,
+          "rescore": 1.0584156485764604
+        },
+        "DAR_signed": {
+          "previous": -0.030331511136941547,
+          "rescore": -0.030331511136941547
+        },
+        "dE_static_src": {
+          "previous": 6.773378849029541,
+          "rescore": 6.773378849029541
+        },
+        "idPSNR_late_src": {
+          "previous": 27.609036548790517,
+          "rescore": 27.609036548790517
+        }
+      },
+      "abstentions": {
+        "motion_abstained": {
+          "previous": false,
+          "rescore": false
+        },
+        "fBD_abstained": {
+          "previous": false,
+          "rescore": false
+        }
+      },
+      "registration": {
+        "previous": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        },
+        "rescore": {
+          "interframe_success_frac": 1.0,
+          "interframe_fallback_count": 0,
+          "interframe_fallback_late_count": 0,
+          "n_transitions": 480,
+          "source_success_frac": 1.0,
+          "source_failure_count": 0,
+          "n_late_frames": 57
+        }
+      },
+      "elapsed_s": 35.63
+    }
+  ],
+  "n_requested": 9,
+  "n_pass": 9,
+  "n_finished": 9
+}
