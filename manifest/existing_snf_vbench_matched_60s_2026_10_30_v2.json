@@ -1,0 +1,3401 @@
+{
+  "status": "complete",
+  "scope": "existing 60-second same-source, same-mask, actual-seed-paired scores; exploratory exposed development data",
+  "baseline": "echo_nfpb1_default_lr",
+  "candidate": "echo_nfpb1_h1_fm_tether100_lr",
+  "n_common_sourcefixed_records": 48,
+  "suite_provenance": {
+    "i2v": {
+      "configuration": {
+        "repository_revision": "fd18b3d055cb0fc6f066ca90fe2c3c8cbb698490",
+        "entry_file_sha256": "7fe327bed1d246c1562013b68e2e1431d43756d7ddc575b9fe447d0f5ab13f61",
+        "official_args": [
+          "--mode",
+          "custom_input"
+        ],
+        "dev_flag": null
+      },
+      "baseline_csv_sha256": "42705277a4ea10bf8268b25b0e9335c53aad2afffca0aa810607c3d65597b39f",
+      "candidate_csv_sha256": "c2bb88aee0f2debe410344942c4d8da0d0fa860f75656ee873717aea697be5f3",
+      "baseline_status": "complete",
+      "candidate_status": "complete"
+    },
+    "long": {
+      "configuration": {
+        "repository_revision": "fd18b3d055cb0fc6f066ca90fe2c3c8cbb698490",
+        "entry_file_sha256": "a4804167eab96e0911cf1fbdc54fb9e850e91195edae5dacf256b8b2fcb4869e",
+        "official_args": [
+          "--mode",
+          "long_custom_input",
+          "--dev_flag",
+          "--clip_length_config",
+          "clip_length_mix.yaml",
+          "--sb_clip2clip_feat_extractor",
+          "dinov2",
+          "--bg_clip2clip_feat_extractor",
+          "dreamsim"
+        ],
+        "dev_flag": {
+          "weights": {
+            "w_inclip_sb": 0.5,
+            "w_clip2clip_sb": 0.5,
+            "w_inclip_bg": 0.5,
+            "w_clip2clip_bg": 0.5
+          },
+          "slow_fast_params": "/home/minar/VBench-fd18/vbench2_beta_long/configs/slow_fast_params.yaml",
+          "slow_fast_params_sha256": "f23ca51d0b19028a7b6ab87f88d90cde77591f67664cfa7bb53d77b158e39d3c",
+          "mapping_tables": {
+            "/home/minar/VBench-fd18/vbench2_beta_long/configs/subject_mapping_table.yaml": "ad6c730b772577d573594ce1ace40e7a70c29ed6b026325589697061cdb86269",
+            "/home/minar/VBench-fd18/vbench2_beta_long/configs/background_mapping_table.yaml": "47cc19bd7f22907e7c6515f0181d2c032187842d5d1686a238d0341ac2e5a440"
+          },
+          "sb_clip2clip_feat_extractor": "dinov2",
+          "bg_clip2clip_feat_extractor": "dreamsim"
+        }
+      },
+      "baseline_csv_sha256": "21942262c60fdd17011ebe50798e2d736c1d898fbc205ba4718ad8837d29eebc",
+      "candidate_csv_sha256": "27307d0cd0ebfa7bca23de499909d9c6f3740a25fc9b412b64ae09dc1abee1ac",
+      "baseline_status": "complete",
+      "candidate_status": "complete"
+    }
+  },
+  "limitations": [
+    "input hashes checked against stored records, not rehashed video bytes",
+    "distinct metric populations retained per metric",
+    "same benchmark sources, not independent datasets",
+    "no human validity, independent confirmation, or claims of causal significance"
+  ],
+  "summary": {
+    "snf.fBD_src": {
+      "n_paired": 43,
+      "baseline_mean": 1.1218711765629485,
+      "candidate_mean": 0.2711021379361386,
+      "mean_paired_difference": -0.85076903862681
+    },
+    "snf.MCFF_late": {
+      "n_paired": 41,
+      "baseline_mean": 1.0047543168826698,
+      "candidate_mean": 1.9297085819302855,
+      "mean_paired_difference": 0.9249542650476155
+    },
+    "snf.idPSNR_late_src": {
+      "n_paired": 48,
+      "baseline_mean": 17.20845288510138,
+      "candidate_mean": 22.063607668591963,
+      "mean_paired_difference": 4.855154783490585
+    },
+    "i2v.subject": {
+      "n_paired": 48,
+      "baseline_mean": 0.980957531358581,
+      "candidate_mean": 0.9793922469598086,
+      "mean_paired_difference": -0.001565284398772425
+    },
+    "i2v.background": {
+      "n_paired": 48,
+      "baseline_mean": 0.9708396726435361,
+      "candidate_mean": 0.9694782521944337,
+      "mean_paired_difference": -0.0013614204491022922
+    },
+    "long.subject": {
+      "n_paired": 48,
+      "baseline_mean": 0.9839498768574764,
+      "candidate_mean": 0.9872400147494901,
+      "mean_paired_difference": 0.003290137892013716
+    },
+    "long.background": {
+      "n_paired": 48,
+      "baseline_mean": 0.9679606437845742,
+      "candidate_mean": 0.9697545618469137,
+      "mean_paired_difference": 0.0017939180623393937
+    },
+    "long.motion_smoothness": {
+      "n_paired": 48,
+      "baseline_mean": 0.990401508275799,
+      "candidate_mean": 0.9891539813789619,
+      "mean_paired_difference": -0.0012475268968370548
+    },
+    "long.dynamic_degree": {
+      "n_paired": 48,
+      "baseline_mean": 0.21908602150537634,
+      "candidate_mean": 0.36626344086021506,
+      "mean_paired_difference": 0.14717741935483872
+    },
+    "long.aesthetic": {
+      "n_paired": 48,
+      "baseline_mean": 0.5384755621073387,
+      "candidate_mean": 0.547246226460062,
+      "mean_paired_difference": 0.008770664352723346
+    },
+    "long.imaging": {
+      "n_paired": 48,
+      "baseline_mean": 0.6741461879435566,
+      "candidate_mean": 0.6841079552840161,
+      "mean_paired_difference": 0.0099617673404595
+    }
+  },
+  "rows": [
+    {
+      "scene_id": "ial01",
+      "category": "accumulating_level",
+      "actual_seed": 59,
+      "source_sha256": "9dd820f0c4db4244ae5ce452060d82baf47b573eae6c7e47f8201c6909d215a2",
+      "mask_sha256": "cbed0e96054da03d989cc5367eee12b93c52fbd2550206fb9d9f9085846ff1fd",
+      "baseline_video_sha256": "e91d42df3538ed7b78e91c17b013caea42585ec448507d42bcb5d369a8d7a882",
+      "candidate_video_sha256": "e5acf81983243737c73beca671c975469a3a5e993f3b0f9bd3f6c2370e1afd86",
+      "baseline_snf_record_sha256": "cf959fc502e92356be71ad44e90c91baaab345d85f6d2d7ec16d4aa1833cfbb7",
+      "candidate_snf_record_sha256": "b9dce67ba77d7dc4b1a8cd141203583c607531b931db27f0162f7f380991a64c",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 2.934168281702373,
+          "candidate": 1.4811167989005387,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.367861936424385,
+          "candidate": 1.4127941024408006,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 16.49381315370513,
+          "candidate": 15.584121814661886,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9889195034094154,
+          "candidate": 0.9875111160799861,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9750373778305947,
+          "candidate": 0.9715255868434907,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9819566303101349,
+          "candidate": 0.9867963289991601,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9661338064407451,
+          "candidate": 0.9716489904317583,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9934757543125298,
+          "candidate": 0.9928107817261291,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.03225806451612903,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.4270306412250765,
+          "candidate": 0.418026678985165,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.6616074913547885,
+          "candidate": 0.6913325702374983,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ial02",
+      "category": "accumulating_level",
+      "actual_seed": 60,
+      "source_sha256": "df31817ada554587fecb86a0ec4ac48bcd4065975457d7584e5e6add4390ef12",
+      "mask_sha256": "76e51044ffb5109fe89d2eb1cfbeb55924ba535eb21ac5c83c2a831c51a08996",
+      "baseline_video_sha256": "5f4be70a8013805e25081aa897198bddcf88ce4af913fd06472dbc2e5a4f38b5",
+      "candidate_video_sha256": "2519393a262d98992c408c605f82195d1229c407aed8c69c4f51520f24b42c23",
+      "baseline_snf_record_sha256": "c654d4154015a88e9c1e5b37c30186a0e38c8c89909ff24ef16c24b36e65f5d3",
+      "candidate_snf_record_sha256": "d7ca268a27352b713953eede9aa220d8737c1dbd6e54c2b6f3258d2b374ffe2b",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 2.0039505038629892,
+          "candidate": 0.5925191621476849,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 2.5571803309415517,
+          "candidate": 5.171045629601729,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 16.636060996054752,
+          "candidate": 20.226963552595006,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9929771300777792,
+          "candidate": 0.9895330625399947,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9812570594623685,
+          "candidate": 0.9774468952044844,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9906189635103761,
+          "candidate": 0.9885594039554048,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9693390162119447,
+          "candidate": 0.957142210247985,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9942188577203178,
+          "candidate": 0.9910688371124629,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.9032258064516129,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.33676843681643087,
+          "candidate": 0.3308339436208048,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7940658567797754,
+          "candidate": 0.7864164768495869,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ial03",
+      "category": "accumulating_level",
+      "actual_seed": 61,
+      "source_sha256": "81f7ab2367cb6e2cd1644846b5b5a2a6d1eddb7986c3168900d6f0e58fc4331a",
+      "mask_sha256": "98024cdd48b3218fe6f94dcf173f42da76adcd1fde29b8f8859de0c88b3ddb49",
+      "baseline_video_sha256": "47a05868629423435ee8f952435d3763909f77c73e56e47dc107b10c2f899648",
+      "candidate_video_sha256": "149d9f5c75cb51dff2504ea8ab7e2ce51f74b90a7daa4a089a37c832c6b0ac8e",
+      "baseline_snf_record_sha256": "4ad50f59e5cb2e53889c74a1ea053d4fc0a0003ef41adcf927c89570d515b39f",
+      "candidate_snf_record_sha256": "8cb26e44d89025ba292b61abd8d81dfaaf67e1c9a92700828783e3cb35c81d51",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.4551045204151821,
+          "candidate": 0.12496060805581102,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.3938558932981993,
+          "candidate": 1.934341806068755,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 18.92597111439443,
+          "candidate": 23.13409851989083,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9885188720002769,
+          "candidate": 0.9907113455981016,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9621164620108902,
+          "candidate": 0.9610956089571118,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9901183151571513,
+          "candidate": 0.9943913730494006,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9677752856669302,
+          "candidate": 0.9774120946467382,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9940708352353153,
+          "candidate": 0.9934773445440177,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.03225806451612903,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.3823896771477115,
+          "candidate": 0.37438037126295026,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.6864560178787477,
+          "candidate": 0.7258647722582664,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ial04",
+      "category": "accumulating_level",
+      "actual_seed": 62,
+      "source_sha256": "95a9281fbe3d6c83b8d4e77dd267d736c7b530a85456d2ef31fcab7d27e896c7",
+      "mask_sha256": "be282454aad7d5cadad37da268221797d2150bcad3ea294e16339b18efdbeeea",
+      "baseline_video_sha256": "c8d45b45120bf178204300420d954c7a5d6bdc787210be6cacdeaddccaaa7759",
+      "candidate_video_sha256": "57a1da96cde33382453094e176b07057b6ad7426e11c9bb1848e22f88b23eaf6",
+      "baseline_snf_record_sha256": "4c8419c95502e63e9a5defd2405e3db198d4d9766671cbb51d4d7fd89a12a4a8",
+      "candidate_snf_record_sha256": "c9232d04b29d50c3175fdc5f90c04cdc1bf9ef34711571c7abf2808b2a060bf3",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 1.8479350091103166,
+          "candidate": 1.1398756306065967,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.349477721868377,
+          "candidate": 1.0943300619459988,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 20.438340102178287,
+          "candidate": 26.4021026314666,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9918016337417066,
+          "candidate": 0.933842102456838,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9700101066008211,
+          "candidate": 0.9321385694481432,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9871009465520032,
+          "candidate": 0.979921178065877,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9702209318445062,
+          "candidate": 0.9563400194279035,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9949747944099695,
+          "candidate": 0.9906221251563819,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.3225806451612903,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5319023093869609,
+          "candidate": 0.5682234148825368,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7492776175468199,
+          "candidate": 0.7321036454939073,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ial05",
+      "category": "accumulating_level",
+      "actual_seed": 63,
+      "source_sha256": "7f56fc08008985072bcff515f9c479b9f961b59fce502c0042f314490690dd4d",
+      "mask_sha256": "e3aa6fa4cae1b40921a46b55a075be4f8c09a348b0f502941b82e673a96a9352",
+      "baseline_video_sha256": "14c63ca3061f150f97efc948537d0ab3b37da49fb884962929917e15f3f6d01c",
+      "candidate_video_sha256": "7f5447ea0fa0e14fbbb44d37aa35b3aa4c0f5fffae93449238feedf205b90299",
+      "baseline_snf_record_sha256": "a156ac80e100758f5a432f4bdddde1fdde58d8b7e503bfded8005782fc549e5a",
+      "candidate_snf_record_sha256": "0ed115fde4bebca448402476305109188b3a2baf5cf9964398147bf2814ec2e4",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.8110337067823263,
+          "candidate": 0.40260044541990314,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.39267521756782864,
+          "candidate": 1.6932128048256825,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 17.97364014740288,
+          "candidate": 21.84288204332186,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9859784654900431,
+          "candidate": 0.9899556207470597,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9821960273012518,
+          "candidate": 0.9819192127138376,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.990025379835468,
+          "candidate": 0.992167761736958,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9766564545412232,
+          "candidate": 0.9788269815238176,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9936576585788366,
+          "candidate": 0.9915624329590075,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.9032258064516129,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5632029656440981,
+          "candidate": 0.5917469339986001,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.6754340781704071,
+          "candidate": 0.6648867166042327,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ibp01",
+      "category": "buoyant_plume",
+      "actual_seed": 64,
+      "source_sha256": "626ba0b5991bfd85d7861265c0accc8fe3fc7d38d6c6264275079322d8354851",
+      "mask_sha256": "cc285ddf3d15493ed1674f945994f06289bc583478c53f05987ec0424ddd5014",
+      "baseline_video_sha256": "13707cec12775b1afb6219cb26c2dfd53cdf4855db2514ce96174bae66f88e91",
+      "candidate_video_sha256": "c86011f2c27cb875518c073825abb8e7089050bc3ad93dbd86d5c2aa28365faa",
+      "baseline_snf_record_sha256": "604c33172acbb3e2c45513c54c58f9e393570c1578494a4bafbd2edece8618e3",
+      "candidate_snf_record_sha256": "4a78d07303c2d06cbd871d8fc0af19240d7f88a7cd5e83f8e67c954b35a58563",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.8565651930790773,
+          "candidate": 0.1390219745737208,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.5784160144496382,
+          "candidate": 1.209563366415208,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 16.210536994293363,
+          "candidate": 21.95851169557905,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9841307152807712,
+          "candidate": 0.9896420423127712,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9689121944643557,
+          "candidate": 0.9767361201159654,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9868596884575638,
+          "candidate": 0.9917800812669353,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9739420035798865,
+          "candidate": 0.9797107495442278,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9912458398614533,
+          "candidate": 0.9931038800248928,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.16129032258064516,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5839960517421845,
+          "candidate": 0.5930211697855303,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7387486535118473,
+          "candidate": 0.7579855558180041,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ibp02",
+      "category": "buoyant_plume",
+      "actual_seed": 65,
+      "source_sha256": "68ddee4ecd74fcbb304f6a3a4941acc53a0ad1dd12674d3c6cd3e0606740f356",
+      "mask_sha256": "6aeadc7bcd0b44403533b6ae05bf08d31fd9e15fa1e7b98a1de5cc7818522624",
+      "baseline_video_sha256": "317486c0b33058bd9b9909da82229a9526a0ab95e5519d03472b299db96c0c28",
+      "candidate_video_sha256": "0c32489304bc8645913b90678b985b45d3348200e63763a975c94aac1f6a2ed1",
+      "baseline_snf_record_sha256": "895be985ccb722d468bdd0fef60febca78d20237979c93fd5121e70e3eb8415c",
+      "candidate_snf_record_sha256": "a4403fc2ac53b7c3381b6726b6a0ab457e40682e69503fc516fdaed0495aa81d",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": null,
+          "candidate": null,
+          "paired": false
+        },
+        "snf.MCFF_late": {
+          "baseline": 5.707536204865105,
+          "candidate": 6.490735656336734,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 8.3206428901184,
+          "candidate": 18.610905890074772,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9744504009559751,
+          "candidate": 0.9741052520833908,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9738761553727091,
+          "candidate": 0.9796623048931361,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.964898528803284,
+          "candidate": 0.9837834256905633,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9536939717777967,
+          "candidate": 0.9675876800249003,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9783376870066391,
+          "candidate": 0.983408814212375,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.7741935483870968,
+          "candidate": 1.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5439325330718872,
+          "candidate": 0.5586928013832339,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7263114781918063,
+          "candidate": 0.7047503660571193,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ibp03",
+      "category": "buoyant_plume",
+      "actual_seed": 66,
+      "source_sha256": "ea02324ea7bc173558426ea55db75b04cd98458f4d91e6aa0649de029421f910",
+      "mask_sha256": "9ca7b18e8c14116bef2de87e16fe98400afb08e508755a85a24bda934684b135",
+      "baseline_video_sha256": "aa90bf24ca2ec41fb92e24b4580c6442b30712aa8bafd0edf9223842f3d3134d",
+      "candidate_video_sha256": "4f342868d4f49456a59e6849838a68a3e838a364fbbc6ab2b36b182d57d4a516",
+      "baseline_snf_record_sha256": "124ced5174d074f49dbe591e0464ab105e1ca3b00fd190a844b6cb2143a20ad1",
+      "candidate_snf_record_sha256": "848d2869f886ca8bf5206a2851cf9e7dd718a52515678d3b8d96d0a55c3f412f",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": null,
+          "candidate": null,
+          "paired": false
+        },
+        "snf.MCFF_late": {
+          "baseline": 1.5369232401513218,
+          "candidate": 10.290861899392647,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 12.670655122455003,
+          "candidate": 30.243194439861394,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9818327906168997,
+          "candidate": 0.9798731014505029,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9727304442226887,
+          "candidate": 0.9660130769759416,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9816548921377982,
+          "candidate": 0.9853097227879186,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9547679558669059,
+          "candidate": 0.9635462814641105,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9848574392863709,
+          "candidate": 0.9749268725667017,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.3225806451612903,
+          "candidate": 1.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.546761921336574,
+          "candidate": 0.5575957106005761,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7291726912990691,
+          "candidate": 0.726116726398468,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ibp04",
+      "category": "buoyant_plume",
+      "actual_seed": 67,
+      "source_sha256": "cd0c57e6c036fbedc642df5e7231063a021d1d94896c0ecccc7bd1c3d2029675",
+      "mask_sha256": "14731342969a1b3595563984a475a1ed7b4f460d42ed7b84e5c1c97f1bbee265",
+      "baseline_video_sha256": "1fabae790ab7bc2017f597a729318459eb8a408986b6c8be438573f561e9eb22",
+      "candidate_video_sha256": "0443d4dc9156d46535aca95b931b217221a12eccee6c62a426d0df6e2e83ebdc",
+      "baseline_snf_record_sha256": "323a3e58011d3e9ac941c28c0fc6aaf429f49b53e8c1603843b547660ab6a622",
+      "candidate_snf_record_sha256": "8f9c3cebf0c60cccdd26c42d43d66ca1743aedd86a5ac3dae995eb639f4bcf86",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 2.649824877267274,
+          "candidate": 0.08564253957689447,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.21158339253120256,
+          "candidate": 0.8130090786961087,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 17.201044762051193,
+          "candidate": 22.42001768292594,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9766227505914866,
+          "candidate": 0.9796336007118225,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9713870790600776,
+          "candidate": 0.9584357837401329,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9749212933570731,
+          "candidate": 0.9809381468911816,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9497665107676732,
+          "candidate": 0.9613077908615634,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9913759088897426,
+          "candidate": 0.9894276162824747,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.25806451612903225,
+          "candidate": 0.8387096774193549,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5631117359284432,
+          "candidate": 0.5351820203565782,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.37313813359506665,
+          "candidate": 0.30670925221135537,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ibp05",
+      "category": "buoyant_plume",
+      "actual_seed": 68,
+      "source_sha256": "2e3dcb1698f4a1a8cb071c9ab817f08b9ca0346f1c06afa8ed5282662927cebe",
+      "mask_sha256": "d96d2ea1ef4f7c0827b49cbd070822e557850b80dcc92399674a8fe39a01850e",
+      "baseline_video_sha256": "225bccacf66b22df381004269826efe64e6f9cd8eccb5a772e1275acc8c81028",
+      "candidate_video_sha256": "7ed701af7107c3068612b16ea0dccfff7897a96ba9709bc5a9181608dec6291c",
+      "baseline_snf_record_sha256": "2eee3de834543283ca42a020db8b9652b9decdf20f5873520bbf51049987c923",
+      "candidate_snf_record_sha256": "b26c409a5d0e3e2558adb67dd7bf9414fd7d050bec4ddb7df830f45567dfa0a5",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 1.6994795972948913,
+          "candidate": 0.12963441915473806,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.3490801970556117,
+          "candidate": 1.2734948445046157,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 12.620687901791406,
+          "candidate": 17.57815741879187,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9845622099377214,
+          "candidate": 0.9829297187179327,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9688400679081678,
+          "candidate": 0.9647468418814242,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9787574650162297,
+          "candidate": 0.9805653596020908,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9563710300507334,
+          "candidate": 0.9553072946067553,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9914739944020067,
+          "candidate": 0.9863064931228501,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.22580645161290322,
+          "candidate": 0.3548387096774194,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.48740393980856866,
+          "candidate": 0.5814162031296761,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.603397406185827,
+          "candidate": 0.6017534780502318,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ibp06",
+      "category": "buoyant_plume",
+      "actual_seed": 69,
+      "source_sha256": "9098bde519984271ca216564054dcace3ec6113fe4ed10921da992b78cede4b4",
+      "mask_sha256": "a9169d07672138a66de6e54a46d0de7de7b4dda3f14d9264e93513b24c78143e",
+      "baseline_video_sha256": "0366c92af8632befb99bba7ec8ce3c9deb75c17a90929ceb03b201843d805e89",
+      "candidate_video_sha256": "d64d445eb551eff86bc1e746c0bfd4c4f064aa13da10c426287143cba90839fa",
+      "baseline_snf_record_sha256": "e9146111a54c45cd6fb9cba9d4ec103de342ffcfe9c9960f6a3f0d6f0cceb1b9",
+      "candidate_snf_record_sha256": "07e4ca52c3502bf5e57124a83d6aedb4b7f450b563b1a4d732bbfa1e70ad0940",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 2.32726095238335,
+          "candidate": 0.19812795245243384,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 1.138395957910178,
+          "candidate": 8.030068642214724,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 15.832931515017904,
+          "candidate": 21.227268104509104,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9822813679650426,
+          "candidate": 0.9843049605563283,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9700891070440412,
+          "candidate": 0.9685562450811267,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9849626624035625,
+          "candidate": 0.9907480405852588,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9649758563140417,
+          "candidate": 0.9674099325828428,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9854018538171865,
+          "candidate": 0.9872137851372512,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.6451612903225806,
+          "candidate": 1.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.6172481429192328,
+          "candidate": 0.5994847416877747,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.725582728616653,
+          "candidate": 0.7193429544664198,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "icb01",
+      "category": "combustion",
+      "actual_seed": 70,
+      "source_sha256": "ff75c4b324e97327ba38a0b678cab43eafd03c787b87d215909113f684ab0be5",
+      "mask_sha256": "db12138b1bb949a7d1e42ffbb6097f89a043fc1cf7a8d894c022d28502d6ef9b",
+      "baseline_video_sha256": "ec0c1e8a53f647d054a1859ffacb9e21a2738f9c6e7266b639708a709cfcb7e6",
+      "candidate_video_sha256": "3c33f3006d936f6e031a8ca17373a33c7b6216218394647f5007d9d7724d25fc",
+      "baseline_snf_record_sha256": "a60c85f730f1ca9c8bd6c9d1f21b83a5cb70ce42fe31e947f83ecb5d1717b159",
+      "candidate_snf_record_sha256": "e4e5df5584c5a6a0df7ab44e796fbd45ff8865c9768771939b9be56eb4773021",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.31060086291923383,
+          "candidate": 0.012180134195864532,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.184556252404786,
+          "candidate": 0.27190467195683404,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 17.298463545979413,
+          "candidate": 22.259441319206598,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9785367933288216,
+          "candidate": 0.984270821865648,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9770157197676599,
+          "candidate": 0.9768740474618971,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9898902087418793,
+          "candidate": 0.9916370926876829,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.980510860476455,
+          "candidate": 0.9813770411130008,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.991233703245595,
+          "candidate": 0.9910342336409277,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.568320833867596,
+          "candidate": 0.5495457264684862,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.669328316565483,
+          "candidate": 0.7087011174617276,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "icb02",
+      "category": "combustion",
+      "actual_seed": 71,
+      "source_sha256": "ca7d3ab38902fe7b2e8a048c11941321c677b72df5937fced9a1b4f32c1b1693",
+      "mask_sha256": "f14d8c861f5d2a7ee78c12202001687bc5d0c33fe63785b4c3742ce9ffe836b0",
+      "baseline_video_sha256": "062b2e1bdca5aeb51da7d0cf8f575ed1c19062d48a680f7e0c2d3039bc28be46",
+      "candidate_video_sha256": "6feccfcb2ae15537a6dbbc44690cd162d5128c5e5f593e1936f71e62fb3aeecc",
+      "baseline_snf_record_sha256": "6f5f740fe4581851c65694996c692c2868d2e101cd5cafc0c6ac39e3cca80514",
+      "candidate_snf_record_sha256": "479dded085c607f955284f8340be022080249f734f4e783b6f4424ade6225cb5",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": null,
+          "candidate": null,
+          "paired": false
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.3959926357002635,
+          "candidate": 0.1780434771718686,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 24.05735994963901,
+          "candidate": 32.1709966734524,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9830869815871119,
+          "candidate": 0.9842743146419526,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9732801484502852,
+          "candidate": 0.9716037133708595,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9880043801709327,
+          "candidate": 0.9910826133587541,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9720903836947885,
+          "candidate": 0.9739041285448427,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9890573739474481,
+          "candidate": 0.9878214928480409,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5914772056764172,
+          "candidate": 0.5858316094644608,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.5810943227044997,
+          "candidate": 0.593174281351028,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "icb03",
+      "category": "combustion",
+      "actual_seed": 72,
+      "source_sha256": "be990ea879222e7da72af9a30719dc6b4af3a124c668cffacc2731fd8e350ac4",
+      "mask_sha256": "2bf57cae9434091228a9a47cb5acdebbdf87504e23c57655ea63f07bcc6f7dfa",
+      "baseline_video_sha256": "3bbe61b7fa8baca2c94aee6c03df966779f13735f6de8b847cb594070eda24df",
+      "candidate_video_sha256": "bc5f65e4d415fd1494130fc6d4123081f15b0aea05f61d4e959d14235a2236f6",
+      "baseline_snf_record_sha256": "feadf7eddbbd70626a665769596f1b82bc5a6aab22db0b115b14d4ab75b8ccd9",
+      "candidate_snf_record_sha256": "5d000b24700e7e2229d0ff8475d34561f0046a2a92393f45e724bbe16984a009",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.42604716378785773,
+          "candidate": 0.1733568270804185,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.26833758633910565,
+          "candidate": 0.37845342410238164,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 18.18280769402307,
+          "candidate": 21.6168470251226,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9755428380519151,
+          "candidate": 0.9671164113096893,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.979169588163495,
+          "candidate": 0.9762568058259786,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9877703695407359,
+          "candidate": 0.9862235981411243,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9711866070485925,
+          "candidate": 0.9646123286885,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.975643775335357,
+          "candidate": 0.9725372376179986,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.54938550918333,
+          "candidate": 0.5353266558339519,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7200043197601071,
+          "candidate": 0.7443451621455529,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "icb04",
+      "category": "combustion",
+      "actual_seed": 73,
+      "source_sha256": "eaaef2f74af2a74853af4f18faa9b3555cc4754003eb66626d723a1585f2233e",
+      "mask_sha256": "c7dbce80887a7280608f1433ed5419452ca0fc3384ad37246ec0c760fcc0b429",
+      "baseline_video_sha256": "545fe7e702b1e6dc2aae47e93ccf38c5eda99a6d0776bdb319cec6598ecadf7d",
+      "candidate_video_sha256": "d417fa969ef1cd899d9354882a6697ad8221ce75746364ca5da8b1d4f40ef4b1",
+      "baseline_snf_record_sha256": "dc49910c0c8340a9db07ee6eeb509c5b7895ee06737694e88490137b9788cebb",
+      "candidate_snf_record_sha256": "18ffe9f21edc0b5b6543f3dbf6f0ab7ba2ed1772518faa18e22ba32e214c4ad1",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.7160334427302637,
+          "candidate": 0.09413337175556541,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": null,
+          "candidate": null,
+          "paired": false
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 13.367035606571584,
+          "candidate": 15.648217998543329,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9836059584468604,
+          "candidate": 0.9787800206430257,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9619621984288096,
+          "candidate": 0.9594056149758399,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9873085659110538,
+          "candidate": 0.9867734643684882,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.963752342401652,
+          "candidate": 0.9632696045873823,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9856302368278667,
+          "candidate": 0.9841314586647373,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.46279161591683665,
+          "candidate": 0.4911476825514147,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7403463744348097,
+          "candidate": 0.7455209007570821,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "icb05",
+      "category": "combustion",
+      "actual_seed": 74,
+      "source_sha256": "649da8658459482a8631e420301a17db7007b9d1a1c837039dbed90de4853f71",
+      "mask_sha256": "f23bf6e5462008f7239b1f20a84475fb8172caae204994b6ad4ed6ac2f726cba",
+      "baseline_video_sha256": "37e03cf6ac7f29304f5329730f3236d733661aa6ff06e3fc083c0c604d29e23f",
+      "candidate_video_sha256": "2361b52ff5043bbb66298946e03e02d7c5bb57fc81a889217c828f3e5be89f0d",
+      "baseline_snf_record_sha256": "9ea309bfe448355391c4ea76381ca1ee36cfaafaf81585f7c07ba3c4469ed0af",
+      "candidate_snf_record_sha256": "11adb0640f32526702e5dea71961dca61d97b9368a48a954476ebb725075f165",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.24249721648803468,
+          "candidate": 0.07265270242297824,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.20710557797237447,
+          "candidate": 0.16888611887892088,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 19.83420179878793,
+          "candidate": 20.53724254364226,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9899142849072814,
+          "candidate": 0.9914584316499531,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9817163469828665,
+          "candidate": 0.980171001944691,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9923643969751721,
+          "candidate": 0.9914955477220991,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.985237765568299,
+          "candidate": 0.9849046473381349,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9892930480461759,
+          "candidate": 0.9897078793636055,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5754754927850538,
+          "candidate": 0.5752375837295286,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7490696630939362,
+          "candidate": 0.7334252004469595,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "icf01",
+      "category": "channel_flow",
+      "actual_seed": 42,
+      "source_sha256": "9f4be4366ea473cfda581e9bd9c196b1c5bbc665584cede6dcc65bdb27048e0e",
+      "mask_sha256": "d02d81164a4e00d0497af15b0ea14690341f6c0a59b88bca48b6c3814a8da38e",
+      "baseline_video_sha256": "14264e72894690a3e3f481e60776018c0c2fd6f73e2edf3f30c0889171c79b42",
+      "candidate_video_sha256": "92441fc0d66f9f5d9f69c3be222de22a101cea5cda2c2231e9c4de82aea0e49b",
+      "baseline_snf_record_sha256": "360b73efd164fd11a617aec6bf82fe56ec772205dccfe0215fda6707b7b70195",
+      "candidate_snf_record_sha256": "4d20bcfece9340a9a709dc42b608b53609e01f852da66cf7830b08bc069b37fd",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.851975148635974,
+          "candidate": 0.13519994115054765,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.16084519969789604,
+          "candidate": 1.0035194431742032,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 14.6907387360504,
+          "candidate": 23.027093249713385,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9682624512724578,
+          "candidate": 0.9487125046737491,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9689378397539257,
+          "candidate": 0.9545862790755928,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9823525254551215,
+          "candidate": 0.9709927537639482,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.967869413892501,
+          "candidate": 0.9594995685102459,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9886170195455608,
+          "candidate": 0.9774255905590628,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.6774193548387096,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.4176559044468787,
+          "candidate": 0.4442700311060875,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.6069617211818693,
+          "candidate": 0.5603175717399966,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "icf02",
+      "category": "channel_flow",
+      "actual_seed": 43,
+      "source_sha256": "fd6c6b3970216a881d4f3aebc0c49819f595ca6951738550d54e645f3ff20729",
+      "mask_sha256": "3218fe5448f030a265145c6c703357b27aba4cbd5630ef4d01354acc1ad7d2a5",
+      "baseline_video_sha256": "3805d5e0b2a046156c7e251d340b7c70c9504dc9e2036d5b562b43088aa75339",
+      "candidate_video_sha256": "fa57d4047381369448d4104f711ebe7bd2b27d1171a7608bf2e3990d5e2324c6",
+      "baseline_snf_record_sha256": "30bb8f13f76c8bf206d67635430c9ea26858adf59b125e904671862a9af1d0af",
+      "candidate_snf_record_sha256": "0763a19f580634a6dffcf28793917548e71ea72deb94074401d87e01588a7903",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.33202948457423076,
+          "candidate": 0.2186642424869037,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.7400924257541958,
+          "candidate": 0.14227598820600593,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 18.84322847037971,
+          "candidate": 20.398283469046817,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9841540112718941,
+          "candidate": 0.9843755472078919,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.97025823129341,
+          "candidate": 0.9694346948340535,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9933598325919931,
+          "candidate": 0.9934554912970122,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9671311013164072,
+          "candidate": 0.9695392333602403,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9918708255719517,
+          "candidate": 0.9902505193635561,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5691820709936081,
+          "candidate": 0.5614834985425395,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7764597945059499,
+          "candidate": 0.7659306279305488,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "icf03",
+      "category": "channel_flow",
+      "actual_seed": 44,
+      "source_sha256": "126836b2aedeb04a563d068faaba0f5a19264a8b7086baa520729102d8c835c0",
+      "mask_sha256": "d955e803dd78031db59373f3df794f3c4a41dc8bd2957d07e8e5b9fe4a6e5e38",
+      "baseline_video_sha256": "352de1a86b05834dd9560e000c305cdb3d9a7544efb2697ea57797208bd3fa2a",
+      "candidate_video_sha256": "a9c03981bd5034398c76dbc070c4248f8af1942c666c9f147f07dd327745abd5",
+      "baseline_snf_record_sha256": "31ce4a275dce73dc992efd9c56b94e1a3e93c194ef8affc04545d415709ce2aa",
+      "candidate_snf_record_sha256": "b8a872fac1457285a1c575b702de34b64a5e12ad0c4b1c3d99c14dd6ee6ff4b5",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.5933632221594589,
+          "candidate": 0.11718357185942142,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.08759994929035504,
+          "candidate": 0.4998448202876668,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 18.13476523736024,
+          "candidate": 24.36544625771893,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9919856435619294,
+          "candidate": 0.994705266058445,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9753896469622849,
+          "candidate": 0.9760161558538676,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9940081399558364,
+          "candidate": 0.9955662590882892,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9793476898660647,
+          "candidate": 0.979431305105921,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9958471011486112,
+          "candidate": 0.9949065972208144,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.4805923690718989,
+          "candidate": 0.4804258423466836,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7553089033403703,
+          "candidate": 0.7461468735817939,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "icf04",
+      "category": "channel_flow",
+      "actual_seed": 45,
+      "source_sha256": "cd12c1ce8e17b2b36622902daa0b72af3ba7fe0378d6bc7b8d799413527cd4e5",
+      "mask_sha256": "1d7a9104483e253d093686e82274c82c6bfe718eb8b858742f96f8404c9d7a72",
+      "baseline_video_sha256": "f9dada415e374342551c26428b40598803c1e2dccc04e107f28e040c71a2d6d8",
+      "candidate_video_sha256": "2b30582f989e389bf48acd31722adc6e8d9a4a0fabb81f08f94e3f77f0af7633",
+      "baseline_snf_record_sha256": "eee24e8a71a1f960dc5b4ec2c478951bf01730761fbf90fee2a32c1651fc3ed3",
+      "candidate_snf_record_sha256": "fc2628b6ca497f06dccbb714ff35a63b6981b73c906540ea3df0ba2f91fad821",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.587723244362493,
+          "candidate": 0.1971200420893032,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.15241178020573498,
+          "candidate": 1.2875334306767112,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 16.28974191466916,
+          "candidate": 19.89420146794665,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9885335969738662,
+          "candidate": 0.9849370983429253,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.978015654180199,
+          "candidate": 0.9742298615723848,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9885218607303566,
+          "candidate": 0.9893253479379102,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9636105918369219,
+          "candidate": 0.9563328897945867,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9936434275936444,
+          "candidate": 0.9895907448614669,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.06451612903225806,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.4873754968566279,
+          "candidate": 0.5119129698122701,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.786765244545475,
+          "candidate": 0.7765720439726305,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "icf05",
+      "category": "channel_flow",
+      "actual_seed": 46,
+      "source_sha256": "4a431bf0c83c381d6c4679ab267eb20130c312a30bd49f4ad427c0f53c38c37c",
+      "mask_sha256": "c9a1a6df2aeed6882a5a39be5d2b888fc67ef0f2b1bf5c9899eb8599e663d100",
+      "baseline_video_sha256": "34686673b0dbc9540bbbd63a0390a4a245ca9b74852338e982a0e48bf52ad8a4",
+      "candidate_video_sha256": "39c114c91c53437a48c83b2ceec2ffce6d642cb330c6409fa0734b7ea2d3278a",
+      "baseline_snf_record_sha256": "eaadb7155bb7d352579f8278b632d26e965d777368006f840784cb96d81b4dbe",
+      "candidate_snf_record_sha256": "e5656127f0d762b10acb91133574b425c1dc46eca78aa558792524aab6a89f49",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.29626936781663715,
+          "candidate": 0.16940266228412212,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.29361028943145484,
+          "candidate": 0.7669505550150286,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 20.177172351474088,
+          "candidate": 23.491317919652463,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9779747345112264,
+          "candidate": 0.9836292690597475,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9672414078377187,
+          "candidate": 0.9667554243840277,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.987603866282624,
+          "candidate": 0.9929826579806458,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9733836324534195,
+          "candidate": 0.9844548115927005,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9944442853945471,
+          "candidate": 0.9931407145170411,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.6724010513674828,
+          "candidate": 0.6570646820529815,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7154523941009275,
+          "candidate": 0.7512016378679582,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "icf06",
+      "category": "channel_flow",
+      "actual_seed": 47,
+      "source_sha256": "ff4fd706efe386aa45e75064dd44f72f7fbc45b45c604b9e48050b9cccfff4f6",
+      "mask_sha256": "1f4d9aa2d54fead988f10f3a9ae0b0b633ba2ed264ccd503d770636ea9e25ccf",
+      "baseline_video_sha256": "bbf8745bef8a21bce81ee89113dc7c8e0334aba591f0959232e9945e0d425fda",
+      "candidate_video_sha256": "989ddc9bccc73df9e60eba3e8fd5f4835b4b30d9bc359f2990857e5c65a26168",
+      "baseline_snf_record_sha256": "7aa436b34816875bf226aa1fbd85bb58ff845f113a4b8741ecaae81548bfda16",
+      "candidate_snf_record_sha256": "7ba08d6bbb06efcc0270007022d1e92d8e6614a449d306660ea6617da5e0d8fe",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.49473313176073874,
+          "candidate": 0.16769583778808672,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 1.0034291908929223,
+          "candidate": 1.511740133427737,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 17.26275123668457,
+          "candidate": 21.74542383768333,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9884118031151594,
+          "candidate": 0.9853296278230845,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9724918669462204,
+          "candidate": 0.9737476802244782,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9908669016671473,
+          "candidate": 0.9925521459847753,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9755740729185947,
+          "candidate": 0.9742812883310558,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9921945395787379,
+          "candidate": 0.9914418848990348,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.03225806451612903,
+          "candidate": 0.03225806451612903,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5442045254092063,
+          "candidate": 0.5376852981505855,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.6112610847334707,
+          "candidate": 0.6740867962760311,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ifp01",
+      "category": "falling_precip",
+      "actual_seed": 48,
+      "source_sha256": "56910443661f3f3bff485d9b111a53e9b91402003dce8ec4e85cc14058f65bae",
+      "mask_sha256": "140693e77413e7930830258b80116e380d0ad98c7be6bf32cc4314d5e2a17c04",
+      "baseline_video_sha256": "a86ec0e33cadf86971d969f8e69c1bb8056602ec6073106964ecd66f8a7d3a34",
+      "candidate_video_sha256": "9f89160e713e47614112bc024744a25c5b06f42f8d70795159a8ca972ec4d747",
+      "baseline_snf_record_sha256": "94eb464df21f1bcf2b3795c3c4cfee4c6017085cac6c90739a08b3f2f5436f60",
+      "candidate_snf_record_sha256": "7cc27083441f8ef833daa8adc542b4ad4cb4e9c72f87879284ed57b4c8a3d357",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 1.423141210505408,
+          "candidate": 0.18184875069816434,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": null,
+          "candidate": null,
+          "paired": false
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 9.581736495946611,
+          "candidate": 15.474397469310546,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9767859930545091,
+          "candidate": 0.9853908954188229,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9636109321750701,
+          "candidate": 0.9686328709311782,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9753450098046611,
+          "candidate": 0.9930508148760644,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9583566910895711,
+          "candidate": 0.9723257349436624,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9829464105954165,
+          "candidate": 0.9894552210235372,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5519445615430032,
+          "candidate": 0.7003500057804969,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.6340239316417323,
+          "candidate": 0.579106454387788,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ifp02",
+      "category": "falling_precip",
+      "actual_seed": 49,
+      "source_sha256": "528cac497cd43516dd1eef81ee28a5f3041dc7f4cd7a57e668530219f0f67064",
+      "mask_sha256": "d47dbd79a55c40d397f2a6d7440f9627a4c5b32324675ca84e1529d8ef39bc89",
+      "baseline_video_sha256": "cbea342b706c94e6e194e38e9f45dae1c424972c7e281515db4c828a24834cfa",
+      "candidate_video_sha256": "965526382ced692445e6d9629c50ec6105f36424c0f3915cd01cc9f76f89680d",
+      "baseline_snf_record_sha256": "2bdf0b998c410313cd86743acdc569bf94fdee3c8bfa5a8b4e21b25fab40241f",
+      "candidate_snf_record_sha256": "c45585fde3611aea225bf9a89d77f666b909575ce9e918e7c1610fce7e591196",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.8196343708371921,
+          "candidate": 0.563510139201478,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": null,
+          "candidate": null,
+          "paired": false
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 24.525580417750607,
+          "candidate": 24.990609839321205,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.970005564596504,
+          "candidate": 0.9653450521081686,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9520229757390917,
+          "candidate": 0.9555911932140588,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.982960427642811,
+          "candidate": 0.9852564860442926,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.960528751262127,
+          "candidate": 0.9545739742504393,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9831864866349939,
+          "candidate": 0.9816836871526595,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.8387096774193549,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5240842680777272,
+          "candidate": 0.5548925592053321,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.3089326115385178,
+          "candidate": 0.33164035174154466,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ifp03",
+      "category": "falling_precip",
+      "actual_seed": 50,
+      "source_sha256": "291af1fec6d86c3578469e2984d51df3c7683e1c9394fcac39fa81906a8f92ea",
+      "mask_sha256": "aeb4b35f940616258f09ed0cf6f5802ffc04250f98ea3bc59d58c188f1f7fd6c",
+      "baseline_video_sha256": "f1845f954d62a7ccbf344e7c25946e82f6a4412cb88b7a1226f6da34cb8fd302",
+      "candidate_video_sha256": "563009099d02fcd7b63601c26d5e4b1def40ff61b84ed2f2ebad589070e3f78d",
+      "baseline_snf_record_sha256": "904baadea7d836f6f4f11b7f98d2b2cc758ce56925da9f3d36fb7f1161ed74fa",
+      "candidate_snf_record_sha256": "225ea0cf8c57bc8a75619b3fe568e614fb9bf74a91ddcb69f3b82c24abc30bb7",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": null,
+          "candidate": null,
+          "paired": false
+        },
+        "snf.MCFF_late": {
+          "baseline": null,
+          "candidate": null,
+          "paired": false
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 25.26161552873029,
+          "candidate": 25.84244302839494,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9592945738509298,
+          "candidate": 0.9799629317596554,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9571731800585985,
+          "candidate": 0.9663154256902635,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.972060234422789,
+          "candidate": 0.986942488445885,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9660031666083037,
+          "candidate": 0.9700148079192665,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9899687869063338,
+          "candidate": 0.9909875350282851,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.9354838709677419,
+          "candidate": 0.7741935483870968,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.61259090323602,
+          "candidate": 0.6432942671160544,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.5389027770488494,
+          "candidate": 0.5057250090183751,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ifp04",
+      "category": "falling_precip",
+      "actual_seed": 51,
+      "source_sha256": "2759f0669272c697908f9eaf42274a42a77c7b5a6d6fa3765ebd8ec9ccf07026",
+      "mask_sha256": "f288575df2e168600898a527090ad20fb27fca3be2056d7d879ed49c8fef7c21",
+      "baseline_video_sha256": "9c3a3be0a8737cb3bc28a343ad4bf1e8efdf4109e9bc9731cdb8498ab4b4e33d",
+      "candidate_video_sha256": "87ba488f99132e26b16fe8346f0d10d5a02df8ec70fc657f8a9348d0c47fc579",
+      "baseline_snf_record_sha256": "a834c15f81361d91ac8ef5ec1dfcdbbfcfaf996a0e02314ce137905dc69fbfbc",
+      "candidate_snf_record_sha256": "d9bb7d054fe5c8d7117b17cdc9aa5ae3456f23eaafcb5ffd93bdad9e3fe7d3cc",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.6238340906700102,
+          "candidate": 0.48444459597178235,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": null,
+          "candidate": null,
+          "paired": false
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 16.41153060226027,
+          "candidate": 19.121837949901852,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9635609089396895,
+          "candidate": 0.9893136273138226,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9573742760345338,
+          "candidate": 0.9731626132503152,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9769837639857717,
+          "candidate": 0.9912126791437309,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9618893296390401,
+          "candidate": 0.98044799234854,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9900069614088284,
+          "candidate": 0.9923520425568674,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.5161290322580645,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.6212392295560529,
+          "candidate": 0.6392464733892872,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.6591890909594875,
+          "candidate": 0.6427145034267057,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ifp05",
+      "category": "falling_precip",
+      "actual_seed": 52,
+      "source_sha256": "82a52f9602699ac619b7a1aa786ca4cf2dd2c93089e088fbf5120227a7235eb7",
+      "mask_sha256": "9c766df77174ad7f29fc1e3b8a42114e2b662df49047cfa144776e2005efe093",
+      "baseline_video_sha256": "28b2da5904103a4338ed90240d555245021726182278c1c8d59a511fd881fecf",
+      "candidate_video_sha256": "d7cdce0d518bc930b6373b871921be098d2fe4d9a8cfa914ccc41c972d947557",
+      "baseline_snf_record_sha256": "9654680be7fa2f73aa08ef843a27b35e8e268a6501230bda9d74cb9fb16f1d1b",
+      "candidate_snf_record_sha256": "38d93395ed0b73011114c3d52ed94211a41d5572bd4724d3cea67da2672f9042",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.36811353631109417,
+          "candidate": 0.906794895259378,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": null,
+          "candidate": null,
+          "paired": false
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 19.415674162690554,
+          "candidate": 17.657178201340404,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.973407719694078,
+          "candidate": 0.9766920134052633,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9667171932943166,
+          "candidate": 0.9697700520418584,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9885074354625619,
+          "candidate": 0.9884904429506937,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9784134074616326,
+          "candidate": 0.9694278882801343,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9923140186995096,
+          "candidate": 0.9909874803199072,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.577492517809714,
+          "candidate": 0.5792079491000022,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.5801093214558019,
+          "candidate": 0.6427843178472213,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ifp06",
+      "category": "falling_precip",
+      "actual_seed": 53,
+      "source_sha256": "5cbe1510646016501f2802289cff542e2eadbd501d253a1ab8b3e25f3c4bb1be",
+      "mask_sha256": "ec533de787dd63ebd9d9b011586e95f5c5e4c8cc8ab9b63221cc2fa3a05341e4",
+      "baseline_video_sha256": "c18fd42baa454417eb78e7265b522e7838b53935224d51461ab7c348eca6cf4e",
+      "candidate_video_sha256": "24796119071053deb512f55e5b0c024588f79b3fee2100f25966b74a03462456",
+      "baseline_snf_record_sha256": "41eabc676b3e0be046fbb3e33443e10052bc98e383e46cf87e04455cb7ed2bcf",
+      "candidate_snf_record_sha256": "572243f593fceabe9aac63f4f7da5f9e4a935881bad362bd6ea90eb382f18cf7",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.48187748988606366,
+          "candidate": 0.645018147209079,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": null,
+          "candidate": null,
+          "paired": false
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 17.896176715844735,
+          "candidate": 16.472074551429234,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9844908687658608,
+          "candidate": 0.980729543659836,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9622328875027597,
+          "candidate": 0.9609534112736583,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9934584212534313,
+          "candidate": 0.9871877369939817,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9846620001673121,
+          "candidate": 0.9750152223789691,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9935242443500298,
+          "candidate": 0.9879185517405539,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.657517583139481,
+          "candidate": 0.6520284856519392,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.6221751160390915,
+          "candidate": 0.68696086483617,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ifw01",
+      "category": "falling_water",
+      "actual_seed": 85,
+      "source_sha256": "60b00e90fc1c37895a2c867033ccc946c54dc6be144b4e3828c03b22c4af9051",
+      "mask_sha256": "86827cfb74f933e5641ed7ad84ec0a3e25a52b8a3154b2fc7a128dd53dc589cd",
+      "baseline_video_sha256": "217e52c37c3757f70ae8d7b1708ed1ef8b932180760c44ef9a00018e7d54d548",
+      "candidate_video_sha256": "67a1557ef4f2cdfacf5cf4225f99b7363057afc3c64b3269cb32c61784ada208",
+      "baseline_snf_record_sha256": "27f67827dd261b1e29463855f000011cf1c4b8d594718055b5142197a2625ad3",
+      "candidate_snf_record_sha256": "a67964c6be2bda9e1ff6a89872d751c2c74d2dad0d984682785a104c339d08e3",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.3188153334132878,
+          "candidate": 0.16128004854405817,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.3802147089389333,
+          "candidate": 0.7778625937276765,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 21.902819418401624,
+          "candidate": 23.65041160998761,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9833652258291841,
+          "candidate": 0.9555581958964467,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9711866195686161,
+          "candidate": 0.944022560827434,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9888955467150494,
+          "candidate": 0.9760289475418948,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9804637062773144,
+          "candidate": 0.9719223198050787,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.99340237320186,
+          "candidate": 0.9904587110478036,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.458940573277012,
+          "candidate": 0.4717930180411185,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7023077213379646,
+          "candidate": 0.7119605648133064,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ifw02",
+      "category": "falling_water",
+      "actual_seed": 86,
+      "source_sha256": "37576d4669a3bc3465160eefdb45f1cc1b7021653081ae0b71173f77f8746abf",
+      "mask_sha256": "220bed0bf6c51fee82260047ac79e1e63db94aca37344e3df253947f8b0f5840",
+      "baseline_video_sha256": "73034842cb367cb6b98033ff26f69b930a9f4d86b8b89d507f70240a68cb7818",
+      "candidate_video_sha256": "bb9e477b05dd8cad0d859f2eab1538121020f32cf73d233ab8540122a41a7e24",
+      "baseline_snf_record_sha256": "4ea4f4b5be804a0c2950bef2c56a709366fbb6cb0b1ea1bd84f68dc7e9c778eb",
+      "candidate_snf_record_sha256": "15997d58f008dddea3102fb8334b96ec4a3920703b430177f238c2fbb6b1c31b",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.6177698689528253,
+          "candidate": 0.5331766989058162,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.1011997046962119,
+          "candidate": 0.17815723335533812,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 15.575542880843832,
+          "candidate": 18.257434068946456,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9926778199523687,
+          "candidate": 0.9912704803794623,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9826449283584953,
+          "candidate": 0.9781199915520846,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9952972552610303,
+          "candidate": 0.9937258523867049,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9792771506336441,
+          "candidate": 0.9752116862468267,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9958574469379412,
+          "candidate": 0.9940157145944722,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.6684859452709075,
+          "candidate": 0.6640527902110931,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.6381275621152693,
+          "candidate": 0.5936563571422332,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ifw03",
+      "category": "falling_water",
+      "actual_seed": 87,
+      "source_sha256": "6cfad6da83126b5f9e01c6faece93ab0ec22cb39697656082a2890a4ca1ca704",
+      "mask_sha256": "ba38364b304c5f1526651359ee1c704a57042f107b8fb68d0d03bc140999d14c",
+      "baseline_video_sha256": "6904104c660f63ea36a7758e1416a737be50b63f0953ba687a7ac0afd900d165",
+      "candidate_video_sha256": "c9fc457fe31b92bb6b585b488242361769bb26fe370750f884fde35dc47ad206",
+      "baseline_snf_record_sha256": "0df6407b372ca6bd657c39167a6193b331bdfc2f5c0cb5888fbe5f6f064a2066",
+      "candidate_snf_record_sha256": "082525b1ab6580c20b969e2fdf0af9fcaff2f4b632c11f41764729413abd7655",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 2.646681036152674,
+          "candidate": 0.22568170950492805,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.09473956827270358,
+          "candidate": 0.44740535109712365,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 17.328486172281075,
+          "candidate": 21.939529384966505,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.992827487345785,
+          "candidate": 0.989169598184526,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9746811595931648,
+          "candidate": 0.9737916981056332,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.992229690056202,
+          "candidate": 0.9889281505577872,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9684002519440785,
+          "candidate": 0.9703122041574647,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.991810587825333,
+          "candidate": 0.9913332778084123,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5355992144153964,
+          "candidate": 0.54412845834609,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.6611743599753228,
+          "candidate": 0.6794260722975577,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ifw04",
+      "category": "falling_water",
+      "actual_seed": 88,
+      "source_sha256": "275a29e6ff891e9abfa6955f82f363e6e430641eba3988d7bd3252087967601c",
+      "mask_sha256": "b9b3060b51fa44c56925b746fc47a902f5a425ee3deef037606a2b017a85a488",
+      "baseline_video_sha256": "96443c1ed520e627a6309af6b829337c05b49c3466daf3472ea1e036790fa5de",
+      "candidate_video_sha256": "cfd1a96eaca3a82f6b41e581b0af42e0acbc8c8927340a29cf651e1ab9be405b",
+      "baseline_snf_record_sha256": "2f98bf2f6b95e062aaac00c396a8f639bc1499174a579fca2e1f0b08ceb8fc11",
+      "candidate_snf_record_sha256": "fd1b4cc4ce2575b0b4cfbf6bfc100f2bd54571058b69ccfba2dae25028510c91",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.19947792292525335,
+          "candidate": 0.017259549401236352,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.8374985919186944,
+          "candidate": 0.47310905589869146,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 19.209102929084,
+          "candidate": 27.04794125438512,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9746922940388322,
+          "candidate": 0.9538885993137955,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9652598631940781,
+          "candidate": 0.9627106030471622,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9857457784952853,
+          "candidate": 0.9814212099164885,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9723921318724993,
+          "candidate": 0.9713694406018154,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9801766338475527,
+          "candidate": 0.9732566025522769,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.16129032258064516,
+          "candidate": 0.967741935483871,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.4881902173642189,
+          "candidate": 0.4546234425037138,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.5595237074744318,
+          "candidate": 0.6041020101501094,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "ifw05",
+      "category": "falling_water",
+      "actual_seed": 89,
+      "source_sha256": "5076338df0a84aad28d311fd20384aa1f2bb77a15379a8c4700683872f6790eb",
+      "mask_sha256": "9fc6e3d8fa76501f4c39625ee0c576eba36ae3bb83736f1da60c21d22c439aa9",
+      "baseline_video_sha256": "78da19342eaf5fdc07774826f2765fd911977b80895baa32e44cb8c185a63735",
+      "candidate_video_sha256": "b8e5179f8dd431a9144c956ecbf15bbddb11210a13f758f17226d9fadd63c1e1",
+      "baseline_snf_record_sha256": "214c82410f9f45c1fad53e36cc88a78f2912f40be1cf49a6133170b000325b93",
+      "candidate_snf_record_sha256": "79a7d39ea817cddda1237dd7ae00fc12b294a22bc06db2811e765d6ab26825c6",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": null,
+          "candidate": null,
+          "paired": false
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.11781441119679234,
+          "candidate": 0.1095873691925877,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 23.943215779220097,
+          "candidate": 34.66979335998587,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9876579741761089,
+          "candidate": 0.9887021627835929,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9728463240899146,
+          "candidate": 0.9722098227404059,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9909785855321168,
+          "candidate": 0.9927346842540301,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9696475159628303,
+          "candidate": 0.9714201047664768,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9941101428319467,
+          "candidate": 0.9891468137268979,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.03225806451612903,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5003494110799604,
+          "candidate": 0.5290116110155659,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7680792990807563,
+          "candidate": 0.7514825131816247,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "igt01",
+      "category": "geothermal",
+      "actual_seed": 81,
+      "source_sha256": "7cccf58594c98b6c806b7595c9f9aa3205a86534182e2c7372b9c6e2e4df9f73",
+      "mask_sha256": "14eb0865a6d7c54847c9462db2d74fd502b13d1a91ee2e726eea655d1691f049",
+      "baseline_video_sha256": "fc0307a16c0f6c7381096c5f4cd34b2398abb79dd53d37c413b81ab07f74e12c",
+      "candidate_video_sha256": "02018fbedf915927e8b3c265bbe0b108d2f3a7107f1f929da2a740a04f346951",
+      "baseline_snf_record_sha256": "40dea0339b498addbc6638b2b1323de4ed2a404b2da41ff0a10ad879892c14b5",
+      "candidate_snf_record_sha256": "207d01fe090b1ad27c9415a2dba353fc5b4adfab477aa5cdacf97e397b7b3205",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.8471037094740362,
+          "candidate": 0.25883468350173344,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.5804376819154673,
+          "candidate": 0.8641541751853207,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 14.940850224600375,
+          "candidate": 20.08660638786779,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9846666773222386,
+          "candidate": 0.9871622651442886,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9725295442715287,
+          "candidate": 0.9768372833915054,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9846862944382596,
+          "candidate": 0.9854571627440605,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9728858291929475,
+          "candidate": 0.977620798070284,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9898389297568638,
+          "candidate": 0.9893370572619614,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.54972440965714,
+          "candidate": 0.5324839776562106,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7682186002885139,
+          "candidate": 0.7681032120796943,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "igt02",
+      "category": "geothermal",
+      "actual_seed": 82,
+      "source_sha256": "c5d529a1ea0e72baaa020f841410577c3c8f4b7a1d2a013c283e90b6f9bf6267",
+      "mask_sha256": "a4cb648aa8a228b1952dad23b1fc72743211711022377312b6ed39ef91a1f916",
+      "baseline_video_sha256": "39359347a42bfa65e3109d1d93a2e56a28bc36c190aa77a1c98bac977b974e1b",
+      "candidate_video_sha256": "218f52e31a80af481be693ac98fd50c2b15ec211c575ad3a52c80fad8ee39856",
+      "baseline_snf_record_sha256": "3f75580b61af0108944bbec05ad755cf7680be309b9fd87c18f80fbeaff15b04",
+      "candidate_snf_record_sha256": "95c77ba29035faac73eb6a48e803dfd78b6ac5e1da83a859b596498f62d08f7a",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 1.4712388511116228,
+          "candidate": 0.3192562747995436,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.19982739185032092,
+          "candidate": 0.7551306521421984,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 14.273680481557525,
+          "candidate": 17.37400064446432,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9883313446864486,
+          "candidate": 0.9838773484900594,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9751163809187708,
+          "candidate": 0.9732420797087252,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9893449279024851,
+          "candidate": 0.9853603206772016,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.974310097392703,
+          "candidate": 0.9701644206402285,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9940882188295144,
+          "candidate": 0.9896564914362664,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.03225806451612903,
+          "candidate": 0.7096774193548387,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5318212220745702,
+          "candidate": 0.5567994694555959,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7823245626111185,
+          "candidate": 0.6818641011561117,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "igt03",
+      "category": "geothermal",
+      "actual_seed": 83,
+      "source_sha256": "2e45219ca31df2b620cbe02c77c13c7a90d9a795b053386290d22f3b69953fb8",
+      "mask_sha256": "96d29f5041774aec72476b7abbcf4f76c78c8d09e85b9bb1251f1b3ca0267acc",
+      "baseline_video_sha256": "20649c1b93442c6e8f1ccd51e4d0a0859be58f7f67c8d1b7394fab94ff014b81",
+      "candidate_video_sha256": "834faeda1cb9653e406bd72e604ea5e9e348154cd1ea748aec03e5104c637fb9",
+      "baseline_snf_record_sha256": "aa0df0da65b21a47cc1e1a1c33faf3544caa1931b278be9f67217bc835591ccb",
+      "candidate_snf_record_sha256": "4e854e67262d9e0a5a606cd1de5f1f7e532655b49af0aa2d9b117813bfef1e47",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.9534152963548653,
+          "candidate": 0.03510006509753076,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.8712146232525507,
+          "candidate": 1.6519070398389248,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 13.713755597085504,
+          "candidate": 21.190672540859794,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9793921425752341,
+          "candidate": 0.9851316101662815,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9696143189258875,
+          "candidate": 0.9706641183234752,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9841357500864869,
+          "candidate": 0.9883294693407219,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9657255507131715,
+          "candidate": 0.9721705176593161,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9841282461313319,
+          "candidate": 0.9895243725824695,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.45161290322580644,
+          "candidate": 0.7419354838709677,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.4615968523486968,
+          "candidate": 0.4406232160906638,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7781852286861792,
+          "candidate": 0.7640484106925224,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "igt04",
+      "category": "geothermal",
+      "actual_seed": 84,
+      "source_sha256": "8347ac28d4f17cd1ce83e92703affc54841022097b460c18e4afd3a499c5add8",
+      "mask_sha256": "ff81c8f3961deb23c32b87b40d595727a682fbcc9727ce5227aed49c8d667a96",
+      "baseline_video_sha256": "d844434d3bd7e14a15baa03f10139953c03547a43f1792e7a0ec90940de8e67e",
+      "candidate_video_sha256": "a3df654fcdd3edffe5bbed96913340d2d5556321d5d97701ed667ed752bb68d9",
+      "baseline_snf_record_sha256": "8853b1c44a6380511fe924406541181adc7278fcbdbf54e340bfb3beadda108f",
+      "candidate_snf_record_sha256": "e49a1676e0abdaa315fb4e334e19f443bfadf66b0839d4925becabb2b8cfded7",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 1.2959833235112637,
+          "candidate": 0.17033391327715855,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.8467980815391791,
+          "candidate": 5.607410708671076,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 17.214272973895625,
+          "candidate": 18.990168808481076,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9782572923041879,
+          "candidate": 0.9745618304237724,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9452321861684323,
+          "candidate": 0.9615106829442084,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.985783371641505,
+          "candidate": 0.9903824541736634,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9634290646426128,
+          "candidate": 0.9723803207603458,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9872599566854932,
+          "candidate": 0.992944607809349,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.5161290322580645,
+          "candidate": 1.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5230739703101497,
+          "candidate": 0.4992891694268873,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.49606347766614733,
+          "candidate": 0.6551436736122255,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "iow01",
+      "category": "oscillatory_water",
+      "actual_seed": 54,
+      "source_sha256": "5329ad5480c595fce303d7d6b8d2f0700d9159031f6cc411d93216489c61d738",
+      "mask_sha256": "1ecb8eecb33e372c7030bd44a7c7723fee4c0b621c98434596ae717defe61de2",
+      "baseline_video_sha256": "7e6446fba12e8ac023b830d1dd4d62401fe9bab248baa8a18f7de372ecec562e",
+      "candidate_video_sha256": "73519cf60697a944b138456b4a3cd3a63af1c618afb306f7e1eac2f9b94f23fc",
+      "baseline_snf_record_sha256": "18e9a5d96f602e0de8befea542217e829cf74ab0f28275050aeec484bccf29ee",
+      "candidate_snf_record_sha256": "0cbd642b7f66f6d25731d5bb1d8901ac48ceb549204cae73684dc702a651f012",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.8216311974199322,
+          "candidate": 0.15992015683832095,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 3.7495304427126,
+          "candidate": 0.937814333721211,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 15.422469928205658,
+          "candidate": 22.025611631553,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9837268685922027,
+          "candidate": 0.9773506093025206,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9810761038400233,
+          "candidate": 0.9795662815496327,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9925383112259346,
+          "candidate": 0.9914872662617896,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9736798437090506,
+          "candidate": 0.9718482681898306,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9915177986725489,
+          "candidate": 0.9869792570636035,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.9032258064516129,
+          "candidate": 0.41935483870967744,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.727996289730072,
+          "candidate": 0.7208364471312492,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.5402488603515009,
+          "candidate": 0.5646244450538388,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "iow02",
+      "category": "oscillatory_water",
+      "actual_seed": 55,
+      "source_sha256": "97cddd9625d569cb14e5deba60491c95f12a957ff78601d173e5aaf3c1d616df",
+      "mask_sha256": "e6d9afd0ee72c32ab7f5255fa2867578ad8ad83f0828a0652dc3d4573c2f860e",
+      "baseline_video_sha256": "b5a8f455a6e0ff9e45179e0cd16bfc5771d67e5f30f7cc0b5d1322e67fb47634",
+      "candidate_video_sha256": "042330a4cf0574e92b35f6e98bc705a38b94c187d09326855ee4747036e25a2f",
+      "baseline_snf_record_sha256": "51bdc79e54d7cf2cd9f1d709ae933e73486a1ba63c9b87df654bc3c5ab92332a",
+      "candidate_snf_record_sha256": "43501cfa4593a67bdc5dd554102b8afbd4314eac82d51dbb6192e47b8afebd76",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.3242274228695742,
+          "candidate": 0.05120102605728567,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 1.0780218354704088,
+          "candidate": 1.4159673967382365,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 16.155229597364016,
+          "candidate": 18.789820452866092,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9710283896885812,
+          "candidate": 0.9726519133709371,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9634522450715304,
+          "candidate": 0.9666024959459901,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9835268671275037,
+          "candidate": 0.9834249984334508,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9680533247487875,
+          "candidate": 0.967980838722407,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9894228805796913,
+          "candidate": 0.9880223170552398,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.5161290322580645,
+          "candidate": 0.9354838709677419,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5737523878774335,
+          "candidate": 0.5289701434873766,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7810926808080366,
+          "candidate": 0.7772966276445699,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "iow03",
+      "category": "oscillatory_water",
+      "actual_seed": 56,
+      "source_sha256": "32b5209eae6f5d4124f10f5f830c5b7ceca37802e9ae15cc720e8dd5826a5653",
+      "mask_sha256": "1041bed3378ea0bad517bce1bdcf6919682ef0088803fee9a9f65a9616d9c768",
+      "baseline_video_sha256": "e02180d6375fb669e3a5ee6ea7a3234d79c68f9bfc44e769918e37bafa359c15",
+      "candidate_video_sha256": "41638d74e6f3cbed9a6167f33ba597641942bba5185ba04645477f8ce1f4d1d8",
+      "baseline_snf_record_sha256": "95a034bf874c7aadedca3b4f0cc24aaf37b0d0da0df1da4f6d1c6ee742ab83ee",
+      "candidate_snf_record_sha256": "51ca57b469693e73a6fc0a256a71c2cdc01134873b787766b83a8a90fa6605f3",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.3932003720740899,
+          "candidate": 0.11214299584975489,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 1.222298934532885,
+          "candidate": 0.31679839131079224,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 13.800929518484244,
+          "candidate": 15.222416154064367,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9805270935781301,
+          "candidate": 0.9835889331810177,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9744194044917821,
+          "candidate": 0.9760081538930536,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.982041106159781,
+          "candidate": 0.9826444406818017,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9583785058188162,
+          "candidate": 0.9607024767102881,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9856955835711444,
+          "candidate": 0.9882929715304696,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.4838709677419355,
+          "candidate": 0.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5665330136975935,
+          "candidate": 0.5582431939340406,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7322551939564366,
+          "candidate": 0.7397790383523509,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "iow04",
+      "category": "oscillatory_water",
+      "actual_seed": 57,
+      "source_sha256": "8c3c49b5bee034a7a3288a106a6cc5631fc0e8a7479c99d717ec6aa57b69cac3",
+      "mask_sha256": "5e01de97c5eabe99117db64df283b5f23f382a2501380e8fb408beb516e422a9",
+      "baseline_video_sha256": "ae7b23b9891b2e0cff490e0f38b8c369a18b2648f88831e8843c0c777e7297b1",
+      "candidate_video_sha256": "a8c58a344f3854c7688314d319a1e4eaf3fa4b87761334ec5343a949a6b21186",
+      "baseline_snf_record_sha256": "f28196f9f6199b417802197c2fbe9a284512381743cc43ad340e5ce2bd1d2d20",
+      "candidate_snf_record_sha256": "75faa5c3e8f3040870f128996de992c21d2210af4ab028825f18b2386f3d1f08",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 2.069399273885139,
+          "candidate": 0.1062791540704046,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 1.209989801833504,
+          "candidate": 0.7478103739650626,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 17.906305178594447,
+          "candidate": 26.094331967184356,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.972412280049175,
+          "candidate": 0.9709100208990276,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9683070710673929,
+          "candidate": 0.9600995647348463,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9807952430197704,
+          "candidate": 0.9846297746555056,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9670439370480347,
+          "candidate": 0.9670761215343472,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9936677216120112,
+          "candidate": 0.9927817766138943,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.45161290322580644,
+          "candidate": 0.12903225806451613,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.598713622939202,
+          "candidate": 0.5157737962661251,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7434445719180569,
+          "candidate": 0.7521389721285912,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "iow05",
+      "category": "oscillatory_water",
+      "actual_seed": 58,
+      "source_sha256": "ea4c5b3b167a3d8e928b9b2120fc9bebb694911cfd9f2cef931805fedcddb360",
+      "mask_sha256": "3dfab550e9d92a3d5516ab5faeb1a9f44abd82c60cc189d53714f4f2aa8ae6ed",
+      "baseline_video_sha256": "0ce891e00b0d1f4acf5dbe188f3af6bcc9f252fdb3608dab8566b6c074cc3be8",
+      "candidate_video_sha256": "f9d0e3b4e8dc94506bafec69ae7bbaa169b11bf344986de3e5208f94e306037f",
+      "baseline_snf_record_sha256": "3001f13bb1a3d697db6f36e701d63996e6f0c04c22006d732007c40323dce71b",
+      "candidate_snf_record_sha256": "9111b7f0d2c52d87f01eba5de1cb8c796111387f0dad192e23372af89991abca",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.4703373683219391,
+          "candidate": 0.018000615842298846,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 1.6460175082871789,
+          "candidate": 1.207637260357539,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 21.36946559052457,
+          "candidate": 26.231245566020238,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.983883256856352,
+          "candidate": 0.9858823923580349,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.968559089358896,
+          "candidate": 0.9653099207766355,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9923773343029921,
+          "candidate": 0.9938787981908235,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9748440998605827,
+          "candidate": 0.9771607632114372,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9938099926007131,
+          "candidate": 0.9930632433849321,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.5161290322580645,
+          "candidate": 0.3548387096774194,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5313759965281333,
+          "candidate": 0.5221890307241871,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7429810150208013,
+          "candidate": 0.7666032895734236,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "iwb01",
+      "category": "windborne",
+      "actual_seed": 75,
+      "source_sha256": "15890b6836a0c456fabc5910965a7385ae482b9087271646e50b6b8cf839f111",
+      "mask_sha256": "e302aacf10c6e42dd5bee14da7e48adc0c99dc83ecefd00ac3724d1553fab665",
+      "baseline_video_sha256": "391abf67e3ef04ed42e4bbd221be08f7ebf430dd6e6ed7e339f2926ef9e0cd68",
+      "candidate_video_sha256": "cc44cd33a315ae01dcf8de4e00f0598c50b5d0dcf121b35843d18bcb34df7e49",
+      "baseline_snf_record_sha256": "2021ac0099e75bce1e349f49d9bf81f5f03fdfedbd24321485ddd4642dda34b1",
+      "candidate_snf_record_sha256": "ab6144508cc806eaa8c8d931fd08ef1798a4e106f749a00df4859a2a9b57744a",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 1.2213917080215762,
+          "candidate": 0.045225278150228365,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 1.3111253112815975,
+          "candidate": 1.624522370204591,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 17.004702367900393,
+          "candidate": 27.09986642616661,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9906386507675051,
+          "candidate": 0.9857226339168845,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9823184497281909,
+          "candidate": 0.9824420197308064,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.981931450372287,
+          "candidate": 0.9850177720345175,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9711923263034848,
+          "candidate": 0.973761292538182,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9952886319566083,
+          "candidate": 0.995298228539618,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.03225806451612903,
+          "candidate": 0.12903225806451613,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5255519555461022,
+          "candidate": 0.5791447566401574,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7771520388510922,
+          "candidate": 0.7884909463697866,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "iwb02",
+      "category": "windborne",
+      "actual_seed": 76,
+      "source_sha256": "443433b7ea8ab2801021efd62ae79b7dc9005e4f5ba1f3a52afb60b05e336095",
+      "mask_sha256": "9a3e4e794070a0e804b6a4adb59069e53a9e08b490f2df7f5197e52a9cee1282",
+      "baseline_video_sha256": "b5017e91e1ac243da55b9d77b26fae7f7abd36090650c65cd836b2809caf62e9",
+      "candidate_video_sha256": "c8dc880d0d264f9a58e786987c42d2c41fd6d0591050cdb965021bca1c42f56c",
+      "baseline_snf_record_sha256": "05d2543ff8522dff888114021504dd1b2ba11d397d78cb3e06bdd1262712eb18",
+      "candidate_snf_record_sha256": "60b1331e2a4b613e1f5c92f5d624c13b315e81cc4a3ffd83d9905e615fbee6f5",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.17021740344908826,
+          "candidate": 0.013138704788303958,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 3.519607450878411,
+          "candidate": 2.33992146792119,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 15.290286589488806,
+          "candidate": 28.33741560121757,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9661234007030726,
+          "candidate": 0.970984083749354,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9698813298717142,
+          "candidate": 0.9764618919976056,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9503483753618399,
+          "candidate": 0.970165215371293,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9497437613827987,
+          "candidate": 0.9608316016920746,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9929700214559333,
+          "candidate": 0.9948843808326507,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.6774193548387096,
+          "candidate": 0.7419354838709677,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5351310718444086,
+          "candidate": 0.5639260988081655,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7138621489078768,
+          "candidate": 0.7701355031228834,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "iwb03",
+      "category": "windborne",
+      "actual_seed": 77,
+      "source_sha256": "58ff9f55764c573e0d0d6a6637e7a2299a97b57509e0c560fe09a5ed516233f4",
+      "mask_sha256": "e319a2a920e706804549ad7b57144283d89e9ad32d6247f79e1eebe48d8d8b29",
+      "baseline_video_sha256": "582e426995ac25169906c47287e795acbe50a0973355281b3c395dd2e559ce75",
+      "candidate_video_sha256": "ea5fd29d3d3dcdd4fa7ac827eeff712e5bf036397b35b4e2a21b92dc5d4aebb9",
+      "baseline_snf_record_sha256": "6db6b9f3740c31548698554f3b19655f4acd889afaabfb9cb193771a1edb1d4c",
+      "candidate_snf_record_sha256": "8b1d8950f4545c8142ad7463d6b3d472dae0ea73909d7baa402baabc0b413a4c",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 1.646794560666456,
+          "candidate": 0.1413364978631035,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 0.1834978237748146,
+          "candidate": 1.0584156485764604,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 19.805050159755144,
+          "candidate": 27.609036548790517,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.973600429147482,
+          "candidate": 0.9819561265781522,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.978466783426702,
+          "candidate": 0.9768641978129744,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9707029915973102,
+          "candidate": 0.9800500781164482,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9614733778417072,
+          "candidate": 0.9646595534763376,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9945026920928569,
+          "candidate": 0.9943034310163674,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.06451612903225806,
+          "candidate": 0.41935483870967744,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.510532961737725,
+          "candidate": 0.5588422802186781,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.5518688319767675,
+          "candidate": 0.6178522462998666,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "iwb04",
+      "category": "windborne",
+      "actual_seed": 78,
+      "source_sha256": "246ec63521a49c6b20afd68177549c08efa3ea8b34e6dbece4997e61333f8a9f",
+      "mask_sha256": "e02639042a5bb398e004013b8a744b2a246823377bc6444157963cd0d622cf7a",
+      "baseline_video_sha256": "b44ed92a41bac19bb22b99db0eceec88c7d7c7d6af214ecea086cf3af5f81d4a",
+      "candidate_video_sha256": "fd134d4e770379978612e66ed456d506871009542a6cce42e38b1e7c3d032609",
+      "baseline_snf_record_sha256": "434d7d3dfb2c6db9c0966b85bcf30f9394ae54b7d55eb7d81f07d3f9e430c158",
+      "candidate_snf_record_sha256": "ae30752eb87438e44ff8abb9f7316adff72d58235ba70a748d690085f93e77f5",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 0.9434328187042176,
+          "candidate": 0.17198347601698996,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 1.1697012771639907,
+          "candidate": 2.5782414936182794,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 16.18693373091372,
+          "candidate": 20.34828864983586,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9801820865273476,
+          "candidate": 0.9560994682274759,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9736946275644005,
+          "candidate": 0.9710264213196933,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9807887816891462,
+          "candidate": 0.9911926073223031,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.9717906202463782,
+          "candidate": 0.9679463535583762,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.9927050073074962,
+          "candidate": 0.9893909908394017,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.1935483870967742,
+          "candidate": 1.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5813790098313363,
+          "candidate": 0.5813822688594941,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.7984955533858269,
+          "candidate": 0.7913469434553578,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "iwb05",
+      "category": "windborne",
+      "actual_seed": 79,
+      "source_sha256": "4664e1e6488a5ae2f6b312a121cde5bfc8b46961cba7af285156c28227438dd8",
+      "mask_sha256": "56f37c04fc93519eaf08735d19dffd7ec1ae8b0b99ad99d0318c53fc303773e2",
+      "baseline_video_sha256": "1153426d92c8fd88902259ca24c1e80ca36e4eebc35b991cc3e29cc47fe95da0",
+      "candidate_video_sha256": "1a5fccf624416495bc4a492f86284b44394a08c445caa0b4ee4e69d5f6974f07",
+      "baseline_snf_record_sha256": "3cfd7fec45f5f0f054bf69af167abeaf426b13616dc2befaeee9d4d1261c3003",
+      "candidate_snf_record_sha256": "2f33dc1df523dcd5b83fd906f1396fb8fe7932840322d3bf2fe1bafc69820d74",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 5.205393779513802,
+          "candidate": 0.5441900743852287,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 1.2420411261550166,
+          "candidate": 3.774797154100318,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 12.582021524944315,
+          "candidate": 14.882658043606336,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.984579153675586,
+          "candidate": 0.9915797015838326,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9777660992555319,
+          "candidate": 0.9817503736168146,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9722537179612596,
+          "candidate": 0.9879874009748009,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.957881718446208,
+          "candidate": 0.9724472037361002,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.993284832730049,
+          "candidate": 0.9941684100703512,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.1935483870967742,
+          "candidate": 0.9032258064516129,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.5061060699724382,
+          "candidate": 0.5436762263697963,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.6542041887390998,
+          "candidate": 0.7125536984782064,
+          "paired": true
+        }
+      }
+    },
+    {
+      "scene_id": "iwb06",
+      "category": "windborne",
+      "actual_seed": 80,
+      "source_sha256": "2110d1acdd154c6a3a73ad2013f129413b709191ea727250119bd149762c74bb",
+      "mask_sha256": "75caa832e3f568bf7e2b8a6961420c47d9ed18a7918a5413c126dd906f5eb203",
+      "baseline_video_sha256": "fa17a585292df341dbcc1377fc02a0af458df9f1e5ab95d73335271e95057509",
+      "candidate_video_sha256": "949a5f38553e4274481ed499d7e6a9714a53c18ac6e26251f6600441bb504264",
+      "baseline_snf_record_sha256": "951c8ce23dbb9d9dd393dca7bb6eadd3e17bca0999f1f347cb89f54fbc89d442",
+      "candidate_snf_record_sha256": "9c7fd60d148a1837e7565f17049071dd13442d293e47786d20b0a75345bb9e9f",
+      "scores": {
+        "snf.fBD_src": {
+          "baseline": 2.470753720042674,
+          "candidate": 0.14034561601862,
+          "paired": true
+        },
+        "snf.MCFF_late": {
+          "baseline": 3.7563837217657188,
+          "candidate": 6.628791834178724,
+          "paired": true
+        },
+        "snf.idPSNR_late_src": {
+          "baseline": 17.825712677416202,
+          "candidate": 25.264642396059475,
+          "paired": true
+        },
+        "i2v.subject": {
+          "baseline": 0.9677610713988543,
+          "candidate": 0.9777145799249412,
+          "paired": true
+        },
+        "i2v.background": {
+          "baseline": 0.9721895832754671,
+          "candidate": 0.9739328515343368,
+          "paired": true
+        },
+        "long.subject": {
+          "baseline": 0.9619516040770953,
+          "candidate": 0.9854856609241095,
+          "paired": true
+        },
+        "long.background": {
+          "baseline": 0.948307456857846,
+          "candidate": 0.9615801901244138,
+          "paired": true
+        },
+        "long.motion_smoothness": {
+          "baseline": 0.993221830260485,
+          "candidate": 0.993230596201093,
+          "paired": true
+        },
+        "long.dynamic_degree": {
+          "baseline": 0.7741935483870968,
+          "candidate": 1.0,
+          "paired": true
+        },
+        "long.aesthetic": {
+          "baseline": 0.42449329168565814,
+          "candidate": 0.4944741649012412,
+          "paired": true
+        },
+        "long.imaging": {
+          "baseline": 0.6508302773583321,
+          "candidate": 0.7409569987943097,
+          "paired": true
+        }
+      }
+    }
+  ]
+}

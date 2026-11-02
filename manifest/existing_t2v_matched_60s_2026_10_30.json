@@ -1,0 +1,410 @@
+{
+  "status": "complete",
+  "csv_sha256": "05921e489e33ce6daf705259baeb937ff672bd5b37b9b7a8d07b67d8bc9ab9c3",
+  "scope": "historical T2V 60s scores, intersection of unambiguous stored prompt identifiers, 8 models",
+  "models": [
+    "CausVid",
+    "self_forcing",
+    "infinite_forcing",
+    "rolling_forcing",
+    "reward_forcing",
+    "longlive",
+    "causal_forcing",
+    "steady_forcing_bt"
+  ],
+  "author_method": "steady_forcing_bt",
+  "metrics": {
+    "fBD_mean": {
+      "n_shared_unambiguous_prompt_ids": 22,
+      "prompt_ids": [
+        "A_Himalayan_foothills_scene_featuring_a_tidal_channel_cascading_continuously_over_smooth_rocks,_reco",
+        "A_Norwegian_fjord_approach_scene_featuring_a_shallow_forest_creek_that_gushes_continuously_with_visi",
+        "A_Pacific_Northwest_old-growth_forest_scene_featuring_a_cascading_mountain_waterfall_gliding_swiftly",
+        "A_South_Korean_countryside_scene_featuring_a_wide_river_streaming_endlessly_in_one_direction,_record",
+        "A_beautiful_South_Korean_empty_sea_beach_scene,_recorded_by_a_completely_fixed,_static,_tripod-mount",
+        "A_beautiful_rural_South_Korean_street_food_shop_scene,_recorded_by_a_completely_fixed,_static,_tripo",
+        "A_completely_fixed,_tripod-mounted_camera_captures_a_flooded_urban_street_in_Goyang-si,_Wondang,_Sou",
+        "A_continuous_South_Korean_rainy_city_street_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_continuous_South_Korean_urban_town_street_scene_during_snowfall,_recorded_by_a_completely_fixed,_s",
+        "A_continuous_urban_fire_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_ca",
+        "A_dangerous_South_Korean_hilly_forest_storm_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_dangerous_rural_South_Korean_river_scene_at_night,_recorded_by_a_completely_fixed,_static,_tripod-",
+        "A_high_desert_canyon_scene_featuring_a_wide_river_sweeping_forward_carrying_foam_and_debris,_recorde",
+        "A_serene_woodland_stream_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_c",
+        "A_storm-swollen_rural_stream,_recorded_by_a_fixed_tripod_camera._The_solid_paved_road_and_motionless",
+        "A_stormy_sea_cliff_in_South_Korea,_recorded_by_a_static_tripod_camera._The_heavy_stone_cliffs_and_im",
+        "A_stunning_South_Korean_urban_neighborhood_park_scene_during_cherry_blossom_season,_recorded_by_a_co",
+        "A_tranquil_mountain_stream_in_a_rural_South_Korean_valley,_recorded_by_a_completely_fixed,_static,_t",
+        "A_tropical_jungle_clearing_featuring_a_broad_lowland_river_coursing_powerfully_through_the_channel,_",
+        "An_alpine_meadow_below_snowline_featuring_a_multi-tiered_waterfall_gliding_swiftly_with_dark,_deep_c",
+        "An_ancient_stone_city_waterway_featuring_fast-moving_rapids_streaming_endlessly_in_one_direction,_re",
+        "An_urban_storm_drain_canal,_recorded_by_a_static_tripod_camera._The_heavy_concrete_walls_and_immovab"
+      ],
+      "ambiguous_excluded": [
+        {
+          "model": "rolling_forcing",
+          "prompt_id": "A_stunning_tranquil_river_scene_beneath_a_concrete_bridge,_recorded_by_a_completely_fixed,_static,_t",
+          "row_count": 2,
+          "values": [
+            1.639835834795988,
+            1.639835834795988
+          ]
+        }
+      ],
+      "mean_per_model": {
+        "CausVid": 8.41740833997854,
+        "self_forcing": 11.374758257195017,
+        "infinite_forcing": 8.05077888994807,
+        "rolling_forcing": 17.456434298161277,
+        "reward_forcing": 14.767779385564925,
+        "longlive": 15.841746510003553,
+        "causal_forcing": 22.390129366886526,
+        "steady_forcing_bt": 6.655702254434955
+      }
+    },
+    "NBF_mean": {
+      "n_shared_unambiguous_prompt_ids": 22,
+      "prompt_ids": [
+        "A_Himalayan_foothills_scene_featuring_a_tidal_channel_cascading_continuously_over_smooth_rocks,_reco",
+        "A_Norwegian_fjord_approach_scene_featuring_a_shallow_forest_creek_that_gushes_continuously_with_visi",
+        "A_Pacific_Northwest_old-growth_forest_scene_featuring_a_cascading_mountain_waterfall_gliding_swiftly",
+        "A_South_Korean_countryside_scene_featuring_a_wide_river_streaming_endlessly_in_one_direction,_record",
+        "A_beautiful_South_Korean_empty_sea_beach_scene,_recorded_by_a_completely_fixed,_static,_tripod-mount",
+        "A_beautiful_rural_South_Korean_street_food_shop_scene,_recorded_by_a_completely_fixed,_static,_tripo",
+        "A_completely_fixed,_tripod-mounted_camera_captures_a_flooded_urban_street_in_Goyang-si,_Wondang,_Sou",
+        "A_continuous_South_Korean_rainy_city_street_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_continuous_South_Korean_urban_town_street_scene_during_snowfall,_recorded_by_a_completely_fixed,_s",
+        "A_continuous_urban_fire_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_ca",
+        "A_dangerous_South_Korean_hilly_forest_storm_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_dangerous_rural_South_Korean_river_scene_at_night,_recorded_by_a_completely_fixed,_static,_tripod-",
+        "A_high_desert_canyon_scene_featuring_a_wide_river_sweeping_forward_carrying_foam_and_debris,_recorde",
+        "A_serene_woodland_stream_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_c",
+        "A_storm-swollen_rural_stream,_recorded_by_a_fixed_tripod_camera._The_solid_paved_road_and_motionless",
+        "A_stormy_sea_cliff_in_South_Korea,_recorded_by_a_static_tripod_camera._The_heavy_stone_cliffs_and_im",
+        "A_stunning_South_Korean_urban_neighborhood_park_scene_during_cherry_blossom_season,_recorded_by_a_co",
+        "A_tranquil_mountain_stream_in_a_rural_South_Korean_valley,_recorded_by_a_completely_fixed,_static,_t",
+        "A_tropical_jungle_clearing_featuring_a_broad_lowland_river_coursing_powerfully_through_the_channel,_",
+        "An_alpine_meadow_below_snowline_featuring_a_multi-tiered_waterfall_gliding_swiftly_with_dark,_deep_c",
+        "An_ancient_stone_city_waterway_featuring_fast-moving_rapids_streaming_endlessly_in_one_direction,_re",
+        "An_urban_storm_drain_canal,_recorded_by_a_static_tripod_camera._The_heavy_concrete_walls_and_immovab"
+      ],
+      "ambiguous_excluded": [
+        {
+          "model": "rolling_forcing",
+          "prompt_id": "A_stunning_tranquil_river_scene_beneath_a_concrete_bridge,_recorded_by_a_completely_fixed,_static,_t",
+          "row_count": 2,
+          "values": [
+            4.617142768617521,
+            4.617142768617521
+          ]
+        }
+      ],
+      "mean_per_model": {
+        "CausVid": 9.64711495335698,
+        "self_forcing": 12.896078391810423,
+        "infinite_forcing": 3.7409364678734383,
+        "rolling_forcing": 11.531823145840095,
+        "reward_forcing": 8.665518191859487,
+        "longlive": 14.33651824341452,
+        "causal_forcing": 84.19390660516657,
+        "steady_forcing_bt": 4.054735734584115
+      }
+    },
+    "FP_mean": {
+      "n_shared_unambiguous_prompt_ids": 22,
+      "prompt_ids": [
+        "A_Himalayan_foothills_scene_featuring_a_tidal_channel_cascading_continuously_over_smooth_rocks,_reco",
+        "A_Norwegian_fjord_approach_scene_featuring_a_shallow_forest_creek_that_gushes_continuously_with_visi",
+        "A_Pacific_Northwest_old-growth_forest_scene_featuring_a_cascading_mountain_waterfall_gliding_swiftly",
+        "A_South_Korean_countryside_scene_featuring_a_wide_river_streaming_endlessly_in_one_direction,_record",
+        "A_beautiful_South_Korean_empty_sea_beach_scene,_recorded_by_a_completely_fixed,_static,_tripod-mount",
+        "A_beautiful_rural_South_Korean_street_food_shop_scene,_recorded_by_a_completely_fixed,_static,_tripo",
+        "A_completely_fixed,_tripod-mounted_camera_captures_a_flooded_urban_street_in_Goyang-si,_Wondang,_Sou",
+        "A_continuous_South_Korean_rainy_city_street_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_continuous_South_Korean_urban_town_street_scene_during_snowfall,_recorded_by_a_completely_fixed,_s",
+        "A_continuous_urban_fire_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_ca",
+        "A_dangerous_South_Korean_hilly_forest_storm_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_dangerous_rural_South_Korean_river_scene_at_night,_recorded_by_a_completely_fixed,_static,_tripod-",
+        "A_high_desert_canyon_scene_featuring_a_wide_river_sweeping_forward_carrying_foam_and_debris,_recorde",
+        "A_serene_woodland_stream_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_c",
+        "A_storm-swollen_rural_stream,_recorded_by_a_fixed_tripod_camera._The_solid_paved_road_and_motionless",
+        "A_stormy_sea_cliff_in_South_Korea,_recorded_by_a_static_tripod_camera._The_heavy_stone_cliffs_and_im",
+        "A_stunning_South_Korean_urban_neighborhood_park_scene_during_cherry_blossom_season,_recorded_by_a_co",
+        "A_tranquil_mountain_stream_in_a_rural_South_Korean_valley,_recorded_by_a_completely_fixed,_static,_t",
+        "A_tropical_jungle_clearing_featuring_a_broad_lowland_river_coursing_powerfully_through_the_channel,_",
+        "An_alpine_meadow_below_snowline_featuring_a_multi-tiered_waterfall_gliding_swiftly_with_dark,_deep_c",
+        "An_ancient_stone_city_waterway_featuring_fast-moving_rapids_streaming_endlessly_in_one_direction,_re",
+        "An_urban_storm_drain_canal,_recorded_by_a_static_tripod_camera._The_heavy_concrete_walls_and_immovab"
+      ],
+      "ambiguous_excluded": [
+        {
+          "model": "rolling_forcing",
+          "prompt_id": "A_stunning_tranquil_river_scene_beneath_a_concrete_bridge,_recorded_by_a_completely_fixed,_static,_t",
+          "row_count": 2,
+          "values": [
+            0.48438708122636276,
+            0.48438708122636276
+          ]
+        }
+      ],
+      "mean_per_model": {
+        "CausVid": 0.6709911069443149,
+        "self_forcing": 0.4602375485758577,
+        "infinite_forcing": 0.648677058161799,
+        "rolling_forcing": 0.7612516901295836,
+        "reward_forcing": 0.4863533105200462,
+        "longlive": 0.7574301201243181,
+        "causal_forcing": 0.7854394364110702,
+        "steady_forcing_bt": 0.7508832526088549
+      }
+    },
+    "MCFF_late_mean": {
+      "n_shared_unambiguous_prompt_ids": 22,
+      "prompt_ids": [
+        "A_Himalayan_foothills_scene_featuring_a_tidal_channel_cascading_continuously_over_smooth_rocks,_reco",
+        "A_Norwegian_fjord_approach_scene_featuring_a_shallow_forest_creek_that_gushes_continuously_with_visi",
+        "A_Pacific_Northwest_old-growth_forest_scene_featuring_a_cascading_mountain_waterfall_gliding_swiftly",
+        "A_South_Korean_countryside_scene_featuring_a_wide_river_streaming_endlessly_in_one_direction,_record",
+        "A_beautiful_South_Korean_empty_sea_beach_scene,_recorded_by_a_completely_fixed,_static,_tripod-mount",
+        "A_beautiful_rural_South_Korean_street_food_shop_scene,_recorded_by_a_completely_fixed,_static,_tripo",
+        "A_completely_fixed,_tripod-mounted_camera_captures_a_flooded_urban_street_in_Goyang-si,_Wondang,_Sou",
+        "A_continuous_South_Korean_rainy_city_street_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_continuous_South_Korean_urban_town_street_scene_during_snowfall,_recorded_by_a_completely_fixed,_s",
+        "A_continuous_urban_fire_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_ca",
+        "A_dangerous_South_Korean_hilly_forest_storm_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_dangerous_rural_South_Korean_river_scene_at_night,_recorded_by_a_completely_fixed,_static,_tripod-",
+        "A_high_desert_canyon_scene_featuring_a_wide_river_sweeping_forward_carrying_foam_and_debris,_recorde",
+        "A_serene_woodland_stream_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_c",
+        "A_storm-swollen_rural_stream,_recorded_by_a_fixed_tripod_camera._The_solid_paved_road_and_motionless",
+        "A_stormy_sea_cliff_in_South_Korea,_recorded_by_a_static_tripod_camera._The_heavy_stone_cliffs_and_im",
+        "A_stunning_South_Korean_urban_neighborhood_park_scene_during_cherry_blossom_season,_recorded_by_a_co",
+        "A_tranquil_mountain_stream_in_a_rural_South_Korean_valley,_recorded_by_a_completely_fixed,_static,_t",
+        "A_tropical_jungle_clearing_featuring_a_broad_lowland_river_coursing_powerfully_through_the_channel,_",
+        "An_alpine_meadow_below_snowline_featuring_a_multi-tiered_waterfall_gliding_swiftly_with_dark,_deep_c",
+        "An_ancient_stone_city_waterway_featuring_fast-moving_rapids_streaming_endlessly_in_one_direction,_re",
+        "An_urban_storm_drain_canal,_recorded_by_a_static_tripod_camera._The_heavy_concrete_walls_and_immovab"
+      ],
+      "ambiguous_excluded": [
+        {
+          "model": "rolling_forcing",
+          "prompt_id": "A_stunning_tranquil_river_scene_beneath_a_concrete_bridge,_recorded_by_a_completely_fixed,_static,_t",
+          "row_count": 2,
+          "values": [
+            1.4456433141440677,
+            1.4456433141440677
+          ]
+        }
+      ],
+      "mean_per_model": {
+        "CausVid": 2.0438946486945357,
+        "self_forcing": 2.6247511194926796,
+        "infinite_forcing": 0.2839953418586409,
+        "rolling_forcing": 1.5799178364708948,
+        "reward_forcing": 0.7536874343188067,
+        "longlive": 2.5068805674759393,
+        "causal_forcing": 7.214599446703991,
+        "steady_forcing_bt": 1.5001475785055347
+      }
+    },
+    "background_consistency": {
+      "n_shared_unambiguous_prompt_ids": 22,
+      "prompt_ids": [
+        "A_Himalayan_foothills_scene_featuring_a_tidal_channel_cascading_continuously_over_smooth_rocks,_reco",
+        "A_Norwegian_fjord_approach_scene_featuring_a_shallow_forest_creek_that_gushes_continuously_with_visi",
+        "A_Pacific_Northwest_old-growth_forest_scene_featuring_a_cascading_mountain_waterfall_gliding_swiftly",
+        "A_South_Korean_countryside_scene_featuring_a_wide_river_streaming_endlessly_in_one_direction,_record",
+        "A_beautiful_South_Korean_empty_sea_beach_scene,_recorded_by_a_completely_fixed,_static,_tripod-mount",
+        "A_beautiful_rural_South_Korean_street_food_shop_scene,_recorded_by_a_completely_fixed,_static,_tripo",
+        "A_completely_fixed,_tripod-mounted_camera_captures_a_flooded_urban_street_in_Goyang-si,_Wondang,_Sou",
+        "A_continuous_South_Korean_rainy_city_street_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_continuous_South_Korean_urban_town_street_scene_during_snowfall,_recorded_by_a_completely_fixed,_s",
+        "A_continuous_urban_fire_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_ca",
+        "A_dangerous_South_Korean_hilly_forest_storm_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_dangerous_rural_South_Korean_river_scene_at_night,_recorded_by_a_completely_fixed,_static,_tripod-",
+        "A_high_desert_canyon_scene_featuring_a_wide_river_sweeping_forward_carrying_foam_and_debris,_recorde",
+        "A_serene_woodland_stream_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_c",
+        "A_storm-swollen_rural_stream,_recorded_by_a_fixed_tripod_camera._The_solid_paved_road_and_motionless",
+        "A_stormy_sea_cliff_in_South_Korea,_recorded_by_a_static_tripod_camera._The_heavy_stone_cliffs_and_im",
+        "A_stunning_South_Korean_urban_neighborhood_park_scene_during_cherry_blossom_season,_recorded_by_a_co",
+        "A_tranquil_mountain_stream_in_a_rural_South_Korean_valley,_recorded_by_a_completely_fixed,_static,_t",
+        "A_tropical_jungle_clearing_featuring_a_broad_lowland_river_coursing_powerfully_through_the_channel,_",
+        "An_alpine_meadow_below_snowline_featuring_a_multi-tiered_waterfall_gliding_swiftly_with_dark,_deep_c",
+        "An_ancient_stone_city_waterway_featuring_fast-moving_rapids_streaming_endlessly_in_one_direction,_re",
+        "An_urban_storm_drain_canal,_recorded_by_a_static_tripod_camera._The_heavy_concrete_walls_and_immovab"
+      ],
+      "ambiguous_excluded": [
+        {
+          "model": "rolling_forcing",
+          "prompt_id": "A_stunning_tranquil_river_scene_beneath_a_concrete_bridge,_recorded_by_a_completely_fixed,_static,_t",
+          "row_count": 2,
+          "values": [
+            0.9384742641049948,
+            0.9384742641049948
+          ]
+        }
+      ],
+      "mean_per_model": {
+        "CausVid": 0.9264464960573472,
+        "self_forcing": 0.9053285525479032,
+        "infinite_forcing": 0.9266525854761495,
+        "rolling_forcing": 0.9188722165740003,
+        "reward_forcing": 0.9057383401260579,
+        "longlive": 0.9069296864784911,
+        "causal_forcing": 0.8772668210940472,
+        "steady_forcing_bt": 0.9554100109171441
+      }
+    },
+    "motion_smoothness": {
+      "n_shared_unambiguous_prompt_ids": 22,
+      "prompt_ids": [
+        "A_Himalayan_foothills_scene_featuring_a_tidal_channel_cascading_continuously_over_smooth_rocks,_reco",
+        "A_Norwegian_fjord_approach_scene_featuring_a_shallow_forest_creek_that_gushes_continuously_with_visi",
+        "A_Pacific_Northwest_old-growth_forest_scene_featuring_a_cascading_mountain_waterfall_gliding_swiftly",
+        "A_South_Korean_countryside_scene_featuring_a_wide_river_streaming_endlessly_in_one_direction,_record",
+        "A_beautiful_South_Korean_empty_sea_beach_scene,_recorded_by_a_completely_fixed,_static,_tripod-mount",
+        "A_beautiful_rural_South_Korean_street_food_shop_scene,_recorded_by_a_completely_fixed,_static,_tripo",
+        "A_completely_fixed,_tripod-mounted_camera_captures_a_flooded_urban_street_in_Goyang-si,_Wondang,_Sou",
+        "A_continuous_South_Korean_rainy_city_street_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_continuous_South_Korean_urban_town_street_scene_during_snowfall,_recorded_by_a_completely_fixed,_s",
+        "A_continuous_urban_fire_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_ca",
+        "A_dangerous_South_Korean_hilly_forest_storm_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_dangerous_rural_South_Korean_river_scene_at_night,_recorded_by_a_completely_fixed,_static,_tripod-",
+        "A_high_desert_canyon_scene_featuring_a_wide_river_sweeping_forward_carrying_foam_and_debris,_recorde",
+        "A_serene_woodland_stream_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_c",
+        "A_storm-swollen_rural_stream,_recorded_by_a_fixed_tripod_camera._The_solid_paved_road_and_motionless",
+        "A_stormy_sea_cliff_in_South_Korea,_recorded_by_a_static_tripod_camera._The_heavy_stone_cliffs_and_im",
+        "A_stunning_South_Korean_urban_neighborhood_park_scene_during_cherry_blossom_season,_recorded_by_a_co",
+        "A_tranquil_mountain_stream_in_a_rural_South_Korean_valley,_recorded_by_a_completely_fixed,_static,_t",
+        "A_tropical_jungle_clearing_featuring_a_broad_lowland_river_coursing_powerfully_through_the_channel,_",
+        "An_alpine_meadow_below_snowline_featuring_a_multi-tiered_waterfall_gliding_swiftly_with_dark,_deep_c",
+        "An_ancient_stone_city_waterway_featuring_fast-moving_rapids_streaming_endlessly_in_one_direction,_re",
+        "An_urban_storm_drain_canal,_recorded_by_a_static_tripod_camera._The_heavy_concrete_walls_and_immovab"
+      ],
+      "ambiguous_excluded": [
+        {
+          "model": "rolling_forcing",
+          "prompt_id": "A_stunning_tranquil_river_scene_beneath_a_concrete_bridge,_recorded_by_a_completely_fixed,_static,_t",
+          "row_count": 2,
+          "values": [
+            0.9906873128846337,
+            0.9906873128846337
+          ]
+        }
+      ],
+      "mean_per_model": {
+        "CausVid": 0.9897496414662379,
+        "self_forcing": 0.9873040367725193,
+        "infinite_forcing": 0.9916907071047066,
+        "rolling_forcing": 0.9859062699630387,
+        "reward_forcing": 0.9864136642723605,
+        "longlive": 0.9842188256607888,
+        "causal_forcing": 0.9712776541096662,
+        "steady_forcing_bt": 0.991213887671588
+      }
+    },
+    "temporal_flickering": {
+      "n_shared_unambiguous_prompt_ids": 22,
+      "prompt_ids": [
+        "A_Himalayan_foothills_scene_featuring_a_tidal_channel_cascading_continuously_over_smooth_rocks,_reco",
+        "A_Norwegian_fjord_approach_scene_featuring_a_shallow_forest_creek_that_gushes_continuously_with_visi",
+        "A_Pacific_Northwest_old-growth_forest_scene_featuring_a_cascading_mountain_waterfall_gliding_swiftly",
+        "A_South_Korean_countryside_scene_featuring_a_wide_river_streaming_endlessly_in_one_direction,_record",
+        "A_beautiful_South_Korean_empty_sea_beach_scene,_recorded_by_a_completely_fixed,_static,_tripod-mount",
+        "A_beautiful_rural_South_Korean_street_food_shop_scene,_recorded_by_a_completely_fixed,_static,_tripo",
+        "A_completely_fixed,_tripod-mounted_camera_captures_a_flooded_urban_street_in_Goyang-si,_Wondang,_Sou",
+        "A_continuous_South_Korean_rainy_city_street_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_continuous_South_Korean_urban_town_street_scene_during_snowfall,_recorded_by_a_completely_fixed,_s",
+        "A_continuous_urban_fire_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_ca",
+        "A_dangerous_South_Korean_hilly_forest_storm_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_dangerous_rural_South_Korean_river_scene_at_night,_recorded_by_a_completely_fixed,_static,_tripod-",
+        "A_high_desert_canyon_scene_featuring_a_wide_river_sweeping_forward_carrying_foam_and_debris,_recorde",
+        "A_serene_woodland_stream_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_c",
+        "A_storm-swollen_rural_stream,_recorded_by_a_fixed_tripod_camera._The_solid_paved_road_and_motionless",
+        "A_stormy_sea_cliff_in_South_Korea,_recorded_by_a_static_tripod_camera._The_heavy_stone_cliffs_and_im",
+        "A_stunning_South_Korean_urban_neighborhood_park_scene_during_cherry_blossom_season,_recorded_by_a_co",
+        "A_tranquil_mountain_stream_in_a_rural_South_Korean_valley,_recorded_by_a_completely_fixed,_static,_t",
+        "A_tropical_jungle_clearing_featuring_a_broad_lowland_river_coursing_powerfully_through_the_channel,_",
+        "An_alpine_meadow_below_snowline_featuring_a_multi-tiered_waterfall_gliding_swiftly_with_dark,_deep_c",
+        "An_ancient_stone_city_waterway_featuring_fast-moving_rapids_streaming_endlessly_in_one_direction,_re",
+        "An_urban_storm_drain_canal,_recorded_by_a_static_tripod_camera._The_heavy_concrete_walls_and_immovab"
+      ],
+      "ambiguous_excluded": [
+        {
+          "model": "rolling_forcing",
+          "prompt_id": "A_stunning_tranquil_river_scene_beneath_a_concrete_bridge,_recorded_by_a_completely_fixed,_static,_t",
+          "row_count": 2,
+          "values": [
+            0.9862327641131832,
+            0.9862327641131832
+          ]
+        }
+      ],
+      "mean_per_model": {
+        "CausVid": 0.9825509849504142,
+        "self_forcing": 0.9803242773083229,
+        "infinite_forcing": 0.988985850573011,
+        "rolling_forcing": 0.9782077550888062,
+        "reward_forcing": 0.9793694752847872,
+        "longlive": 0.9763687015642244,
+        "causal_forcing": 0.9415138193630279,
+        "steady_forcing_bt": 0.9843536280055735
+      }
+    },
+    "dynamic_degree": {
+      "n_shared_unambiguous_prompt_ids": 22,
+      "prompt_ids": [
+        "A_Himalayan_foothills_scene_featuring_a_tidal_channel_cascading_continuously_over_smooth_rocks,_reco",
+        "A_Norwegian_fjord_approach_scene_featuring_a_shallow_forest_creek_that_gushes_continuously_with_visi",
+        "A_Pacific_Northwest_old-growth_forest_scene_featuring_a_cascading_mountain_waterfall_gliding_swiftly",
+        "A_South_Korean_countryside_scene_featuring_a_wide_river_streaming_endlessly_in_one_direction,_record",
+        "A_beautiful_South_Korean_empty_sea_beach_scene,_recorded_by_a_completely_fixed,_static,_tripod-mount",
+        "A_beautiful_rural_South_Korean_street_food_shop_scene,_recorded_by_a_completely_fixed,_static,_tripo",
+        "A_completely_fixed,_tripod-mounted_camera_captures_a_flooded_urban_street_in_Goyang-si,_Wondang,_Sou",
+        "A_continuous_South_Korean_rainy_city_street_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_continuous_South_Korean_urban_town_street_scene_during_snowfall,_recorded_by_a_completely_fixed,_s",
+        "A_continuous_urban_fire_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_ca",
+        "A_dangerous_South_Korean_hilly_forest_storm_scene,_recorded_by_a_completely_fixed,_static,_tripod-mo",
+        "A_dangerous_rural_South_Korean_river_scene_at_night,_recorded_by_a_completely_fixed,_static,_tripod-",
+        "A_high_desert_canyon_scene_featuring_a_wide_river_sweeping_forward_carrying_foam_and_debris,_recorde",
+        "A_serene_woodland_stream_scene,_recorded_by_a_completely_fixed,_static,_tripod-mounted_camera._The_c",
+        "A_storm-swollen_rural_stream,_recorded_by_a_fixed_tripod_camera._The_solid_paved_road_and_motionless",
+        "A_stormy_sea_cliff_in_South_Korea,_recorded_by_a_static_tripod_camera._The_heavy_stone_cliffs_and_im",
+        "A_stunning_South_Korean_urban_neighborhood_park_scene_during_cherry_blossom_season,_recorded_by_a_co",
+        "A_tranquil_mountain_stream_in_a_rural_South_Korean_valley,_recorded_by_a_completely_fixed,_static,_t",
+        "A_tropical_jungle_clearing_featuring_a_broad_lowland_river_coursing_powerfully_through_the_channel,_",
+        "An_alpine_meadow_below_snowline_featuring_a_multi-tiered_waterfall_gliding_swiftly_with_dark,_deep_c",
+        "An_ancient_stone_city_waterway_featuring_fast-moving_rapids_streaming_endlessly_in_one_direction,_re",
+        "An_urban_storm_drain_canal,_recorded_by_a_static_tripod_camera._The_heavy_concrete_walls_and_immovab"
+      ],
+      "ambiguous_excluded": [
+        {
+          "model": "rolling_forcing",
+          "prompt_id": "A_stunning_tranquil_river_scene_beneath_a_concrete_bridge,_recorded_by_a_completely_fixed,_static,_t",
+          "row_count": 2,
+          "values": [
+            0.5155508447336298,
+            0.5155508447336298
+          ]
+        }
+      ],
+      "mean_per_model": {
+        "CausVid": 0.42595950575934866,
+        "self_forcing": 0.6530561154426205,
+        "infinite_forcing": 0.26804676024198915,
+        "rolling_forcing": 0.4864640057191488,
+        "reward_forcing": 0.43885328778576294,
+        "longlive": 0.6070630110204182,
+        "causal_forcing": 0.9103234478740225,
+        "steady_forcing_bt": 0.37769518125512425
+      }
+    }
+  },
+  "limitations": [
+    "identifiers are truncated legacy strings; prompt/video identity is not independently hash-verified",
+    "duplicates excluded even if values agree",
+    "historical source sets exposed and not journal confirmation",
+    "legacy automatic partitions and metric identities cannot be pooled with sourcefixed I2V",
+    "per-metric shared prompt set may differ",
+    "no confidence intervals or preference claims"
+  ]
+}

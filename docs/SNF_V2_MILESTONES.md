@@ -210,3 +210,24 @@ These are previously exposed development cases, not a released or independent
 confirmation set. Source rights, manual role/visibility annotations, subject
 metric controls, matched external models and human validation remain open.
 See [subject extension and model inventory](JOURNAL_SUBJECT_EXTENSION_AND_MODELS_2026_10_30.md).
+
+### Reuse-first score tracking
+
+Use [the existing-score comparison and inventory](EXISTING_SCORE_COMPARISONS_2026_10_30.md)
+before scheduling. Reuse prior videos and scores; generate and score only new
+model/image/prompt outputs under the user's current instruction. A bounded
+inventory miss does not prove an output does not exist; inspect other project
+roots and require exact provenance before launching. Keep VBench suite,
+source-fixed metric version, track, scene set, seed and endpoint/window
+identities separate.
+
+### 2026-11-01: TCSVT journal target
+
+IEEE TCSVT is the selected journal target. The [execution protocol](TCSVT_JOURNAL_EXECUTION_PROTOCOL_2026_11_01.md) and [working IEEE draft](../JOURNAL_TCSVT/main.tex) separate completed prior evidence from pending source-role, model-panel, metric and human-validation requirements. The historical work remains unchanged; current SCIE indexing must be confirmed before submission.
+
+### 2026-11-01: SNF-Bench++ naming and model refresh
+
+The standalone journal upgrade is named **SNF-Bench++**. Historical SNF-Bench
+v1, SceneTether-era v2 and sourcefixed metric identities retain their names.
+See the [model survey](SNF_BENCH_PP_MODEL_SURVEY_2026_11_01.md) for current
+T2V/I2V candidates, local Helios/SVI evidence, reuse rules and unfinished work.

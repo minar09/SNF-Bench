@@ -1,0 +1,40 @@
+\documentclass[journal]{IEEEtran}
+\usepackage{amsmath,amssymb,booktabs,url,cite}
+\usepackage{hyperref}
+\title{SNF-Bench++: Evaluating Fixed-Camera Video Generation Across Sustained Motion and Long Horizons}
+\author{Authors withheld in working draft}
+\begin{document}
+\maketitle
+\begin{abstract}
+Long-running fixed-camera video generation requires stationary scene support and sustained, plausible motion in the intended region. Existing video quality and consistency measurements provide useful signals but do not by themselves establish whether generated motion has the right material, direction, or temporal evolution. This working manuscript specifies a measurement framework for text- and image-conditioned evaluation that separates support fidelity, material behavior, temporal continuity and human judgments. Its development draws on earlier SNF-Bench evaluations and a source-fixed image-to-video protocol. The independent journal confirmation set, experimental panel and human-alignment results remain to be collected; this draft makes no claim that the candidate measures have been validated.
+\end{abstract}
+\begin{IEEEkeywords}
+video generation, fixed camera, long horizon, benchmark, perceptual evaluation
+\end{IEEEkeywords}
+\section{Introduction}
+Fixed-camera animation appears in nature observation and sustained visual content. A plausible output must preserve stable support without freezing the intended moving material, while avoiding replay, drift and scene corruption. General-purpose video benchmarks already measure important aspects of quality and consistency~\cite{huang2023vbench,huang2024vbench++,duan2025worldscore}; a task-specific benchmark must demonstrate its additional value on shared inputs rather than assume those measures are blind to fixed-camera failure.
+
+We study a versioned evaluation protocol for text-to-video and image-to-video outputs. The proposed journal contribution is an independently validated measurement and evaluation resource, not a new generation method. The original SNF-Bench work~\cite{minar2026snfbench} and the source-fixed method-paper protocol are prior evidence; the planned new sources, source-role annotation and construct-validity study are currently incomplete. Human and animal animation are possible separately validated extension tracks, not evidence for the present nature-flow core.
+\section{Related Evaluation}
+Prior evaluations separate temporal consistency, dynamics and other video quality axes~\cite{huang2023vbench,huang2024vbench++,duan2025worldscore}. We will compare published baselines under their actual supported inputs and scoring windows, report agreement and cases of no incremental value, and distinguish official scoring settings from any region-specific adaptation. The final comparison and bibliography require verification at the journal freeze.
+\section{Task and Data Protocol}
+The core task conditions on a fixed viewpoint and a specified natural process. The image-conditioned track uses a source image and prompt; the text-conditioned track has no common source image and requires its own partition and annotation policy. Role maps distinguish stable support, target material, overlays, subjects and uncertain regions; their availability and uncertainty are reported per sample. Existing source sets have informed method development and therefore are not an untouched journal confirmation cohort.
+
+The planned primary horizons are 60, 120 and 240 seconds, with a short control. Same-rollout prefixes and separately requested durations are distinct experimental units. Final sampling, source rights, source-family splits, annotation procedures and model configurations must be frozen before the confirmation analysis.
+\section{Measurement Design}
+\textbf{Support fidelity} includes source-relative appearance and geometric displacement, with registration failures reported. \textbf{Material behavior} separates activity, active area and direction where observable. \textbf{Continuity} targets replay and resets while retaining legitimate periodic flow. \textbf{Scene integrity} addresses missing or invented content beyond the measured support. Human ratings assess the corresponding observable attributes separately.
+
+These are candidate axes, not an admitted headline score. A sharp static frame can preserve detail without motion; noise can increase activity; natural surf can exhibit periodicity. Frame-based displacement (fBD) remains a diagnostic, not a sufficient surrogate for source fidelity. A historical mean-colour field has a documented float32 accumulation defect and retains its original measurement identity.
+\section{Validation Protocol}
+The planned study tests paired interventions, natural periodic and occlusion controls, and real generated failures. Independent source-role annotations and blinded human judgments are required. Thresholds and any metric-selection decisions are to be established on development data, with final performance assessed on source- and model-family-held-out data. Each metric must report eligibility, abstentions, false-positive behavior and uncertainty; response direction is separate from task desirability. No controlled intervention alone establishes perceived naturalness.
+\section{Existing Evidence and Planned Experiments}
+The existing source-fixed port was checked on two nine-scene, 60-second subsets against stored scores. These checks establish numerical reproduction on those inputs, not construct validity. Existing 60-second image-conditioned scores permit matched comparison of source-fixed SNF, VBench-I2V and VBench-Long on shared source scenes. The 120- and 240-second method records score 60-second endpoint windows of separately requested generations; these should not be interpreted as trajectories of a single rollout. Historical text-to-video records use different mask and measurement identities and are reported separately.
+
+\textit{Pending:} a rights-cleared independent confirmation set, independently reviewed role maps, native long-video baselines, sufficient multi-seed coverage, real-periodicity controls, and human construct validation. Previously scored videos and metrics will be reused rather than regenerated or rescored under the current project instruction.
+\section{Limitations and Reproducibility}
+Existing result populations have development exposure, and passing numerical parity does not establish perceptual validity. Source-relative geometry, activity and recurrence can each fail under plausible counterexamples. Any final release must include exact input and model provenance, metric versions, failure and abstention counts, annotation uncertainty and rights-cleared material. Publication overlap with the original SNF, SceneTether and Steady-Forcing work must be disclosed.
+\section{Conclusion}
+The working protocol treats long-horizon fixed-camera video evaluation as a multi-axis measurement problem. Evidence for reliable naturalness assessment awaits the independent experiments and human study specified above.
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}

@@ -14,8 +14,18 @@
   "journal_method_policy": {
     "author_methods_eligible": true,
     "required_author_candidates": [
-      {"name": "Steady-Forcing", "track": "t2v", "affiliation": "benchmark_authors", "admission_status": "planned_requires_frozen_adapter_and_provenance"},
-      {"name": "SceneTether", "track": "i2v", "affiliation": "benchmark_authors", "admission_status": "planned_requires_frozen_adapter_and_provenance"}
+      {
+        "name": "Steady-Forcing",
+        "track": "t2v",
+        "affiliation": "benchmark_authors",
+        "admission_status": "planned_requires_frozen_adapter_and_provenance"
+      },
+      {
+        "name": "SceneTether",
+        "track": "i2v",
+        "affiliation": "benchmark_authors",
+        "admission_status": "planned_requires_frozen_adapter_and_provenance"
+      }
     ],
     "external_baselines": "select released reproducible methods at the journal freeze date; include historical anchors",
     "official_native_and_adapted_rows_separate": true,
@@ -25,28 +35,89 @@
   },
   "scope": {
     "primary": "continuous fixed-camera T2V and I2V natural-process videos",
-    "extensions": ["multiple moving materials", "overlays and occlusion", "moving subject alongside dynamic material"],
+    "extensions": [
+      "multiple moving materials",
+      "overlays and occlusion",
+      "moving subject alongside dynamic material"
+    ],
     "camera_motion_track": "conditional separate protocol after its own validation; fixed-camera penalties cannot be reused unchanged",
-    "principal_horizons_s": [60, 120, 240],
+    "principal_horizons_s": [
+      60,
+      120,
+      240
+    ],
     "short_control_s": 5,
-    "optional_stress_s": [480, 600],
+    "optional_stress_s": [
+      480,
+      600
+    ],
     "optional_stress_is_not_a_release_requirement": true,
     "preferred_horizon_analysis": "prefixes of a single rollout where supported; separately requested durations are distinct experiments"
   },
-  "reporting_families": ["source_and_support_fidelity", "material_behavior", "continuity_and_replay", "human_task_validity"],
+  "reporting_families": [
+    "source_and_support_fidelity",
+    "material_behavior",
+    "continuity_and_replay",
+    "human_task_validity"
+  ],
   "aggregate_leaderboard_score": false,
   "candidate_metric_admission": "independent development controls, real-footage negatives, human alignment and source/model-held-out confirmation",
   "new_test_sources_required": true,
   "existing_48_plus_24_role": "exposed legacy/development/replication evidence; not untouched journal confirmation",
   "minimum_raters_is_not_a_validity_criterion": true,
   "study_modules_must_not_be_pooled_automatically": true,
-  "release_requirements": ["source/video rights", "independent annotation evidence", "frozen measurements and splits", "per-video failures and coverage", "deidentified consent-permitted human evidence", "portable clean-clone runner", "overlap ledger and prior-work disclosure"],
+  "release_requirements": [
+    "source/video rights",
+    "independent annotation evidence",
+    "frozen measurements and splits",
+    "per-video failures and coverage",
+    "deidentified consent-permitted human evidence",
+    "portable clean-clone runner",
+    "overlap ledger and prior-work disclosure"
+  ],
   "gates": [
-    {"id": "J0", "name": "archive CVPR protocol and publication overlap", "state": "planned"},
-    {"id": "J1", "name": "portable evidence import and independent asset/annotation design", "state": "planned"},
-    {"id": "J2", "name": "compact candidate admission on controls and real footage", "state": "planned"},
-    {"id": "J3", "name": "independent multi-system human construct-validation study", "state": "planned"},
-    {"id": "J4", "name": "native T2V/I2V panel and efficiency/robustness audit", "state": "planned"},
-    {"id": "J5", "name": "journal manuscript, reviewer-accessible artifact and submission check", "state": "planned"}
-  ]
+    {
+      "id": "J0",
+      "name": "archive CVPR protocol and publication overlap",
+      "state": "planned"
+    },
+    {
+      "id": "J1",
+      "name": "portable evidence import and independent asset/annotation design",
+      "state": "planned"
+    },
+    {
+      "id": "J2",
+      "name": "compact candidate admission on controls and real footage",
+      "state": "planned"
+    },
+    {
+      "id": "J3",
+      "name": "independent multi-system human construct-validation study",
+      "state": "planned"
+    },
+    {
+      "id": "J4",
+      "name": "native T2V/I2V panel and efficiency/robustness audit",
+      "state": "planned"
+    },
+    {
+      "id": "J5",
+      "name": "journal manuscript, reviewer-accessible artifact and submission check",
+      "state": "planned"
+    }
+  ],
+  "target_venue": {
+    "journal": "IEEE Transactions on Circuits and Systems for Video Technology",
+    "abbreviation": "IEEE TCSVT",
+    "status": "selected_target_not_submitted",
+    "publisher": "IEEE",
+    "scope_url": "https://ieee-cas.org/publication/tcsvt",
+    "scie_verification": "Verify journal ISSN in current Clarivate Master Journal List/JCR at submission; not independently confirmed in this assessment",
+    "impact_factor": "Publisher page displayed 8.4 on 2026-11-01; JCR year not specified on that page",
+    "reuse_policy": "expanded conference versions permitted per publisher scope; prior work and overlap require disclosure",
+    "ieee_access_excluded": true
+  },
+  "journal_benchmark_name": "SNF-Bench++",
+  "name_policy": "Journal upgrade only; original SNF-Bench, existing v1, sourcefixed-1.0 and SceneTether-era v2 retain historical identities; no retroactive score renaming."
 }

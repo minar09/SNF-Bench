@@ -144,3 +144,26 @@ validation. Fourteen VBench-I2V-derived subject images and existing 60 s
 clips were inventoried and smoke-tested, but they are exposed development data,
 not a held-out benchmark. See [subject extension and model inventory](JOURNAL_SUBJECT_EXTENSION_AND_MODELS_2026_10_30.md)
 for results, candidate model readiness and remaining experimental gates.
+
+### 2026-10-30: existing score reuse and comparisons
+
+A read-only inventory indexed 5,714 source-fixed staging records, 260
+VBench summary groups and 28,134 historical SNF CSV rows within the specified
+roots. No existing video was rescored or regenerated. The
+[comparison report](EXISTING_SCORE_COMPARISONS_2026_10_30.md) shows matched
+source-fixed, VBench-I2V and VBench-Long 60 s results across eleven CF++-family
+configurations, selected 120/240 s endpoint-window comparisons, and separate
+historical T2V results. It documents the distinct sample sets, old metric
+limitations, and one ambiguous duplicate T2V identifier. Exact input/protocol
+identity must be verified before scheduling new work; the inventory is not an
+exhaustive all-disk search. A video-hash lookup identifies indexed existing
+results without making a reuse decision automatically. The full local suite
+passed 117 tests.
+
+### 2026-11-01: GPU occupancy and TetherCache score reuse
+
+The two authorized GPUs were both actively running existing method-project
+jobs. Previously missing 120/240 s TetherCache-style endpoint-window score
+records were found and imported without generation or rescoring. See the
+[GPU and reuse snapshot](GPU23_RUN_AND_REUSE_STATUS_2026_11_01.md) for exact
+coverage, values and pending work.

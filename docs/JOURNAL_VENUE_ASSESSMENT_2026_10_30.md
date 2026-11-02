@@ -1,5 +1,10 @@
 # Journal venue assessment for the standalone SNF paper
 
+**2026-11-01 decision:** IEEE TCSVT is the selected target. The newer
+[TCSVT execution protocol](TCSVT_JOURNAL_EXECUTION_PROTOCOL_2026_11_01.md)
+supersedes this document’s provisional venue-selection timing. IEEE Access is
+excluded by the author. Current SCIE/JCR verification remains pending.
+
 Checked 2026-10-30 KST. Venue fit below is a recommendation, not an acceptance
 prediction. Exa's account returned a credit-limit error; official publisher
 and society pages were checked with the available web tool. Current ACM DL

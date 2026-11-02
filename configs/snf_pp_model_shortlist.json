@@ -1,0 +1,122 @@
+{
+  "schema_version": "snf-pp-model-shortlist-0.1",
+  "status": "planning_only_not_a_scoring_registry",
+  "as_of": "2026-11-01",
+  "benchmark_name": "SNF-Bench++",
+  "policy": "Reuse exact existing outputs and scores; investigate all roots and provenance before new model/image/prompt generation. Never promote port results to native model results.",
+  "candidates": [
+    {
+      "model": "Steady-Forcing",
+      "track": [
+        "t2v"
+      ],
+      "role": "author historical anchor",
+      "local": "existing results; identity audit required",
+      "source": null,
+      "source_note": "Local checkpoint and manuscript; verify publication URL and status before citation."
+    },
+    {
+      "model": "SceneTether/CF++",
+      "track": [
+        "i2v"
+      ],
+      "role": "author model and host controls",
+      "local": "existing results",
+      "source": "https://github.com/thu-ml/Causal-Forcing"
+    },
+    {
+      "model": "Helios Distilled",
+      "track": [
+        "t2v",
+        "i2v"
+      ],
+      "role": "native long",
+      "local": "seven-scene I2V 60s batch recorded complete; match exact cohort before reuse",
+      "source": "https://github.com/PKU-YuanGroup/Helios"
+    },
+    {
+      "model": "Stable Video Infinity",
+      "track": [
+        "i2v"
+      ],
+      "role": "native continuation",
+      "local": "60s renders and 60/120/240s status records exist; coverage audit required",
+      "source": "https://github.com/vita-epfl/Stable-Video-Infinity"
+    },
+    {
+      "model": "Context Forcing",
+      "track": [
+        "t2v"
+      ],
+      "role": "long-context distilled",
+      "local": "base exists; full search, environment, checkpoint and smoke pending",
+      "source": "https://github.com/TIGER-AI-Lab/Context-Forcing"
+    },
+    {
+      "model": "Self Gradient Forcing+",
+      "track": [
+        "t2v"
+      ],
+      "role": "trained AR",
+      "local": "full search, environment, checkpoint and smoke pending",
+      "source": "https://github.com/Zihan-Su/Self_Gradient_Forcing_Plus"
+    },
+    {
+      "model": "LongCat-Video",
+      "track": [
+        "t2v",
+        "i2v"
+      ],
+      "role": "long continuation",
+      "local": "full search, environment, checkpoint and smoke pending",
+      "source": "https://github.com/meituan-longcat/LongCat-Video"
+    },
+    {
+      "model": "SkyReels-V2 Diffusion Forcing",
+      "track": [
+        "t2v",
+        "i2v"
+      ],
+      "role": "long diffusion forcing",
+      "local": "full search, environment, checkpoint and smoke pending",
+      "source": "https://github.com/SkyworkAI/SkyReels-V2"
+    },
+    {
+      "model": "LTX-2.5",
+      "track": [
+        "t2v",
+        "i2v"
+      ],
+      "role": "short quality reference",
+      "local": "long-duration workflow, weights, terms and environment unverified",
+      "source": "https://github.com/Lightricks/LTX-2"
+    },
+    {
+      "model": "ID-Forcing",
+      "track": [
+        "t2v"
+      ],
+      "role": "same-host inference policy",
+      "local": "official code and matched host configuration require verification",
+      "source": "https://arxiv.org/abs/2610.03120"
+    },
+    {
+      "model": "Hybrid Forcing",
+      "track": [
+        "t2v"
+      ],
+      "role": "watchlist",
+      "local": "official inference checkpoint not established; README has placeholders",
+      "source": "https://github.com/leeruibin/hybrid-forcing"
+    },
+    {
+      "model": "Mix Forcing / LingBot World 2",
+      "track": [
+        "i2v"
+      ],
+      "role": "watchlist action-conditioned world model",
+      "local": "neutral action and authorized two-GPU path unverified",
+      "source": "https://github.com/robbyant/lingbot-world-v2"
+    }
+  ]
+}
