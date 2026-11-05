@@ -168,7 +168,8 @@ of the four decisions.
    adjudicator. The reader and schema come first.
 4. **Human questions.** The review drafted a version for the study owner (its
    last section). Neither it nor §4 has been sent; the owner's study is
-   unchanged.
+   unchanged. What must be prepared before sending, reconciled into one
+   question set (H1–H8), is in `SNF_PP_HUMAN_QUESTION_PROPOSAL_PREP_2026_11_05.md`.
 
 ## 7. What may and may not be claimed now
 
@@ -221,3 +222,132 @@ Tested on synthetic data only; no existing video was read.
   must pass through the same encoder, and `support_change` sees only change
   that survives compression.
 
+
+## 9. Development round 1 (2026-11-05, after the reuse authorization)
+
+Development data only: CF++-family videos on already-inspected scenes. Every
+number here is separability from constructed controls, not realism, and none
+can become confirmation evidence.
+
+**Split frozen first.** `manifest/realism_dev_split_2026_11_05.json`
+(sha256 `55e71f6496ff370d…`), written by `scripts/freeze_realism_split.py`
+before any new statistic was computed:
+
+* development scenes are all 48 v2 I2V and 24 fresh scenes, since all have
+  been inspected; confirmation needs new scenes, and none exist yet;
+* development model family: every CF++ cell, plus the method project's
+  control cells;
+* confirmation model families: published-panel I2V renders made after the
+  freeze;
+* existing native SVI Pro and Helios records are withheld from development;
+* SceneTether and H1-FM are in the development family, so their confirmation
+  is not held out by model family;
+* 168 parent videos are hashed. The 94 artifacts of 2026-11-04 (42 pastes,
+  48 stills, 4 manifests) have no sidecars and are labelled exploratory, which
+  passes gate 1.
+
+**Matched encoding history.** The method project's composite controls
+(`control_pasteback`, `control_composite_untethered`,
+`control_composite_framepack`, `control_still`):
+
+* were built from its own generation maps, not from our evaluation masks;
+* were decoded with cv2 and re-encoded with libx264 at CRF 18.
+
+Rebuilding two of them with `snfeval` (cv2 4.9.0) and the same ffmpeg
+reproduced their SHA-256 exactly. Each composite is therefore compared with a
+pass-through of its own parent through that path
+(`scripts/native_controls.py passthrough`). The controls are adopted by hash
+and linked, never copied. The new temporal controls use the same path.
+
+### R1: support (`manifest/realism_dev_2026_11_05/support_*.json`; 42 scenes, matched pass-through as reference)
+
+| statistic: pass-through vs composite | paste-back (hard) | feathered, untethered | feathered, FramePack |
+|---|---|---|---|
+| support change | 2.98 vs 0.00, 42/42 | 4.55 vs 0.36, 42/42 | 4.46 vs 0.67, 42/42 |
+| boundary step (37 eligible) | 0.83 vs 0.34, 89% | 0.70 vs 0.57, 84% | 0.78 vs 0.78, 73% |
+| edge spill, composite higher | 81% | 97% | 92% |
+
+* **Support change separates only because this generator's support changes.**
+  The generator's support changes by 3–4.5 grey levels per sampled frame, and
+  a composite removes that change.
+  * A truly fixed real background would also be near zero; the CRF-18 still
+    scores 0.00.
+  * The statistic is therefore confounded with fidelity, and stays a
+    diagnostic, as §2 says.
+* **Boundary step does not separate the most natural composite.** On the
+  feathered FramePack composite, built from its own pixel map, it is 0.78
+  for both.
+* **Edge spill is undefined when the far support is static.** The 1e-6 floor
+  turns the ratio into values around 10⁵. It needs an abstention rule and a new
+  identity before any further use.
+
+### R3: direction (`direction_*.json`; RAFT on GPU 3, text-derived labels)
+
+Generated parents (pass-throughs), 36 scored scenes each:
+
+| cell | median flux | flux above 0 |
+|---|---|---|
+| framewise Echo | 0.07 | 56% |
+| untethered | 0.17 | 72% |
+| FramePack-style | 0.28 | 75% |
+
+* **Accumulating level ("upward") is negative in every video.** That holds for
+  all three cells, so the label probably does not describe image-plane
+  texture motion. Candidate: abstain for this medium.
+* **Falling water ("top to bottom") sits near 0.** Streaky falling water is a
+  quasi-stationary pattern, which optical flow at 288 px and 8 fps barely
+  tracks.
+* **Four scenes are negative in all three cells** (ial02, ial05, iwb01,
+  iwb05). These go first to the independent direction annotation.
+* **icb04 has no dynamic pixels in its role map**, already flagged in the
+  mask coverage report. It abstains.
+* **Doubled speed collapses the flux to about 0 instead of keeping its sign**
+  (smoke scene). The texture decorrelates beyond what RAFT can match, so this
+  measure is not speed-invariant.
+
+R3 known-answer controls on SceneTether (`direction_scenetether.json`; 36 of
+42 scored: 5 have no declared direction and icb04 has no dynamic region):
+
+| control | expected | observed |
+|---|---|---|
+| reverse tail | sign flips | flipped in 81% of scenes (88% of the 25 with \|flux\| > 0.2); r = −0.87 |
+| ping-pong | flux toward 0 | \|flux\| fell in 83%; median 0.09 vs 0.34 |
+| freeze | abstain | 42/42 abstain |
+| noise warp | flux toward 0 | \|flux\| fell in 94%; median 0.03 |
+| shuffle | flux toward 0 | \|flux\| fell in 81% |
+| speed ×2 / ×0.5 | same sign, speed ×2 / ×0.5 | same sign in 78% / 94%; measured speed ×1.31 / ×0.69 |
+
+* Flow-measured speed is compressed: a doubled speed reads as about 1.3×.
+  Speed controls are therefore graded, not calibrated.
+
+### R4: replay (`replay_scenetether.json`; 41 scored)
+
+| statistic | pass-through | exact loop | cross-faded loop | ping-pong | shuffle |
+|---|---|---|---|---|---|
+| `cand-recurrence-0` (appearance), median | 0.981 | 1.000 | 1.000 | 1.000 | 0.972 |
+| `cand-recurrence-1` (residual), median | 0.52 | 1.00 | 1.00 | 1.00 | 0.41 |
+| `cand-seam-0`, control above pass-through | – | 71% | 41% | 20% | 46% |
+
+* **The incumbent `-0` cannot separate loops.** 34 of 41 generated videos
+  score ≥ 0.95 without a loop (maximum 0.9999), so no threshold works.
+* **The residual version `-1` peaks at 0.941 on pass-throughs** (90th
+  percentile 0.85).
+  * Exact repeats score 1.0 by construction, so this is a weak known answer.
+  * The next round needs jittered and variable-period loops, and natural
+    periodic negatives.
+* **Freeze is caught by activity (0.00), not by the residual floor.** Encoder
+  noise on a frozen frame gives a residual RMS of up to 0.72, so 11 of 41
+  freezes scored a recurrence of 1.0 instead of abstaining.
+* **The seam statistic is weak** and only detects hard cuts.
+
+### Next round (development)
+
+1. Give edge spill an abstention rule for a static far support, under a new
+   identity.
+2. Raise the residual floor above codec noise, or abstain on zero activity,
+   under a new identity.
+3. Add jittered and variable-period loops and partial-region loops.
+4. Make medium-level abstention rules for R3: accumulating level, and falling
+   water if the flow failure is confirmed on real footage.
+5. Run every control on a second parent family, ideally real footage once the
+   pilot exists.

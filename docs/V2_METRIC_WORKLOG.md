@@ -209,3 +209,46 @@ was read; the reuse question in `SNF_PP_REALISM_AND_REVIEW_PLAN_2026_11_04.md`
 * **Codec erases fine grain.** On a synthetic clip, about 5 grey levels of
   i.i.d. noise came out of default H.264 encoding as zero support change.
 * 126 tests pass.
+
+
+### 2026-11-05: reuse authorized; split frozen; development round 1 (R1, R3, R4)
+
+The user authorized new, versioned candidate statistics and derived controls
+on existing videos; originals, scores and frozen identities are untouched.
+Full results are in `SNF_PP_REALISM_AND_REVIEW_PLAN_2026_11_04.md` §9;
+reports are in `manifest/realism_dev_2026_11_05/`; controls (gitignored)
+are in `videos/realism_controls_2026_11_05/`.
+
+* **Split frozen before any new statistic.**
+  `manifest/realism_dev_split_2026_11_05.json` (`scripts/freeze_realism_split.py`)
+  records:
+  * all existing scenes and the CF++ family as development;
+  * published-panel renders made after the freeze as confirmation;
+  * 168 hashed parents;
+  * the 2026-11-04 artifacts as exploratory.
+* **Matched encoding path, verified bit-exact.** Two of the method project's
+  composites were rebuilt and their SHA-256 matched. The new
+  `scripts/native_controls.py`:
+  * builds pass-throughs of the composites' parents through that path;
+  * adopts the 4 × 42 native controls by hash, as links;
+  * builds 9 × 42 temporal controls (`scripts/temporal_ops.py`).
+* **R1:** support change separates 42/42 only because the generator's support
+  changes; boundary step ties on the feathered FramePack composite (0.78
+  each); edge spill is undefined on a static far support.
+* **R3:** new `scripts/realism_direction.py` on GPU 3.
+  * Reversal flips the sign in 81% of scenes; freeze abstains 42/42; noise
+    warp and ping-pong drive flux toward 0.
+  * Generated videos agree with the text labels in only 56–75% of scenes;
+    accumulating level is negative in every video, and falling water is
+    near 0.
+  * Measured speed is compressed: ×2 reads as ×1.31.
+* **R4:** new `scripts/realism_replay.py`.
+  * Incumbent `cand-recurrence-0` fails: 34/41 pass-throughs score ≥ 0.95.
+  * Residual `cand-recurrence-1` peaks at 0.941 on pass-throughs, against
+    1.0 for exact loops; this is an easy known answer.
+* **Process notes:**
+  * A replay crash on icb04 (empty dynamic region) was fixed by an explicit
+    abstention; the run was restarted, and no report is partial.
+  * The direction reader now prepares only window frames; its results are
+    bit-identical on the smoke scene.
+* 23 new tests (temporal controls, candidates).

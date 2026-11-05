@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SNF-Bench++ scene explorer</title>
+<style>
+:root{--ink:#1f2a36;--muted:#5d6b78;--line:#d3dae1;--paper:#f5f7f9;--bg:#fff;--accent:#0072b2}
+@media (prefers-color-scheme:dark){:root{--ink:#e6ebf0;--muted:#9aa7b4;--line:#34404c;--paper:#1b232c;--bg:#11171d;--accent:#56b4e9}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:1200px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:1.35rem;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 14px;max-width:85ch}
+.top{display:grid;grid-template-columns:340px minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:820px){.top{grid-template-columns:1fr}}
+svg{width:100%;max-width:340px;height:auto}
+svg path{cursor:pointer;stroke:var(--bg);stroke-width:1.5}
+svg path:hover,svg path:focus{opacity:.8;outline:none}
+svg path.off{opacity:.25}
+svg text{pointer-events:none;font-size:11px}
+.controls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:10px}
+.controls select,.controls input{font:inherit;padding:4px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:10px}
+.stat{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--paper)}
+.stat b{display:block;font-size:1.3rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:.82rem;color:var(--muted)}
+#clear{font:inherit;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+table{border-collapse:collapse;width:100%;margin-top:14px;font-size:.9rem}
+th,td{border-bottom:1px solid var(--line);text-align:left;padding:6px 8px;vertical-align:top}
+th{background:var(--paper);position:sticky;top:0}
+td.dir{white-space:nowrap}
+.arrow{display:inline-block;width:18px;text-align:center;font-weight:700}
+.chip{display:inline-block;padding:0 7px;border-radius:999px;font-size:.78rem;color:#fff}
+.note{font-size:.85rem;color:var(--muted);margin-top:14px;max-width:90ch}
+</style>
+</head>
+<body>
+<main>
+<h1>Scene specification explorer</h1>
+<p class="sub">Every T2V and I2V scene specification of SNF-Bench++. Click a ring segment to filter by medium family
+(inner) or transport regime (outer). These are specifications, not completed renders; directions are
+<em>text-derived candidates</em> awaiting independent annotation.</p>
+<div class="top">
+  <div><svg id="sun" viewBox="-170 -170 340 340" role="group" aria-label="Scene composition"></svg></div>
+  <div>
+    <div class="stats" id="stats"></div>
+    <div class="controls">
+      <label>Track <select id="track"><option value="">Both</option><option>T2V</option><option>I2V</option></select></label>
+      <label>Direction <select id="dir"><option value="">Any</option><option value="yes">Declared</option><option value="no">None</option></select></label>
+      <label>Search <input id="q" type="search" placeholder="e.g. waterfall, smoke"></label>
+      <button id="clear">Clear filters</button>
+    </div>
+    <p id="filt" style="margin:0;color:var(--muted)"></p>
+  </div>
+</div>
+<table><thead><tr><th>Scene</th><th>Regime</th><th>Direction (candidate)</th><th>Scene text</th><th>Source licence</th></tr></thead>
+<tbody id="rows"></tbody></table>
+<p class="note">Sources: <code>manifest/prompts_v2.json</code>, <code>manifest/i2v_pairs_v2.json</code>, exported by
+<code>scripts/build_journal_visuals.py</code>. Source images are not included: only 2 of 48 I2V sources have a
+recorded licence. Family grouping is for display; results are macro-averaged over regimes.</p>
+</main>
+<script src="assets/scenes.js"></script>
+<script>
+(function () {
+  const {meta, rows} = window.SCENES;
+  const FAM_COL = {Water: '#0072b2', Atmosphere: '#56b4e9', 'Heat & combustion': '#d55e00'};
+  const famOf = {}; meta.families.forEach(f => f.regimes.forEach(r => famOf[r] = f.name));
+  const ARROW = {'left to right': ['→', 0], 'right to left': ['←', 0], 'top to bottom': ['↓', 0],
+    'upward': ['↑', 0], 'upper left to lower right': ['↘', 0], 'upper right to lower left': ['↙', 0],
+    'downward and to the left': ['↙', 0]};
+  const st = {family: '', regime: '', track: '', dir: '', q: ''};
+  const $ = id => document.getElementById(id);
+  const svg = $('sun'), ns = 'http://www.w3.org/2000/svg';
+  const arc = (a0, a1, r0, r1) => {
+    const p = (a, r) => [r * Math.sin(a), -r * Math.cos(a)];
+    const [x0, y0] = p(a0, r1), [x1, y1] = p(a1, r1), [x2, y2] = p(a1, r0), [x3, y3] = p(a0, r0), big = a1 - a0 > Math.PI ? 1 : 0;
+    return `M${x0},${y0} A${r1},${r1} 0 ${big} 1 ${x1},${y1} L${x2},${y2} A${r0},${r0} 0 ${big} 0 ${x3},${y3} Z`;
+  };
+  const t2v = rows.filter(r => r.track === 'T2V'), total = t2v.length;
+  let a = 0; const segs = [];
+  meta.families.forEach(f => {
+    const a0 = a;
+    f.regimes.forEach((r, j) => {
+      const n = t2v.filter(x => x.category === r).length, a1 = a + 2 * Math.PI * n / total;
+      segs.push({kind: 'regime', key: r, a0: a, a1, r0: 105, r1: 160, col: FAM_COL[f.name], light: 0.35 + 0.18 * j,
+        label: meta.labels[r], n, n2: rows.filter(x => x.track === 'I2V' && x.category === r).length});
+      a = a1;
+    });
+    segs.push({kind: 'family', key: f.name, a0, a1: a, r0: 55, r1: 102, col: FAM_COL[f.name], light: 0,
+      label: f.name, n: t2v.filter(x => famOf[x.category] === f.name).length});
+  });
+  segs.forEach(s => {
+    const p = document.createElementNS(ns, 'path');
+    p.setAttribute('d', arc(s.a0, s.a1, s.r0, s.r1));
+    p.setAttribute('fill', s.col); p.style.filter = s.light ? `brightness(${1 + s.light})` : '';
+    p.setAttribute('tabindex', 0); p.setAttribute('role', 'button');
+    const t = document.createElementNS(ns, 'title');
+    t.textContent = s.kind === 'regime' ? `${s.label}: ${s.n} T2V / ${s.n2} I2V` : `${s.label}: ${(100 * s.n / total).toFixed(0)}% of scenes`;
+    p.appendChild(t);
+    const pick = () => { if (s.kind === 'family') { st.family = st.family === s.key ? '' : s.key; st.regime = ''; }
+      else { st.regime = st.regime === s.key ? '' : s.key; st.family = ''; } render(); };
+    p.onclick = pick; p.onkeydown = e => { if (e.key === 'Enter') pick(); };
+    s.el = p; svg.appendChild(p);
+    if (s.kind === 'family') {
+      const m = (s.a0 + s.a1) / 2, tx = document.createElementNS(ns, 'text');
+      tx.setAttribute('x', 79 * Math.sin(m)); tx.setAttribute('y', -79 * Math.cos(m) + 4);
+      tx.setAttribute('text-anchor', 'middle'); tx.setAttribute('fill', '#fff'); tx.setAttribute('font-weight', 700);
+      tx.textContent = Math.round(100 * s.n / total) + '%'; svg.appendChild(tx);
+    }
+  });
+  const c = document.createElementNS(ns, 'text');
+  c.setAttribute('text-anchor', 'middle'); c.setAttribute('y', 4); c.setAttribute('fill', 'currentColor');
+  c.innerHTML = `${total} T2V · ${rows.length - total} I2V`; svg.appendChild(c);
+
+  function list() {
+    const q = st.q.toLowerCase();
+    return rows.filter(r => (!st.track || r.track === st.track) && (!st.regime || r.category === st.regime) &&
+      (!st.family || famOf[r.category] === st.family) && (!st.dir || (st.dir === 'yes') === !!r.direction) &&
+      (!q || (r.text + ' ' + r.id + ' ' + r.category).toLowerCase().includes(q)));
+  }
+  function render() {
+    segs.forEach(s => s.el.classList.toggle('off', (st.family && !(s.kind === 'family' ? s.key === st.family : famOf[s.key] === st.family)) ||
+      (st.regime && !(s.kind === 'regime' ? s.key === st.regime : famOf[st.regime] === s.key))));
+    const L = list();
+    const stat = (n, s) => `<div class="stat"><b>${n}</b><span>${s}</span></div>`;
+    $('stats').innerHTML = stat(L.length, 'matching specifications') + stat(L.filter(r => r.track === 'T2V').length, 'T2V') +
+      stat(L.filter(r => r.track === 'I2V').length, 'I2V') + stat(L.filter(r => r.direction).length, 'with declared direction') +
+      stat(L.filter(r => r.licence).length, 'I2V with recorded licence');
+    const f = [st.family && 'family: ' + st.family, st.regime && 'regime: ' + meta.labels[st.regime]].filter(Boolean);
+    $('filt').textContent = f.length ? 'Filtered by ' + f.join(', ') : 'No ring filter';
+    const body = $('rows'); body.replaceChildren();
+    L.forEach(r => {
+      const tr = document.createElement('tr');
+      const [arr] = ARROW[r.direction] || ['—'];
+      const cells = [`<b>${r.track}</b> ${r.id}`,
+        `<span class="chip" style="background:${FAM_COL[famOf[r.category]]}">${meta.labels[r.category]}</span>`,
+        r.direction ? `<span class="arrow" aria-hidden="true">${arr}</span>${r.direction}` : '<span style="color:var(--muted)">none declared</span>',
+        r.text.replace(/</g, '&lt;'), r.track === 'I2V' ? (r.licence || '<span style="color:var(--muted)">not recorded</span>') : 'generated'];
+      cells.forEach((h, i) => { const td = document.createElement('td'); td.innerHTML = h; if (i === 2) td.className = 'dir'; tr.appendChild(td); });
+      body.appendChild(tr);
+    });
+  }
+  $('track').onchange = e => { st.track = e.target.value; render(); };
+  $('dir').onchange = e => { st.dir = e.target.value; render(); };
+  $('q').oninput = e => { st.q = e.target.value; render(); };
+  $('clear').onclick = () => { Object.assign(st, {family: '', regime: '', track: '', dir: '', q: ''});
+    $('track').value = ''; $('dir').value = ''; $('q').value = ''; render(); };
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+% Main qualitative panel: lossless native-resolution frames (scripts/build_journal_snapshots.py,
+% provenance and hashes in figures/snapshots/SNAPSHOTS.json).
+\newcommand{\qrow}[3]{% #1 key, #2 name, #3 cite key
+  \rotatebox{90}{\parbox{\qh}{\centering\scriptsize #2\\[-2pt]\tiny\cite{#3}}} &
+  \includegraphics[width=\qw]{figures/snapshots/t2v240/p0/#1_t000.png} &
+  \includegraphics[width=\qw]{figures/snapshots/t2v240/p0/#1_t060.png} &
+  \includegraphics[width=\qw]{figures/snapshots/t2v240/p0/#1_t120.png} &
+  \includegraphics[width=\qw]{figures/snapshots/t2v240/p0/#1_t180.png} &
+  \includegraphics[width=\qw]{figures/snapshots/t2v240/p0/#1_t240.png} &&
+  \includegraphics[width=\qw]{figures/snapshots/t2v240/p0/#1_change.png} &
+  \includegraphics[width=\qw]{figures/snapshots/t2v240/p0/#1_motion.png}\\[-1.2pt]}
+\begin{figure*}[t]
+\centering
+\setlength{\tabcolsep}{0.5pt}
+\newlength{\qw}\setlength{\qw}{0.1265\textwidth}
+\newlength{\qh}\setlength{\qh}{0.577\qw}
+\begin{tabular}{@{}c ccccc @{\hspace{3pt}}c@{\hspace{3pt}} cc@{}}
+ & \scriptsize\gclock\ 0\,s & \scriptsize\gclock\ 60\,s & \scriptsize\gclock\ 120\,s & \scriptsize\gclock\ 180\,s
+ & \scriptsize\gclock\ 240\,s && \scriptsize changed, 0$\to$240\,s & \scriptsize frame change, last 12\%\\
+\qrow{CausVid}{CausVid}{yin2025causvid}
+\qrow{self_forcing}{Self-Forcing}{huang2025selfforcing}
+\qrow{infinite_forcing}{Infinite-Forcing}{infinite-forcing}
+\qrow{rolling_forcing}{Rolling-Forcing}{liu2025rolling}
+\qrow{reward_forcing}{Reward-Forcing}{lu2025reward}
+\qrow{longlive}{LongLive}{yang2025longlive}
+\qrow{causal_forcing}{Causal-Forcing}{zhu2026causal}
+ & \multicolumn{5}{l}{\scriptsize Prompt: \textit{``A South Korean urban rainstorm, recorded by a fixed tripod camera.
+   Rain falls continuously\ldots''}} &&
+ \includegraphics[width=\qw]{figures/snapshots/colourbar_change.pdf} &
+ \includegraphics[width=\qw]{figures/snapshots/colourbar_motion.pdf}\\
+\end{tabular}
+\caption{\textbf{Seven released checkpoints over a nominal 240\,s fixed-camera rollout.} One historical output per checkpoint under the common inference configuration at 832$\times$480 (lossless extracted frames). The main prompt is the first by prompt ID of the
+four 240\,s prompts for which all seven historical T2V checkpoints have an output (all four:
+Fig.~\ref{fig:qualitative_all}). Right: grey-level change between the mean of the first and the last second,
+and mean successive-frame change in the last 12\% at 8\,fps, on fixed colour scales; these are visualizations
+without region masks, not metrics. Changes include both intended motion and scene changes; they do not by themselves distinguish camera motion, flicker or redrawing. The 240\,s label denotes the final available frame, slightly before 240\,s for these files. One output per checkpoint on one prompt cannot rank systems. Interactive
+time-synchronized viewer: \texttt{interactive/qualitative\_viewer.html}.}
+\label{fig:qualitative}
+\end{figure*}

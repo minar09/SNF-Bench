@@ -1,0 +1,90 @@
+% Overview figure (first page). Snapshots: scripts/build_journal_snapshots.py.
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[
+  font=\footnotesize, >={Stealth[length=1.6mm]},
+  panel/.style={draw=snfgrey!60,rounded corners=2pt,fill=snfpaper,inner sep=3pt},
+  head/.style={font=\scriptsize\bfseries,text=snfink,anchor=south west,inner sep=1pt},
+  img/.style={inner sep=0pt,outer sep=0pt},
+  stage/.style={draw=snfink!70,fill=white,rounded corners=1.5pt,minimum height=7mm,
+    text width=2.95cm,align=center,font=\scriptsize,inner sep=2pt},
+  flow/.style={->,line width=.7pt,snfink!80}]
+
+% ---- (a) inputs
+\node[head] (ha) at (0,4.55) {(a) Inputs};
+\node[panel,anchor=north west,text width=3.0cm,align=left,font=\scriptsize] (txt) at (0,4.5)
+  {\textbf{T2V}\enspace \textit{``\dots recorded by a fixed tripod camera. Rain falls continuously\dots''}};
+\node[img,anchor=north west] (src) at ($(txt.south west)+(0.05,-0.15)$)
+  {\includegraphics[width=3.05cm]{figures/snapshots/role_ifp06.png}};
+\node[anchor=north west,font=\tiny,align=left,inner sep=1pt] (leg) at ($(src.south west)+(0,-0.05)$)
+  {\textbf{I2V} source + role map:\\
+   \swatch{roleSupport}\,support\enspace\swatch{roleMaterial}\,material\enspace
+   \swatch{roleOverlay}\,overlay\enspace\swatch{roleIgnore}\,uncertain};
+
+% ---- (b) long rollout of one published output
+\node[head] at (3.6,4.55) {(b) One 240\,s rollout (fixed-camera prompt)};
+\foreach \t/\x in {000/0,060/1,120/2,240/3} {
+  \node[img,anchor=north west] (r\x) at ({3.65+1.72*\x},4.35)
+    {\includegraphics[width=1.66cm]{figures/snapshots/t2v240/p0/CausVid_t\t.png}};
+}
+\draw[->,line width=.6pt,snfink] ($(r0.south west)+(0,-0.22)$) -- ($(r3.south east)+(0.05,-0.22)$)
+  node[right,font=\tiny] {$t$};
+\foreach \lab/\x in {0/0,60/1,120/2,240/3}
+  \node[font=\tiny,below] at ($(r\x.south)+(0,-0.2)$) {\gclock\,\lab\,s};
+\node[font=\tiny,text=snfgrey,anchor=north west,align=left,text width=6.7cm] at ($(r0.south west)+(0,-0.6)$)
+  {Appearance changes across the rollout despite the fixed-camera prompt; whole-frame
+   change can include both intended and unintended effects.};
+
+% ---- (c) where it changed / where it still moves
+\node[head] at (10.75,4.55) {(c) Change and late motion};
+\node[img,anchor=north west] (m1) at (10.8,4.35)
+  {\includegraphics[width=1.66cm]{figures/snapshots/t2v240/p0/CausVid_change.png}};
+\node[img,anchor=north west] (m2) at (12.55,4.35)
+  {\includegraphics[width=1.66cm]{figures/snapshots/t2v240/p0/CausVid_motion.png}};
+\node[font=\tiny,below=1pt of m1] {changed, 0$\to$240\,s};
+\node[font=\tiny,below=1pt of m2] {frame change, late};
+\node[font=\tiny,text=snfgrey,anchor=north west,align=left,text width=3.4cm] at ($(m1.south west)+(0,-0.45)$)
+  {Region roles help localize change, but appearance change is not necessarily geometric drift.};
+
+% ---- (d) measures with status
+\node[head] at (14.35,4.55) {(d) Measures and status};
+\node[panel,anchor=north west,text width=3.55cm,align=left,font=\scriptsize] (meas) at (14.35,4.35) {%
+  \setlength{\tabcolsep}{1.5pt}%
+  \begin{tabular}{@{}c@{\hspace{3pt}}l@{\hspace{4pt}}c@{}}
+  \gsupport   & Support fidelity & \stfrozen\\[-2.5pt]
+              & {\tiny fBD\down\,NBF\down\,DLR (context)} & \\
+  \gmotion    & Material motion & \stfrozen\\[-2.5pt]
+              & {\tiny MCFF, FP, DAR (context)} & \\
+  \greplay    & Replay\,/\,progression\,{\tiny R4} & \stcand\\
+  \gdirection & Direction\,{\tiny R3} & \stcand\\
+  \gmaterial  & Material presence\,{\tiny R2} & \stopen\\
+  \gplaus     & Motion plausibility\,{\tiny R5} & \stopen\\
+  \gsupport   & Support integrity\,{\tiny R1} & \stdiag\\
+  \gintegrity & Scene integrity & \stopen\\
+  \ghuman     & Human validation & \stopen
+  \end{tabular}};
+\node[anchor=north west,font=\tiny,align=left] at ($(meas.south west)+(0,-0.05)$)
+  {\stfrozen\,frozen definition\quad\stcand\,development candidate\\
+   \stdiag\,diagnostic only\quad\stopen\,planned\quad no summed score};
+
+% ---- stages
+\node[stage] (s1) at (1.55,-0.15) {\cmark\ Specifications\\[-1pt]{\tiny 96 T2V + 48 I2V, nine regimes}};
+\node[stage,right=3.5mm of s1] (s2) {\stcand\ Role maps\\[-1pt]{\tiny auto (I2V); 2 annotators + adjudicator}};
+\node[stage,right=3.5mm of s2] (s3) {\stcand\ Measures\\[-1pt]{\tiny versioned identities, abstentions}};
+\node[stage,right=3.5mm of s3] (s4) {\stcand\ Development\\[-1pt]{\tiny matched controls, real footage}};
+\node[stage,right=3.5mm of s4,fill=snfpaper] (s5) {\glock\ Confirmation\\[-1pt]{\tiny held-out scenes and model families}};
+\foreach \a/\b in {s1/s2,s2/s3,s3/s4,s4/s5} \draw[flow] (\a) -- (\b);
+\node[font=\tiny,text=snfgrey,anchor=north] at ($(s3.south)+(0,-0.05)$)
+  {\ghuman\ blinded human ratings per construct feed development and confirmation};
+\end{tikzpicture}
+\caption{\textbf{SNF-Bench++ at a glance.} (a)~Each scene specifies a fixed viewpoint and names a natural process; I2V
+sources carry role maps (shown: a precipitation scene, whose falling snow is an excluded overlay, so it has no
+measured material region). (b)~Frames of a historical output of a published checkpoint~\cite{yin2025causvid} under the common inference configuration for a
+fixed-camera prompt (first system alphabetically, first 240\,s prompt; Fig.~\ref{fig:qualitative}).
+(c)~Automatic maps of frame appearance change between the first and last second and successive-frame change
+in its last 12\%; the latter also responds to flicker and other non-motion effects. These are visualizations, not metrics. (d)~Measures by construct and validation status.
+Bottom: the protocol, from specification to held-out confirmation. Source image in~(a): Metropolitan
+Transportation Authority of the State of New York, \href{https://commons.wikimedia.org/wiki/File:Snowy_Transit_in_Brooklyn_(12294431174).jpg}{Snowy Transit in Brooklyn}, \href{https://creativecommons.org/licenses/by/2.0/}{CC~BY~2.0}; cropped and overlaid with an unverified role map. An interactive version accompanies the
+supplementary material (\texttt{interactive/measurement\_map.html}).}
+\label{fig:pp_protocol}
+\end{figure*}

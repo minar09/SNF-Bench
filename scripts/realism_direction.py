@@ -52,12 +52,38 @@ def declared():
     return {p["id"]: p["direction"] for p in pairs}
 
 
+def late_frames(path, device):
+    """S.read_frames, but only the late-window frames are resized and moved to the device (same values)."""
+    vid = cv2.VideoCapture(path)
+    fps = vid.get(cv2.CAP_PROP_FPS) or 24.0
+    interval = max(1, round(fps / S.SAMPLE_FPS))
+    raw, i = [], 0
+    while True:
+        ok, f = vid.read()
+        if not ok:
+            break
+        if i % interval == 0:
+            raw.append(f)
+        i += 1
+    vid.release()
+    if len(raw) < 4:
+        return None
+    k = max(S.MIN_WIN, int(round((len(raw) - 1) * S.WIN_FRAC)))
+    h, w = raw[0].shape[:2]
+    nw = int(round(w * S.MAX_H / h))
+    out = []
+    for f in raw[-(k + 1):]:
+        rgb = cv2.cvtColor(cv2.resize(f, (nw, S.MAX_H), interpolation=cv2.INTER_AREA), cv2.COLOR_BGR2RGB)
+        out.append(torch.from_numpy(rgb.astype(np.uint8)).permute(2, 0, 1).float()[None].to(device))
+    return out
+
+
 def measure(model, path, dyn, direction, device):
     if direction is None:
         return {"abstain": "no declared direction"}
     if direction not in UNIT:
         return {"abstain": f"direction {direction!r} has no image-plane vector"}
-    tens, _ = S.read_frames(path, device)
+    tens = late_frames(path, device)
     if tens is None:
         return {"abstain": "too few frames"}
     h, w = tens[0].shape[2:]
@@ -66,11 +92,10 @@ def measure(model, path, dyn, direction, device):
         return {"abstain": f"eroded dynamic region {int(m.sum())} px < {MIN_PX} at flow resolution"}
     d = np.float64(UNIT[direction])
     d /= np.linalg.norm(d)
-    n_pairs = len(tens) - 1
-    k = max(S.MIN_WIN, int(round(n_pairs * S.WIN_FRAC)))
+    k = len(tens) - 1
     along, mag, votes = 0.0, 0.0, []
     speeds = []
-    for i in range(n_pairs - k, n_pairs):
+    for i in range(k):
         f = S.flow_vec(model, tens[i], tens[i + 1])[m]
         a = f @ d
         s = np.hypot(f[:, 0], f[:, 1])

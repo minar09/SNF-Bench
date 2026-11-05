@@ -41,7 +41,7 @@ class StubFlow:
 
 def run_stub(monkeypatch, dx, dy, direction, n=40):
     h, w = 32, 48
-    monkeypatch.setattr(RD.S, "read_frames", lambda path, device: ([np.zeros((1, 3, h, w))] * n, None))
+    monkeypatch.setattr(RD, "late_frames", lambda path, device: [np.zeros((1, 3, h, w))] * n)
     monkeypatch.setattr(RD.S, "flow_vec", lambda model, a, b: np.broadcast_to(np.float32(model.v), (h, w, 2)))
     dyn = np.zeros((480, 832), bool)
     dyn[100:400, 200:700] = True
@@ -62,3 +62,10 @@ def test_direction_abstains_without_label_or_motion(monkeypatch):
     assert "abstain" in run_stub(monkeypatch, 1.0, 0.0, "swirling")
     still = run_stub(monkeypatch, 0.01, 0.0, "left to right")
     assert "abstain" in still and "flux" not in still
+
+
+def test_replay_abstains_on_an_empty_dynamic_region(monkeypatch):
+    frames = [np.zeros((480, 832, 3), np.uint8)] * (RR.WINDOW_S * FPS)
+    monkeypatch.setattr(RR.C, "read_sampled", lambda path: (frames, float(FPS)))
+    out = RR.measure("unused.mp4", np.zeros((480, 832), bool))
+    assert "eroded dynamic region" in out["abstain"]

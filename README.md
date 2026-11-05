@@ -9,6 +9,7 @@ journal paper will contribute independent measurement validation, broader
 T2V/I2V coverage and a reusable evaluation resource. Its planned panel includes
 Steady-Forcing and SceneTether alongside external released systems.
 
+- [Numbered documentation index, oldest to latest](docs/00_DOCUMENT_INDEX.md)
 - [Current publication roadmap](docs/PUBLICATION_STRATEGY_AND_JOURNAL_ROADMAP.md)
 - [SceneTether code/evidence reuse audit](docs/SCENETETHER_REUSE_AND_GAP_AUDIT_2026_10_30.md)
 - [Journal venue assessment](docs/JOURNAL_VENUE_ASSESSMENT_2026_10_30.md)

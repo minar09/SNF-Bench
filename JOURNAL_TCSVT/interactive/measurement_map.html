@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SNF-Bench++ measurement map</title>
+<style>
+:root{--ink:#1f2a36;--muted:#5d6b78;--line:#c9d2db;--paper:#f5f7f9;--bg:#fff;--sup:#0072b2;--mat:#e69f00;--sub:#009e73;
+  --ovl:#cc79a7;--ign:#9a9a9a;--inc:#6c5ba7}
+@media (prefers-color-scheme:dark){:root{--ink:#e6ebf0;--muted:#9aa7b4;--line:#3a4652;--paper:#1b232c;--bg:#11171d}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:1280px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:1.35rem;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 12px;max-width:85ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px}
+.chips button{font:inherit;font-size:.88rem;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;
+  padding:3px 11px;cursor:pointer}
+.chips button[aria-pressed=false]{opacity:.45;text-decoration:line-through}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px}
+@media (max-width:900px){.wrap{grid-template-columns:1fr}}
+svg{width:100%;height:auto;background:var(--paper);border:1px solid var(--line);border-radius:10px}
+.node rect{fill:var(--bg);stroke-width:1.4}
+.node text{fill:var(--ink);font-size:13px}
+.node .glyph{font-size:14px}
+.node{cursor:pointer}
+.node:focus{outline:none}
+.node:focus rect,.node.sel rect{stroke-width:3}
+.edge{fill:none;stroke-width:1.6;opacity:.55}
+.dim{opacity:.12!important}
+.colh{font-size:12px;font-weight:700;fill:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+aside{border:1px solid var(--line);border-radius:10px;padding:14px;background:var(--paper);align-self:start;position:sticky;top:12px}
+aside h2{font-size:1.1rem;margin:0 0 4px}
+aside .st{font-size:.85rem;color:var(--muted);margin-bottom:8px}
+aside dt{font-weight:600;font-size:.85rem;margin-top:8px}
+aside dd{margin:2px 0 0;font-size:.9rem}
+.legend{font-size:.85rem;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<main>
+<h1>Measurement map</h1>
+<p class="sub">Which pixels each measure reads, what it is meant to capture, and how far its validation has got.
+Click or focus a node (<kbd>Tab</kbd>, <kbd>Enter</kbd>) to trace its connections. Status: &#9679; frozen definition
+(construct validation pending) &middot; &#9680; development candidate &middot; &#9633; diagnostic only &middot;
+&#9675; planned. Nothing here is a validated realism score, and no measures are summed.</p>
+<div class="chips" id="chips" role="group" aria-label="Filter by status"></div>
+<div class="wrap">
+  <svg id="map" viewBox="0 0 980 600" role="img" aria-label="Measurement map"></svg>
+  <aside id="panel" aria-live="polite"><h2>Select a node</h2><p class="st">Roles, axes, realism constructs and the
+  established comparators they are checked against.</p></aside>
+</div>
+<p class="legend">Development evidence quoted in the panel is from round&nbsp;1 (2026-11-05): constructed controls on
+development videos of one model family, no real footage, no human labels. It shows separability, not validity.</p>
+</main>
+<script>
+(function () {
+  const ST = {frozen: '● frozen definition', cand: '◐ development candidate', diag: '□ diagnostic only',
+    open: '○ planned', role: 'role', inc: 'established comparator'};
+  const COL = {support: 'var(--sup)', material: 'var(--mat)', subject: 'var(--sub)', overlay: 'var(--ovl)',
+    uncertain: 'var(--ign)', inc: 'var(--inc)'};
+  const N = [
+    // roles
+    {id: 'support', c: 0, label: 'Support', st: 'role', col: 'support', g: '■',
+      d: 'Pixels that should stay fixed: buildings, rock, rails, banks. From source-derived role maps (I2V); per-output annotation planned for T2V.'},
+    {id: 'material', c: 0, label: 'Material', st: 'role', col: 'material', g: '■',
+      d: 'The named natural process: water, smoke, fire, dust. Should keep moving for the whole horizon.'},
+    {id: 'subject', c: 0, label: 'Subject (v2.1)', st: 'role', col: 'subject', g: '■',
+      d: 'Moving objects separate from the material (a boat on water). Planned layered annotation; not in v2 masks.'},
+    {id: 'overlay', c: 0, label: 'Overlay', st: 'role', col: 'overlay', g: '■',
+      d: 'Precipitation, reflections and similar layers in front of the scene. Enters no measure; reported as coverage.'},
+    {id: 'uncertain', c: 0, label: 'Uncertain', st: 'role', col: 'uncertain', g: '■',
+      d: 'Ignore band between roles and ambiguous pixels (3–108 px band on v2 masks). Enters no measure.'},
+    // axes
+    {id: 'fbd', c: 1, label: 'fBD ↓ displacement', st: 'frozen', col: 'support', g: '●',
+      d: 'Feature-aligned background drift: median displacement of matched persistent structure in the support, % of frame diagonal. Reported with match coverage and abstention.'},
+    {id: 'nbf', c: 1, label: 'NBF ↓ background flow', st: 'frozen', col: 'support', g: '●',
+      d: 'Normalized background flow: mean optical-flow magnitude in the support, 10⁻³ frame-widths per second.'},
+    {id: 'de', c: 1, label: 'Source ΔE00 ↓', st: 'cand', col: 'support', g: '◐',
+      d: 'Pixelwise CIEDE2000 between late support and the source image (I2V). Candidate identity cand-support-de00-0; replaces a region-mean field with a float32 defect.'},
+    {id: 'dlr', c: 1, label: 'DLR (context)', st: 'frozen', col: 'support', g: '●',
+      d: 'Late support flow relative to raw material flow. Unbounded above; never described as a fraction or share.'},
+    {id: 'mcff', c: 1, label: 'MCFF-E/L flow', st: 'frozen', col: 'material', g: '●',
+      d: 'Material-region flow after global similarity compensation, early and late windows, always both reported.'},
+    {id: 'fp', c: 1, label: 'FP persistence', st: 'frozen', col: 'material', g: '●',
+      d: 'Late over early MCFF, clipped. Never reported without its MCFF magnitudes; above 1 is not automatically better.'},
+    {id: 'dar', c: 1, label: 'DAR (context)', st: 'frozen', col: 'material', g: '●',
+      d: 'Signed relative attenuation of material flow after compensation, under this estimator. Stored signed, reported clipped.'},
+    {id: 'integ', c: 1, label: 'Scene integrity', st: 'open', col: 'subject', g: '○',
+      d: 'Missing or invented content beyond the measured support. Planned with v2.1 subject layers.'},
+    // realism family
+    {id: 'r1', c: 2, label: 'R1 support integrity', st: 'diag', col: 'support', g: '□',
+      d: 'Support change after drift and illumination compensation, and boundary coherence.',
+      ev: 'Separates matched-history composites from this generator’s own videos 42/42, but only because the generator’s support changes (3–4.5 grey levels); a still real background would look the same. Boundary step ties on a feathered composite (0.78 vs 0.78). Diagnostic only.',
+      next: 'Real fixed-camera footage band; codec sweep; human question on background coherence.'},
+    {id: 'r2', c: 2, label: 'R2 material presence', st: 'open', col: 'material', g: '○',
+      d: 'Whether the named material, not a subject or another region, carries the motion.',
+      next: 'v2.1 material and subject layers from two annotators and an adjudicator.'},
+    {id: 'r3', c: 2, label: 'R3 direction', st: 'cand', col: 'material', g: '◐',
+      d: 'Flow component along a direction label (cand-direction-flux-0). Round 1 used text-derived candidate directions; independent annotation is planned.',
+      ev: 'Reversal flips the sign in 81% of scenes; freeze abstains 42/42; noise warp and ping-pong drive it toward 0. Speed ×2 reads as ×1.31. Agreement with text-derived labels is 56–75%, which is not accuracy.',
+      next: 'Independent direction annotation with unknown and multi-direction options; real footage per medium.'},
+    {id: 'r4', c: 2, label: 'R4 replay vs progression', st: 'cand', col: 'material', g: '◐',
+      d: 'Sustained self-match of the moving residual at lags ≥ 2 s (cand-recurrence-1), with seam and freeze evidence.',
+      ev: 'Incumbent appearance recurrence scores ≥ 0.95 on 34/41 original generated videos, which have not been independently labelled loop-free. Residual version peaks at 0.941 on them vs about 1.0 on constructed exact loops, an easy known answer.',
+      next: 'Jittered, variable-period and partial loops; natural surf, flame and fountain negatives.'},
+    {id: 'r5', c: 2, label: 'R5 motion plausibility', st: 'open', col: 'material', g: '○',
+      d: 'Flow, track and texture statistics compared with real footage of the same medium.',
+      next: 'Real-footage distributions per medium; comparators on the same eligible inputs.'},
+    // comparators
+    {id: 'dd', c: 3, label: 'VBench dynamic degree', st: 'inc', col: 'inc', g: '◆',
+      d: 'Whole-frame optical-flow motion. Counts camera or layout change as motion, which is why SNF splits roles.'},
+    {id: 'bgc', c: 3, label: 'VBench background consistency', st: 'inc', col: 'inc', g: '◆',
+      d: 'Feature similarity of the background over time; compared with the support axis on matched inputs.'},
+    {id: 'trajan', c: 3, label: 'TRAJAN (per video)', st: 'inc', col: 'inc', g: '◆',
+      d: 'Point-track motion consistency model; a per-video comparator for R5.'},
+    {id: 'fvmd', c: 3, label: 'FVMD (set level only)', st: 'inc', col: 'inc', g: '◆',
+      d: 'Distribution distance of track-based motion features; used only between sets, never per video.'},
+    {id: 'vb2', c: 3, label: 'VBench-2.0 physics', st: 'inc', col: 'inc', g: '◆',
+      d: 'Physics-related dimensions; any adaptation to these scenes is recorded.'},
+    {id: 'human', c: 3, label: 'Blinded human ratings', st: 'open', col: 'inc', g: '○',
+      d: 'One question per construct (H1–H8), with cannot-tell and not-applicable options; owner’s study, proposal not yet sent.'}
+  ];
+  const E = [['support','fbd'],['support','nbf'],['support','de'],['support','dlr'],['material','dlr'],['material','mcff'],
+    ['material','fp'],['material','dar'],['subject','integ'],['fbd','r1'],['nbf','r1'],['de','r1'],['mcff','r3'],['mcff','r4'],
+    ['mcff','r5'],['material','r2'],['subject','r2'],['nbf','bgc'],['fbd','bgc'],['mcff','dd'],['fp','dd'],['r5','trajan'],
+    ['r5','fvmd'],['r5','vb2'],['r1','human'],['r2','human'],['r3','human'],['r4','human'],['r5','human'],['integ','human']];
+  const X = [20, 250, 520, 760], W = [170, 230, 210, 205], H = 30;
+  const cols = [0, 1, 2, 3].map(c => N.filter(n => n.c === c));
+  cols.forEach(list => {
+    const gap = Math.min(52, 540 / list.length);
+    list.forEach((n, i) => { n.x = X[n.c]; n.y = 52 + i * gap + (540 - gap * list.length) / 2; n.w = W[n.c]; });
+  });
+  const byId = Object.fromEntries(N.map(n => [n.id, n]));
+  const svg = document.getElementById('map'), ns = 'http://www.w3.org/2000/svg';
+  const el = (t, a, p) => { const e = document.createElementNS(ns, t); for (const k in a) e.setAttribute(k, a[k]); (p || svg).appendChild(e); return e; };
+  ['Role', 'Axes and context', 'Realism family', 'Comparators'].forEach((t, i) =>
+    el('text', {x: X[i], y: 28, class: 'colh'}).textContent = t);
+  const edges = E.map(([a, b]) => {
+    const s = byId[a], t = byId[b], x1 = s.x + s.w, y1 = s.y + H / 2, x2 = t.x, y2 = t.y + H / 2, mx = (x1 + x2) / 2;
+    const p = el('path', {d: `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`, class: 'edge', stroke: COL[s.col] || COL.inc});
+    return {a, b, p};
+  });
+  const nodes = N.map(n => {
+    const g = el('g', {class: 'node', tabindex: 0, role: 'button', 'aria-label': `${n.label}, ${ST[n.st]}`});
+    el('rect', {x: n.x, y: n.y, width: n.w, height: H, rx: 6, stroke: COL[n.col]}, g);
+    const gl = el('text', {x: n.x + 9, y: n.y + 20, class: 'glyph', fill: COL[n.col]}, g); gl.textContent = n.g;
+    el('text', {x: n.x + 27, y: n.y + 20}, g).textContent = n.label;
+    g.onclick = () => select(n.id);
+    g.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(n.id); } };
+    n.g_el = g; return n;
+  });
+  function neighbours(id) {
+    const keep = new Set([id]);
+    // follow edges forward and backward through the whole chain
+    const walk = (cur, dir) => edges.forEach(e => {
+      const [from, to] = dir > 0 ? [e.a, e.b] : [e.b, e.a];
+      if (from === cur && !keep.has(to)) { keep.add(to); walk(to, dir); }
+    });
+    walk(id, 1); walk(id, -1);
+    return keep;
+  }
+  let sel = null; const hidden = new Set();
+  function paint() {
+    const keep = sel ? neighbours(sel) : null;
+    nodes.forEach(n => {
+      n.g_el.classList.toggle('sel', n.id === sel);
+      n.g_el.classList.toggle('dim', (keep && !keep.has(n.id)) || hidden.has(n.st));
+    });
+    edges.forEach(e => e.p.classList.toggle('dim',
+      (keep && !(keep.has(e.a) && keep.has(e.b))) || hidden.has(byId[e.a].st) || hidden.has(byId[e.b].st)));
+  }
+  function select(id) {
+    sel = sel === id ? null : id; paint();
+    const n = byId[id], P = document.getElementById('panel');
+    if (!sel) { P.innerHTML = '<h2>Select a node</h2>'; return; }
+    const reads = E.filter(([, b]) => b === id).map(([a]) => byId[a].label).join(', ') || '—';
+    const feeds = E.filter(([a]) => a === id).map(([, b]) => byId[b].label).join(', ') || '—';
+    P.innerHTML = `<h2>${n.label}</h2><div class="st">${ST[n.st]}</div><dl>
+      <dt>What it is</dt><dd>${n.d}</dd><dt>Fed by</dt><dd>${reads}</dd><dt>Feeds</dt><dd>${feeds}</dd>
+      ${n.ev ? `<dt>Development evidence (round 1)</dt><dd>${n.ev}</dd>` : ''}
+      ${n.next ? `<dt>Still needed</dt><dd>${n.next}</dd>` : ''}</dl>`;
+  }
+  const chips = document.getElementById('chips');
+  ['frozen', 'cand', 'diag', 'open', 'inc'].forEach(k => {
+    const b = document.createElement('button'); b.textContent = ST[k]; b.setAttribute('aria-pressed', 'true');
+    b.onclick = () => { hidden.has(k) ? hidden.delete(k) : hidden.add(k); b.setAttribute('aria-pressed', !hidden.has(k)); paint(); };
+    chips.appendChild(b);
+  });
+  paint();
+})();
+</script>
+</body>
+</html>

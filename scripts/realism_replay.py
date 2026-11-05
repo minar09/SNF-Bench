@@ -17,6 +17,8 @@ role.
   median, the signature of a cut.
 * `activity`: median successive grey change, grey levels (diagnostic).
 
+A scene whose eroded dynamic region is under MIN_PX abstains.
+
 Natural periodic media (surf, flames, fountains) can recur legitimately; these
 are separability tests against constructed controls, not loop verdicts.
 
@@ -44,6 +46,7 @@ WINDOW_S = 24
 MIN_LAG_S, RUN_S = 2.0, 1.0
 MIN_RESIDUAL = 0.5    # grey levels RMS; below it the region is treated as frozen
 THUMB = (48, 27)
+MIN_PX = 200
 
 
 def window(path):
@@ -82,6 +85,8 @@ def measure(path, dyn):
     except ValueError as e:
         return {"abstain": str(e)}
     core = C.erode(dyn)
+    if core.sum() < MIN_PX:
+        return {"abstain": f"eroded dynamic region {int(core.sum())} px < {MIN_PX}"}
     grey = np.stack([cv2.cvtColor(f, cv2.COLOR_BGR2GRAY).astype(np.float32) for f in frames])
     steps = np.abs(np.diff(grey, axis=0))[:, core].mean(1)
     out = dict(fps=fps, frames=len(frames), activity=float(np.median(steps)),

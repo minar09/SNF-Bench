@@ -1,0 +1,49 @@
+% Which pixels each measure reads. Definitions: docs/METRIC_SPEC_v1.1.md; realism family: Section IV-A.
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[font=\scriptsize,
+  role/.style={draw=#1,fill=#1!18,line width=.7pt,rounded corners=1.5pt,minimum width=1.85cm,
+    minimum height=5.5mm,align=center,inner sep=1.5pt},
+  meas/.style={draw=snfink!60,fill=white,rounded corners=1.5pt,text width=3.0cm,align=left,inner sep=2pt},
+  real/.style={draw=snfink!60,fill=snfpaper,rounded corners=1.5pt,text width=2.68cm,align=left,inner sep=2pt},
+  wire/.style={->,>={Stealth[length=1.3mm]},line width=.55pt,#1}]
+\node[role=roleSupport]  (sup) at (0,0.1)   {\textbf{Support}\\[-1pt]{\tiny should stay fixed}};
+\node[role=roleMaterial] (mat) at (0,-1.85) {\textbf{Material}\\[-1pt]{\tiny should keep moving}};
+\node[role=roleSubject]  (sub) at (0,-2.95) {\textbf{Subject}\\[-1pt]{\tiny v2.1, planned}};
+\node[role=roleOverlay]  (ovl) at (0,-3.65) {\textbf{Overlay}};
+\node[role=roleIgnore]   (ign) at (0,-4.3)  {\textbf{Uncertain}};
+
+\node[meas,anchor=west] (m1) at (1.55,0.1) {\gsupport\ \textbf{Support fidelity}\\
+  \stfrozen\ fBD\down\ displacement\\ \stfrozen\ NBF\down\ background flow\\ \stcand\ source $\Delta E_{00}$\down};
+\node[meas,anchor=west,fill=snfpaper] (m3) at (1.55,-0.86) {\stfrozen\ DLR (context): support\,/\,material};
+\node[meas,anchor=west] (m2) at (1.55,-1.85) {\gmotion\ \textbf{Material motion}\\
+  \stfrozen\ MCFF-E/L flow\\ \stfrozen\ FP persistence\\ \stfrozen\ DAR (context)};
+\node[meas,anchor=west] (m4) at (1.55,-2.95) {\gintegrity\ \stopen\ Scene integrity};
+\node[anchor=west,text=snfgrey,text width=2.9cm] (m5) at (1.55,-3.97) {\gnone\ enter no measure; reported as coverage};
+
+\node[real,anchor=west] (r1) at (5.05,0.1)   {\gsupport\ \stdiag\ R1 support integrity};
+\node[real,anchor=west] (r3) at (5.05,-1.3)  {\gdirection\ \stcand\ R3 direction};
+\node[real,anchor=west] (r4) at (5.05,-1.85) {\greplay\ \stcand\ R4 replay};
+\node[real,anchor=west] (r5) at (5.05,-2.4)  {\gplaus\ \stopen\ R5 plausibility};
+\node[real,anchor=west] (r2) at (5.05,-2.95) {\gmaterial\ \stopen\ R2 material presence};
+
+\draw[wire=roleSupport]  (sup.east) -- (m1.west);
+\draw[wire=roleSupport]  (sup.east) -- ($(m3.west)+(0,0.05)$);
+\draw[wire=roleMaterial] (mat.east) -- (m2.west);
+\draw[wire=roleMaterial] (mat.east) -- ($(m3.west)+(0,-0.05)$);
+\draw[wire=roleSubject]  (sub.east) -- (m4.west);
+\draw[wire=snfgrey]      (ovl.east) -- ($(m5.west)+(0,0.08)$);
+\draw[wire=snfgrey]      (ign.east) -- ($(m5.west)+(0,-0.08)$);
+\draw[wire=roleSupport]  (m1.east) -- (r1.west);
+\foreach \r in {r3,r4,r5} \draw[wire=roleMaterial] (m2.east) -- (\r.west);
+\draw[wire=roleMaterial] (m2.east) -- (r2.west);
+\draw[wire=roleSubject]  (m4.east) -- (r2.west);
+\node[font=\scriptsize\bfseries,anchor=south] at ($(sup.north)+(0,0.15)$) {Role};
+\node[font=\scriptsize\bfseries,anchor=south] at ($(m1.north)+(0,0.05)$) {Axes and context};
+\node[font=\scriptsize\bfseries,anchor=south] at ($(r1.north)+(0,0.05)$) {Realism family};
+\end{tikzpicture}
+\caption{\textbf{Illustrative role routing.} Lines show intended inputs, not complete computational dependencies: DLR compares roles and motion compensation can use support information. Scene integrity and subject handling are planned. Overlay and uncertain pixels are excluded from the current partitioned measures and reported as coverage. Realism
+measures are reported beside the axes and never summed with them. A downward arrow marks a directional support statistic, not an overall quality score; material activity and the contextual ratios require joint interpretation. \stfrozen\ frozen definition, construct validation pending; \stcand\ development candidate;
+\stdiag\ diagnostic only; \stopen\ planned. Interactive version: \texttt{interactive/measurement\_map.html}.}
+\label{fig:routing}
+\end{figure}

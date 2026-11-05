@@ -1,0 +1,19 @@
+% Scene composition. Segments: figures/generated/scene_donut.tex (scripts/build_journal_visuals.py).
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+\input{figures/generated/scene_donut.tex}
+\begin{scope}[shift={(-2.9,-3.3)},font=\scriptsize]
+  \node[anchor=west] at (0,0) {\swatch{famWater}\,Water};
+  \node[anchor=west] at (1.55,0) {\swatch{famAir}\,Atmosphere};
+  \node[anchor=west] at (3.45,0) {\swatch{famHeat}\,Heat \& combustion};
+\end{scope}
+\end{tikzpicture}
+\caption{\textbf{Specified scene composition.} Inner ring: medium family (display grouping); outer ring:
+transport regime, labelled with T2V\,/\,I2V scene counts. Each regime holds 8.3--12.5\% of a track, but the four
+water regimes together hold 44\% (42/96 and 21/48), so water is also reported as one group. Directions are
+declared for 69/96 T2V and 43/48 I2V scenes; they are text-derived candidates pending independent annotation.
+These are specifications, not completed renders, validated masks or rights clearance. Filterable list:
+\texttt{interactive/scene\_explorer.html}.}
+\label{fig:pp_scene_distribution}
+\end{figure}

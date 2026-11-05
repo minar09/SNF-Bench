@@ -4,6 +4,68 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{xcolor}
+\usepackage{pifont}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric,decorations.pathmorphing}
 % Visible marker for unfinished content. `grep -n '\\pending' sec/*.tex` must be
 % empty before submission.
 \newcommand{\pending}[1]{\textcolor{red}{[Pending: #1]}}
+
+% ---- Colours: Okabe--Ito, safe for colour-blind readers and in greyscale by
+% shape (every colour below is paired with a symbol or a pattern).
+\definecolor{snfink}{HTML}{1F2A36}
+\definecolor{snfgrey}{HTML}{8A949E}
+\definecolor{snfpaper}{HTML}{F5F7F9}
+\definecolor{roleSupport}{HTML}{0072B2}
+\definecolor{roleMaterial}{HTML}{E69F00}
+\definecolor{roleSubject}{HTML}{009E73}
+\definecolor{roleOverlay}{HTML}{CC79A7}
+\definecolor{roleIgnore}{HTML}{AAAAAA}
+\definecolor{famWater}{HTML}{0072B2}
+\definecolor{famAir}{HTML}{56B4E9}
+\definecolor{famHeat}{HTML}{D55E00}
+
+% ---- Status symbols, used identically in every figure and table.
+%   \stfrozen  frozen definition (METRIC_SPEC v1.1); construct validation pending
+%   \stcand    development candidate (versioned cand-* identity)
+%   \stdiag    diagnostic only; never ranked (outlined square)
+%   \stopen    planned; no measurement yet
+\DeclareRobustCommand{\stfrozen}{\tikz[sharp corners,baseline=-0.55ex]\fill[snfink] (0,0) circle (0.55ex);}
+\DeclareRobustCommand{\stcand}{\tikz[sharp corners,baseline=-0.55ex]{\draw[snfink,line width=.45pt] (0,0) circle (0.55ex);
+  \fill[snfink] (0,-0.55ex) arc (-90:90:0.55ex) -- cycle;}}
+\DeclareRobustCommand{\stdiag}{\tikz[sharp corners,baseline=-0.55ex]\draw[snfink,line width=.6pt]
+  (-0.5ex,-0.5ex) rectangle (0.5ex,0.5ex);}
+\DeclareRobustCommand{\stopen}{\tikz[sharp corners,baseline=-0.55ex]\draw[snfink,line width=.55pt] (0,0) circle (0.55ex);}
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+\newcommand{\up}{\ensuremath{\uparrow}}
+\newcommand{\down}{\ensuremath{\downarrow}}
+
+% ---- Construct glyphs (TikZ, scale with the surrounding font).
+\DeclareRobustCommand{\gsupport}{\tikz[sharp corners,baseline=-0.25ex,x=1ex,y=1ex,line width=.5pt]{%
+  \draw (-0.95,-0.75) rectangle (0.95,0.75); \fill (-0.95,-0.75) -- (-0.3,0.2) -- (0.1,-0.25) -- (0.45,0.05)
+  -- (0.95,-0.45) -- (0.95,-0.75) -- cycle; \fill (0.5,0.42) circle (0.17);}}
+\DeclareRobustCommand{\gmotion}{\tikz[sharp corners,baseline=-0.25ex,x=1ex,y=1ex,line width=.6pt]{%
+  \draw plot[smooth] coordinates {(-1,0.45) (-0.5,0.8) (0,0.45) (0.5,0.1) (1,0.45)};
+  \draw plot[smooth] coordinates {(-1,-0.35) (-0.5,0) (0,-0.35) (0.5,-0.7) (1,-0.35)};}}
+\DeclareRobustCommand{\greplay}{\tikz[sharp corners,baseline=-0.25ex,x=1ex,y=1ex,line width=.55pt]{%
+  \draw[-{Stealth[length=0.6ex]}] (0.85,0.1) arc (5:330:0.8);}}
+\DeclareRobustCommand{\gdirection}{\tikz[sharp corners,baseline=-0.25ex,x=1ex,y=1ex]{%
+  \draw[line width=.9pt,-{Triangle[length=0.8ex,width=1ex]}] (-1,0)--(1,0);}}
+\DeclareRobustCommand{\gmaterial}{\tikz[sharp corners,baseline=-0.25ex,x=1ex,y=1ex,line width=.55pt]{%
+  \draw (0,1) to[out=-65,in=90] (0.68,-0.3) arc (0:-180:0.68) to[out=90,in=-115] (0,1);}}
+\DeclareRobustCommand{\gplaus}{\tikz[sharp corners,baseline=-0.25ex,x=1ex,y=1ex,line width=.5pt]{%
+  \draw (-1,0) .. controls (-0.4,0.75) and (0.4,0.75) .. (1,0)
+    .. controls (0.4,-0.75) and (-0.4,-0.75) .. (-1,0); \fill (0,0) circle (0.3);}}
+\DeclareRobustCommand{\gintegrity}{\tikz[sharp corners,baseline=-0.25ex,x=1ex,y=1ex,line width=.5pt]{%
+  \draw (-0.9,-0.7) rectangle (0.9,0.7); \draw (-0.45,0)--(0.45,0); \draw (0,-0.4)--(0,0.4);}}
+\DeclareRobustCommand{\glock}{\tikz[sharp corners,baseline=-0.25ex,x=1ex,y=1ex,line width=.5pt]{%
+  \fill (-0.7,-0.8) rectangle (0.7,0.15); \draw (-0.45,0.15)--(-0.45,0.5) arc (180:0:0.45)--(0.45,0.15);}}
+\DeclareRobustCommand{\ghuman}{\tikz[sharp corners,baseline=-0.25ex,x=1ex,y=1ex]{%
+  \fill (0,0.5) circle (0.38); \fill (-0.7,-0.85) .. controls (-0.7,0.05) and (0.7,0.05) .. (0.7,-0.85) -- cycle;}}
+\DeclareRobustCommand{\gclock}{\tikz[sharp corners,baseline=-0.25ex,x=1ex,y=1ex,line width=.5pt]{%
+  \draw (0,0) circle (0.85); \draw (0,0)--(0,0.55); \draw (0,0)--(0.4,-0.2);}}
+\DeclareRobustCommand{\gnone}{\tikz[sharp corners,baseline=-0.25ex,x=1ex,y=1ex,line width=.55pt]{%
+  \draw (0,0) circle (0.8); \draw (-0.56,-0.56)--(0.56,0.56);}}
+% Role swatch: \swatch{roleSupport}
+\DeclareRobustCommand{\swatch}[1]{\tikz[sharp corners,baseline=-0.35ex]\fill[#1] (0,-0.6ex) rectangle (1.4ex,0.8ex);}

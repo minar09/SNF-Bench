@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SNF-Bench++ rollout viewer</title>
+<style>
+:root{--ink:#1f2a36;--muted:#5d6b78;--line:#d3dae1;--paper:#f5f7f9;--bg:#fff;--accent:#0072b2;--warm:#e69f00}
+@media (prefers-color-scheme:dark){:root{--ink:#e6ebf0;--muted:#9aa7b4;--line:#34404c;--paper:#1b232c;--bg:#11171d;--accent:#56b4e9}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:1280px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:1.35rem;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 14px;max-width:80ch}
+.bar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding:10px 12px;border:1px solid var(--line);
+  border-radius:8px;background:var(--paper);position:sticky;top:0;z-index:5}
+.tabs button,.seg button{font:inherit;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:4px 10px;
+  cursor:pointer}
+.tabs button:first-child,.seg button:first-child{border-radius:6px 0 0 6px}
+.tabs button:last-child,.seg button:last-child{border-radius:0 6px 6px 0}
+.tabs button[aria-pressed=true],.seg button[aria-pressed=true]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.time{display:flex;align-items:center;gap:8px;flex:1 1 320px}
+.time input{flex:1}
+.clock{font-variant-numeric:tabular-nums;min-width:4.5em;font-weight:600}
+#play{font:inherit;width:2.2em;height:2.2em;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.prompt{margin:12px 0 10px;font-style:italic;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.tile{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);cursor:pointer;position:relative}
+.tile[aria-selected=true]{outline:3px solid var(--warm);outline-offset:-1px}
+.tile .img{position:relative;aspect-ratio:416/240;background:#000}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.tile img.map{opacity:var(--op,0)}
+.tile .cap{display:flex;justify-content:space-between;padding:5px 9px;font-size:.9rem}
+.tile .cap b{font-weight:600}
+.legend{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:10px 0 0;color:var(--muted);font-size:.85rem}
+.legend img{height:22px;background:#fff;border-radius:3px}
+section.compare{margin-top:22px;border-top:1px solid var(--line);padding-top:14px}
+.wipe{position:relative;max-width:832px;aspect-ratio:416/240;user-select:none;touch-action:none;border-radius:8px;overflow:hidden;background:#000}
+.wipe img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.wipe .top{clip-path:inset(0 calc(100% - var(--x,50%)) 0 0)}
+.wipe .handle{position:absolute;top:0;bottom:0;left:var(--x,50%);width:2px;background:#fff;box-shadow:0 0 0 1px #0006}
+.wipe .lab{position:absolute;top:8px;padding:2px 8px;border-radius:4px;background:#000a;color:#fff;font-size:.85rem}
+.strip{display:flex;gap:4px;overflow-x:auto;margin-top:10px;padding-bottom:6px}
+.strip figure{margin:0;flex:0 0 120px;cursor:pointer;opacity:.75}
+.strip figure[aria-current=true]{opacity:1;outline:2px solid var(--warm)}
+.strip img{width:120px;display:block;border-radius:3px}
+.strip figcaption{font-size:.75rem;color:var(--muted);text-align:center}
+.note{font-size:.85rem;color:var(--muted);margin-top:18px;max-width:90ch}
+kbd{border:1px solid var(--line);border-radius:3px;padding:0 4px;font-size:.8rem}
+</style>
+</head>
+<body>
+<main>
+<h1>Rollout viewer: seven published systems, 240&nbsp;s</h1>
+<p class="sub">One output per system and prompt, frames every 10&nbsp;s, all scrubbed together. Companion to the
+paper's qualitative figures; historical outputs use one common inference configuration, not each method's native pipeline. Selection rule and hashes are in <code>figures/snapshots/SNAPSHOTS.json</code>.
+Click two tiles to compare them with a wipe.</p>
+
+<div class="bar" role="toolbar" aria-label="Viewer controls">
+  <div class="tabs" id="prompts" role="group" aria-label="Prompt"></div>
+  <div class="time">
+    <button id="play" aria-label="Play">&#9654;</button>
+    <input id="t" type="range" min="0" max="240" step="10" value="0" aria-label="Time in seconds">
+    <span class="clock" id="clock">0 s</span>
+  </div>
+  <div class="seg" id="layer" role="group" aria-label="Overlay">
+    <button data-v="frame" aria-pressed="true">Frame</button>
+    <button data-v="change" aria-pressed="false">Changed 0&rarr;240&nbsp;s</button>
+    <button data-v="motion" aria-pressed="false">Frame change (late)</button>
+  </div>
+  <label>Map opacity <input id="op" type="range" min="0" max="100" value="100" aria-label="Map opacity"></label>
+</div>
+
+<p class="prompt" id="ptext"></p>
+<div class="grid" id="grid"></div>
+<div class="legend">
+  <span>Change map: |mean of first second &minus; mean of last second| <img src="assets/colourbar_change.png" alt="colour scale 0 to 100 grey levels"></span>
+  <span>Late frame change: mean successive change, last 12% at 8&nbsp;fps <img src="assets/colourbar_motion.png" alt="colour scale 0 to 12 grey levels"></span>
+</div>
+
+<section class="compare" id="compare" hidden>
+  <h2 style="font-size:1.1rem;margin:0 0 8px">Compare <span id="cmpnames"></span></h2>
+  <div class="wipe" id="wipe" aria-label="Drag to compare">
+    <img class="bot" id="wb" alt=""><img class="top" id="wt" alt="">
+    <div class="handle"></div><span class="lab" id="lt" style="left:8px"></span><span class="lab" id="lb" style="right:8px"></span>
+  </div>
+  <div class="strip" id="strip" aria-label="Time strip"></div>
+</section>
+
+<p class="note">Maps are fixed summaries of the entire specified window, overlaid on the selected frame; late frame change also includes flicker and is not a motion measurement. They are visualizations on fixed colour scales without region masks and do not
+rank systems. One output per system per prompt. Playback advances 10 s of video per 0.45 s of display, and 240 s denotes the final available frame. Keys: <kbd>&larr;</kbd>/<kbd>&rarr;</kbd> step 10&nbsp;s,
+<kbd>space</kbd> play, <kbd>1</kbd>&ndash;<kbd>4</kbd> prompt, <kbd>f</kbd>/<kbd>c</kbd>/<kbd>m</kbd> layer.</p>
+</main>
+<script src="assets/snapshots.js"></script>
+<script>
+(function () {
+  const S = window.SNAPSHOTS, STEP = 10, END = 240;
+  const st = {p: 0, t: 0, layer: 'frame', op: 1, pick: [], timer: null};
+  const $ = id => document.getElementById(id);
+  const tag = t => 't' + String(t).padStart(3, '0');
+  const src = (key, what) => `assets/t2v240/${S.prompts[st.p].id}/${key}_${what}.jpg`;
+
+  S.prompts.forEach((p, i) => {
+    const b = document.createElement('button');
+    b.textContent = 'Prompt ' + (i + 1);
+    b.title = p.prompt;
+    b.onclick = () => setPrompt(i);
+    $('prompts').appendChild(b);
+  });
+  const tiles = S.systems.map(s => {
+    const el = document.createElement('div');
+    el.className = 'tile'; el.tabIndex = 0; el.setAttribute('role', 'button');
+    el.innerHTML = `<div class="img"><img class="fr" alt=""><img class="map" alt=""></div>
+      <div class="cap"><b>${s.name}</b><span class="tt"></span></div>`;
+    el.onclick = () => togglePick(s.key);
+    el.onkeydown = e => { if (e.key === 'Enter') togglePick(s.key); };
+    $('grid').appendChild(el);
+    return {s, el, fr: el.querySelector('.fr'), map: el.querySelector('.map'), tt: el.querySelector('.tt')};
+  });
+
+  function render() {
+    [...$('prompts').children].forEach((b, i) => b.setAttribute('aria-pressed', i === st.p));
+    $('ptext').textContent = '“' + S.prompts[st.p].prompt + '…”';
+    $('t').value = st.t; $('clock').textContent = st.t + ' s';
+    const showMap = st.layer !== 'frame';
+    tiles.forEach(x => {
+      x.fr.src = src(x.s.key, tag(st.t));
+      x.fr.alt = `${x.s.name} at ${st.t} s`;
+      if (showMap) { x.map.src = src(x.s.key, st.layer); x.map.alt = `${x.s.name} ${st.layer} map`; }
+      x.el.style.setProperty('--op', showMap ? st.op : 0);
+      x.tt.textContent = showMap ? (st.layer === 'change' ? 'changed 0→240 s' : 'late frame change') : st.t + ' s';
+      x.el.setAttribute('aria-selected', st.pick.includes(x.s.key));
+    });
+    [...$('layer').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.v === st.layer));
+    renderCompare();
+  }
+  function setPrompt(i) { st.p = i; render(); }
+  function setTime(t) { st.t = Math.max(0, Math.min(END, t)); render(); }
+  function togglePick(k) {
+    st.pick = st.pick.includes(k) ? st.pick.filter(x => x !== k) : [...st.pick, k].slice(-2);
+    render();
+  }
+  function renderCompare() {
+    const on = st.pick.length === 2; $('compare').hidden = !on;
+    if (!on) return;
+    const [a, b] = st.pick, name = k => S.systems.find(s => s.key === k).name;
+    const what = st.layer === 'frame' ? tag(st.t) : st.layer;
+    $('wt').src = src(a, what); $('wb').src = src(b, what);
+    $('lt').textContent = name(a); $('lb').textContent = name(b);
+    $('cmpnames').textContent = `${name(a)} ↔ ${name(b)}`;
+    const strip = $('strip'); strip.replaceChildren();
+    for (let t = 0; t <= END; t += STEP) {
+      const f = document.createElement('figure');
+      f.setAttribute('aria-current', t === st.t);
+      f.innerHTML = `<img src="${src(a, tag(t))}" alt="${name(a)} at ${t} s"><figcaption>${t} s</figcaption>`;
+      f.onclick = () => setTime(t);
+      strip.appendChild(f);
+    }
+  }
+  function play() {
+    if (st.timer) { clearInterval(st.timer); st.timer = null; $('play').innerHTML = '&#9654;'; return; }
+    $('play').innerHTML = '&#10074;&#10074;';
+    st.timer = setInterval(() => setTime(st.t >= END ? 0 : st.t + STEP), 450);
+  }
+  const wipe = $('wipe');
+  function drag(e) {
+    const r = wipe.getBoundingClientRect();
+    const x = Math.max(0, Math.min(1, ((e.touches ? e.touches[0].clientX : e.clientX) - r.left) / r.width));
+    wipe.style.setProperty('--x', (x * 100).toFixed(1) + '%');
+  }
+  wipe.addEventListener('pointerdown', e => { drag(e); wipe.setPointerCapture(e.pointerId); wipe.onpointermove = drag; });
+  wipe.addEventListener('pointerup', () => { wipe.onpointermove = null; });
+
+  $('t').oninput = e => setTime(+e.target.value);
+  $('play').onclick = play;
+  $('op').oninput = e => { st.op = e.target.value / 100; render(); };
+  [...$('layer').children].forEach(b => b.onclick = () => { st.layer = b.dataset.v; render(); });
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT') return;
+    if (e.key === 'ArrowRight') setTime(st.t + STEP);
+    else if (e.key === 'ArrowLeft') setTime(st.t - STEP);
+    else if (e.key === ' ') { e.preventDefault(); play(); }
+    else if ('1234'.includes(e.key) && S.prompts[+e.key - 1]) setPrompt(+e.key - 1);
+    else if (e.key === 'f') { st.layer = 'frame'; render(); }
+    else if (e.key === 'c') { st.layer = 'change'; render(); }
+    else if (e.key === 'm') { st.layer = 'motion'; render(); }
+  });
+  render();
+})();
+</script>
+</body>
+</html>

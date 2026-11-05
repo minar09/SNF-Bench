@@ -3,6 +3,10 @@
 \subsection{Existing Evidence}
 The existing source-fixed port was checked on two nine-scene, 60-second subsets against stored scores. These checks establish numerical reproduction on those inputs, not construct validity. Existing 60-second image-conditioned scores permit matched comparison of source-fixed SNF, VBench-I2V and VBench-Long on shared source scenes. The 120- and 240-second method records score 60-second endpoint windows of separately requested generations; these should not be interpreted as trajectories of a single rollout. Historical text-to-video records use different mask and measurement identities and are reported separately.
 
+\input{sec/fig_qualitative}
+
+Figure~\ref{fig:qualitative} shows the seven historical text-to-video checkpoints at the longest existing horizon; Fig.~\ref{fig:qualitative_all} shows all four prompts with outputs from all seven, with none excluded. These are historical outputs from the recorded common inference configuration on the earlier prompt set, not native-pipeline results or the expanded suite. A source-matched image-to-video panel awaits native renders of the published entrants.
+
 \subsection{Leaderboard}
 Results are reported per track and horizon as per-axis profiles with 95\% source-clustered bootstrap intervals~\cite{efron1979bootstrap}, macro-averaged over regimes, with eligibility counts beside every value. No single summed score is reported. \pending{leaderboard tables per track and horizon}
 
