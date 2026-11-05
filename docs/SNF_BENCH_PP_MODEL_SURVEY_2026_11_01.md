@@ -113,3 +113,40 @@ separate cost/disclosure tier, with no claimed open reproducibility.
    [TCSVT execution protocol](TCSVT_JOURNAL_EXECUTION_PROTOCOL_2026_11_01.md)
    requires independent annotations, natural periodic negatives, replay and
    direction controls, and blinded human judgments. It is **not completed**.
+
+## Addendum 2026-11-04: new papers and run decisions
+
+Panel rule, confirmed 2026-11-04: published methods only, each as its single
+released configuration. Steady-Forcing (arXiv 2606.14732) and SceneTether are
+entered as independent preprints; SceneTether only once its preprint is public. Internal CF++ variants (Echo,
+spatial Echo, static sink, age decay, etc.) are development references only.
+They appear in no journal table, which includes the rows in
+`EXISTING_SCORE_COMPARISONS_2026_10_30.md`.
+
+A new paper gets an SNF-Bench++ run only when **all** of these hold:
+
+1. official code and inference weights are released;
+2. it supports fixed-camera T2V or I2V at ≥ 60 s, natively or by a documented
+   extension;
+3. it is not the same base and policy as an existing entrant;
+4. GPU time is available under the GPU-2/3 rules.
+
+| paper | track | relevance | code / weights found | decision |
+|---|---|---|---|---|
+| [LongTake](https://arxiv.org/abs/2609.38562) | T2V AR | directly targets near-static collapse of long rollouts, the SNF failure axis | not found | **high priority** when released |
+| [FluidGen](https://arxiv.org/html/2610.25660v1) | I2V, 14B | fluid-physics post-training with a predicted velocity field; on-topic for the I2V media | paper says code and model *will be* released; trained on 81-frame clips | **high priority** when released; not yet a runnable 60 s baseline, likely a short-clip tier |
+| [Attn-Forcing](https://arxiv.org/html/2610.30036) | T2V streaming | learned full-context attention proxies (3-frame sink, 9-frame window) | not found | watchlist |
+| [Ms. Forcing](https://arxiv.org/html/2607.20940v1), [Surprise Forcing](https://arxiv.org/pdf/2607.18436), [DySink](https://arxiv.org/pdf/2605.21028) | T2V streaming | memory/sink policies; reports drift vs Rolling Forcing | to verify | medium; check releases at freeze |
+| [FreqForcing](https://arxiv.org/html/2607.27110) | T2V | spectral anchoring | inference code not released (known) | watchlist |
+| [Physics-grounded fluid generation](https://arxiv.org/abs/2607.25321) | I2V | indoor pouring/sloshing | — | out of scope |
+| [AniGS](https://arxiv.org/abs/2607.18539) | 3D scene animation | not a video generator on our inputs | — | out of scope |
+
+As of today, none of the new papers meets rule 1, so **no new runs are
+scheduled**. The existing high-priority list above (Context Forcing, SGF+,
+LongCat-Video, SkyReels-V2 DF, SVI, Helios, LTX-2.x) stands. A single-image
+cinemagraph method (Holynski et al., CVPR 2021, code released) is added as a
+published composite-type entrant; see `SNF_PP_REALISM_DESIGN_2026_11_04.md`
+§4 C6.
+
+Metric papers found in the same search (TRAJAN, 3DSPA, FVMD) are folded into
+that design doc.

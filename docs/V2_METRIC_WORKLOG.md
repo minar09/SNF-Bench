@@ -167,3 +167,45 @@ jobs. Previously missing 120/240 s TetherCache-style endpoint-window score
 records were found and imported without generation or rescoring. See the
 [GPU and reuse snapshot](GPU23_RUN_AND_REUSE_STATUS_2026_11_01.md) for exact
 coverage, values and pending work.
+
+### 2026-11-04: pixelwise colour for SceneTether; first support-realism pilot
+
+* **SceneTether pixelwise colour.** CIEDE2000 on the late window, n = 42
+  (`manifest/pixelwise_colour_audit_scenetether.json`). Against all three
+  references, the mean and the 90th percentile are lower with intervals
+  excluding zero. H1-FM's region-mean advantage does not hold pixelwise (see
+  `H1FM_CVPR_SNF_SUPPORT.md` §5).
+* **Input hashes.** All 384 records behind both audits match their stored
+  video and source hashes. The audit script now enforces this on every run.
+* **Support-realism pilot.** On SceneTether vs its source-pixel composite
+  (`SNF_PP_REALISM_DESIGN_2026_11_04.md` §5.1):
+  * successive-frame support change (renamed from `support_noise`) separates 42/42, but the paste was re-encoded and the original was not, so encoding histories differ; rerun against pass-through re-encodes (`SNF_PP_REALISM_AND_REVIEW_PLAN_2026_11_04.md`);
+  * edge spill is inverted by codec bleed and is rejected;
+  * boundary step separates 13/13 eligible scenes.
+  * No real-footage band exists yet, so none of this measures realism.
+* 120 tests pass.
+
+
+### 2026-11-04 (later): control and pilot safeguards; three findings on synthetic data
+
+Following `SNF_PP_REALISM_DECISION_REVIEW_2026_11_04.md`. No existing video
+was read; the reuse question in `SNF_PP_REALISM_AND_REVIEW_PLAN_2026_11_04.md`
+§6 is still open.
+
+* **Builder.** `build_composite_controls.py` never overwrites. It checks each
+  output's decoded metadata with PyAV before publishing the file.
+* **Pilot.** `pilot_support_realism.py` requires and verifies the full
+  parent/source/mask/output hash chain and never overwrites a report. It
+  records abstention reasons and the sampling actually used.
+* **Bug: mask-edge bias in drift compensation.** Phase correlation on the
+  masked support locked onto the fixed mask edge: a textureless support gave a
+  0.998 peak at zero shift. Drift on weakly textured supports would have been
+  left in, silently. Fixed by mean-subtracting inside the support, plus a
+  texture floor and a peak-response floor that abstain.
+* **Ignore band explains the 13/41 eligibility.** The v2 role maps keep 3–108
+  px (median 7) between support and dynamic. Measuring boundary bands from
+  where the support starts (`cand-edge-profile-1`) makes 37/41 scenes
+  eligible, checked on the masks alone.
+* **Codec erases fine grain.** On a synthetic clip, about 5 grey levels of
+  i.i.d. noise came out of default H.264 encoding as zero support change.
+* 126 tests pass.

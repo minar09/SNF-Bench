@@ -1,0 +1,3459 @@
+{
+ "entrant": "cfpp/echo_nfpb1_fp_pool_lr/seed42",
+ "reference": "passthrough",
+ "reference_mode": "passthrough_crf18",
+ "identity": {
+  "support_change": "cand-support-change-0",
+  "support_change_comp": "cand-support-change-comp-0",
+  "edge_profile": "cand-edge-profile-1"
+ },
+ "late_window": 0.12,
+ "near_px": 8,
+ "far_px": 32,
+ "min_px": 200,
+ "erode_px": 6,
+ "phase_min_response": 0.05,
+ "sample_fps": 8,
+ "caveat": "separability from constructed controls only; no real-footage band; one entrant, one seed; development data",
+ "summary": {
+  "control_composite": {
+   "support_change": {
+    "n_eligible": 42,
+    "n_attempted": 42,
+    "reference_median": 4.4642857142857135,
+    "control_median": 0.6741071428571428,
+    "reference_minus_control": [
+     3.879464285714285,
+     2.8762648809523808,
+     5.063988095238095
+    ],
+    "frac_reference_above_control": 1.0
+   },
+   "support_change_comp": {
+    "n_eligible": 42,
+    "n_attempted": 42,
+    "reference_median": 3.75067138671875,
+    "control_median": 1.3116673060825894,
+    "reference_minus_control": [
+     2.844745039128933,
+     1.974480811917052,
+     3.8586127352552353
+    ],
+    "frac_reference_above_control": 1.0
+   },
+   "edge_spill": {
+    "n_eligible": 37,
+    "n_attempted": 42,
+    "reference_median": 1.0776855188865968,
+    "control_median": 2.7903407219141236,
+    "reference_minus_control": [
+     -34.4458434040389,
+     -74.67709241678801,
+     -4.921618188214709
+    ],
+    "frac_reference_above_control": 0.08108108108108109
+   },
+   "boundary_step": {
+    "n_eligible": 37,
+    "n_attempted": 42,
+    "reference_median": 0.777934614520729,
+    "control_median": 0.7844635833873205,
+    "reference_minus_control": [
+     0.07342085388591615,
+     0.0015448577127065465,
+     0.14662575470450295
+    ],
+    "frac_reference_above_control": 0.7297297297297297
+   }
+  }
+ },
+ "rows": [
+  {
+   "scene": "icf01",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "9549ddf7f1d6e4122aa3ba0b3c0ecd4a953a49867677bfe6d82ba8ebb6f8b0e4",
+    "mask_labels_sha256": "d02d81164a4e00d0497af15b0ea14690341f6c0a59b88bca48b6c3814a8da38e",
+    "source_sha256": "9f4be4366ea473cfda581e9bd9c196b1c5bbc665584cede6dcc65bdb27048e0e"
+   },
+   "reference_sha256": "d58f5dd5f20359663823d32f4b533bed6fafd7982584920272073fb3c23e3c4f",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 8.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "ee98d01a70679b7046d018dee5be5b1c512c4294e47a91c20a68f13b2e08b7d1",
+   "ref": {
+    "support_change": 4.035714285714286,
+    "support_change_comp": 3.542201450892857,
+    "support_gap_px": 8.0,
+    "edge_spill": 1.223745540258567,
+    "boundary_step": 0.5149690476760431,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9613663808157137
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "5aeb8b7062f8d2bd01d8615d653f59f00768c05deb5e3d5bcdbdb55dd69fabfb",
+     "support_change": 1.2857142857142858,
+     "support_change_comp": 1.9781930106026786,
+     "support_gap_px": 8.0,
+     "edge_spill": 1.2406252516585998,
+     "boundary_step": 0.39246853018383393,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9442765649439819
+     }
+    }
+   }
+  },
+  {
+   "scene": "icf02",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "983be00e2bc8acc83afe5c3192cc1a1264f909c2f7317c777b10ba6a87909e65",
+    "mask_labels_sha256": "3218fe5448f030a265145c6c703357b27aba4cbd5630ef4d01354acc1ad7d2a5",
+    "source_sha256": "fd6c6b3970216a881d4f3aebc0c49819f595ca6951738550d54e645f3ff20729"
+   },
+   "reference_sha256": "e57b976fa1e60eab0f0e05486a4ccdc3d96517e5bdc7d8a71fd54a1c676a3620",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 7.0,
+    "edge_spill": 1.5945546587301205,
+    "boundary_step": 0.9113968434473965,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.999995543371702
+    }
+   },
+   "static_sha256": "9d763b2164104a658d2f0a16450d32d1f69186eb3340d8fbd0c6e5ff482d191a",
+   "ref": {
+    "support_change": 6.392857142857143,
+    "support_change_comp": 4.842197963169643,
+    "support_gap_px": 7.0,
+    "edge_spill": 1.5821520820132924,
+    "boundary_step": 1.262744936128309,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.955119691538697
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "f4de2af6b3f3ee621f35b60f2fdafdc5efb0990fa36f433720fd53f272bb4dd7",
+     "support_change": 3.3035714285714284,
+     "support_change_comp": 3.289219447544643,
+     "support_gap_px": 7.0,
+     "edge_spill": 1.3873548116460905,
+     "boundary_step": 0.8571773085482105,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9978005922016275
+     }
+    }
+   }
+  },
+  {
+   "scene": "icf03",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "22f06d6fd47a11177b084406f4627ebe768f98cf81e48a405e94088e87bdeb65",
+    "mask_labels_sha256": "d955e803dd78031db59373f3df794f3c4a41dc8bd2957d07e8e5b9fe4a6e5e38",
+    "source_sha256": "126836b2aedeb04a563d068faaba0f5a19264a8b7086baa520729102d8c835c0"
+   },
+   "reference_sha256": "c9b9abe229e5aaf5e54a7317ed0f860535e944bb1066a53f1fbcd357e92f630c",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 3.0,
+    "edge_spill": 1.2542136503563108,
+    "boundary_step": 37.52486021989568,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "2414bc738d3035ad49ff967b7caf1504e069ec3ef92501b278b6e9770da366fe",
+   "ref": {
+    "support_change": 17.482142857142858,
+    "support_change_comp": 4.824863978794642,
+    "support_gap_px": 3.0,
+    "edge_spill": 0.715463070448399,
+    "boundary_step": 1.0564187813992412,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9287404236576211
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "ca9e7153ac35c2be11b0f1c530cebe95ee57d1c2596821d4556a8f0b4218cd43",
+     "support_change": 13.696428571428571,
+     "support_change_comp": 4.722638811383929,
+     "support_gap_px": 3.0,
+     "edge_spill": 0.7714743203655512,
+     "boundary_step": 1.01066079149436,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.8881409163813696
+     }
+    }
+   }
+  },
+  {
+   "scene": "icf04",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "25bbde47f102a0f57c81dc306dee501c5c188f544166e9c0b4857cb2465469e1",
+    "mask_labels_sha256": "1d7a9104483e253d093686e82274c82c6bfe718eb8b858742f96f8404c9d7a72",
+    "source_sha256": "cd12c1ce8e17b2b36622902daa0b72af3ba7fe0378d6bc7b8d799413527cd4e5"
+   },
+   "reference_sha256": "3bbbdef46d137f43508904f21abd9dcfa7f09a804734c63567fc727ba2c8981c",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 7.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "4b254da3dc21080df7dccb12f5c68f32528e3961d195183bc7a683882b8a0e89",
+   "ref": {
+    "support_change": 4.446428571428571,
+    "support_change_comp": 3.959141322544643,
+    "support_gap_px": 7.0,
+    "edge_spill": 1.9351658171871797,
+    "boundary_step": 0.6483946083867929,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9672414793296471
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "c4ef4db9ab4163b8ccd77311bdeb6746fb756701abd4152b25bb3dea8be8c7cb",
+     "support_change": 3.5535714285714284,
+     "support_change_comp": 3.2857142857142856,
+     "support_gap_px": 7.0,
+     "edge_spill": 2.605457898277696,
+     "boundary_step": 0.6233947188395549,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9648401326514929
+     }
+    }
+   }
+  },
+  {
+   "scene": "icf05",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "3fd05c419cc98cba43643cd1c1924c54fe0c6be991b35aa6f65c740b5997f9c2",
+    "mask_labels_sha256": "c9a1a6df2aeed6882a5a39be5d2b888fc67ef0f2b1bf5c9899eb8599e663d100",
+    "source_sha256": "4a431bf0c83c381d6c4679ab267eb20130c312a30bd49f4ad427c0f53c38c37c"
+   },
+   "reference_sha256": "69cad0f5b1298db585aa7c388811e7b4c9ba3a7c15d4bc560f0f35c27bb82147",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 4.996899604797363,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "d447531f139c96a49aa87478fc95f0b648363600709a885b0aa005671d0a0873",
+   "ref": {
+    "support_change": 9.785714285714286,
+    "support_change_comp": 7.353306361607143,
+    "support_gap_px": 4.996899604797363,
+    "edge_spill": 0.6583094860639691,
+    "boundary_step": 0.777934614520729,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9266866235052847
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "2ffbd8eb9985ce62decc18ddd91a769aa2e3a46e125f19955f10ed39197faccf",
+     "support_change": 4.732142857142857,
+     "support_change_comp": 4.705845424107143,
+     "support_gap_px": 4.996899604797363,
+     "edge_spill": 1.157466889450456,
+     "boundary_step": 0.8087724900924013,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9406217404502146
+     }
+    }
+   }
+  },
+  {
+   "scene": "icf06",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "5ac4664784389f37c014aaa42221ff28e046ad27764eda94cc64534b3d63807f",
+    "mask_labels_sha256": "1f4d9aa2d54fead988f10f3a9ae0b0b633ba2ed264ccd503d770636ea9e25ccf",
+    "source_sha256": "ff4fd706efe386aa45e75064dd44f72f7fbc45b45c604b9e48050b9cccfff4f6"
+   },
+   "reference_sha256": "5f88de813bbfa990dd59cd8c6af9fe02392667025201fcdde5cd4b2ba0ad2602",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 7.0,
+    "edge_spill": 284.4141069397042,
+    "boundary_step": 284.4141069397042,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "85268aba663d805f65d24ddff04fc5b6d78b1543f369b8804b0f8698c4cbb61c",
+   "ref": {
+    "support_change": 8.142857142857142,
+    "support_change_comp": 6.612165178571429,
+    "support_gap_px": 7.0,
+    "edge_spill": 1.2319400633063535,
+    "boundary_step": 0.6290918319392457,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9894581286764762
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "13b6534fdcac53fa0456a83f195c2aa9d89e72e8d538d15342248503e5835460",
+     "support_change": 4.857142857142857,
+     "support_change_comp": 4.352774483816964,
+     "support_gap_px": 7.0,
+     "edge_spill": 1.6822578434513977,
+     "boundary_step": 0.5997857435319556,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.974772160464547
+     }
+    }
+   }
+  },
+  {
+   "scene": "iow01",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "147c7e7ad60e0566b9e5e45845821db1c636f030897afcf96af54b604bce1c98",
+    "mask_labels_sha256": "1ecb8eecb33e372c7030bd44a7c7723fee4c0b621c98434596ae717defe61de2",
+    "source_sha256": "5329ad5480c595fce303d7d6b8d2f0700d9159031f6cc411d93216489c61d738"
+   },
+   "reference_sha256": "5d0482eba0895002bb95dbf5e4212a8128c3defb8e3a89cff1648e26ff8a63e1",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 9.1968994140625,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "06016c1993ac1764e3d273d4b6bff09e8cd2bb5f745627d8f8b3903b401c4ea5",
+   "ref": {
+    "support_change": 0.75,
+    "support_change_comp": 0.6392473493303572,
+    "support_gap_px": 9.1968994140625,
+    "edge_spill": 0.16356815284925055,
+    "boundary_step": 0.07875570000868781,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9789742394963286
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "6a9e1b2a18ea9d9a6bb1357562936c847a123b002c6dca3a28f7d5aefd2392ba",
+     "support_change": 0.5714285714285714,
+     "support_change_comp": 0.5129220145089286,
+     "support_gap_px": 9.1968994140625,
+     "edge_spill": 0.1685286268243283,
+     "boundary_step": 0.0643446378070048,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9817187634958942
+     }
+    }
+   }
+  },
+  {
+   "scene": "iow02",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "45bd0c188b20352dfcf3c56796ab82eb7512e391d0654191687b5e110a08bef4",
+    "mask_labels_sha256": "e6d9afd0ee72c32ab7f5255fa2867578ad8ad83f0828a0652dc3d4573c2f860e",
+    "source_sha256": "97cddd9625d569cb14e5deba60491c95f12a957ff78601d173e5aaf3c1d616df"
+   },
+   "reference_sha256": "dd6df3a5179e8407fba5eda11dc20b3c978a08d3e0354c7e88f4c4f98e5d0fa0",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 3.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "0edcc2ed0e8e0163ec2139bca9b72033025a53c766bc4ab0568076b2700ecfd2",
+   "ref": {
+    "support_change": 2.4285714285714284,
+    "support_change_comp": 2.2972848074776784,
+    "support_gap_px": 3.0,
+    "edge_spill": 1.5376291623112106,
+    "boundary_step": 0.7706770305118834,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.8319518926940119
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "86c789446028709174365c227721e79d77f2f59830de26ab9c648584890d77d7",
+     "support_change": 0.6071428571428571,
+     "support_change_comp": 0.8348214285714286,
+     "support_gap_px": 3.0,
+     "edge_spill": 3.6477366431933906,
+     "boundary_step": 0.6137460074607312,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9150766160756008
+     }
+    }
+   }
+  },
+  {
+   "scene": "iow03",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "26a5bc07207a5ddd6fa5eaa15e1cca177d4cbc614a74bbffa30940e5cf26ebf7",
+    "mask_labels_sha256": "1041bed3378ea0bad517bce1bdcf6919682ef0088803fee9a9f65a9616d9c768",
+    "source_sha256": "32b5209eae6f5d4124f10f5f830c5b7ceca37802e9ae15cc720e8dd5826a5653"
+   },
+   "reference_sha256": "2e6a140bf49219544910ba15967413ace1d0f99d7ce7daf2cf94a224db402f9f",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 7.0,
+    "edge_spill": 3.1921957199039785,
+    "boundary_step": 3.1921957199039785,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "4f97ae3e9c76ab089e2a01be6260e40e99e2f97af277e57a37ae994b986892ea",
+   "ref": {
+    "support_change": 9.785714285714286,
+    "support_change_comp": 9.613211495535714,
+    "support_gap_px": 7.0,
+    "edge_spill": 1.0419259989368355,
+    "boundary_step": 0.9424108705990947,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.8330355122332584
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "0672df3d9f759865dde70cc0f968f47884de64673e4f550c5a6d543c061d5411",
+     "support_change": 4.035714285714286,
+     "support_change_comp": 4.278878348214286,
+     "support_gap_px": 7.0,
+     "edge_spill": 1.560585910151127,
+     "boundary_step": 0.8623785732389291,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.8189667890864081
+     }
+    }
+   }
+  },
+  {
+   "scene": "iow04",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "bcc7fef25f14056fa74b272c470a6dd12739a01cafdf231961917308b7ea3c3a",
+    "mask_labels_sha256": "5e01de97c5eabe99117db64df283b5f23f382a2501380e8fb408beb516e422a9",
+    "source_sha256": "8c3c49b5bee034a7a3288a106a6cc5631fc0e8a7479c99d717ec6aa57b69cac3"
+   },
+   "reference_sha256": "ff843e879810d904293b2d621e691ccb5af0be8118371c11de76694723520d0d",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 108.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "f0f0c9a5d986511aa439602de39b1a9266b2cb0ed37b2b95b50452b79474a42a",
+   "ref": {
+    "support_change": 1.6964285714285714,
+    "support_change_comp": 1.5425851004464286,
+    "support_gap_px": 108.0,
+    "edge_spill": 0.687103005270188,
+    "boundary_step": 0.3597541860488001,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9983180695072098
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "dd94b51fcff20cb9fa2f02acdc2033a16331d36267f842a6ce76083f688998a8",
+     "support_change": 0.0,
+     "support_change_comp": 0.025111607142857144,
+     "support_gap_px": 108.0,
+     "edge_spill": 0.0,
+     "boundary_step": 0.0,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9999866258818384
+     }
+    }
+   }
+  },
+  {
+   "scene": "iow05",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "dbd86fc972fb5f9a3465dce07a9261a1f4d1b7fa0635665be6aa192dec6964f8",
+    "mask_labels_sha256": "3dfab550e9d92a3d5516ab5faeb1a9f44abd82c60cc189d53714f4f2aa8ae6ed",
+    "source_sha256": "ea4c5b3b167a3d8e928b9b2120fc9bebb694911cfd9f2cef931805fedcddb360"
+   },
+   "reference_sha256": "6b716bd7f150f691a7201314932334fe8692af4d293bbb5b721d5e6f72e7ce56",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 7.393799781799316,
+    "abstain": {
+     "edge_spill": "near 131 / far 118545 px < 200",
+     "boundary_step": "near 131 / inner 9741 px < 200"
+    },
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "acc6f1f3b1d3494078628a1ed43e5c3dbdb2bf009202460ec7074425ea9bb2e6",
+   "ref": {
+    "support_change": 2.2142857142857144,
+    "support_change_comp": 2.1301967075892856,
+    "support_gap_px": 7.393799781799316,
+    "abstain": {
+     "edge_spill": "near 131 / far 118545 px < 200",
+     "boundary_step": "near 131 / inner 9741 px < 200"
+    },
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9719352859862329
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "ca17ad8c3b0b015db349f596938cffb107a396da91623bd253dbc55eb59def22",
+     "support_change": 0.0,
+     "support_change_comp": 0.3702828543526786,
+     "support_gap_px": 7.393799781799316,
+     "abstain": {
+      "edge_spill": "near 131 / far 118545 px < 200",
+      "boundary_step": "near 131 / inner 9741 px < 200"
+     },
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 1.0068206111834368
+     }
+    }
+   }
+  },
+  {
+   "scene": "ial01",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "04816f74fd2f0ada2ee300a2d8546bf1751f7dde8f892005c4d020a434bb8f88",
+    "mask_labels_sha256": "cbed0e96054da03d989cc5367eee12b93c52fbd2550206fb9d9f9085846ff1fd",
+    "source_sha256": "9dd820f0c4db4244ae5ce452060d82baf47b573eae6c7e47f8201c6909d215a2"
+   },
+   "reference_sha256": "136c6b197da163d6c996cba54f2a06804e4940a495d9b0022afc0aa9c88504f5",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 48.134891510009766,
+    "abstain": {
+     "edge_spill": "near 79 / far 139248 px < 200",
+     "boundary_step": "near 79 / inner 3405 px < 200"
+    },
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "52194312f395a841438b58f51aec0c843efa12d1d35a0dd5128df827293e169e",
+   "ref": {
+    "support_change": 7.035714285714286,
+    "support_change_comp": 5.594508579799107,
+    "support_gap_px": 48.134891510009766,
+    "abstain": {
+     "edge_spill": "near 79 / far 139248 px < 200",
+     "boundary_step": "near 79 / inner 3405 px < 200"
+    },
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9463504641050433
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "5b5acaa70fed803f392afd224334d1a4794a50d2990cf5aafd89588e7643f94c",
+     "support_change": 5.839285714285714,
+     "support_change_comp": 4.556649344308036,
+     "support_gap_px": 48.134891510009766,
+     "abstain": {
+      "edge_spill": "near 79 / far 139248 px < 200",
+      "boundary_step": "near 79 / inner 3405 px < 200"
+     },
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9606147608012683
+     }
+    }
+   }
+  },
+  {
+   "scene": "ial02",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "1489de3763597baeaf81333a8193a5644f7689338ea0c90d96ed07bd7d3d6035",
+    "mask_labels_sha256": "76e51044ffb5109fe89d2eb1cfbeb55924ba535eb21ac5c83c2a831c51a08996",
+    "source_sha256": "df31817ada554587fecb86a0ec4ac48bcd4065975457d7584e5e6add4390ef12"
+   },
+   "reference_sha256": "23faf7db6e79f8c5762ff8868f7ca0ed4616eaa42f52a3f7e14213c174f816b3",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 3.59689998626709,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "720aa2f8ddc91fc19120bff1eb4cfc712860c7b72cf9cd5658b899208747c6de",
+   "ref": {
+    "support_change": 2.0,
+    "support_change_comp": 1.6969778878348216,
+    "support_gap_px": 3.59689998626709,
+    "edge_spill": 1.13254729348523,
+    "boundary_step": 0.5745850506060861,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9996943582348929
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "c6c3f83badac141d3e4ae97661e1c29928023803b5d9327114fbd8b0bacb87c5",
+     "support_change": 1.4464285714285714,
+     "support_change_comp": 1.3243844168526786,
+     "support_gap_px": 3.59689998626709,
+     "edge_spill": 1.0546094846509424,
+     "boundary_step": 0.47550921497936327,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 1.0024935466456184
+     }
+    }
+   }
+  },
+  {
+   "scene": "ial03",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "0c5ef22cce3f837947058d7707bc7c646bca12560c0becccba05257777732f9c",
+    "mask_labels_sha256": "98024cdd48b3218fe6f94dcf173f42da76adcd1fde29b8f8859de0c88b3ddb49",
+    "source_sha256": "81f7ab2367cb6e2cd1644846b5b5a2a6d1eddb7986c3168900d6f0e58fc4331a"
+   },
+   "reference_sha256": "2179d8091f6536f1051e213742a88db9a981f60c37d0ccd9c3dd1d72bba1786d",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 7.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "677d850bb44c479bab708bbb30ad09ce24d5885ae118e8ae820ca98c18512e48",
+   "ref": {
+    "support_change": 5.446428571428571,
+    "support_change_comp": 5.046848842075893,
+    "support_gap_px": 7.0,
+    "edge_spill": 1.2753908065608621,
+    "boundary_step": 1.3600472961917396,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9417994501331913
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "2df7ca8e370579d3515c73cb27eb30d97e097b63d141acb7b4bfddd36decbfc8",
+     "support_change": 0.0,
+     "support_change_comp": 0.4091796875,
+     "support_gap_px": 7.0,
+     "edge_spill": 4.614072707900212,
+     "boundary_step": 1.0165635084579294,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.99566996540868
+     }
+    }
+   }
+  },
+  {
+   "scene": "ial04",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "c363d535286454d8765413053c5712c03b945d054274d95078a06e3d16471b82",
+    "mask_labels_sha256": "be282454aad7d5cadad37da268221797d2150bcad3ea294e16339b18efdbeeea",
+    "source_sha256": "95a9281fbe3d6c83b8d4e77dd267d736c7b530a85456d2ef31fcab7d27e896c7"
+   },
+   "reference_sha256": "7381fcfe5776adf1b998358c2ab46966278c3a72626d50cbdcec4fc16e182ad9",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 16.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "b649aab07b7e02f08eedd8f07d7bb1bb0868f4b9c70c8b718e7c783ee7dc96ac",
+   "ref": {
+    "support_change": 3.517857142857143,
+    "support_change_comp": 2.9876011439732144,
+    "support_gap_px": 16.0,
+    "edge_spill": 0.5623694977206242,
+    "boundary_step": 1.2942902100362488,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9351367036072769
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "164a5ad9a4aa32eece9cd2cde466b5825dbfca63a71bc904f94f4e1b3aefb6eb",
+     "support_change": 1.2142857142857142,
+     "support_change_comp": 1.9058925083705356,
+     "support_gap_px": 16.0,
+     "edge_spill": 0.9747826487146866,
+     "boundary_step": 1.9948497257439626,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9824784322337553
+     }
+    }
+   }
+  },
+  {
+   "scene": "ial05",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "bed4dbcd4baad82626ede8425ef0217da326fd612709704e5a1bcd3ccc02c680",
+    "mask_labels_sha256": "e3aa6fa4cae1b40921a46b55a075be4f8c09a348b0f502941b82e673a96a9352",
+    "source_sha256": "7f56fc08008985072bcff515f9c479b9f961b59fce502c0042f314490690dd4d"
+   },
+   "reference_sha256": "c95310e15b9dd50c3c63d6c1ba3b620a7b290e40896e132a1b80c23b81533fd1",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 6.590699672698975,
+    "abstain": {
+     "edge_spill": "near 129 / far 18742 px < 200",
+     "boundary_step": "near 129 / inner 9834 px < 200"
+    },
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "a673443526e8199feabbac654621a1b07a0a8bacb939c6148517640d878a6bae",
+   "ref": {
+    "support_change": 4.589285714285714,
+    "support_change_comp": 3.2768380301339284,
+    "support_gap_px": 6.590699672698975,
+    "abstain": {
+     "edge_spill": "near 129 / far 18742 px < 200",
+     "boundary_step": "near 129 / inner 9834 px < 200"
+    },
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0130505790129827
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "e599a3d0688b2438bc7a6104ff83db4886a371f256c0db01464846b990adb777",
+     "support_change": 3.0535714285714284,
+     "support_change_comp": 2.489100864955357,
+     "support_gap_px": 6.590699672698975,
+     "abstain": {
+      "edge_spill": "near 129 / far 18742 px < 200",
+      "boundary_step": "near 129 / inner 9834 px < 200"
+     },
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 1.020107758184247
+     }
+    }
+   }
+  },
+  {
+   "scene": "ibp01",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "0885ecd8c6e63affd69d8aa5d3d700326d4caa53ae24a55ce6bd52dea48bb927",
+    "mask_labels_sha256": "cc285ddf3d15493ed1674f945994f06289bc583478c53f05987ec0424ddd5014",
+    "source_sha256": "626ba0b5991bfd85d7861265c0accc8fe3fc7d38d6c6264275079322d8354851"
+   },
+   "reference_sha256": "e7964a9a6e768cf7261bc2c952fae61d89b8d600f247e6ad733f0acb4b2e9660",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 7.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "c66e99ecb169865417cdec995d1478399a693b0a88122c9e7895f4cc3c494123",
+   "ref": {
+    "support_change": 5.696428571428571,
+    "support_change_comp": 5.485238211495536,
+    "support_gap_px": 7.0,
+    "edge_spill": 1.0776855188865968,
+    "boundary_step": 0.9580408397099454,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9412602072519225
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "bbae258265ca16463ea7b10bac8251495fa004495fb98f9b2c054260c8b88bd0",
+     "support_change": 0.21428571428571427,
+     "support_change_comp": 3.023829868861607,
+     "support_gap_px": 7.0,
+     "edge_spill": 3.187049374504945,
+     "boundary_step": 0.7844635833873205,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 1.0039119683528557
+     }
+    }
+   }
+  },
+  {
+   "scene": "ibp02",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "3d84c827267047b8c51352ba1e25bbbe008f68349675b9d4f6258c33f6ccc0f2",
+    "mask_labels_sha256": "6aeadc7bcd0b44403533b6ae05bf08d31fd9e15fa1e7b98a1de5cc7818522624",
+    "source_sha256": "68ddee4ecd74fcbb304f6a3a4941acc53a0ad1dd12674d3c6cd3e0606740f356"
+   },
+   "reference_sha256": "fd9bf32f33f04aaaac104bd50e8fceb6af4e23d78de98ff8dc3b5f2a17a16997",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 3.0,
+    "edge_spill": 1838.3933946847856,
+    "boundary_step": 1838.3933946847856,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "ddcad5b4d9d036bd7afd5ddab6993de24369087fd9fa79ff202109c9efbf675c",
+   "ref": {
+    "support_change": 1.0892857142857142,
+    "support_change_comp": 0.9288678850446429,
+    "support_gap_px": 3.0,
+    "edge_spill": 1.9769487711176572,
+    "boundary_step": 0.20894823776626892,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9895780698866594
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "9eaf30e4c2d4964c5274083aae75a7a6b7bbdd6c63934c26f29ad5fe68bb7935",
+     "support_change": 0.23214285714285715,
+     "support_change_comp": 0.3539515904017857,
+     "support_gap_px": 3.0,
+     "edge_spill": 91.31266557869083,
+     "boundary_step": 0.1130933925731295,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 1.001121806018393
+     }
+    }
+   }
+  },
+  {
+   "scene": "ibp03",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "84d7793c491939525a48543ee1dc0d62743847f7ffcd0b81996007f48052158c",
+    "mask_labels_sha256": "9ca7b18e8c14116bef2de87e16fe98400afb08e508755a85a24bda934684b135",
+    "source_sha256": "ea02324ea7bc173558426ea55db75b04cd98458f4d91e6aa0649de029421f910"
+   },
+   "reference_sha256": "bc2da54e325c938cda5ef23b3a601f131e5a50ead07bf8886e64bb179f979d2c",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 15.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "c20fc75cc5a8657a638c4d291a69199aaa31b19d83a84ea2caf2a0226f6286bc",
+   "ref": {
+    "support_change": 0.875,
+    "support_change_comp": 0.8383614676339286,
+    "support_gap_px": 15.0,
+    "edge_spill": 0.8025232809384494,
+    "boundary_step": 0.1245503051989598,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.993082144887631
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "eeff1943dd4ac0d89dd5efde09922a5f9ffb15fb985e4ca5337e9bfa47afcd6f",
+     "support_change": 0.0,
+     "support_change_comp": 0.029105050223214284,
+     "support_gap_px": 15.0,
+     "edge_spill": 22.891816371257978,
+     "boundary_step": 0.08445088017950865,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9998671353710491
+     }
+    }
+   }
+  },
+  {
+   "scene": "ibp04",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "b807204d09b9f304fd1f6428fab2d20206dded843d1e7798819b395039626a1e",
+    "mask_labels_sha256": "14731342969a1b3595563984a475a1ed7b4f460d42ed7b84e5c1c97f1bbee265",
+    "source_sha256": "cd0c57e6c036fbedc642df5e7231063a021d1d94896c0ecccc7bd1c3d2029675"
+   },
+   "reference_sha256": "a3c615df1b41e9fc8215ddce8bdb739f1e3df767b9f6c632a078c7a5df774bdf",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 100.92869567871094,
+    "abstain": {
+     "edge_spill": "near 106 / far 57232 px < 200",
+     "boundary_step": "near 106 / inner 9546 px < 200"
+    },
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "ededc7fedaae98ba0b102ff36da7c9b75f68a1392ab1f5eb7a4bed7247087f36",
+   "ref": {
+    "support_change": 11.464285714285714,
+    "support_change_comp": 11.3519287109375,
+    "support_gap_px": 100.92869567871094,
+    "abstain": {
+     "edge_spill": "near 106 / far 57232 px < 200",
+     "boundary_step": "near 106 / inner 9546 px < 200"
+    },
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.749996525567008
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "81ac1b9bcfaeaf757ab9e2db8a6f1922930d1a533c6fe8822562f0f981517cc6",
+     "support_change": 1.3392857142857142,
+     "support_change_comp": 1.4526541573660714,
+     "support_gap_px": 100.92869567871094,
+     "abstain": {
+      "edge_spill": "near 106 / far 57232 px < 200",
+      "boundary_step": "near 106 / inner 9546 px < 200"
+     },
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.7648759425939013
+     }
+    }
+   }
+  },
+  {
+   "scene": "ibp05",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "4f53e4179b390463f22d4ac8d0f97925a66acabe727216548db4f15fd302582c",
+    "mask_labels_sha256": "d96d2ea1ef4f7c0827b49cbd070822e557850b80dcc92399674a8fe39a01850e",
+    "source_sha256": "2e3dcb1698f4a1a8cb071c9ab817f08b9ca0346f1c06afa8ed5282662927cebe"
+   },
+   "reference_sha256": "3b5a15802347930b78e03917d423e9a29b1fbbfcb94a449e002f273c658f4382",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 3.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.999999872273541
+    }
+   },
+   "static_sha256": "737d393a1676044737be86d32984a42fcae4bd4af91d93bf5f870e7d5876bf72",
+   "ref": {
+    "support_change": 2.4285714285714284,
+    "support_change_comp": 2.2439662388392856,
+    "support_gap_px": 3.0,
+    "edge_spill": 6.143654789477937,
+    "boundary_step": 1.2151497027105906,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9755877805392599
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "8fd81d275b729dc1ca47488fe78d99b5439bbee2b4159e78371526ec075a8094",
+     "support_change": 0.5,
+     "support_change_comp": 0.7892543247767857,
+     "support_gap_px": 3.0,
+     "edge_spill": 13.781291466223857,
+     "boundary_step": 1.1717117120067597,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9719995560064936
+     }
+    }
+   }
+  },
+  {
+   "scene": "ibp06",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "6b8009706f457337c3fe6787c129b5dda931670293848e8b8150ff2b29929df3",
+    "mask_labels_sha256": "a9169d07672138a66de6e54a46d0de7de7b4dda3f14d9264e93513b24c78143e",
+    "source_sha256": "9098bde519984271ca216564054dcace3ec6113fe4ed10921da992b78cede4b4"
+   },
+   "reference_sha256": "59f0a7a8274deb70559082faf8df3780acc1b2ff64ead555be8ff1357c8e0feb",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 5.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "7cf97febfa7092e625db43b124b0e21bfaba9786090e4a24490ae5dce1bf0525",
+   "ref": {
+    "support_change": 2.6964285714285716,
+    "support_change_comp": 2.4571707589285716,
+    "support_gap_px": 5.0,
+    "edge_spill": 2.8109016207228508,
+    "boundary_step": 1.014881419483015,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9231198822608856
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "e189ab0a9e9758ee341e7cf43d91f5fdf1e4a2b0814d0a23bfa035543b15c866",
+     "support_change": 0.5535714285714286,
+     "support_change_comp": 1.4923793247767858,
+     "support_gap_px": 5.0,
+     "edge_spill": 4.374790180986455,
+     "boundary_step": 0.820061191932227,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9701251061441332
+     }
+    }
+   }
+  },
+  {
+   "scene": "icb01",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "20947f2a15c8488a65a02496f55f9be0f1570e01673a91ca49bdafcb368ea2fe",
+    "mask_labels_sha256": "db12138b1bb949a7d1e42ffbb6097f89a043fc1cf7a8d894c022d28502d6ef9b",
+    "source_sha256": "ff75c4b324e97327ba38a0b678cab43eafd03c787b87d215909113f684ab0be5"
+   },
+   "reference_sha256": "46e5c671c214c3f87a5811fcb5e503bb95ca17422ab6e188e7b4bf19ae5ae0d1",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 3.0,
+    "edge_spill": 46.51900061188773,
+    "boundary_step": 10.432831414230883,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "d64325c52e04755ad58184afec47b07e6492994c21b09fec783cfd8b81bc55bd",
+   "ref": {
+    "support_change": 3.357142857142857,
+    "support_change_comp": 2.521632603236607,
+    "support_gap_px": 3.0,
+    "edge_spill": 0.9940559286492153,
+    "boundary_step": 0.27689054755784304,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9701069744343473
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "75cfe75e7e1e46212624e4361188de99909e2fd3f5994715fe28b316fabfb6c6",
+     "support_change": 0.32142857142857145,
+     "support_change_comp": 0.7281755719866072,
+     "support_gap_px": 3.0,
+     "edge_spill": 2.611820910020866,
+     "boundary_step": 0.25650340675111666,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9587300046807573
+     }
+    }
+   }
+  },
+  {
+   "scene": "icb02",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "e45ff791599369fa5f6755c675877bfaf04bcb6a64332efa9cab2d19fff4a196",
+    "mask_labels_sha256": "f14d8c861f5d2a7ee78c12202001687bc5d0c33fe63785b4c3742ce9ffe836b0",
+    "source_sha256": "ca7d3ab38902fe7b2e8a048c11941321c677b72df5937fced9a1b4f32c1b1693"
+   },
+   "reference_sha256": "9031cef942d832205ab926dba660141efd84db955f71a141e7117fe1604215c7",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 3.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "800ccddc3d5b3c4aa7be386532a43866b0d7673be49c6bd282b7617540887bae",
+   "ref": {
+    "support_change": 1.1428571428571428,
+    "support_change_comp": 0.9797799246651786,
+    "support_gap_px": 3.0,
+    "edge_spill": 2.7867531295657195,
+    "boundary_step": 0.4134871232268505,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9856085548859153
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "bfcac529ecf3750910e33eea67c3602cd7ca73f9740f83b2baa90b580116de60",
+     "support_change": 0.0,
+     "support_change_comp": 0.24822998046875,
+     "support_gap_px": 3.0,
+     "edge_spill": 85.76647457747302,
+     "boundary_step": 0.4298065765257099,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9783670960969671
+     }
+    }
+   }
+  },
+  {
+   "scene": "icb03",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "cd6db1030c5983bc1b007ea362ee7cb52f13a049244c6932dcd98da61bb8bb93",
+    "mask_labels_sha256": "2bf57cae9434091228a9a47cb5acdebbdf87504e23c57655ea63f07bcc6f7dfa",
+    "source_sha256": "be990ea879222e7da72af9a30719dc6b4af3a124c668cffacc2731fd8e350ac4"
+   },
+   "reference_sha256": "e6a6a499d14dfc196d64669170a91b2a7f84441a7d2506738829556d6584b982",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 8.590700149536133,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9999996809635299
+    }
+   },
+   "static_sha256": "2eb78a5573f8fbb6bbb94a44652a4fde02d573e835e6a7f4818b45c163f3ebea",
+   "ref": {
+    "support_change": 7.178571428571429,
+    "support_change_comp": 6.670880998883929,
+    "support_gap_px": 8.590700149536133,
+    "edge_spill": 2.316567957011321,
+    "boundary_step": 0.6653399423479923,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.7106251513332865
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "efc425dba1ec0e1f9f7354f796fc6683ad40ec8e5c1a1c439779d5578b0d3c47",
+     "support_change": 0.0,
+     "support_change_comp": 0.7373570033482143,
+     "support_gap_px": 8.590700149536133,
+     "edge_spill": 14.124715482523532,
+     "boundary_step": 0.5067589862865371,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.7243640495446421
+     }
+    }
+   }
+  },
+  {
+   "scene": "icb04",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "f58db0b29cf40896343683cf0a18075218f8ab28207eccba0e8259a8afb9d1fe",
+    "mask_labels_sha256": "c7dbce80887a7280608f1433ed5419452ca0fc3384ad37246ec0c760fcc0b429",
+    "source_sha256": "eaaef2f74af2a74853af4f18faa9b3555cc4754003eb66626d723a1585f2233e"
+   },
+   "reference_sha256": "bc0fbd8771bf34c49d0f45262e081e478e087a5c07e1cde3b8ddb9025fb9b8b1",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "abstain": {
+     "edge_spill": "no dynamic region",
+     "boundary_step": "no dynamic region"
+    },
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "07bc00ca3d44bc2c8653eb6fa374577ed30a46b4f6756a0f28070b5089a56674",
+   "ref": {
+    "support_change": 15.517857142857142,
+    "support_change_comp": 14.603131975446429,
+    "abstain": {
+     "edge_spill": "no dynamic region",
+     "boundary_step": "no dynamic region"
+    },
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.866279174671923
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "bb6d2f27fa323393c7c952f6d43b88b305eb192c2a1f53853dd740baa832a0c7",
+     "support_change": 0.75,
+     "support_change_comp": 6.364362444196429,
+     "abstain": {
+      "edge_spill": "no dynamic region",
+      "boundary_step": "no dynamic region"
+     },
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9297683633044928
+     }
+    }
+   }
+  },
+  {
+   "scene": "icb05",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "f6428cdf7b079962e75e36fd71b197feae85dededb9b1cc4f9e6615fe81a0353",
+    "mask_labels_sha256": "f23bf6e5462008f7239b1f20a84475fb8172caae204994b6ad4ed6ac2f726cba",
+    "source_sha256": "649da8658459482a8631e420301a17db7007b9d1a1c837039dbed90de4853f71"
+   },
+   "reference_sha256": "c852ce050ced2dd9f4f7a1be8276cd76952d95c79ce38aeb69d2c1b732ce6cec",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 7.990699768066406,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "f951ab11b3964326e8669390ebd9626935070a233980d131d4043c144fe89e11",
+   "ref": {
+    "support_change": 4.482142857142857,
+    "support_change_comp": 4.073085239955358,
+    "support_gap_px": 7.990699768066406,
+    "edge_spill": 2.2488410792451132,
+    "boundary_step": 0.8397298627220341,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.8919694079373
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "65846f55f44a6780ea79b817bf321fbb9332ae96132c411609e9204b6d89b276",
+     "support_change": 0.42857142857142855,
+     "support_change_comp": 1.0460989815848216,
+     "support_gap_px": 7.990699768066406,
+     "edge_spill": 4.678307272757167,
+     "boundary_step": 0.84221966659708,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9430242596368255
+     }
+    }
+   }
+  },
+  {
+   "scene": "iwb01",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "c48c828b8065348576b93d6718ea81651a04d91026db5f5f239ab2b973786e4e",
+    "mask_labels_sha256": "e302aacf10c6e42dd5bee14da7e48adc0c99dc83ecefd00ac3724d1553fab665",
+    "source_sha256": "15890b6836a0c456fabc5910965a7385ae482b9087271646e50b6b8cf839f111"
+   },
+   "reference_sha256": "6cebbb6973b6b68341662cd2d7fe08b999fa5f5fb30d20c2f547e45ee59903c2",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 22.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "95c074ae6e0fb1174950a094077e2bc098eddeaca5a5d23d3ce42f87d139cc14",
+   "ref": {
+    "support_change": 5.875,
+    "support_change_comp": 5.2184361049107135,
+    "support_gap_px": 22.0,
+    "edge_spill": 1.6119328934923458,
+    "boundary_step": 4.730461345223268,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.8488707300592391
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "e1133cecabe2099008150e60e90f5e9aa40922299cebcb5552ebe162353ffc40",
+     "support_change": 1.2678571428571428,
+     "support_change_comp": 1.7431727818080356,
+     "support_gap_px": 22.0,
+     "edge_spill": 3.3519795617246495,
+     "boundary_step": 4.027008249011831,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9347603169814558
+     }
+    }
+   }
+  },
+  {
+   "scene": "iwb02",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "fa3ecde41dd626cf17ef9b8254dcf488b814a95ca435b62ed4079e19914d059c",
+    "mask_labels_sha256": "9a3e4e794070a0e804b6a4adb59069e53a9e08b490f2df7f5197e52a9cee1282",
+    "source_sha256": "443433b7ea8ab2801021efd62ae79b7dc9005e4f5ba1f3a52afb60b05e336095"
+   },
+   "reference_sha256": "5a17527b7239c491dc9940f12d1c914feff126ab245d675b9472368835e67305",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 6.590699672698975,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "3bb10c2c012070667e75f76632dfbdc55ed169b0dd141017f9704820e30bfa1b",
+   "ref": {
+    "support_change": 7.803571428571429,
+    "support_change_comp": 8.170549665178571,
+    "support_gap_px": 6.590699672698975,
+    "edge_spill": 0.5673067190734536,
+    "boundary_step": 0.4828417247025037,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.6978926835995791
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "d3805280220d70bdafcc53b1b0f68378a44ddd47b5e83727130b475f275841c1",
+     "support_change": 0.26785714285714285,
+     "support_change_comp": 1.1199515206473216,
+     "support_gap_px": 6.590699672698975,
+     "edge_spill": 8.230083842065806,
+     "boundary_step": 0.5330748742905373,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9525631825464733
+     }
+    }
+   }
+  },
+  {
+   "scene": "iwb03",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "79907efbe48e2ec1569d4d33e1f7cb424709c09567206a1f051fe89f3def2ef5",
+    "mask_labels_sha256": "e319a2a920e706804549ad7b57144283d89e9ad32d6247f79e1eebe48d8d8b29",
+    "source_sha256": "58ff9f55764c573e0d0d6a6637e7a2299a97b57509e0c560fe09a5ed516233f4"
+   },
+   "reference_sha256": "8d047b656402b3e93a1b788eb80884fe99ccb9a4a1bea449208774e282bc23bb",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 16.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "dd1011af9adc9a2278f8e1c9356bbff227df58c49ffe6386a24262b12835492d",
+   "ref": {
+    "support_change": 7.625,
+    "support_change_comp": 6.816859654017857,
+    "support_gap_px": 16.0,
+    "edge_spill": 1.0315793226842775,
+    "boundary_step": 1.3463103407884807,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.8840434506557102
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "5f95bc777a55e4d2a82a5995ca0af9e2e5d4e1d4777c26a829e6b4817eb4bc9c",
+     "support_change": 0.0,
+     "support_change_comp": 0.4406215122767857,
+     "support_gap_px": 16.0,
+     "edge_spill": 531.6609108158071,
+     "boundary_step": 0.8107978262981922,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.923587980653004
+     }
+    }
+   }
+  },
+  {
+   "scene": "iwb04",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "503041b046df0aa808f55438d5e49b03652e6b34ea8a449de7947e35da9188e6",
+    "mask_labels_sha256": "e02639042a5bb398e004013b8a744b2a246823377bc6444157963cd0d622cf7a",
+    "source_sha256": "246ec63521a49c6b20afd68177549c08efa3ea8b34e6dbece4997e61333f8a9f"
+   },
+   "reference_sha256": "73b745cbcd4fd8ab2562f1ce6da15213012f34c847ce36317a7cb5cd83cce9ed",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 9.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "74acb256af155091ebf613d1cac560897af36cfcf63d835fa57f5a9011e78c60",
+   "ref": {
+    "support_change": 4.821428571428571,
+    "support_change_comp": 4.243687220982143,
+    "support_gap_px": 9.0,
+    "edge_spill": 0.9493750075362566,
+    "boundary_step": 0.4728712218270512,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.983136297314022
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "3a87a677138727f9c6cd7aca45d6b8d4d214edbfdf054ffe418b559fc9bbb63d",
+     "support_change": 0.19642857142857142,
+     "support_change_comp": 1.0506504603794642,
+     "support_gap_px": 9.0,
+     "edge_spill": 4.368630988326693,
+     "boundary_step": 0.25389745497083327,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9962744847015893
+     }
+    }
+   }
+  },
+  {
+   "scene": "iwb05",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "ee3e5c363c3cfa20049a3704e9d512f2e85e2770469de998f24c97f9ca83dfd5",
+    "mask_labels_sha256": "56f37c04fc93519eaf08735d19dffd7ec1ae8b0b99ad99d0318c53fc303773e2",
+    "source_sha256": "4664e1e6488a5ae2f6b312a121cde5bfc8b46961cba7af285156c28227438dd8"
+   },
+   "reference_sha256": "22d1a14b32a460b581e1b37025b6dc9f7f8f78df7c53ae30fb100701ca1d8c03",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 3.196899890899658,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "cdddc38e33aa10cc9e1ea2a702621221319d1f74eb835ab8cd64434218a73a9a",
+   "ref": {
+    "support_change": 4.267857142857143,
+    "support_change_comp": 2.9279610770089284,
+    "support_gap_px": 3.196899890899658,
+    "edge_spill": 0.9574310433996116,
+    "boundary_step": 0.8172388455777336,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9982243705181945
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "95f130d68451782520315fa96624c3125a025d879635d634a84c77a88b7ba8ec",
+     "support_change": 1.6071428571428572,
+     "support_change_comp": 2.0673304966517856,
+     "support_gap_px": 3.196899890899658,
+     "edge_spill": 1.809738619162407,
+     "boundary_step": 0.8802758497780304,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 1.004134968788341
+     }
+    }
+   }
+  },
+  {
+   "scene": "iwb06",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "1b1609d2824195d8274bf4aefe723c2a2774adbf6f2d2e88f72a63064a9aef06",
+    "mask_labels_sha256": "75caa832e3f568bf7e2b8a6961420c47d9ed18a7918a5413c126dd906f5eb203",
+    "source_sha256": "2110d1acdd154c6a3a73ad2013f129413b709191ea727250119bd149762c74bb"
+   },
+   "reference_sha256": "c4b08be9aec4a9813bc5e9fb004c861222f3602c7a6917ec1f2cd7fd6585bca6",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 5.793799877166748,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "6d9ea79afd77b6ed2fa54633c5bfd29845fd6e9771f93947978e174404b26a2f",
+   "ref": {
+    "support_change": 2.892857142857143,
+    "support_change_comp": 2.7089059012276784,
+    "support_gap_px": 5.793799877166748,
+    "edge_spill": 3.385747065655439,
+    "boundary_step": 1.5129316987532113,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.7670947035703857
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "50aeedf0456fd6c81d6ef2423f3d3d3d3a5b761d8d4e3c8ddbabf90f8922d1f4",
+     "support_change": 0.0,
+     "support_change_comp": 0.6121128627232143,
+     "support_gap_px": 5.793799877166748,
+     "edge_spill": 22.770827024786072,
+     "boundary_step": 1.563941255847845,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.8427165616445536
+     }
+    }
+   }
+  },
+  {
+   "scene": "igt01",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "4a31fca2ea572e2c7b6e455d97fc3400ac33ba961eb7f9fc6164f2d52b38a116",
+    "mask_labels_sha256": "14eb0865a6d7c54847c9462db2d74fd502b13d1a91ee2e726eea655d1691f049",
+    "source_sha256": "7cccf58594c98b6c806b7595c9f9aa3205a86534182e2c7372b9c6e2e4df9f73"
+   },
+   "reference_sha256": "b46b873e72fc75e97f9fd845d1756e03d0e2f2110a2877b40c3fcb6de021cff4",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 16.78759765625,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "3dc8d780ceeddd1a085daca25990d54e0483dc75855c335920cb6e51a76697bb",
+   "ref": {
+    "support_change": 8.964285714285714,
+    "support_change_comp": 8.38519287109375,
+    "support_gap_px": 16.78759765625,
+    "edge_spill": 0.7173740186232033,
+    "boundary_step": 0.65715290850954,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.8956209236964676
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "20d2f3d3bc79d36efe06bb86cfc13189ac15f92d2c56ce5789e7cd122f02913f",
+     "support_change": 3.75,
+     "support_change_comp": 3.7696184430803568,
+     "support_gap_px": 16.78759765625,
+     "edge_spill": 1.1442310733614747,
+     "boundary_step": 0.6271389012574683,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.8640726277653892
+     }
+    }
+   }
+  },
+  {
+   "scene": "igt02",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "8acd426398efa2bde5964efd2eebf3fc82e053fb86455090453d117af48ea183",
+    "mask_labels_sha256": "a4cb648aa8a228b1952dad23b1fc72743211711022377312b6ed39ef91a1f916",
+    "source_sha256": "c5d529a1ea0e72baaa020f841410577c3c8f4b7a1d2a013c283e90b6f9bf6267"
+   },
+   "reference_sha256": "d639c664c7607a91ec94c09e1ecc951a830cf0a7d1e1dc5971570e5f171e41c0",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 16.78759765625,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "9348e9f0b65daa421c201af23ade8a2d2d65829f579b24a3affd2b05f827ccdb",
+   "ref": {
+    "support_change": 7.928571428571429,
+    "support_change_comp": 5.538591657366071,
+    "support_gap_px": 16.78759765625,
+    "edge_spill": 0.9789643477243783,
+    "boundary_step": 0.7673539890152099,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9798370309270457
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "b3417dfaf4fa2f0a2555cedb01e763059b926c7fd4936e99a70e1ae0fa27b5fe",
+     "support_change": 6.035714285714286,
+     "support_change_comp": 4.928248814174108,
+     "support_gap_px": 16.78759765625,
+     "edge_spill": 1.5448257463917183,
+     "boundary_step": 1.1038478538837737,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9839869411663633
+     }
+    }
+   }
+  },
+  {
+   "scene": "igt03",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "e0d99a15ab8c8f65033d74ec140bddbd345f16049d927ce9f07efa965c3fa048",
+    "mask_labels_sha256": "96d29f5041774aec72476b7abbcf4f76c78c8d09e85b9bb1251f1b3ca0267acc",
+    "source_sha256": "2e45219ca31df2b620cbe02c77c13c7a90d9a795b053386290d22f3b69953fb8"
+   },
+   "reference_sha256": "353faefc0c322e634c9245d4bbc0e7a44c461f0bccc4168a58f9db8454e5f8ea",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 9.1968994140625,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "1abdae7c5e92533bcf134f81c37ea8a09d209c809b8e79c510cdaddcd39ade29",
+   "ref": {
+    "support_change": 12.660714285714286,
+    "support_change_comp": 10.697701590401786,
+    "support_gap_px": 9.1968994140625,
+    "edge_spill": 0.5930808416640337,
+    "boundary_step": 0.8736815474876368,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9602166804688181
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "fddbcd9109478c77822388ec4f6ed6d081234de292b1eb200f926d899e37a354",
+     "support_change": 0.8214285714285714,
+     "support_change_comp": 1.0339181082589286,
+     "support_gap_px": 9.1968994140625,
+     "edge_spill": 2.7534975723984854,
+     "boundary_step": 0.9763489851245571,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9623307789604664
+     }
+    }
+   }
+  },
+  {
+   "scene": "igt04",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "9b790c9bf995313c1f5effb2dd765be35ef4842d4168125b26cca66a691a184c",
+    "mask_labels_sha256": "ff81c8f3961deb23c32b87b40d595727a682fbcc9727ce5227aed49c8d667a96",
+    "source_sha256": "8347ac28d4f17cd1ce83e92703affc54841022097b460c18e4afd3a499c5add8"
+   },
+   "reference_sha256": "66a16709dd047a131004d3b3ea7c00416ed59847520a930ab7f87b7248329403",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 3.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "032439d5a420dd85fe530023f76ddbc8bbd7b4efcd33aacaf337920c5b84ab5d",
+   "ref": {
+    "support_change": 16.964285714285715,
+    "support_change_comp": 16.709708077566965,
+    "support_gap_px": 3.0,
+    "edge_spill": 1.3908733761609617,
+    "boundary_step": 1.4705525718256933,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.6535036027826175
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "a99337ee33cf9a93e93cf95dd4726b02427b55424718d8fbe3f28b16292183a4",
+     "support_change": 3.107142857142857,
+     "support_change_comp": 3.1540004185267856,
+     "support_gap_px": 3.0,
+     "edge_spill": 3.455474681095845,
+     "boundary_step": 1.3726606425373813,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.7756288293266601
+     }
+    }
+   }
+  },
+  {
+   "scene": "ifw01",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "cedf0d5ed039f5ae19a5d89c895759e4f94a14a4b62ca33bd5ac8dcb638d6a80",
+    "mask_labels_sha256": "86827cfb74f933e5641ed7ad84ec0a3e25a52b8a3154b2fc7a128dd53dc589cd",
+    "source_sha256": "60b00e90fc1c37895a2c867033ccc946c54dc6be144b4e3828c03b22c4af9051"
+   },
+   "reference_sha256": "a48437b55621c5bc480b285f60e1670b769c5829fde2e379419eb73a5c75abab",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 7.0,
+    "edge_spill": 308.27062677053823,
+    "boundary_step": 3844.5973290165925,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "9d091bb2b35e98931938cebe6bc7703eab38f9497a186dff3d884668c83c67d6",
+   "ref": {
+    "support_change": 1.2678571428571428,
+    "support_change_comp": 1.2098214285714286,
+    "support_gap_px": 7.0,
+    "edge_spill": 3.1918504440541993,
+    "boundary_step": 1.0683897401841134,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.353127021217432
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "afa229e9aa4522808bab13c21d588f2af05c9c8f47022e4eb5d583eba10757c0",
+     "support_change": 0.05357142857142857,
+     "support_change_comp": 0.36599295479910715,
+     "support_gap_px": 7.0,
+     "edge_spill": 7.066196075828982,
+     "boundary_step": 1.0405114791848038,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.663874487729806
+     }
+    }
+   }
+  },
+  {
+   "scene": "ifw02",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "7e6a8d27fae88e82e741ab5441cf8b5a4fba5ff53129807b11d63da87a29d013",
+    "mask_labels_sha256": "220bed0bf6c51fee82260047ac79e1e63db94aca37344e3df253947f8b0f5840",
+    "source_sha256": "37576d4669a3bc3465160eefdb45f1cc1b7021653081ae0b71173f77f8746abf"
+   },
+   "reference_sha256": "6eb4f987da4350514c369df3343b1b3bf0ed098866239a28b4cddf36b08a3370",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 33.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "60cbef71e76f95b387e192e4bdb62e1377221fc5627c2463d01205ebf364fe16",
+   "ref": {
+    "support_change": 2.642857142857143,
+    "support_change_comp": 2.5194789341517856,
+    "support_gap_px": 33.0,
+    "edge_spill": 0.8168005307490154,
+    "boundary_step": 1.0266965088749704,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9735696081550786
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "685d97ff84e35eae7a68e9714d5cf1626d5f38077530a0d0de5e1b0e88171c94",
+     "support_change": 2.0714285714285716,
+     "support_change_comp": 2.0140468052455356,
+     "support_gap_px": 33.0,
+     "edge_spill": 0.9694399630203195,
+     "boundary_step": 1.2419542914196988,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9780333751766632
+     }
+    }
+   }
+  },
+  {
+   "scene": "ifw03",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "c52e385201829eb9350dfd3267a6940c1ad181b260486849b1ea6cef576779e7",
+    "mask_labels_sha256": "ba38364b304c5f1526651359ee1c704a57042f107b8fb68d0d03bc140999d14c",
+    "source_sha256": "6cfad6da83126b5f9e01c6faece93ab0ec22cb39697656082a2890a4ca1ca704"
+   },
+   "reference_sha256": "885b62efa105c23ebee91e744c5bc06f8cf6b62420849ce22a626c980e91cbf9",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 7.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "ec5e1087d03d950d139673a7fcea43bb50c42d517e882f5a992e561235f7158f",
+   "ref": {
+    "support_change": 3.9107142857142856,
+    "support_change_comp": 3.4678170340401784,
+    "support_gap_px": 7.0,
+    "edge_spill": 0.940526612670942,
+    "boundary_step": 0.7860023372224308,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9954172258849345
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "072f608c08dd720efe1b5fc476560b5e1d39c3e27a37aca3323fed355db64e81",
+     "support_change": 0.7410714285714286,
+     "support_change_comp": 1.2989501953125,
+     "support_gap_px": 7.0,
+     "edge_spill": 1.6745655895587346,
+     "boundary_step": 0.5658359188550185,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9865295016669708
+     }
+    }
+   }
+  },
+  {
+   "scene": "ifw04",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "f857a5f8e875aa021b8c7aaa198b0f934eb3f84ab59e2e416edf25bd1c4242a6",
+    "mask_labels_sha256": "b9b3060b51fa44c56925b746fc47a902f5a425ee3deef037606a2b017a85a488",
+    "source_sha256": "275a29e6ff891e9abfa6955f82f363e6e430641eba3988d7bd3252087967601c"
+   },
+   "reference_sha256": "1965135ba3b9137b33c572376c793ffaddf59d7df7fa1cb487066ea5cad7754c",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 3.0,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "cc511a68af171ac39f49873e097a514e501284faf6bf4c02df14757759b3c012",
+   "ref": {
+    "support_change": 1.0535714285714286,
+    "support_change_comp": 1.1618129185267856,
+    "support_gap_px": 3.0,
+    "edge_spill": 1.9157573222192483,
+    "boundary_step": 0.202156585355575,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.6335160306593777
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "00138f85a543506df2b562d9a940a9508ee90e4747cefc76c819e842df470ce6",
+     "support_change": 0.14285714285714285,
+     "support_change_comp": 0.5360543387276786,
+     "support_gap_px": 3.0,
+     "edge_spill": 2.7903407219141236,
+     "boundary_step": 0.19514152687275937,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.7034708065816495
+     }
+    }
+   }
+  },
+  {
+   "scene": "ifw05",
+   "reference": "passthrough",
+   "chain": {
+    "parent_sha256": "eaa4dbffb589d6cda1c1ec0c140bc8885fa63b41949721e6e63349e68d8f3ab1",
+    "mask_labels_sha256": "9fc6e3d8fa76501f4c39625ee0c576eba36ae3bb83736f1da60c21d22c439aa9",
+    "source_sha256": "5076338df0a84aad28d311fd20384aa1f2bb77a15379a8c4700683872f6790eb"
+   },
+   "reference_sha256": "d7316da531f3b5eb929e1e92f7b95ac60f447f627b86554b043382ddf0ba5940",
+   "static": {
+    "support_change": 0.0,
+    "support_change_comp": 0.0,
+    "support_gap_px": 8.399999618530273,
+    "edge_spill": 0.0,
+    "boundary_step": 0.0,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 1.0
+    }
+   },
+   "static_sha256": "ce3d431486a837e38d107ff0847e484de24f1ec7d848b54ef4e8cafa43be400f",
+   "ref": {
+    "support_change": 1.1785714285714286,
+    "support_change_comp": 1.0553414481026786,
+    "support_gap_px": 8.399999618530273,
+    "edge_spill": 0.8402876927585793,
+    "boundary_step": 0.2732498936965531,
+    "sampling": {
+     "native_fps": 16.0,
+     "step": 2,
+     "effective_fps": 8.0,
+     "frames_decoded": 961,
+     "frames_sampled": 481,
+     "window_frames": 57
+    },
+    "compensation": {
+     "pairs": 56,
+     "pairs_rejected": 0,
+     "phase_min_response": 0.05,
+     "texture_min": 2.0,
+     "response_median": 0.9322080323702602
+    }
+   },
+   "controls": {
+    "control_composite": {
+     "sha256": "3b964c654cbd9b3813a1cbf86c3033084c64f8a0c069c4f3d92d46742afe295b",
+     "support_change": 0.0,
+     "support_change_comp": 0.024117606026785716,
+     "support_gap_px": 8.399999618530273,
+     "edge_spill": 472.10570871376655,
+     "boundary_step": 0.23725605409111863,
+     "sampling": {
+      "native_fps": 16.0,
+      "step": 2,
+      "effective_fps": 8.0,
+      "frames_decoded": 961,
+      "frames_sampled": 481,
+      "window_frames": 57
+     },
+     "compensation": {
+      "pairs": 56,
+      "pairs_rejected": 0,
+      "phase_min_response": 0.05,
+      "texture_min": 2.0,
+      "response_median": 0.9917573798828642
+     }
+    }
+   }
+  }
+ ]
+}

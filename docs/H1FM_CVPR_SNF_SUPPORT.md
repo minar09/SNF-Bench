@@ -47,7 +47,9 @@ until §1.3 says which.
 
 ### 1.3 Pixelwise CIEDE2000 on the same videos
 
-*(pending — see §5)*
+Done 2026-11-04, see §5. **H1-FM:** the colour advantage exists only in the
+region mean; in the pixelwise tail it is worse than all three references.
+**SceneTether:** the advantage holds pixelwise, in the mean and at the 90th percentile, against these three references on this 42-scene subset.
 
 ### 1.4 The fresh split is independent
 
@@ -64,7 +66,7 @@ pairs, ORB + RANSAC). The strongest match is 17 inliers, between unrelated
 scenes in different categories; the same-scene threshold is 40. No leakage.
 
 Licence: 3 fresh sources come from Wikimedia Commons with recorded licences;
-**21 come from the upload pool, which has none.**
+**21 come from the upload pool, which has no licence recorded** (not the same as unlicensed; the rights still have to be established).
 
 ## 2. Facts the paper must state correctly
 
@@ -113,4 +115,35 @@ of both without GPU time:
 
 ## 5. Pixelwise CIEDE2000 result
 
-*(to be filled when `scripts/audit_pixelwise_colour.py` finishes)*
+`scripts/audit_pixelwise_colour.py`, candidate identity `cand-support-de00-0`.
+Late window as `dE_static` (last 12%), eroded support, float64, both seeds
+pooled per scene, precipitation excluded, n = 42, 95% bootstrap CIs.
+Negative = target closer to the source.
+
+| target vs reference | region-mean dE | pixelwise ΔE00 mean | pixelwise ΔE00 p90 (90th-percentile error) | sign agreement |
+|---|---|---|---|---:|
+| H1-FM (`echo_nfpb1_h1_frozen_noband_lr`) vs spatial Echo k3 | −5.54 [−8.66, −2.63] | −0.87 [−2.06, +0.35] | **+2.77** [+0.65, +5.02] | — |
+| H1-FM vs plain Echo k1 | −4.57 | +0.78 | **+3.93** [+1.10, +6.66] | — |
+| H1-FM vs static sink k3 | −3.32 | −0.03 | **+4.39** [+2.25, +6.64] | — |
+| SceneTether (`echo_nfpb1_h1_fm_tether100_lr`) vs spatial Echo k3 | −10.20 [−12.82, −7.80] | −5.63 [−6.73, −4.63] | −10.59 [−12.68, −8.60] | 0.98 |
+| SceneTether vs plain Echo k1 | −9.24 [−12.40, −6.40] | −3.98 [−5.50, −2.80] | −9.44 [−12.13, −7.24] | 0.86 |
+| SceneTether vs static sink k3 | −7.98 [−10.37, −5.78] | −4.79 [−6.06, −3.59] | −8.97 [−11.25, −6.79] | 0.86 |
+
+Inputs verified 2026-11-04: all 384 score records behind both audits match their stored `video_sha256` and `source_sha256` (`manifest/pixelwise_colour_audit_input_check.json`); the script now enforces this on every run. The region-mean column keeps the float32 defect of §1.1.
+
+Files: `manifest/pixelwise_colour_audit_h1fm.json` (identical to the tracked
+`manifest/pixelwise_colour_audit.json`) and
+`manifest/pixelwise_colour_audit_scenetether.json`.
+
+**For the paper.**
+
+* If the CVPR draft's "lowest color error" and "color improvements over Echo"
+  refer to **SceneTether**, they survive a pixelwise perceptual check *against these three references on the 42 audited scenes*. That supports "lower source-colour error than these baselines", not "lowest colour error" in general, and not realism. Report
+  pixelwise ΔE00 beside or instead of the region mean, and keep the "not
+  CIEDE2000" wording only for the region-mean measure.
+* For **H1-FM**, a colour claim would not survive: the method redraws support
+  pixels with the right average colour and is worse in the tail.
+* Closer to the source is not the same as more realistic: a source-pixel
+  composite would win every row. The two-sided support-realism check in
+  `SNF_PP_REALISM_DESIGN_2026_11_04.md` (§3.2, control C1b) is what separates
+  them.

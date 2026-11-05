@@ -18,6 +18,7 @@ excluded. Candidate measurement `cand-support-de00-0`; read-only.
 """
 
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -33,6 +34,14 @@ import snf_sourceref as P   # noqa: E402
 from audit_de_precision import boot_ci  # noqa: E402
 
 ROOT = _paths.ROOT
+
+
+def sha256(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for b in iter(lambda: f.read(1 << 20), b""):
+            h.update(b)
+    return h.hexdigest()
 OUT = os.path.join(ROOT, "manifest", "pixelwise_colour_audit.json")
 
 
@@ -41,6 +50,7 @@ def main():
     ap.add_argument("--target", required=True)
     ap.add_argument("--ref", action="append", required=True)
     ap.add_argument("--seeds", default="42,1042")
+    ap.add_argument("--out", default=OUT, help="report path; one file per target")
     a = ap.parse_args()
     method = _paths.resolve("method_repo")
     masks = os.path.join(method, "results/factorial/source_masks")
@@ -48,6 +58,7 @@ def main():
     pairs = json.load(open(os.path.join(ROOT, "manifest/i2v_pairs_v2.json")))["pairs"]
     seeds = a.seeds.split(",")
     cache = {}
+    rejected = []
 
     def late_de00(cell, seed, sid, sup, src, lsha):
         k = (cell, seed, sid)
@@ -60,13 +71,19 @@ def main():
         rec = json.load(open(rp))
         if (rec.get("mask_sha256") or {}).get("labels") != lsha:
             cache[k] = None; return None
-        fr = E.read_frames(rec["video_path"].replace("/workspace/", "/home/minar/"))
+        vp = rec["video_path"].replace("/workspace/", "/home/minar/")
+        if sha256(vp) != rec.get("video_sha256") or src_sha[sid] != rec.get("source_sha256"):
+            rejected.append(dict(cell=cell, seed=seed, scene=sid))
+            cache[k] = None; return None
+        fr = E.read_frames(vp)
         _, l_idx, _ = E.early_late(len(fr))
         r = C.support_de00([fr[i] for i in l_idx], src, sup)
         cache[k] = None if r is None else (float(np.mean(r["mean"])), float(np.mean(r["p90"])),
                                           rec.get("dE_static"))
         return cache[k]
 
+    src_sha = {p["id"]: sha256(os.path.join(ROOT, "prompts/v2/i2v/images", f"{p['id']}.jpg"))
+               for p in pairs}
     out = {r: dict(mean=[], p90=[], dE_static=[], scenes=[]) for r in a.ref}
     for p in pairs:
         sid = p["id"]
@@ -90,6 +107,7 @@ def main():
         print(f"{sid} done", flush=True)
 
     rep = dict(target=a.target, seeds=seeds, identity=C.IDENTITY["support_de00"],
+               input_check="video and source sha256 match the score record", hash_rejected=rejected,
                contrasts={r: dict(n_scenes=len(v["scenes"]),
                                   pixelwise_de00_mean=boot_ci(v["mean"]),
                                   pixelwise_de00_p90=boot_ci(v["p90"]),
@@ -97,7 +115,7 @@ def main():
                                   sign_agreement=float(np.mean(np.sign(v["mean"]) == np.sign(
                                       [x if x == x else 0 for x in v["dE_static"]]))))
                           for r, v in out.items()})
-    json.dump(rep, open(OUT, "w"), indent=1)
+    json.dump(rep, open(a.out, "w"), indent=1)
     print()
     for r, c in rep["contrasts"].items():
         m, q, d = c["pixelwise_de00_mean"], c["pixelwise_de00_p90"], c["region_mean_dE_static"]

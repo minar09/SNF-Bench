@@ -1,0 +1,22 @@
+\section{Metric Validation}
+\label{sec:validation}
+The planned study tests paired interventions, natural periodic and occlusion controls, and real generated failures. Development and confirmation data are split by scene family and model family, keeping all crops, horizons, controls and seeds of a scene together. Thresholds and any metric-selection decisions are established on development data, with final performance assessed on held-out data under a preregistered analysis. Each metric must report eligibility, abstentions, false-positive behavior and uncertainty; response direction is separate from task desirability. No controlled intervention alone establishes perceived naturalness.
+
+\subsection{Targeted Controls}
+Each measure is tested only on the failures it targets, and for invariance to declared nuisances. It is never required to detect every corruption. For each measure, the targeted control families, the nuisances, the minimum eligible coverage, the comparison with a simple established measure and the primary effect-size threshold are fixed on development data before any confirmation score is inspected. Controls include:
+\begin{itemize}
+\item pass-through re-encodes;
+\item pasted, grain-matched, feathered and illumination-matched composites;
+\item time-reversed, ping-pong, exact and cross-faded loops;
+\item freezes;
+\item noise warps and boiling texture;
+\item real footage resampled to other playback speeds;
+\item unrelated subject motion.
+\end{itemize}
+Each control is built from the same decoded parent as its pass-through, so the two share an encoding history. Whether codec, resolution or bitrate alone separate controls is tested on a prespecified subset, not assumed. False-positive rates are estimated on independent real scenes; correlated windows of one recording are not independent scenes. For example, zero false positives in 30 independent negative scenes still leaves a one-sided 95\% upper bound near 9.5\%. Measures that fail remain diagnostics.
+
+\subsection{Human Alignment}
+Independent source-role annotations and blinded human judgments are required. Following common practice for generated-video benchmarks~\cite{huang2023vbench,huang2024vbench++}, model-level agreement is reported as the Spearman correlation between metric-derived and human-derived win ratios per dimension. Following quality-assessment practice~\cite{kou2024t2vqa,hveval2026}, video-level agreement is reported as SRCC, PLCC and KRCC against mean opinion scores. Inter-rater reliability is reported as Krippendorff's $\alpha$~\cite{krippendorff2004content}. Raters answer separate questions on support stability and integrity, material presence and location, amount of activity, motion plausibility, direction, and replay versus legitimate periodicity, each with \emph{cannot tell} and \emph{not applicable} options. Model-level win ratios, video-level opinion scores and paired preferences are analysed separately. A source-conditioned real-versus-generated choice is reported as a further discrimination test; because sharpness and codec cues can drive it, it does not establish physical validity. \pending{human-study results, annotator counts and protocol}
+
+\subsection{Incremental Validity and Robustness}
+Each admitted measure is compared with the closest established measure on the same videos and controls~\cite{huang2023vbench,Zheng2025VBench20AV,duan2025worldscore,allen2025trajan,liu2024fvmd}: agreement is reported, and so is any case where the new measure adds nothing. Incumbents are held to the same admission rules as the new measures, and an incumbent that passes a control is reported as passing it. Rankings are recomputed under seed, frame-sampling, encoder and mask-erosion perturbations, and their stability is reported as rank correlation with intervals. \pending{robustness results}
