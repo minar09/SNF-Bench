@@ -16,13 +16,16 @@ rebuilding two `control_composite_untethered_lr` videos with this env
     $PY scripts/native_controls.py passthrough <list.tsv> <out>/passthrough_crf18
     $PY scripts/native_controls.py adopt <cell> <list.tsv> <out>/<mode>
     $PY scripts/native_controls.py temporal <list.tsv> <out> reverse_tail,loop_exact,...
+    $PY scripts/native_controls.py spatial <list.tsv> <out> conveyor_along,local_patch_15,...
 
 `list.tsv` rows are `<scene id>\\t<parent video path>`. `adopt` verifies every
 hash the cell's RUN.json records against the files on disk, then links the
 control (never copies or edits it) and writes a sidecar in the format
 scripts/pilot_support_realism.py verifies. `temporal` writes the controls of
 scripts/temporal_ops.py through the same decode/encode path, so
-`passthrough_crf18` is their matched partner too. Nothing is ever overwritten.
+`passthrough_crf18` is their matched partner too; `spatial` does the same for
+scripts/spatial_ops.py, writing each mode only for the scene categories in its
+spatial_ops.SCOPE. Nothing is ever overwritten.
 """
 import hashlib
 import json
@@ -38,6 +41,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import _paths  # noqa: E402
 import snf_sourceref as P  # noqa: E402
+import spatial_ops as SO  # noqa: E402
 import temporal_ops as TO  # noqa: E402
 
 FFMPEG = ("/home/minar/miniconda3/envs/helios/lib/python3.11/site-packages/"
@@ -146,7 +150,36 @@ def temporal(listing, out_root, modes):
                    warp_px=TO.WARP_PX, warp_sigma=TO.WARP_SIGMA)
 
 
+def spatial(listing, out_root, modes):
+    from realism_geometry_score import ROUTE
+    modes = modes.split(",")
+    bad = [m for m in modes if m not in SO.MODES]
+    if bad:
+        raise SystemExit(f"unknown modes {bad}; choose from {SO.MODES}")
+    cats = {r["id"]: r["category"] for r in json.load(open(os.path.join(_paths.ROOT, "manifest/i2v_pairs_v2.json")))["pairs"]}
+    scenes = [line.rstrip("\n").split("\t") for line in open(listing)]
+    todo = {m: [(s, p) for s, p in scenes if ROUTE.get(cats.get(s), "none") in SO.SCOPE[m]] for m in modes}
+    for m in modes:
+        refuse_taken(f"{out_root}/{m}", [s for s, _ in todo[m]])
+    for sid, parent in scenes:
+        mine = [m for m in modes if any(s == sid for s, _ in todo[m])]
+        if not mine:
+            continue
+        dyn = P.load_role_masks(os.path.join(MASKS, sid, "labels.png"))[0]
+        if dyn.sum() < SO.MIN_MATERIAL_PX:
+            print(sid, f"skipped: material {int(dyn.sum())} px < {SO.MIN_MATERIAL_PX}", flush=True)
+            continue
+        frames = decode(parent)
+        for m in mine:
+            extra = dict(direction=SO.direction(m, dyn).round(6).tolist(), conveyor_px=SO.CONVEYOR_PX) \
+                if m.startswith("conveyor") else dict(patch_share=SO.PATCH[m])
+            encode(SO.compose(m, frames, dyn), f"{out_root}/{m}", sid, m, parent, t0=len(frames) // 2,
+                   category=cats[sid], **extra)
+
+
 def adopt(cell, listing, out_dir):
+    if cell not in PARENT_KEY:
+        raise SystemExit(f"{cell}: no declared parent key; add it to PARENT_KEY before adopting")
     run_path = os.path.join(METHOD, "results/factorial/cfpp", cell, "seed42/60s/RUN.json")
     run, key = json.load(open(run_path)), PARENT_KEY[cell]
     scenes = [line.rstrip("\n").split("\t") for line in open(listing)]
@@ -155,13 +188,18 @@ def adopt(cell, listing, out_dir):
         rec = run["videos"][sid]
         video = rec["video"] if os.path.isabs(rec["video"]) else os.path.join(METHOD, rec["video"])
         out_sha, parent_sha = sha256(video), sha256(parent)
-        bad = [k for k, a, b in (("sha256", out_sha, rec["sha256"]),
-                                 (key, parent_sha, rec.get(key, parent_sha))) if a != b]
+        # Fail closed: every hash the cell declares must be recorded; a missing one is never assumed.
+        missing = [k for k in ("sha256", key) if k is not None and k not in rec]
+        if missing:
+            raise SystemExit(f"{cell}/{sid}: RUN.json record lacks {missing}; cannot verify provenance")
+        checks = [("sha256", out_sha, rec["sha256"])] + ([(key, parent_sha, rec[key])] if key else [])
+        bad = [k for k, a, b in checks if a != b]
         if bad:
             raise SystemExit(f"{cell}/{sid}: RUN.json {bad} differ from the files on disk")
         os.symlink(video, f"{out_dir}/{sid}.mp4")
         json.dump(dict(scene=sid, mode=cell, adopted_from=run_path, run_sha256=sha256(run_path),
                        control=video, parent=parent if key else None, **chain(sid, parent_sha),
+                       parent_evidence=f"{run_path} [{key}]" if key else None,   # not independent evidence
                        output_sha256=out_sha, output_decoded=probe(video), encoder=run["encoder"],
                        rule=run.get("rule") or run.get("beta_rule"),
                        evaluation_masks_used=run.get("evaluation_masks_used")),
@@ -171,4 +209,4 @@ def adopt(cell, listing, out_dir):
 
 if __name__ == "__main__":
     cmd, *args = sys.argv[1:]
-    {"passthrough": passthrough, "adopt": adopt, "temporal": temporal}[cmd](*args)
+    {"passthrough": passthrough, "adopt": adopt, "temporal": temporal, "spatial": spatial}[cmd](*args)

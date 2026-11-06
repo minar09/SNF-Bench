@@ -58,9 +58,9 @@ T2V = [
 # Config names are deliberately neutral in anything that ships: a released
 # artifact must not carry the name of an unpublished internal method, in a
 # filename or anywhere else.
-_MATCHED = ("run in the common long-horizon I2V rollout wrapper "
-            "(6 frames per block, image-conditioned; checkpoint-specific denoising schedule). "
-            "Read as deployment sensitivity only.")
+_MATCHED = ("run in a common long-horizon I2V rollout wrapper; inference settings must be "
+            "checked per run. CausVid and Self-Forcing used 6-frame blocks, Steady-Forcing "
+            "cache and the CF++ two-step schedule [1000, 500]. Read as deployment sensitivity only.")
 I2V = [
     dict(key="chunk6", name="Causal-Forcing++ (2-step)", track="i2v", status="public", setting="matched",
          ckpt="ckpt/causal-forcing++/framewise-2step.pt", note=_MATCHED),
@@ -68,12 +68,12 @@ I2V = [
          ckpt="ckpt/causal-forcing++/framewise-1step.pt", note=_MATCHED),
     dict(key="cf_framewise", name="Causal-Forcing (frame-wise)", track="i2v", status="public", setting="matched",
          ckpt="ckpt/causal-forcing/framewise/causal_forcing.pt", note=_MATCHED),
-    dict(key="f2s_framewise", name="Causal-Forcing++ (2-step, frame-wise)", track="i2v",
-         status="public", setting="native",
+    dict(key="f2s_framewise", name="Causal-Forcing++ (2-step, adapted frame-wise)", track="i2v",
+         status="public", setting="matched",
          ckpt="ckpt/causal-forcing++/framewise-2step.pt",
-         note="run at its native pure-framewise config "
-              "(configs/framewise_native_i2v.yaml); a genuine native-setting "
-              "run at 60s and beyond."),
+         note="CF++ checkpoint with the Steady-Forcing-derived long-video inference adaptation "
+              "configs/causal_forcing_dmd_f2s_steady.yaml; not the released native recipe. "
+              "Retain as a separately labelled adapted row; see docs/SNF_PP_I2V_RENDER_RECIPES_2026_11_05.md."),
     dict(key="self_forcing", name="Self-Forcing", track="i2v", status="public", setting="matched",
          ckpt="ckpt/Self-Forcing/checkpoints/self_forcing_dmd.pt", note=_MATCHED),
     dict(key="causvid", name="CausVid", track="i2v", status="public", setting="matched",

@@ -7,6 +7,11 @@
 \usepackage{pifont}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric,decorations.pathmorphing}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{groupplots}
+% Data plots read CSVs written by ../scripts/build_journal_plots.py; '#' lines carry their provenance.
+\pgfplotsset{table/comment chars={\#}, table/col sep=comma}
 % Visible marker for unfinished content. `grep -n '\\pending' sec/*.tex` must be
 % empty before submission.
 \newcommand{\pending}[1]{\textcolor{red}{[Pending: #1]}}

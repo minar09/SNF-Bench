@@ -1,0 +1,45 @@
+{
+ "amends": {
+  "path": "manifest/realism_dev_split_2026_11_05.json",
+  "sha256": "55e71f6496ff370d417d7b263c9b580f232f58a640acf196c17cacd7acef42c8",
+  "note": "the original record is immutable and is not edited; this file only adds"
+ },
+ "created": "2026-11-05",
+ "reason": "round-1 decision review (docs/SNF_PP_REALISM_ROUND1_DECISION_REVIEW_2026_11_05.md, finding 1): model_families.confirmation in the original lists published-panel renders on existing v2 scenes, which are held out by model family only, not by scene",
+ "clarification": {
+  "published_panel_on_v2_scenes": "model-family-held-out only; the scenes are development scenes",
+  "scenetether_and_h1_fm": "development family; never family-held-out, including on new scenes"
+ },
+ "confirmation_factorial": {
+  "seen_scenes__new_families": {
+   "supports": "generalization to unseen model families only",
+   "example": "published-panel renders (SVI, Helios, Wan, LTX) on v2 or fresh scenes, generated after the freeze"
+  },
+  "new_scenes__seen_families": {
+   "supports": "generalization to unseen scenes only",
+   "example": "CF++ family, SceneTether or H1-FM on scenes collected after the freeze"
+  },
+  "new_scenes__new_families": {
+   "supports": "both claims",
+   "example": "published-panel renders on scenes collected after the freeze"
+  }
+ },
+ "report_rule": "every confirmation result names its factorial cell; a claim of scene or family generalization cites only the cells that support it",
+ "locking_rule": "confirmation scenes and renders are listed here by SHA-256 before any realism statistic is computed on or anyone inspects them; an exposure log records every later viewing. Timestamps and hashes are an audit trail, not proof of who viewed what.",
+ "locked_confirmation": [],
+ "visual_figure_set": {
+  "status": "exposure-logged visual material; not confirmation data",
+  "why": "public-benchmark conditioning images (licence-documented, for paper figures) are viewed by the people developing the statistics, so their renders cannot confirm anything",
+  "sources": [
+   "Physics-IQ (CC BY 4.0), e.g. scene 0140 used in Fig. 1(a)",
+   "VBench-I2V image suite (Pexels/Pixabay; Pexels licence text still to be read)"
+  ],
+  "exposure_log": [
+   {
+    "date": "2026-11-05",
+    "who": "Claude session (journal figures)",
+    "what": "Physics-IQ 0065, 0092, 0140 first frames and motion masks; Xiph riverbed frame 0"
+   }
+  ]
+ }
+}

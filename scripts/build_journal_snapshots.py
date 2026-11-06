@@ -2,11 +2,14 @@
 """Video snapshots and change maps for the TCSVT draft and its interactive companions.
 
 Selection rule, fixed before any frame was viewed: every text-to-video prompt
-at the 240 s horizon for which all seven published systems
-(scripts/registry.py `contestants("t2v")`) have an output. Four prompts
-qualify. The main figure uses the first in prompt-ID order; the appendix shows
-all four. Steady-Forcing is left out until its single released configuration
-is identified (two internal configurations exist locally).
+at the 240 s horizon for which all eight published systems
+(scripts/registry.py `contestants("t2v")` plus Steady-Forcing) have an output.
+Four prompts qualify. The main figure uses the first in prompt-ID order; the
+appendix shows all four. Steady-Forcing is the `steady_forcing_bt` family: the
+author attests (2026-11-05) that `steady_forcing_bt.pt` is the released
+`steady_forcing_t2v.pt`; the bt checkpoint itself was deleted, so byte identity
+is unverified. The `steady_forcing` (st) family is a small-teacher
+distillation and is never used.
 
 Per video (decoded once, sequentially, so frame indices are exact):
 
@@ -21,17 +24,22 @@ Per video (decoded once, sequentially, so frame indices are exact):
 * JPEG thumbnails every 10 s at 416x240 for the companion viewer.
 
 Maps are visualizations on a fixed colour scale, not metrics; they use no
-region masks. The I2V role illustration uses ifp06, the only v2 source with a
-CC BY 2.0 licence recorded (Metropolitan Transportation Authority of the State
-of New York).
+region masks. Real images in figures come only from public benchmarks with a
+documented licence. The role-map illustration uses Physics-IQ scene 0140
+(paper smoke, fixed camera; Motamed et al., WACV 2026; Google DeepMind,
+CC BY 4.0): its first frame, with roles derived from the benchmark's own motion
+masks (material = any masked motion, uncertain = a band around it, support =
+the rest). It illustrates the role vocabulary; SNF-Bench++ role maps are made
+differently (docs/METRIC_SPEC_v1.1.md).
 
-    MPLCONFIGDIR=/tmp/snf-mpl /home/minar/miniconda3/envs/snfeval/bin/python scripts/build_journal_snapshots.py
+    MPLCONFIGDIR=/tmp/snf-mpl /home/minar/miniconda3/envs/snfeval/bin/python scripts/build_journal_snapshots.py [--role-only]
 """
 import csv
 import hashlib
 import json
 import os
 import sys
+import urllib.request
 from collections import defaultdict
 
 import cv2
@@ -67,8 +75,15 @@ def sha256(path):
     return h.hexdigest()
 
 
+# Published preprint whose registry status is still "internal" (registry gates the leaderboards).
+EXTRA = [dict(key="steady_forcing_bt", name="Steady-Forcing",
+              provenance="author-attested identical to released steady_forcing_t2v.pt "
+                         "(sha256 2caeb6ace590bbfe2e9e027842690441411a3fd299dc38b1011d0705d2b9a908); "
+                         "bt checkpoint deleted, byte identity unverified")]
+
+
 def select():
-    systems = contestants("t2v")
+    systems = contestants("t2v") + EXTRA
     keys = [m["key"] for m in systems]
     vids = defaultdict(dict)
     for r in csv.DictReader(open(os.path.join(ROOT, "manifest/video_index.csv"))):
@@ -144,30 +159,84 @@ def colourbars():
         plt.close(fig)
 
 
+PIQ_URL = "https://storage.googleapis.com/physics-iq-benchmark"
+PIQ = {  # Physics-IQ scene 0140, centre view, take 1, 30 fps; CC BY 4.0
+    "video": ("full-videos/take-1/30FPS/0140_full-videos_30FPS_perspective-center_take-1_trimmed-paper-smoke.mp4",
+              "a97e9a4e97bff20cb6fdceb3ee73222143d0341bb3f8f61d77a24b7c3f49ae92"),
+    "mask": ("video-masks/real/30FPS/0140_video-masks_30FPS_perspective-center_take-1_trimmed-paper-smoke.mp4",
+             "4b16d1c937ebf5c129c594db20fa7030690c384a95f483506726fab318c6c169"),
+}
+PIQ_CACHE = os.path.join(ROOT, "videos/public_bench/physics_iq")   # gitignored
+ROLE_SIZE = (832, 468)   # 16:9 source
+ROLE_BAND = 9            # px at ROLE_SIZE: uncertain band around material
+
+
+def fetch(rel, digest):
+    path = os.path.join(PIQ_CACHE, os.path.basename(rel))
+    if not os.path.exists(path):
+        os.makedirs(PIQ_CACHE, exist_ok=True)
+        urllib.request.urlretrieve(f"{PIQ_URL}/{rel}", path + ".part")
+        os.replace(path + ".part", path)
+    if sha256(path) != digest:
+        raise SystemExit(f"hash mismatch: {path}")
+    return path
+
+
 def role_overlay():
-    """ifp06 source with its role map blended in (CC BY 2.0 source)."""
-    src = cv2.imread(os.path.join(ROOT, "prompts/v2/i2v/images/ifp06.jpg"))
-    lab = cv2.imread(os.path.join(_paths.resolve("method_repo"),
-                                  "results/factorial/source_masks/ifp06/labels.png"), cv2.IMREAD_GRAYSCALE)
+    """Physics-IQ 0140 first frame with roles from its official motion masks (CC BY 4.0)."""
+    cap = cv2.VideoCapture(fetch(*PIQ["video"]))
+    ok, src = cap.read()
+    cap.release()
+    if not ok:
+        raise SystemExit("cannot decode Physics-IQ 0140")
+    src = cv2.resize(src, ROLE_SIZE, interpolation=cv2.INTER_AREA)
+    cap, moved = cv2.VideoCapture(fetch(*PIQ["mask"])), None
+    while True:
+        ok, m = cap.read()
+        if not ok:
+            break
+        m = cv2.resize(cv2.cvtColor(m, cv2.COLOR_BGR2GRAY), ROLE_SIZE, interpolation=cv2.INTER_AREA) > 0
+        moved = m if moved is None else moved | m
+    cap.release()
+    disk = lambda r: cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * r + 1, 2 * r + 1))
+    mat = cv2.morphologyEx(moved.astype(np.uint8), cv2.MORPH_CLOSE, disk(6))
+    band = cv2.dilate(mat, disk(ROLE_BAND)) & (1 - mat)
+    lab = np.ones(mat.shape, np.uint8)          # support
+    lab[mat > 0], lab[band > 0] = 2, 0          # material, uncertain
     tint = np.zeros_like(src)
     for k, rgb in ROLE_RGB.items():
         tint[lab == k] = rgb[::-1]
-    out = cv2.addWeighted(src, 0.55, tint, 0.45, 0)
-    edges = cv2.Canny(lab * 60, 10, 30) > 0
-    out[edges] = (255, 255, 255)
-    cv2.imwrite(f"{SNAP}/role_ifp06.png", out)
-    cv2.imwrite(f"{SNAP}/source_ifp06.png", src)
-    cv2.imwrite(f"{ASSETS}/role_ifp06.jpg", cv2.resize(out, (416, 240), interpolation=cv2.INTER_AREA),
+    alpha = np.where(lab == 1, 0.25, 0.5)[..., None]   # lighter tint on support keeps the scene readable
+    out = (src * (1 - alpha) + tint * alpha).astype(np.uint8)
+    out[cv2.Canny(lab * 60, 10, 30) > 0] = (255, 255, 255)
+    cv2.imwrite(f"{SNAP}/role_piq0140.png", out)
+    cv2.imwrite(f"{ASSETS}/role_piq0140.jpg", cv2.resize(out, (416, 234), interpolation=cv2.INTER_AREA),
                 [cv2.IMWRITE_JPEG_QUALITY, 90])
     return {int(k): int(v) for k, v in zip(*np.unique(lab, return_counts=True))}
+
+
+def role_record():
+    return dict(scene="Physics-IQ 0140 (paper smoke), centre view, take 1, first frame", licence="CC BY 4.0",
+                attribution="Physics-IQ benchmark (Motamed et al., WACV 2026), Copyright 2024 DeepMind Technologies Limited",
+                licence_url="https://creativecommons.org/licenses/by/4.0/",
+                source={k: dict(url=f"{PIQ_URL}/{rel}", sha256=d) for k, (rel, d) in PIQ.items()},
+                changes="resized to 832x468; roles derived from the official motion masks and overlaid",
+                label_pixels=role_overlay(), colours_rgb=ROLE_RGB)
 
 
 def main():
     for d in (SNAP, ASSETS):
         os.makedirs(d, exist_ok=True)
+    if "--role-only" in sys.argv:
+        path = f"{SNAP}/SNAPSHOTS.json"
+        rec = json.load(open(path))
+        rec["role_illustration"] = role_record()
+        json.dump(rec, open(path, "w"), indent=1)
+        return
     systems, prompts, vids = select()
     rec = dict(rule="all 240 s T2V prompts with outputs from every published system; main = first by prompt ID",
-               systems=[dict(key=m["key"], name=m["name"]) for m in systems], prompts=[], times_s=list(TIMES),
+               systems=[dict(key=m["key"], name=m["name"], **({"provenance": m["provenance"]} if "provenance" in m else {}))
+                        for m in systems], prompts=[], times_s=list(TIMES),
                maps=dict(change=dict(definition="|mean grey of first 1 s - mean grey of last 1 s|",
                                      top=CHANGE_MAX, cmap=CMAP_CHANGE),
                          motion=dict(definition="mean |successive grey change|, last 12% of frames at 8 fps",
@@ -188,10 +257,7 @@ def main():
             print(tag_dir, m["key"], flush=True)
         rec["prompts"].append(entry)
     colourbars()
-    rec["role_illustration"] = dict(scene="ifp06", licence="CC BY 2.0",
-                                    attribution="Metropolitan Transportation Authority of the State of New York",
-                                    source="https://commons.wikimedia.org/wiki/File:Snowy_Transit_in_Brooklyn_(12294431174).jpg",
-                                    label_pixels=role_overlay(), colours_rgb=ROLE_RGB)
+    rec["role_illustration"] = role_record()
     json.dump(rec, open(f"{SNAP}/SNAPSHOTS.json", "w"), indent=1)
     js = {k: rec[k] for k in ("systems", "times_s", "maps")}
     js["prompts"] = [dict(id=e["id"], prompt=e["prompt"]) for e in rec["prompts"]]

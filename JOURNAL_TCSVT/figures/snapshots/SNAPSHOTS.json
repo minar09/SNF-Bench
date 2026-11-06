@@ -28,6 +28,11 @@
   {
    "key": "causal_forcing",
    "name": "Causal-Forcing"
+  },
+  {
+   "key": "steady_forcing_bt",
+   "name": "Steady-Forcing",
+   "provenance": "author-attested identical to released steady_forcing_t2v.pt (sha256 2caeb6ace590bbfe2e9e027842690441411a3fd299dc38b1011d0705d2b9a908); bt checkpoint deleted, byte identity unverified"
   }
  ],
  "prompts": [
@@ -132,6 +137,20 @@
      },
      "change_median": 38.8125,
      "motion_median": 24.34934425354004
+    },
+    "steady_forcing_bt": {
+     "path": "/home/minar/static-forcing/output/steady_forcing_bt/t2v_240s/A_South_Korean_urban_rainstorm,_recorded_by_a_fixed_tripod_camera._Rain_falls_continuously_onto_the_-0-1779345687.0092273.mp4",
+     "sha256": "ad250bc5d78fe6f1f0bfdfc7f6ffe084c1b1ac5291d7cdd7ac1aa6b689095a19",
+     "frames": 3837,
+     "frame_index": {
+      "0": 0,
+      "60": 960,
+      "120": 1920,
+      "180": 2880,
+      "240": 3836
+     },
+     "change_median": 32.5,
+     "motion_median": 2.3493449687957764
     }
    }
   },
@@ -236,6 +255,20 @@
      },
      "change_median": 27.0,
      "motion_median": 21.14410400390625
+    },
+    "steady_forcing_bt": {
+     "path": "/home/minar/static-forcing/output/steady_forcing_bt/t2v_240s/A_massive_mountain_waterfall_crashing_continuously_into_a_misty_pool,_recorded_by_a_completely_fixed-0-1779343775.4229198.mp4",
+     "sha256": "bc2db331facd4e06176497e3e6f26ada01cac0d40b75250823a9be4e2da93dd0",
+     "frames": 3837,
+     "frame_index": {
+      "0": 0,
+      "60": 960,
+      "120": 1920,
+      "180": 2880,
+      "240": 3836
+     },
+     "change_median": 15.0625,
+     "motion_median": 1.3799126148223877
     }
    }
   },
@@ -340,6 +373,20 @@
      },
      "change_median": 35.875,
      "motion_median": 34.80349349975586
+    },
+    "steady_forcing_bt": {
+     "path": "/home/minar/static-forcing/output/steady_forcing_bt/t2v_240s/A_serene_forest_river,_its_clear_water_flowing_over_smooth_stones_without_pause_or_interruption,_rec-0-1779342196.7044365.mp4",
+     "sha256": "6d2953303531542aba02a3ee7c37196487c76b8853390d2bba2723a4e36bf958",
+     "frames": 3837,
+     "frame_index": {
+      "0": 0,
+      "60": 960,
+      "120": 1920,
+      "180": 2880,
+      "240": 3836
+     },
+     "change_median": 19.4375,
+     "motion_median": 1.0436681509017944
     }
    }
   },
@@ -444,6 +491,20 @@
      },
      "change_median": 36.25,
      "motion_median": 30.611352920532227
+    },
+    "steady_forcing_bt": {
+     "path": "/home/minar/static-forcing/output/steady_forcing_bt/t2v_240s/A_violent_hillside_storm,_recorded_by_a_static_tripod_camera._Tall_trees_thrash_continuously_in_fier-0-1779347883.009283.mp4",
+     "sha256": "fd69489f473232dfd2ecd6bd5bba024b40e9d66ec7bc068d8292e9421b42c226",
+     "frames": 3837,
+     "frame_index": {
+      "0": 0,
+      "60": 960,
+      "120": 1920,
+      "180": 2880,
+      "240": 3836
+     },
+     "change_median": 23.25,
+     "motion_median": 2.567685604095459
     }
    }
   }
@@ -469,14 +530,25 @@
  },
  "note": "visualizations, not metrics; no region masks are used",
  "role_illustration": {
-  "scene": "ifp06",
-  "licence": "CC BY 2.0",
-  "attribution": "Metropolitan Transportation Authority of the State of New York",
-  "source": "https://commons.wikimedia.org/wiki/File:Snowy_Transit_in_Brooklyn_(12294431174).jpg",
+  "scene": "Physics-IQ 0140 (paper smoke), centre view, take 1, first frame",
+  "licence": "CC BY 4.0",
+  "attribution": "Physics-IQ benchmark (Motamed et al., WACV 2026), Copyright 2024 DeepMind Technologies Limited",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source": {
+   "video": {
+    "url": "https://storage.googleapis.com/physics-iq-benchmark/full-videos/take-1/30FPS/0140_full-videos_30FPS_perspective-center_take-1_trimmed-paper-smoke.mp4",
+    "sha256": "a97e9a4e97bff20cb6fdceb3ee73222143d0341bb3f8f61d77a24b7c3f49ae92"
+   },
+   "mask": {
+    "url": "https://storage.googleapis.com/physics-iq-benchmark/video-masks/real/30FPS/0140_video-masks_30FPS_perspective-center_take-1_trimmed-paper-smoke.mp4",
+    "sha256": "4b16d1c937ebf5c129c594db20fa7030690c384a95f483506726fab318c6c169"
+   }
+  },
+  "changes": "resized to 832x468; roles derived from the official motion masks and overlaid",
   "label_pixels": {
-   "0": 94727,
-   "1": 139300,
-   "3": 165333
+   "0": 16018,
+   "1": 352874,
+   "2": 20484
   },
   "colours_rgb": {
    "0": [

@@ -7,7 +7,8 @@
 <style>
 :root{--ink:#1f2a36;--muted:#5d6b78;--line:#c9d2db;--paper:#f5f7f9;--bg:#fff;--sup:#0072b2;--mat:#e69f00;--sub:#009e73;
   --ovl:#cc79a7;--ign:#9a9a9a;--inc:#6c5ba7}
-@media (prefers-color-scheme:dark){:root{--ink:#e6ebf0;--muted:#9aa7b4;--line:#3a4652;--paper:#1b232c;--bg:#11171d}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#e6ebf0;--muted:#9aa7b4;--line:#3a4652;--paper:#1b232c;--bg:#11171d;color-scheme:dark}}
+:root[data-theme="dark"]{--ink:#e6ebf0;--muted:#9aa7b4;--line:#3a4652;--paper:#1b232c;--bg:#11171d;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
 main{max-width:1280px;margin:0 auto;padding:20px 16px 40px}

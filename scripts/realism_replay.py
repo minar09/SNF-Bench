@@ -14,7 +14,11 @@ role.
   only what moves is compared. Abstains when the residual has no energy
   (a frozen region), which `activity` then reports.
 * `cand-seam-0`: the largest successive-frame change in the window over its
-  median, the signature of a cut.
+  median, the signature of a cut. Explodes when the median nears zero (frozen
+  controls reach ~10^4-10^6).
+* `cand-seam-1`: the same ratio, abstaining when the median activity is under
+  the codec floor ACT_FLOOR (same floor and evidence as `cand-edge-profile-2`
+  in pilot_support_realism.py), so a frozen region reports no seam.
 * `activity`: median successive grey change, grey levels (diagnostic).
 
 A scene whose eroded dynamic region is under MIN_PX abstains.
@@ -38,10 +42,10 @@ sys.path.insert(0, HERE)
 import _paths               # noqa: E402
 import snf_candidates as C  # noqa: E402
 import snf_sourceref as P   # noqa: E402
-from pilot_support_realism import sha256, verify_chain  # noqa: E402
+from pilot_support_realism import ACT_FLOOR, sha256, verify_chain, verify_reference  # noqa: E402
 
 IDENTITY = {"recurrence_appearance": "cand-recurrence-0", "recurrence": "cand-recurrence-1",
-            "seam": "cand-seam-0"}
+            "seam": "cand-seam-0", "seam_guarded": "cand-seam-1"}
 WINDOW_S = 24
 MIN_LAG_S, RUN_S = 2.0, 1.0
 MIN_RESIDUAL = 0.5    # grey levels RMS; below it the region is treated as frozen
@@ -91,13 +95,17 @@ def measure(path, dyn):
     steps = np.abs(np.diff(grey, axis=0))[:, core].mean(1)
     out = dict(fps=fps, frames=len(frames), activity=float(np.median(steps)),
                seam=float(steps.max() / max(np.median(steps), 1e-6)))
+    if out["activity"] < ACT_FLOOR:
+        out.setdefault("abstain", {})["seam_1"] = f"activity {out['activity']:.3f} < codec floor {ACT_FLOOR}"
+    else:
+        out["seam_1"] = float(steps.max() / out["activity"])
     a = C.recurrence(frames, core, fps_sampled=fps, min_lag_s=MIN_LAG_S, run_s=RUN_S)
     out["recurrence_appearance"] = a["score"]
     resid = grey - np.median(grey, axis=0)
     rms = float(np.sqrt((resid[:, core] ** 2).mean()))
     out["residual_rms"] = rms
     if rms < MIN_RESIDUAL:
-        out["abstain"] = {"recurrence": f"residual RMS {rms:.2f} < {MIN_RESIDUAL}: frozen"}
+        out.setdefault("abstain", {})["recurrence"] = f"residual RMS {rms:.2f} < {MIN_RESIDUAL}: frozen"
     else:
         out["recurrence"], out["recurrence_lag_s"] = sustained_match(thumbs(resid, core), fps)
     return out
@@ -124,13 +132,15 @@ def main():
         for md in modes:
             path = f"{a.controls}/{md}/{sid}.mp4"
             verify_chain(path, chain)
+            if md == modes[0]:
+                verify_reference(path)   # the comparison baseline must be a pass-through
             row["controls"][md] = dict(sha256=sha256(path), **measure(path, dyn))
         rows.append(row)
         print(sid, {md: row["controls"][md].get("recurrence") for md in modes}, flush=True)
     ref, summary = modes[0], {}
     for md in modes:
         summary[md] = {}
-        for s in ("recurrence_appearance", "recurrence", "seam", "activity"):
+        for s in ("recurrence_appearance", "recurrence", "seam", "seam_1", "activity"):
             v = [r["controls"][md][s] for r in rows if r["controls"][md].get(s) is not None]
             summary[md][s] = dict(n=len(v), n_attempted=len(rows), median=float(np.median(v)) if v else None)
             p = [(r["controls"][ref][s], r["controls"][md][s]) for r in rows
@@ -139,7 +149,7 @@ def main():
                 x, y = np.array(p).T
                 summary[md][s].update(n_paired=len(p), frac_control_above_reference=float(np.mean(y > x)))
     rep = dict(entrant=a.label, identity=IDENTITY, reference=ref, window_s=WINDOW_S, min_lag_s=MIN_LAG_S,
-               run_s=RUN_S, min_residual=MIN_RESIDUAL, thumb=THUMB,
+               run_s=RUN_S, min_residual=MIN_RESIDUAL, act_floor=ACT_FLOOR, thumb=THUMB,
                caveat="development data (CF++ family); constructed controls only; no natural periodic negatives",
                summary=summary, rows=rows)
     json.dump(rep, open(a.out, "w"), indent=1)

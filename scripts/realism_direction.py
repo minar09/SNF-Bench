@@ -37,7 +37,7 @@ _paths.bootstrap_metric_imports()
 import snf_task_metrics as S          # noqa: E402
 import snf_sourceref as P             # noqa: E402
 import snf_candidates as C            # noqa: E402
-from pilot_support_realism import sha256, verify_chain  # noqa: E402
+from pilot_support_realism import sha256, verify_chain, verify_reference  # noqa: E402
 
 IDENTITY = {"flux": "cand-direction-flux-0", "agreement": "cand-direction-agreement-0"}
 UNIT = {"left to right": (1, 0), "right to left": (-1, 0), "top to bottom": (0, 1), "upward": (0, -1),
@@ -137,6 +137,8 @@ def main():
         for md in modes:
             path = f"{a.controls}/{md}/{sid}.mp4"
             verify_chain(path, chain)
+            if md == modes[0]:
+                verify_reference(path)   # the comparison baseline must be a pass-through
             row["controls"][md] = dict(sha256=sha256(path), **measure(model, path, dyn, dirs.get(sid), device))
         rows.append(row)
         print(sid, {md: row["controls"][md].get("flux") for md in modes}, flush=True)

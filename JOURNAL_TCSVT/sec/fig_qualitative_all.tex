@@ -1,29 +1,29 @@
-% All four 240 s prompts (appendix). JPEG quality 95, 4:4:4, 416x240; each prints about 2.5 cm wide.
+% All four 240 s prompts (appendix). JPEG quality 95, 4:4:4, 416x240; each prints about 2.2 cm wide.
 \newcommand{\qacell}[3]{\includegraphics[width=\qaw]{figures/snapshots/t2v240_hq/#1/#2_#3.jpg}}
 \newcommand{\qarow}[3]{% #1 prompt dir, #2 suffix, #3 row label
   \rotatebox{90}{\parbox{\qah}{\centering\tiny #3}} &
   \qacell{#1}{CausVid}{#2} & \qacell{#1}{self_forcing}{#2} & \qacell{#1}{infinite_forcing}{#2} &
   \qacell{#1}{rolling_forcing}{#2} & \qacell{#1}{reward_forcing}{#2} & \qacell{#1}{longlive}{#2} &
-  \qacell{#1}{causal_forcing}{#2}\\[-1.5pt]}
+  \qacell{#1}{causal_forcing}{#2} & \qacell{#1}{steady_forcing_bt}{#2}\\[-1.5pt]}
 \newcommand{\qablock}[2]{% #1 prompt dir, #2 prompt text
-  \multicolumn{8}{@{}l}{\scriptsize\textit{``#2''}}\\
+  \multicolumn{9}{@{}l}{\scriptsize\textit{``#2''}}\\
   \qarow{#1}{t000}{\gclock\ 0\,s}
   \qarow{#1}{t240}{\gclock\ 240\,s}
   \qarow{#1}{change}{0$\to$240\,s}}
 \begin{figure*}[p]
 \centering
 \setlength{\tabcolsep}{0.5pt}
-\newlength{\qaw}\setlength{\qaw}{0.136\textwidth}
+\newlength{\qaw}\setlength{\qaw}{0.119\textwidth}
 \newlength{\qah}\setlength{\qah}{0.577\qaw}
-\begin{tabular}{@{}c ccccccc@{}}
+\begin{tabular}{@{}c cccccccc@{}}
  & \scriptsize CausVid & \scriptsize Self-Forcing & \scriptsize Infinite-Forcing & \scriptsize Rolling-Forcing
- & \scriptsize Reward-Forcing & \scriptsize LongLive & \scriptsize Causal-Forcing\\
+ & \scriptsize Reward-Forcing & \scriptsize LongLive & \scriptsize Causal-Forcing & \scriptsize Steady-Forcing\\
 \qablock{p0}{A South Korean urban rainstorm, recorded by a fixed tripod camera\ldots}
 \qablock{p1}{A massive mountain waterfall crashing continuously into a misty pool\ldots}
 \qablock{p2}{A serene forest river, its clear water flowing over smooth stones\ldots}
 \qablock{p3}{A violent hillside storm, recorded by a static tripod camera\ldots}
 \end{tabular}
-\caption{\textbf{All four nominal 240\,s prompts with outputs from the seven historical T2V checkpoints under the common inference configuration.} First and last frame and
+\caption{\textbf{All four nominal 240\,s prompts with outputs from the eight T2V checkpoints} (the first seven under the common inference configuration, Steady-Forcing under its native one). First and last frame and
 the 0$\to$240\,s change map (colour scale as in Fig.~\ref{fig:qualitative}) of one output per system and prompt;
 no output was excluded. Columns are systems in registry order, not ranks. Late-motion maps and frames every
 10\,s are in \texttt{interactive/qualitative\_viewer.html}.}

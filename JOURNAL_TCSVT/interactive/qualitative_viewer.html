@@ -6,7 +6,8 @@
 <title>SNF-Bench++ rollout viewer</title>
 <style>
 :root{--ink:#1f2a36;--muted:#5d6b78;--line:#d3dae1;--paper:#f5f7f9;--bg:#fff;--accent:#0072b2;--warm:#e69f00}
-@media (prefers-color-scheme:dark){:root{--ink:#e6ebf0;--muted:#9aa7b4;--line:#34404c;--paper:#1b232c;--bg:#11171d;--accent:#56b4e9}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#e6ebf0;--muted:#9aa7b4;--line:#34404c;--paper:#1b232c;--bg:#11171d;--accent:#56b4e9;color-scheme:dark}}
+:root[data-theme="dark"]{--ink:#e6ebf0;--muted:#9aa7b4;--line:#34404c;--paper:#1b232c;--bg:#11171d;--accent:#56b4e9;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
 main{max-width:1280px;margin:0 auto;padding:20px 16px 48px}
@@ -28,22 +29,21 @@ h1{font-size:1.35rem;margin:0 0 4px}
 .tile{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);cursor:pointer;position:relative}
 .tile[aria-selected=true]{outline:3px solid var(--warm);outline-offset:-1px}
 .tile .img{position:relative;aspect-ratio:416/240;background:#000}
-.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.tile img.map{opacity:var(--op,0)}
+.cell{position:absolute;inset:0;background-size:900% 300%;background-repeat:no-repeat}
+.tile .map{opacity:var(--op,0)}
 .tile .cap{display:flex;justify-content:space-between;padding:5px 9px;font-size:.9rem}
 .tile .cap b{font-weight:600}
 .legend{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:10px 0 0;color:var(--muted);font-size:.85rem}
 .legend img{height:22px;background:#fff;border-radius:3px}
 section.compare{margin-top:22px;border-top:1px solid var(--line);padding-top:14px}
 .wipe{position:relative;max-width:832px;aspect-ratio:416/240;user-select:none;touch-action:none;border-radius:8px;overflow:hidden;background:#000}
-.wipe img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .wipe .top{clip-path:inset(0 calc(100% - var(--x,50%)) 0 0)}
 .wipe .handle{position:absolute;top:0;bottom:0;left:var(--x,50%);width:2px;background:#fff;box-shadow:0 0 0 1px #0006}
 .wipe .lab{position:absolute;top:8px;padding:2px 8px;border-radius:4px;background:#000a;color:#fff;font-size:.85rem}
 .strip{display:flex;gap:4px;overflow-x:auto;margin-top:10px;padding-bottom:6px}
 .strip figure{margin:0;flex:0 0 120px;cursor:pointer;opacity:.75}
 .strip figure[aria-current=true]{opacity:1;outline:2px solid var(--warm)}
-.strip img{width:120px;display:block;border-radius:3px}
+.strip .thumb{position:relative;width:120px;aspect-ratio:416/240;border-radius:3px;overflow:hidden}
 .strip figcaption{font-size:.75rem;color:var(--muted);text-align:center}
 .note{font-size:.85rem;color:var(--muted);margin-top:18px;max-width:90ch}
 kbd{border:1px solid var(--line);border-radius:3px;padding:0 4px;font-size:.8rem}
@@ -51,9 +51,9 @@ kbd{border:1px solid var(--line);border-radius:3px;padding:0 4px;font-size:.8rem
 </head>
 <body>
 <main>
-<h1>Rollout viewer: seven published systems, 240&nbsp;s</h1>
+<h1>Rollout viewer: eight published systems, 240&nbsp;s</h1>
 <p class="sub">One output per system and prompt, frames every 10&nbsp;s, all scrubbed together. Companion to the
-paper's qualitative figures; historical outputs use one common inference configuration, not each method's native pipeline. Selection rule and hashes are in <code>figures/snapshots/SNAPSHOTS.json</code>.
+paper's qualitative figures. Seven historical outputs use one common inference configuration rather than each method's native pipeline; Steady-Forcing is its released checkpoint under its native configuration. Selection rule and hashes are in <code>figures/snapshots/SNAPSHOTS.json</code>.
 Click two tiles to compare them with a wipe.</p>
 
 <div class="bar" role="toolbar" aria-label="Viewer controls">
@@ -81,7 +81,7 @@ Click two tiles to compare them with a wipe.</p>
 <section class="compare" id="compare" hidden>
   <h2 style="font-size:1.1rem;margin:0 0 8px">Compare <span id="cmpnames"></span></h2>
   <div class="wipe" id="wipe" aria-label="Drag to compare">
-    <img class="bot" id="wb" alt=""><img class="top" id="wt" alt="">
+    <div class="cell bot" id="wb" role="img"></div><div class="cell top" id="wt" role="img"></div>
     <div class="handle"></div><span class="lab" id="lt" style="left:8px"></span><span class="lab" id="lb" style="right:8px"></span>
   </div>
   <div class="strip" id="strip" aria-label="Time strip"></div>
@@ -98,7 +98,15 @@ rank systems. One output per system per prompt. Playback advances 10 s of video 
   const st = {p: 0, t: 0, layer: 'frame', op: 1, pick: [], timer: null};
   const $ = id => document.getElementById(id);
   const tag = t => 't' + String(t).padStart(3, '0');
-  const src = (key, what) => `assets/t2v240/${S.prompts[st.p].id}/${key}_${what}.jpg`;
+  // One sprite per prompt and system (scripts/build_companion_sprites.py): 9x3 cells, t000..t240, change, motion.
+  const COLS = 9, ROWS = 3;
+  const cellOf = what => what === 'change' ? 25 : what === 'motion' ? 26 : +what.slice(1) / 10;
+  function paint(el, key, what, label) {
+    const i = cellOf(what), c = i % COLS, r = Math.floor(i / COLS);
+    el.style.backgroundImage = `url("assets/sprites/${S.prompts[st.p].id}/${key}.jpg")`;
+    el.style.backgroundPosition = `${100 * c / (COLS - 1)}% ${100 * r / (ROWS - 1)}%`;
+    el.setAttribute('aria-label', label);
+  }
 
   S.prompts.forEach((p, i) => {
     const b = document.createElement('button');
@@ -110,7 +118,7 @@ rank systems. One output per system per prompt. Playback advances 10 s of video 
   const tiles = S.systems.map(s => {
     const el = document.createElement('div');
     el.className = 'tile'; el.tabIndex = 0; el.setAttribute('role', 'button');
-    el.innerHTML = `<div class="img"><img class="fr" alt=""><img class="map" alt=""></div>
+    el.innerHTML = `<div class="img"><div class="cell fr" role="img"></div><div class="cell map" role="img"></div></div>
       <div class="cap"><b>${s.name}</b><span class="tt"></span></div>`;
     el.onclick = () => togglePick(s.key);
     el.onkeydown = e => { if (e.key === 'Enter') togglePick(s.key); };
@@ -124,9 +132,8 @@ rank systems. One output per system per prompt. Playback advances 10 s of video 
     $('t').value = st.t; $('clock').textContent = st.t + ' s';
     const showMap = st.layer !== 'frame';
     tiles.forEach(x => {
-      x.fr.src = src(x.s.key, tag(st.t));
-      x.fr.alt = `${x.s.name} at ${st.t} s`;
-      if (showMap) { x.map.src = src(x.s.key, st.layer); x.map.alt = `${x.s.name} ${st.layer} map`; }
+      paint(x.fr, x.s.key, tag(st.t), `${x.s.name} at ${st.t} s`);
+      if (showMap) paint(x.map, x.s.key, st.layer, `${x.s.name} ${st.layer} map`);
       x.el.style.setProperty('--op', showMap ? st.op : 0);
       x.tt.textContent = showMap ? (st.layer === 'change' ? 'changed 0→240 s' : 'late frame change') : st.t + ' s';
       x.el.setAttribute('aria-selected', st.pick.includes(x.s.key));
@@ -145,14 +152,15 @@ rank systems. One output per system per prompt. Playback advances 10 s of video 
     if (!on) return;
     const [a, b] = st.pick, name = k => S.systems.find(s => s.key === k).name;
     const what = st.layer === 'frame' ? tag(st.t) : st.layer;
-    $('wt').src = src(a, what); $('wb').src = src(b, what);
+    paint($('wt'), a, what, name(a)); paint($('wb'), b, what, name(b));
     $('lt').textContent = name(a); $('lb').textContent = name(b);
     $('cmpnames').textContent = `${name(a)} ↔ ${name(b)}`;
     const strip = $('strip'); strip.replaceChildren();
     for (let t = 0; t <= END; t += STEP) {
       const f = document.createElement('figure');
       f.setAttribute('aria-current', t === st.t);
-      f.innerHTML = `<img src="${src(a, tag(t))}" alt="${name(a)} at ${t} s"><figcaption>${t} s</figcaption>`;
+      f.innerHTML = `<div class="thumb"><div class="cell" role="img"></div></div><figcaption>${t} s</figcaption>`;
+      paint(f.querySelector('.cell'), a, tag(t), `${name(a)} at ${t} s`);
       f.onclick = () => setTime(t);
       strip.appendChild(f);
     }

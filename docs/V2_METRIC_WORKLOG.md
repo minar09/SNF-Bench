@@ -252,3 +252,131 @@ are in `videos/realism_controls_2026_11_05/`.
   * The direction reader now prepares only window frames; its results are
     bit-identical on the smoke scene.
 * 23 new tests (temporal controls, candidates).
+
+## 2026-11-05 (later): round-1 review fixes
+
+Source: `docs/SNF_PP_REALISM_ROUND1_DECISION_REVIEW_2026_11_05.md`. No video or
+existing report was changed, and every old identity still computes its old value.
+
+* **Adoption fails closed.** `native_controls.adopt` used to substitute the expected
+  parent hash when a RUN.json record lacked it. It now refuses:
+  * a record missing a declared hash;
+  * a cell with no declared parent key.
+
+  Adoption sidecars now name the RUN.json key they rely on (`parent_evidence`),
+  which is not independent evidence.
+* **Codec-floor abstentions under new identities:**
+  * `cand-seam-1` in `realism_replay.py`;
+  * `cand-edge-profile-2` (`edge_spill_2`, `boundary_step_2`) in
+    `pilot_support_realism.py`.
+
+  Each abstains when its denominator activity is below `ACT_FLOOR` = 0.5 grey
+  levels. The floor was fixed from development controls before use:
+  * 41 frozen controls re-encoded with x264 CRF 18 decode to 0.000 median
+    successive change, and their `cand-seam-0` reaches about 10^4 to 10^6;
+  * the lowest 5% of pass-through originals move 2.7.
+
+  The old `cand-seam-0` and `cand-edge-profile-1` are unchanged.
+* **Reference check.** The direction, replay and support scripts now refuse a
+  baseline whose sidecar does not record a pass-through. The support pilot's
+  `--static` clips, which have no sidecar, are checked by content: the first
+  and last frames must each reach 30 dB PSNR against the source (H.264 stills
+  reach 39–40). All 42 existing still controls pass.
+* **Split amendment.** `manifest/realism_dev_split_2026_11_05_amendment_1.json`
+  references the original by SHA-256 (`55e71f64…`). It:
+  * records that published-panel renders on v2 scenes are held out by model
+    family only;
+  * defines the confirmation factorial (seen scenes × new families, new scenes
+    × seen families, new scenes × new families);
+  * requires confirmation data to be locked by hash before inspection;
+  * classifies public-benchmark figure renders (Physics-IQ, VBench-I2V) as
+    exposure-logged visual material, not confirmation data.
+* 10 new tests (`tests/test_round1_fixes.py`); the suite passes 159.
+
+## 2026-11-05 (later): metric extension design, first composite statistics, public figure set
+
+* **Design.** `docs/SNF_PP_METRIC_EXTENSION_DESIGN_2026_11_05.md` covers three constructs:
+  * A, support integrity (composite detection);
+  * B, direction realism from geometry and physics;
+  * C, extent and coherence.
+
+  It also lists what to import from SceneTether, the order of work and the claim limits. The figure and table plan is `docs/SNF_PP_FIGURE_PLAN_2026_11_05.md`; render recipes are in `docs/SNF_PP_I2V_RENDER_RECIPES_2026_11_05.md`.
+* **First statistics:** `scripts/realism_support_provenance.py`, A1/A2 in proxy mode, with no decoder ceiling yet.
+  * The `-0` freeze z was degenerate: the median per-pixel std is 0 on both stills and pastes, so 42% of pastes were flagged. The report is kept.
+  * `cand-support-paste-fraction-0` is the per-tile rule (≥ 90% of pixels never change and NCC with the source residual ≥ 0.8). Its thresholds were fixed before any composite cell was scored. Median pasted fraction:
+
+    | cell | median | range | pass-throughs |
+    |---|---|---|---|
+    | hard paste | 0.90 | 0.05–1.0 | 0.000 in every scene |
+    | stills | 1.00 | — | — |
+    | feathered composite (fp) | 0.13 | — | 0.000 |
+    | untethered composite | 0.05 | — | 0.000 |
+
+    The composites are not frozen (about 21% of pixels repeat exactly), so the freeze condition misses them.
+  * Source-match alone (π proxy) separates every construction from its pass-throughs. AUROC: hard paste 0.996, fp 1.000, untethered 1.000.
+  * The boundary depends on the model family. Echo-default pass-throughs reach π = 0.37 because that method re-injects the source through its decoder; partial-mask composites go as low as 0.09. A threshold needs the decoder-range ceiling (A3) and per-tile maps, so none is set from these data.
+* **Public figure set.** `scripts/build_public_figure_set.py` writes `manifest/public_figure_set_2026_11_05.json`: 12 scenes, 4 from Physics-IQ (CC BY 4.0) and 8 Pexels-sourced from VBench-I2V. The Pexels licence was read by the user. Images and prompts use the v2 crop rule and prompt validator.
+* **Renders.** `scripts/render_public_figure_set.py` runs released recipes only. Causal-Forcing 5 s is queued to start once GPU 2 has no co-tenants.
+* **`cand-replay-signature-0`** (`scripts/realism_replay_signature.py`).
+  * Ported from SceneTether: the upstream repetition diagnostic v1.1, vendored byte-for-byte and hash-pinned (module `06f42a6b…`, calibration `44dafbf1…`), run on SNF role maps.
+  * Results on the 41 eligible scenes of the h1_fm_tether100 cell, late-half suspect rates:
+
+    | input | replay | ping-pong | freeze |
+    |---|---|---|---|
+    | pass-through | 0 | 0 | 0 |
+    | exact loop | 1.00 | — | — |
+    | cross-fade loop | 1.00 | — | — |
+    | ping-pong | 1.00 | 0.37 | — |
+    | freeze | — | — | 1.00 |
+    | reverse tail, shuffle, ×2, ×0.5, noise warp | 0 | — | — |
+
+    Ping-pong is caught mostly as exact replay at twice its period.
+  * Pass-through windows read as "periodic, not replay" with a median of 0.34, which is the intended home for natural periodicity.
+  * It supersedes `cand-recurrence-0/1` for development. Real periodic footage (surf, flames, fountains) is still needed as a negative.
+
+## 2026-11-05 (evening): direction candidates v0 → v1, extent and spatial controls
+
+* **v0 run.** `manifest/realism_dev_2026_11_05/geometry_scenetether.json` (h1_fm_tether100 cell, 22 routed scenes, `snf` rate, GPU 2 uncontended).
+
+  | control | channel A median (expected sign) | falls G median (expected sign) | plumes/flames G median (expected sign) |
+  |---|---|---|---|
+  | pass-through | 0.67 (5/6) | 0.17 (3/5) | −0.70 (9/9) |
+  | reverse tail | 0.72 (5/6) | −0.42 (0/5) | 0.82 (3/9) |
+  | ping-pong | 0.66 | −0.44 | 0.52 |
+  | noise warp | 0.06 | −0.00 | −0.57 (6 of 11 scored) |
+  | freeze | −0.13 | −0.43 | −0.35 (10 of 11 scored) |
+
+  * **Passed:** reversal flips G for plumes and falls and leaves the axial A unchanged; the noise warp drives A to about 0; sign stability drops under ping-pong and the noise warp (channel medians 0.95 → 0.2–0.5).
+  * **Failed: freeze was scored instead of abstaining.** tau is relative to the support's speed (Q95), so on a still tail the top 5% of codec/RAFT noise on the material passes it. Identical frames also give identical noise flow, so R = 1 and sign stability = 1.0 on every frozen channel. The v0 numbers are therefore not interpretable without an activity gate.
+  * **Expectation corrected: ping-pong does not lower |G|.** The window holds an unequal share of the two phases and G normalizes the mean flow to unit length. Ping-pong needs a time-resolved sign statistic.
+  * Several pass-throughs (icb01–03, icf02, ifw02, ifw05) carry as little material motion as their freezes; the generator's late window is near-static there, so direction is undefined rather than wrong.
+  * Falls agree only 3/5 even unmodified. Fast falling water may outrun RAFT at 8 fps; hence the `native` rate below.
+* **v1** (`scripts/realism_geometry.py`, tests in `tests/test_realism_geometry.py`, 12 pass):
+  * activity gate: per-pixel activity is the median over pairs of |u_t|; tau1 = max(0.1 px/pair, Q95 of support activity); at least 15% of the material (three times the support's own 5%) must exceed it, otherwise every statistic abstains;
+  * new identities `cand-channel-alignment-1`, `cand-gravity-sign-1`, `cand-sign-stability-1`;
+  * new `cand-gravity-stability-0`, |Σ w u_y| / Σ w |u_y| over pairs and pixels, for ping-pong.
+* **Flow cache.** `scripts/realism_geometry_run.py` now caches compensated flow (float16 npz, eroded masks, video hash) under `videos/realism_cache/geometry_flows/<cell>/<rate>/<mode>/` at two rates over the same late window:
+  * `snf`: the frozen-spec 8 fps frames, verified identical to `realism_direction.late_frames`;
+  * `native`: every frame, routed scenes only.
+
+  `scripts/realism_geometry_score.py` rescores the cache on CPU (v0, v1 and extent), so later versions need no GPU. Disk guard: 110 GB free on `/`. Scene lists were moved from the scratchpad to `manifest/realism_dev_2026_11_05/lists/`.
+* **Extent** `cand-coverage-0` (`scripts/realism_extent.py`, I2V only, tests in `tests/test_realism_extent.py`): C = share of the material above the same tau1; E10 = the share of material activity held by its top 10% of pixels; C over four sub-windows (C_min, C_end).
+* **Spatial controls** (`scripts/spatial_ops.py`, `native_controls.py spatial`, tests in `tests/test_spatial_ops.py`):
+  * `conveyor_along/across` (channel scenes) and `conveyor_down/up` (falls, plumes, flames): a rigid slide of the material's own texture at 1.5 px/frame. Only the orientation differs, so A must separate along (+1) from across (−1) and G must separate down from up, while activity must not separate them.
+  * `local_patch_05/15/30`: only a compact patch holding that share of the material keeps the parent's motion.
+  * A first conveyor build wrapped the whole frame, which swept sky and grass into the water. It was seen on a contact sheet and deleted before any scoring, with the patch outputs of the same interrupted run.
+  * The rebuilt texture is a mirror-periodic tile of the material's bounding box, with non-material pixels inpainted. Inpainting leaves smooth bands where masks are irregular (falls), which weakens flow there but does not reverse it.
+* **`cand-material-drift-0`** (`scripts/realism_drift.py`, tests in `tests/test_realism_drift.py`). Ported from SceneTether's `measure_video` drift: cv2 Lab distance between a region's mean colour early (1.5–3 s) and late (the last third). Windows are in seconds. Regions are the SNF role maps. CPU, 41 scenes per cell (`manifest/realism_dev_2026_11_05/drift_*.json`), medians in Euclidean distance between mean OpenCV 8-bit encoded Lab vectors (not CIEDE2000 or standard ΔE76):
+
+  | cell / control | material | support |
+  |---|---|---|
+  | source still | 0.01 | 0.02 |
+  | default: pass-through / hard paste | 5.75 / 4.99 | 11.23 / 0.65 |
+  | fp: pass-through / feathered composite | 7.24 / 6.18 | 7.83 / 2.84 |
+  | unt: pass-through / untethered composite | 7.17 / 7.65 | 7.36 / 2.03 |
+  | tether100: pass-through | 3.72 | 1.15 |
+  | tether100: freeze / noise warp | 5.89 / 5.86 | 1.37 / 1.16 |
+
+  * Reproduces the SceneTether result on SNF masks: pasting repairs the support's colour, not the material's.
+  * The paired contrast material − support is **not** a usable headline. It turns positive for every composite only because the pasted support stops drifting. Report the two drifts separately.
+  * Drift does not detect freezes. Freeze and noise warp compare one held mid-clip frame (t0 = 30 s) with the early window, where the pass-through compares a 20 s mean, so their drift is larger. That is expected and not a defect.

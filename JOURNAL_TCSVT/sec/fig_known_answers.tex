@@ -1,0 +1,47 @@
+% Known-answer responses of development candidates. Data: figures/data/*.csv from
+% ../scripts/build_journal_plots.py (each CSV names its source report and hash).
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 1, horizontal sep=3.1cm},
+  height=5.6cm, tick label style={font=\scriptsize}, label style={font=\footnotesize},
+  title style={font=\footnotesize\bfseries, align=center}, axis lines*=left, tick align=outside,
+  major tick length=2pt, ymajorgrids, grid style={snfgrey!25}]
+\nextgroupplot[width=6.2cm, xmin=-0.04, xmax=1.04, ymin=-0.6, ymax=9.6,
+  ytick={0,...,9}, yticklabels from table={figures/data/known_answer_replay.csv}{label},
+  xtick={0,0.25,0.5,0.75,1}, xlabel={share of scenes flagged (late half)},
+  title={(a) \greplay\ Replay signature on temporal controls},
+  legend style={font=\scriptsize, draw=none, fill=none, at={(0.5,-0.3)}, anchor=north, legend columns=3,
+    /tikz/every even column/.append style={column sep=6pt}}, legend cell align=left,
+  clip=false]
+\addplot[only marks, mark=*, mark size=2.2pt, color=roleSupport]
+  table[x=replay, y=y] {figures/data/known_answer_replay.csv};
+\addlegendentry{replay}
+\addplot[only marks, mark=triangle*, mark size=2.6pt, color=roleMaterial]
+  table[x=pingpong, y expr=\thisrow{y}-0.27] {figures/data/known_answer_replay.csv};
+\addlegendentry{ping-pong}
+\addplot[only marks, mark=square, mark size=2.1pt, very thick, color=famHeat]
+  table[x=freeze, y expr=\thisrow{y}+0.27] {figures/data/known_answer_replay.csv};
+\addlegendentry{freeze}
+\nextgroupplot[width=6.2cm, xmin=-0.12, xmax=1.08, ymin=-0.6, ymax=4.6,
+  ytick={0,...,4}, yticklabels={source still, untethered composite, feathered composite, hard paste, unmodified},
+  xtick={0,0.25,0.5,0.75,1}, xlabel={support source-texture match $\pi$ (proxy)},
+  title={(b) \gsupport\ Support provenance on composites}]
+\addplot[only marks, mark=o, mark size=1.3pt, color=snfink!55]
+  table[x=pi, y=y] {figures/data/known_answer_paste.csv};
+\addplot[only marks, mark=|, mark size=5pt, line width=1.4pt, color=famHeat]
+  table[x=median, y=y] {figures/data/known_answer_paste_median.csv};
+\end{groupplot}
+\end{tikzpicture}
+\caption{\textbf{Known-answer responses of two development candidates} (one model family, one seed, constructed
+controls; no real footage, no human labels; separability, not validity).
+(a)~\texttt{cand-replay-signature-0}, the repetition diagnostic of the authors' method
+project~\cite{scenetether2026} run on SNF role maps, on 41 scenes per control: unmodified outputs and
+time-reversed, shuffled, re-timed and noise-warped controls are never flagged as replay; loops and
+ping-pong are; freezes are flagged as frozen.
+(b)~Source-texture match of the support (normalized correlation of high-pass residuals with the source,
+relative to a codec still) for unmodified outputs (three cells, 108 videos) and three composite constructions
+(36 each); bars: medians. Composites separate from unmodified outputs (AUROC 0.996--1.000), but where the line
+falls depends on the model family, so no threshold is set before the decoder-range ceiling is measured.}
+\label{fig:known_answers}
+\end{figure*}

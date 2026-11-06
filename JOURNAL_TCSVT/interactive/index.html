@@ -1,0 +1,130 @@
+<title>SNF-Bench++ Companions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: one reading column; three companion entries as a list of wide rows, preview left, text right. */
+:root{
+  --bg:#f6f8fa; --surface:#ffffff; --ink:#1f2a36; --muted:#56636f; --line:#d5dce3;
+  --accent:#0072b2; --warm:#e69f00; --still:#0f1720;
+  --display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#10161c; --surface:#18212a; --ink:#e4eaf0; --muted:#9aa8b5; --line:#2f3b47;
+  --accent:#56b4e9; --warm:#f0b429; --still:#05080b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10161c; --surface:#18212a; --ink:#e4eaf0; --muted:#9aa8b5; --line:#2f3b47;
+  --accent:#56b4e9; --warm:#f0b429; --still:#05080b; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--body)}
+.wrap{max-width:980px;margin:0 auto;padding-block:40px 56px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font:500 .78rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+h1{font:600 clamp(1.9rem,4.2vw,2.6rem)/1.1 var(--display);margin:0 0 12px;text-wrap:balance}
+.lede{max-width:64ch;color:var(--muted);margin:0 0 30px}
+.list{display:grid;gap:14px}
+a.entry{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:20px;align-items:center;
+  padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:inherit;text-decoration:none}
+a.entry:hover{border-color:var(--accent)}
+a.entry:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media (max-width:640px){a.entry{grid-template-columns:1fr}}
+.preview{position:relative;aspect-ratio:416/240;max-width:100%;border-radius:6px;overflow:hidden;background:var(--still)}
+.sprite{position:absolute;inset:0;background-size:900% 300%;background-repeat:no-repeat}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:2px;position:absolute;inset:0}
+.pair>div{position:relative}
+.preview svg{position:absolute;inset:0;width:100%;height:100%}
+h2{font:600 1.3rem/1.2 var(--display);margin:0 0 6px}
+h2 .go{color:var(--accent);font-family:var(--body)}
+.entry p{margin:0 0 8px;max-width:58ch}
+.facts{display:flex;flex-wrap:wrap;gap:6px 14px;font:400 .82rem/1.4 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.notes{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;max-width:72ch}
+.notes h3{font:600 .8rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px;color:var(--ink)}
+.notes ul{margin:0;padding-left:18px;display:grid;gap:6px}
+code{font:400 .85em var(--mono)}
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">TCSVT draft &middot; interactive supplement &middot; development copy</p>
+  <h1>SNF-Bench++ companions</h1>
+  <p class="lede">Three interactive pages that accompany the paper's figures: scrub every system's 240&nbsp;s rollout,
+  trace which pixels each measure reads, and browse the scene specifications.</p>
+
+  <div class="list">
+    <a class="entry" href="qualitative_viewer.html">
+      <div class="preview" aria-hidden="true">
+        <div class="pair">
+          <div><div class="sprite" style="background-image:url('assets/sprites/p0/CausVid.jpg');background-position:0% 0%"></div></div>
+          <div><div class="sprite" style="background-image:url('assets/sprites/p0/CausVid.jpg');background-position:75% 100%"></div></div>
+        </div>
+      </div>
+      <div>
+        <h2>Rollout viewer <span class="go">&rarr;</span></h2>
+        <p>All eight published text-to-video systems on one time slider, with change-map overlays and a drag-to-compare wipe between any two.</p>
+        <div class="facts"><span>8 systems</span><span>4 prompts</span><span>0&ndash;240 s, every 10 s</span></div>
+      </div>
+    </a>
+
+    <a class="entry" href="measurement_map.html">
+      <div class="preview" aria-hidden="true">
+        <svg viewBox="0 0 416 240">
+          <g font-family="IBM Plex Sans, system-ui, sans-serif" font-size="15" fill="#e4eaf0">
+            <rect x="24" y="44" width="96" height="40" rx="5" fill="#0072b2"/>
+            <rect x="24" y="152" width="96" height="40" rx="5" fill="#e69f00"/>
+            <rect x="166" y="30" width="96" height="40" rx="5" fill="none" stroke="#9aa8b5"/>
+            <rect x="166" y="100" width="96" height="40" rx="5" fill="none" stroke="#9aa8b5"/>
+            <rect x="166" y="170" width="96" height="40" rx="5" fill="none" stroke="#9aa8b5"/>
+            <rect x="300" y="64" width="92" height="34" rx="5" fill="none" stroke="#9aa8b5" stroke-dasharray="4 3"/>
+            <rect x="300" y="140" width="92" height="34" rx="5" fill="none" stroke="#9aa8b5" stroke-dasharray="4 3"/>
+            <g stroke-width="2.5" fill="none">
+              <path d="M120 64 C142 64 144 50 166 50" stroke="#0072b2"/>
+              <path d="M120 64 C142 64 144 120 166 120" stroke="#0072b2"/>
+              <path d="M120 172 C142 172 144 120 166 120" stroke="#e69f00"/>
+              <path d="M120 172 C142 172 144 190 166 190" stroke="#e69f00"/>
+              <path d="M262 190 C282 190 280 157 300 157" stroke="#e69f00"/>
+              <path d="M262 50 C282 50 280 81 300 81" stroke="#0072b2"/>
+            </g>
+            <text x="72" y="69" text-anchor="middle" fill="#ffffff">Support</text>
+            <text x="72" y="177" text-anchor="middle" fill="#1f2a36">Material</text>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <h2>Measurement map <span class="go">&rarr;</span></h2>
+        <p>Click a region, measure or realism check to highlight what it reads and feeds. Each node shows its definition, validation status and the evidence still missing.</p>
+        <div class="facts"><span>frozen &middot; candidate &middot; diagnostic &middot; planned</span></div>
+      </div>
+    </a>
+
+    <a class="entry" href="scene_explorer.html">
+      <div class="preview" aria-hidden="true">
+        <svg viewBox="0 0 416 240">
+          <g transform="translate(208 120)">
+            <circle r="92" fill="none" stroke="#0072b2" stroke-width="40" stroke-dasharray="330 248" transform="rotate(-90)"/>
+            <circle r="92" fill="none" stroke="#56b4e9" stroke-width="40" stroke-dasharray="150 428" stroke-dashoffset="-332" transform="rotate(-90)"/>
+            <circle r="92" fill="none" stroke="#d55e00" stroke-width="40" stroke-dasharray="94 484" stroke-dashoffset="-484" transform="rotate(-90)"/>
+            <circle r="52" fill="none" stroke="#0072b2" stroke-opacity=".55" stroke-width="22" stroke-dasharray="186 141" transform="rotate(-90)"/>
+            <circle r="52" fill="none" stroke="#56b4e9" stroke-opacity=".55" stroke-width="22" stroke-dasharray="85 242" stroke-dashoffset="-188" transform="rotate(-90)"/>
+            <circle r="52" fill="none" stroke="#d55e00" stroke-opacity=".55" stroke-width="22" stroke-dasharray="52 275" stroke-dashoffset="-275" transform="rotate(-90)"/>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <h2>Scene explorer <span class="go">&rarr;</span></h2>
+        <p>Every T2V and I2V scene specification, filterable by medium and transport regime, with declared flow directions and source licence status.</p>
+        <div class="facts"><span>96 T2V</span><span>48 I2V</span><span>9 regimes</span></div>
+      </div>
+    </a>
+  </div>
+
+  <div class="notes">
+    <h3>About this copy</h3>
+    <ul>
+      <li>All frames are model outputs generated from the benchmark's own text prompts. No third-party photographs are shown.</li>
+      <li>Seven systems use one common inference configuration; Steady-Forcing is its released checkpoint under its native configuration. One output per system and prompt, so nothing here ranks systems.</li>
+      <li>Change maps are visualizations without region masks, not metrics. Provenance and source hashes: <code>figures/snapshots/SNAPSHOTS.json</code>.</li>
+      <li>The scene specifications are unreleased benchmark material. Share this link only with collaborators.</li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+diff --git a/helios/diffusers_version/pipeline_helios_diffusers.py b/helios/diffusers_version/pipeline_helios_diffusers.py
+index 4115291..488d228 100644
+--- a/helios/diffusers_version/pipeline_helios_diffusers.py
++++ b/helios/diffusers_version/pipeline_helios_diffusers.py
+@@ -881,6 +881,9 @@ class HeliosPipeline(DiffusionPipeline, HeliosLoraLoaderMixin):
+         zero_steps: int | None = 1,
+         # ------------ DMD ------------
+         is_amplify_first_chunk: bool = False,
++        # NatureFlow integration: optional bounded chunk delivery, no weight changes.
++        on_video_chunk: Callable | None = None,
++        retain_output: bool = True,
+     ):
+         r"""
+         The call function to the pipeline for generation.
+@@ -1108,7 +1111,10 @@ class HeliosPipeline(DiffusionPipeline, HeliosLoraLoaderMixin):
+         window_num_frames = (num_latent_frames_per_chunk - 1) * self.vae_scale_factor_temporal + 1
+         num_latent_chunk = max(1, (num_frames + window_num_frames - 1) // window_num_frames)
+         num_history_latent_frames = sum(history_sizes)
++        if not retain_output and (on_video_chunk is None or output_type == "latent"):
++            raise ValueError("Non-retained streaming requires a video chunk callback")
+         history_video = None
++        streamed_frames = 0
+         total_generated_latent_frames = 0
+ 
+         if not keep_first_frame:
+@@ -1333,13 +1339,30 @@ class HeliosPipeline(DiffusionPipeline, HeliosLoraLoaderMixin):
+                 )
+                 current_video = self.vae.decode(current_latents, return_dict=False)[0]
+ 
+-                if history_video is None:
+-                    history_video = current_video
++                if on_video_chunk is not None:
++                    # Callback delivery obeys the requested RGB frame count, not
++                    # the legacy aggregate output's 4n+1 alignment convention.
++                    delivered = current_video[:, :, :num_frames - streamed_frames]
++                    on_video_chunk(self.video_processor.postprocess_video(delivered, output_type="np"), k)
++                    streamed_frames += delivered.shape[2]
++
++                if retain_output:
++                    if history_video is None:
++                        history_video = current_video
++                    else:
++                        history_video = torch.cat([history_video, current_video], dim=2)
+                 else:
+-                    history_video = torch.cat([history_video, current_video], dim=2)
++                    # The next denoise only reads the configured history suffix.
++                    # The source anchor is maintained separately in image_latents.
++                    history_latents = history_latents[:, :, -sum(history_sizes):].contiguous()
++                    real_history_latents = history_latents
+ 
+         self._current_timestep = None
+ 
++        if not retain_output:
++            self.maybe_free_model_hooks()
++            return HeliosPipelineOutput(frames=None) if return_dict else (None,)
++
+         if output_type != "latent":
+             generated_frames = history_video.size(2)
+             generated_frames = (

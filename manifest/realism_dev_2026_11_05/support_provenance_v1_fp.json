@@ -1,0 +1,1702 @@
+{
+ "entrant": "cfpp/echo_nfpb1_fp_pool_lr",
+ "identity": {
+  "freeze": "cand-support-freeze-0",
+  "hf_source": "cand-support-hf-source-0",
+  "paste_fraction": "cand-support-paste-fraction-0"
+ },
+ "mode": "proxy (no decoder ceiling)",
+ "window_s": 4.0,
+ "residual": "grey - GaussianBlur(sigma=1.0)",
+ "tile": 16,
+ "tex_min": 2.0,
+ "min_tiles": 20,
+ "thresholds": {
+  "z_frozen": 0.25,
+  "pi_match": 0.8,
+  "declared": "before running the controls",
+  "tile_repeat": 0.9,
+  "tile_ncc": 0.8
+ },
+ "caveat": "development data (CF++ family); constructed controls; no real footage; proxy A2",
+ "summary": {
+  "passthrough_crf18": {
+   "n": 36,
+   "n_attempted": 42,
+   "paste_flag_frac": 0.0,
+   "freeze_z_median": 15.010904320315323,
+   "pi_proxy_median": -0.0010774990996354566,
+   "exact_repeat_median": 0.0,
+   "paste_fraction_median": 0.0,
+   "paste_fraction_range": [
+    0.0,
+    0.0
+   ]
+  },
+  "control_composite": {
+   "n": 36,
+   "n_attempted": 42,
+   "paste_flag_frac": 0.027777777777777776,
+   "freeze_z_median": 13.785958246878444,
+   "pi_proxy_median": 0.7419523231590333,
+   "exact_repeat_median": 0.22481326258354778,
+   "paste_fraction_median": 0.12555451421430802,
+   "paste_fraction_range": [
+    0.0,
+    0.9629629629629629
+   ]
+  }
+ },
+ "rows": [
+  {
+   "scene": "ial01",
+   "chain": {
+    "parent_sha256": "04816f74fd2f0ada2ee300a2d8546bf1751f7dde8f892005c4d020a434bb8f88",
+    "mask_labels_sha256": "cbed0e96054da03d989cc5367eee12b93c52fbd2550206fb9d9f9085846ff1fd",
+    "source_sha256": "9dd820f0c4db4244ae5ce452060d82baf47b573eae6c7e47f8201c6909d215a2"
+   },
+   "textured_tiles": 431,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "136c6b197da163d6c996cba54f2a06804e4940a495d9b0022afc0aa9c88504f5",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 3.9716696739196777,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.000735241709037382,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.19469713702317,
+     "pi_proxy": -0.0007400742740414281,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "5b5acaa70fed803f392afd224334d1a4794a50d2990cf5aafd89588e7643f94c",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 3.302077293395996,
+     "exact_repeat_frac": 0.038398752085902925,
+     "rho": 0.12645574193447828,
+     "paste_fraction": 0.018561484918793503,
+     "freeze_z": 15.010062311242757,
+     "pi_proxy": 0.12728690478272495,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "52194312f395a841438b58f51aec0c843efa12d1d35a0dd5128df827293e169e",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 8.344650268554688e-07,
+    "exact_repeat_frac": 0.9994921279837481,
+    "rho": 0.993470162153244,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "ial02",
+   "chain": {
+    "parent_sha256": "1489de3763597baeaf81333a8193a5644f7689338ea0c90d96ed07bd7d3d6035",
+    "mask_labels_sha256": "76e51044ffb5109fe89d2eb1cfbeb55924ba535eb21ac5c83c2a831c51a08996",
+    "source_sha256": "df31817ada554587fecb86a0ec4ac48bcd4065975457d7584e5e6add4390ef12"
+   },
+   "textured_tiles": 104,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "23faf7db6e79f8c5762ff8868f7ca0ed4616eaa42f52a3f7e14213c174f816b3",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 2.7472636699676514,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.01628027182960068,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.826115945169992,
+     "pi_proxy": -0.01640456164896194,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "c6c3f83badac141d3e4ae97661e1c29928023803b5d9327114fbd8b0bacb87c5",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 2.112668037414551,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.19378958619199693,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.563462179388232,
+     "pi_proxy": 0.19526904998191377,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "720aa2f8ddc91fc19120bff1eb4cfc712860c7b72cf9cd5658b899208747c6de",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 0.9975909056689001,
+    "rho": 0.9924234598875046,
+    "paste_fraction": 0.9903846153846154
+   }
+  },
+  {
+   "scene": "ial03",
+   "chain": {
+    "parent_sha256": "0c5ef22cce3f837947058d7707bc7c646bca12560c0becccba05257777732f9c",
+    "mask_labels_sha256": "98024cdd48b3218fe6f94dcf173f42da76adcd1fde29b8f8859de0c88b3ddb49",
+    "source_sha256": "81f7ab2367cb6e2cd1644846b5b5a2a6d1eddb7986c3168900d6f0e58fc4331a"
+   },
+   "textured_tiles": 760,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "2179d8091f6536f1051e213742a88db9a981f60c37d0ccd9c3dd1d72bba1786d",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 4.813218116760254,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.008699822624578246,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.386876465513184,
+     "pi_proxy": 0.008726469299581869,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "2df7ca8e370579d3515c73cb27eb30d97e097b63d141acb7b4bfddd36decbfc8",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 0.004643917549401522,
+     "exact_repeat_frac": 0.5928726368056912,
+     "rho": 0.9064691886305809,
+     "paste_fraction": 0.4789473684210526,
+     "freeze_z": 8.443313588440002,
+     "pi_proxy": 0.9092456118879927,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "677d850bb44c479bab708bbb30ad09ce24d5885ae118e8ae820ca98c18512e48",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9969464540481567,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "ial04",
+   "chain": {
+    "parent_sha256": "c363d535286454d8765413053c5712c03b945d054274d95078a06e3d16471b82",
+    "mask_labels_sha256": "be282454aad7d5cadad37da268221797d2150bcad3ea294e16339b18efdbeeea",
+    "source_sha256": "95a9281fbe3d6c83b8d4e77dd267d736c7b530a85456d2ef31fcab7d27e896c7"
+   },
+   "textured_tiles": 322,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "7381fcfe5776adf1b998358c2ab46966278c3a72626d50cbdcec4fc16e182ad9",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 2.7543671131134033,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.00040903223612076545,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.828698251170941,
+     "pi_proxy": -0.00041665678071510737,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "164a5ad9a4aa32eece9cd2cde466b5825dbfca63a71bc904f94f4e1b3aefb6eb",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 1.3577375411987305,
+     "exact_repeat_frac": 0.08493210528231825,
+     "rho": 0.27670114347711205,
+     "paste_fraction": 0.037267080745341616,
+     "freeze_z": 14.121330299790717,
+     "pi_proxy": 0.28185897706928825,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "b649aab07b7e02f08eedd8f07d7bb1bb0868f4b9c70c8b718e7c783ee7dc96ac",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9817006587982178,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "ial05",
+   "chain": {
+    "parent_sha256": "bed4dbcd4baad82626ede8425ef0217da326fd612709704e5a1bcd3ccc02c680",
+    "mask_labels_sha256": "e3aa6fa4cae1b40921a46b55a075be4f8c09a348b0f502941b82e673a96a9352",
+    "source_sha256": "7f56fc08008985072bcff515f9c479b9f961b59fce502c0042f314490690dd4d"
+   },
+   "textured_tiles": 49,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "c95310e15b9dd50c3c63d6c1ba3b620a7b290e40896e132a1b80c23b81533fd1",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 5.2768754959106445,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.001402447633608972,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.609987039744466,
+     "pi_proxy": -0.001409637135754755,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "e599a3d0688b2438bc7a6104ff83db4886a371f256c0db01464846b990adb777",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 3.600755214691162,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.3982880339026451,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.227796484644335,
+     "pi_proxy": 0.4003298161451763,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "a673443526e8199feabbac654621a1b07a0a8bacb939c6148517640d878a6bae",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 2.384185791015625e-06,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9948997497558594,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "ibp01",
+   "chain": {
+    "parent_sha256": "0885ecd8c6e63affd69d8aa5d3d700326d4caa53ae24a55ce6bd52dea48bb927",
+    "mask_labels_sha256": "cc285ddf3d15493ed1674f945994f06289bc583478c53f05987ec0424ddd5014",
+    "source_sha256": "626ba0b5991bfd85d7861265c0accc8fe3fc7d38d6c6264275079322d8354851"
+   },
+   "textured_tiles": 480,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "e7964a9a6e768cf7261bc2c952fae61d89b8d600f247e6ad733f0acb4b2e9660",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 7.2583818435668945,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.001494691176901597,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.746488239963567,
+     "pi_proxy": -0.0014977860735645632,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "bbae258265ca16463ea7b10bac8251495fa004495fb98f9b2c054260c8b88bd0",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 0.24961768090724945,
+     "exact_repeat_frac": 0.4679021593981044,
+     "rho": 0.8629491813480854,
+     "paste_fraction": 0.3854166666666667,
+     "freeze_z": 11.376506514503259,
+     "pi_proxy": 0.864735997636919,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "c66e99ecb169865417cdec995d1478399a693b0a88122c9e7895f4cc3c494123",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 2.86102294921875e-06,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9979336857795715,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "ibp02",
+   "chain": {
+    "parent_sha256": "3d84c827267047b8c51352ba1e25bbbe008f68349675b9d4f6258c33f6ccc0f2",
+    "mask_labels_sha256": "6aeadc7bcd0b44403533b6ae05bf08d31fd9e15fa1e7b98a1de5cc7818522624",
+    "source_sha256": "68ddee4ecd74fcbb304f6a3a4941acc53a0ad1dd12674d3c6cd3e0606740f356"
+   },
+   "textured_tiles": 2,
+   "controls": {},
+   "abstain": "2 textured support tiles < 20"
+  },
+  {
+   "scene": "ibp03",
+   "chain": {
+    "parent_sha256": "84d7793c491939525a48543ee1dc0d62743847f7ffcd0b81996007f48052158c",
+    "mask_labels_sha256": "9ca7b18e8c14116bef2de87e16fe98400afb08e508755a85a24bda934684b135",
+    "source_sha256": "ea02324ea7bc173558426ea55db75b04cd98458f4d91e6aa0649de029421f910"
+   },
+   "textured_tiles": 0,
+   "controls": {},
+   "abstain": "0 textured support tiles < 20"
+  },
+  {
+   "scene": "ibp04",
+   "chain": {
+    "parent_sha256": "b807204d09b9f304fd1f6428fab2d20206dded843d1e7798819b395039626a1e",
+    "mask_labels_sha256": "14731342969a1b3595563984a475a1ed7b4f460d42ed7b84e5c1c97f1bbee265",
+    "source_sha256": "cd0c57e6c036fbedc642df5e7231063a021d1d94896c0ecccc7bd1c3d2029675"
+   },
+   "textured_tiles": 188,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "a3c615df1b41e9fc8215ddce8bdb739f1e3df767b9f6c632a078c7a5df774bdf",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 1.9197897911071777,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.0005642378700940753,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.467726254211831,
+     "pi_proxy": -0.000569101579878352,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "81ac1b9bcfaeaf757ab9e2db8a6f1922930d1a533c6fe8822562f0f981517cc6",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 0.804377555847168,
+     "exact_repeat_frac": 0.24420295877659576,
+     "rho": 0.7600017273798585,
+     "paste_fraction": 0.19680851063829788,
+     "freeze_z": 13.597824034759856,
+     "pi_proxy": 0.7665529144473062,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "ededc7fedaae98ba0b102ff36da7c9b75f68a1392ab1f5eb7a4bed7247087f36",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 0.9991688829787234,
+    "rho": 0.991453705355525,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "ibp05",
+   "chain": {
+    "parent_sha256": "4f53e4179b390463f22d4ac8d0f97925a66acabe727216548db4f15fd302582c",
+    "mask_labels_sha256": "d96d2ea1ef4f7c0827b49cbd070822e557850b80dcc92399674a8fe39a01850e",
+    "source_sha256": "2e3dcb1698f4a1a8cb071c9ab817f08b9ca0346f1c06afa8ed5282662927cebe"
+   },
+   "textured_tiles": 42,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "3b5a15802347930b78e03917d423e9a29b1fbbfcb94a449e002f273c658f4382",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 1.9647784233093262,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.011732259296422853,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.49089003525278,
+     "pi_proxy": 0.011810633530396242,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "8fd81d275b729dc1ca47488fe78d99b5439bbee2b4159e78371526ec075a8094",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 0.5074484944343567,
+     "exact_repeat_frac": 0.3017652003362286,
+     "rho": 0.771345928311348,
+     "paste_fraction": 0.16666666666666666,
+     "freeze_z": 13.137150495948445,
+     "pi_proxy": 0.7764986993789228,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "737d393a1676044737be86d32984a42fcae4bd4af91d93bf5f870e7d5876bf72",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 5.960464477539062e-07,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9933640956878662,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "ibp06",
+   "chain": {
+    "parent_sha256": "6b8009706f457337c3fe6787c129b5dda931670293848e8b8150ff2b29929df3",
+    "mask_labels_sha256": "a9169d07672138a66de6e54a46d0de7de7b4dda3f14d9264e93513b24c78143e",
+    "source_sha256": "9098bde519984271ca216564054dcace3ec6113fe4ed10921da992b78cede4b4"
+   },
+   "textured_tiles": 165,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "59f0a7a8274deb70559082faf8df3780acc1b2ff64ead555be8ff1357c8e0feb",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 4.10211181640625,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.001112988367935941,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.868980421366546,
+     "pi_proxy": -0.0011169339151534698,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "e189ab0a9e9758ee341e7cf43d91f5fdf1e4a2b0814d0a23bfa035543b15c866",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 0.8659312725067139,
+     "exact_repeat_frac": 0.24688806537438238,
+     "rho": 0.6882832814007998,
+     "paste_fraction": 0.12121212121212122,
+     "freeze_z": 13.313528767520225,
+     "pi_proxy": 0.6907232477688569,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "7cf97febfa7092e625db43b124b0e21bfaba9786090e4a24490ae5dce1bf0525",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 1.430511474609375e-06,
+    "exact_repeat_frac": 0.999809958190802,
+    "rho": 0.9964675195515156,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "icb01",
+   "chain": {
+    "parent_sha256": "20947f2a15c8488a65a02496f55f9be0f1570e01673a91ca49bdafcb368ea2fe",
+    "mask_labels_sha256": "db12138b1bb949a7d1e42ffbb6097f89a043fc1cf7a8d894c022d28502d6ef9b",
+    "source_sha256": "ff75c4b324e97327ba38a0b678cab43eafd03c787b87d215909113f684ab0be5"
+   },
+   "textured_tiles": 123,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "46e5c671c214c3f87a5811fcb5e503bb95ca17422ab6e188e7b4bf19ae5ae0d1",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 6.820826530456543,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.0029398508004305768,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.735491214625522,
+     "pi_proxy": 0.002946029266913889,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "75cfe75e7e1e46212624e4361188de99909e2fd3f5994715fe28b316fabfb6c6",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 3.0480504035949707,
+     "exact_repeat_frac": 0.06572740022950402,
+     "rho": 0.4837807770818472,
+     "paste_fraction": 0.04878048780487805,
+     "freeze_z": 14.93001273226447,
+     "pi_proxy": 0.48479750327626264,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "d64325c52e04755ad58184afec47b07e6492994c21b09fec783cfd8b81bc55bd",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9979027817025781,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "icb02",
+   "chain": {
+    "parent_sha256": "e45ff791599369fa5f6755c675877bfaf04bcb6a64332efa9cab2d19fff4a196",
+    "mask_labels_sha256": "f14d8c861f5d2a7ee78c12202001687bc5d0c33fe63785b4c3742ce9ffe836b0",
+    "source_sha256": "ca7d3ab38902fe7b2e8a048c11941321c677b72df5937fced9a1b4f32c1b1693"
+   },
+   "textured_tiles": 13,
+   "controls": {},
+   "abstain": "13 textured support tiles < 20"
+  },
+  {
+   "scene": "icb03",
+   "chain": {
+    "parent_sha256": "cd6db1030c5983bc1b007ea362ee7cb52f13a049244c6932dcd98da61bb8bb93",
+    "mask_labels_sha256": "2bf57cae9434091228a9a47cb5acdebbdf87504e23c57655ea63f07bcc6f7dfa",
+    "source_sha256": "be990ea879222e7da72af9a30719dc6b4af3a124c668cffacc2731fd8e350ac4"
+   },
+   "textured_tiles": 287,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "e6a6a499d14dfc196d64669170a91b2a7f84441a7d2506738829556d6584b982",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 4.713160991668701,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.00675732734203649,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.365869364386475,
+     "pi_proxy": -0.006776012074927863,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "efc425dba1ec0e1f9f7354f796fc6683ad40ec8e5c1a1c439779d5578b0d3c47",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 7.62939453125e-06,
+     "exact_repeat_frac": 0.6914831230821684,
+     "rho": 0.9445593934506178,
+     "paste_fraction": 0.6411149825783972,
+     "freeze_z": 2.0320084884452037,
+     "pi_proxy": 0.9471712012073431,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "2eb78a5573f8fbb6bbb94a44652a4fde02d573e835e6a7f4818b45c163f3ebea",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9972425177693367,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "icb04",
+   "chain": {
+    "parent_sha256": "f58db0b29cf40896343683cf0a18075218f8ab28207eccba0e8259a8afb9d1fe",
+    "mask_labels_sha256": "c7dbce80887a7280608f1433ed5419452ca0fc3384ad37246ec0c760fcc0b429",
+    "source_sha256": "eaaef2f74af2a74853af4f18faa9b3555cc4754003eb66626d723a1585f2233e"
+   },
+   "textured_tiles": 1056,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "bc0fbd8771bf34c49d0f45262e081e478e087a5c07e1cde3b8ddb9025fb9b8b1",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 12.109858512878418,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.0011437198216981415,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.104200516705523,
+     "pi_proxy": 0.001145010381657007,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "bb6d2f27fa323393c7c952f6d43b88b305eb192c2a1f53853dd740baa832a0c7",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 0.7542818784713745,
+     "exact_repeat_frac": 0.42239625335710745,
+     "rho": 0.7217586496844888,
+     "paste_fraction": 0.3759469696969697,
+     "freeze_z": 12.328191505993544,
+     "pi_proxy": 0.7225730736330609,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "07bc00ca3d44bc2c8653eb6fa374577ed30a46b4f6756a0f28070b5089a56674",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 3.337860107421875e-06,
+    "exact_repeat_frac": 0.9998668254896013,
+    "rho": 0.998872883617878,
+    "paste_fraction": 0.9990530303030303
+   }
+  },
+  {
+   "scene": "icb05",
+   "chain": {
+    "parent_sha256": "f6428cdf7b079962e75e36fd71b197feae85dededb9b1cc4f9e6615fe81a0353",
+    "mask_labels_sha256": "f23bf6e5462008f7239b1f20a84475fb8172caae204994b6ad4ed6ac2f726cba",
+    "source_sha256": "649da8658459482a8631e420301a17db7007b9d1a1c837039dbed90de4853f71"
+   },
+   "textured_tiles": 587,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "c852ce050ced2dd9f4f7a1be8276cd76952d95c79ce38aeb69d2c1b732ce6cec",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 3.875925302505493,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.00030497252328132163,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.170294980007682,
+     "pi_proxy": -0.00030567371437234574,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "65846f55f44a6780ea79b817bf321fbb9332ae96132c411609e9204b6d89b276",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 0.4569113254547119,
+     "exact_repeat_frac": 0.4309765880048503,
+     "rho": 0.7669908916577697,
+     "paste_fraction": 0.38160136286201024,
+     "freeze_z": 13.03224461484475,
+     "pi_proxy": 0.7687543527536763,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "f951ab11b3964326e8669390ebd9626935070a233980d131d4043c144fe89e11",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 4.76837158203125e-07,
+    "exact_repeat_frac": 0.9993270883579624,
+    "rho": 0.9977060798555613,
+    "paste_fraction": 0.9965928449744463
+   }
+  },
+  {
+   "scene": "icf01",
+   "chain": {
+    "parent_sha256": "9549ddf7f1d6e4122aa3ba0b3c0ecd4a953a49867677bfe6d82ba8ebb6f8b0e4",
+    "mask_labels_sha256": "d02d81164a4e00d0497af15b0ea14690341f6c0a59b88bca48b6c3814a8da38e",
+    "source_sha256": "9f4be4366ea473cfda581e9bd9c196b1c5bbc665584cede6dcc65bdb27048e0e"
+   },
+   "textured_tiles": 3,
+   "controls": {},
+   "abstain": "3 textured support tiles < 20"
+  },
+  {
+   "scene": "icf02",
+   "chain": {
+    "parent_sha256": "983be00e2bc8acc83afe5c3192cc1a1264f909c2f7317c777b10ba6a87909e65",
+    "mask_labels_sha256": "3218fe5448f030a265145c6c703357b27aba4cbd5630ef4d01354acc1ad7d2a5",
+    "source_sha256": "fd6c6b3970216a881d4f3aebc0c49819f595ca6951738550d54e645f3ff20729"
+   },
+   "textured_tiles": 150,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "e57b976fa1e60eab0f0e05486a4ccdc3d96517e5bdc7d8a71fd54a1c676a3620",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 6.665162086486816,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.0016840722091728821,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.066690703026715,
+     "pi_proxy": 0.001687307635789827,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "f4de2af6b3f3ee621f35b60f2fdafdc5efb0990fa36f433720fd53f272bb4dd7",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 3.6607887744903564,
+     "exact_repeat_frac": 0.03207660710080846,
+     "rho": 0.4175426634028554,
+     "paste_fraction": 0.02,
+     "freeze_z": 14.467475066988662,
+     "pi_proxy": 0.41834484316660026,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "9d763b2164104a658d2f0a16450d32d1f69186eb3340d8fbd0c6e5ff482d191a",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 1.9073486328125e-06,
+    "exact_repeat_frac": 0.9995813819627953,
+    "rho": 0.998082491569221,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "icf03",
+   "chain": {
+    "parent_sha256": "22f06d6fd47a11177b084406f4627ebe768f98cf81e48a405e94088e87bdeb65",
+    "mask_labels_sha256": "d955e803dd78031db59373f3df794f3c4a41dc8bd2957d07e8e5b9fe4a6e5e38",
+    "source_sha256": "126836b2aedeb04a563d068faaba0f5a19264a8b7086baa520729102d8c835c0"
+   },
+   "textured_tiles": 313,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "c9b9abe229e5aaf5e54a7317ed0f860535e944bb1066a53f1fbcd357e92f630c",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 7.140180587768555,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.0006531838275805057,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.78124862640048,
+     "pi_proxy": -0.0006562554854043231,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "ca9e7153ac35c2be11b0f1c530cebe95ee57d1c2596821d4556a8f0b4218cd43",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 5.927399635314941,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.08550381113309413,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.595096164735319,
+     "pi_proxy": 0.08590590077362614,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "2414bc738d3035ad49ff967b7caf1504e069ec3ef92501b278b6e9770da366fe",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 0.9994127055530564,
+    "rho": 0.9953194176778197,
+    "paste_fraction": 0.9968051118210862
+   }
+  },
+  {
+   "scene": "icf04",
+   "chain": {
+    "parent_sha256": "25bbde47f102a0f57c81dc306dee501c5c188f544166e9c0b4857cb2465469e1",
+    "mask_labels_sha256": "1d7a9104483e253d093686e82274c82c6bfe718eb8b858742f96f8404c9d7a72",
+    "source_sha256": "cd12c1ce8e17b2b36622902daa0b72af3ba7fe0378d6bc7b8d799413527cd4e5"
+   },
+   "textured_tiles": 50,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "3bbbdef46d137f43508904f21abd9dcfa7f09a804734c63567fc727ba2c8981c",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 5.936517715454102,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.0037729741278553774,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.084450541540763,
+     "pi_proxy": 0.0037831655655109955,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "c4ef4db9ab4163b8ccd77311bdeb6746fb756701abd4152b25bb3dea8be8c7cb",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 4.5559797286987305,
+     "exact_repeat_frac": 0.015373699148533586,
+     "rho": 0.18747220165096223,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.819768419474766,
+     "pi_proxy": 0.18797859559657173,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "4b254da3dc21080df7dccb12f5c68f32528e3961d195183bc7a683882b8a0e89",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 1.6689300537109375e-06,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9973061084747314,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "icf05",
+   "chain": {
+    "parent_sha256": "3fd05c419cc98cba43643cd1c1924c54fe0c6be991b35aa6f65c740b5997f9c2",
+    "mask_labels_sha256": "c9a1a6df2aeed6882a5a39be5d2b888fc67ef0f2b1bf5c9899eb8599e663d100",
+    "source_sha256": "4a431bf0c83c381d6c4679ab267eb20130c312a30bd49f4ad427c0f53c38c37c"
+   },
+   "textured_tiles": 53,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "69cad0f5b1298db585aa7c388811e7b4c9ba3a7c15d4bc560f0f35c27bb82147",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 6.847935199737549,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.0017981862633860146,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.688278498670318,
+     "pi_proxy": -0.0018018338102553941,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "2ffbd8eb9985ce62decc18ddd91a769aa2e3a46e125f19955f10ed39197faccf",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 3.873537063598633,
+     "exact_repeat_frac": 0.004149992589298948,
+     "rho": 0.6792242415249348,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.118499382078422,
+     "pi_proxy": 0.6806020199599205,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "d447531f139c96a49aa87478fc95f0b648363600709a885b0aa005671d0a0873",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 2.86102294921875e-06,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9979756474494934,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "icf06",
+   "chain": {
+    "parent_sha256": "5ac4664784389f37c014aaa42221ff28e046ad27764eda94cc64534b3d63807f",
+    "mask_labels_sha256": "1f4d9aa2d54fead988f10f3a9ae0b0b633ba2ed264ccd503d770636ea9e25ccf",
+    "source_sha256": "ff4fd706efe386aa45e75064dd44f72f7fbc45b45c604b9e48050b9cccfff4f6"
+   },
+   "textured_tiles": 169,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "5f88de813bbfa990dd59cd8c6af9fe02392667025201fcdde5cd4b2ba0ad2602",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 7.719851493835449,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.0053325197285118975,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.21359155794081,
+     "pi_proxy": 0.005349607833798322,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "13b6534fdcac53fa0456a83f195c2aa9d89e72e8d538d15342248503e5835460",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 4.877776622772217,
+     "exact_repeat_frac": 0.004129547141796585,
+     "rho": 0.41936739021912217,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.754485936594545,
+     "pi_proxy": 0.4207112566242367,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "85268aba663d805f65d24ddff04fc5b6d78b1543f369b8804b0f8698c4cbb61c",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 1.9073486328125e-06,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.996805727481842,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "ifw01",
+   "chain": {
+    "parent_sha256": "cedf0d5ed039f5ae19a5d89c895759e4f94a14a4b62ca33bd5ac8dcb638d6a80",
+    "mask_labels_sha256": "86827cfb74f933e5641ed7ad84ec0a3e25a52b8a3154b2fc7a128dd53dc589cd",
+    "source_sha256": "60b00e90fc1c37895a2c867033ccc946c54dc6be144b4e3828c03b22c4af9051"
+   },
+   "textured_tiles": 145,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "a48437b55621c5bc480b285f60e1670b769c5829fde2e379419eb73a5c75abab",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 5.417240142822266,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.004441296145614615,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.505097044988844,
+     "pi_proxy": -0.004460085596057352,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "afa229e9aa4522808bab13c21d588f2af05c9c8f47022e4eb5d583eba10757c0",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 3.4585683345794678,
+     "exact_repeat_frac": 0.03496616612298817,
+     "rho": 0.23880705679766834,
+     "paste_fraction": 0.013793103448275862,
+     "freeze_z": 15.05636528527184,
+     "pi_proxy": 0.23981735946877172,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "9d091bb2b35e98931938cebe6bc7703eab38f9497a186dff3d884668c83c67d6",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 0.9965492141374384,
+    "rho": 0.9957871995866299,
+    "paste_fraction": 0.993103448275862
+   }
+  },
+  {
+   "scene": "ifw02",
+   "chain": {
+    "parent_sha256": "7e6a8d27fae88e82e741ab5441cf8b5a4fba5ff53129807b11d63da87a29d013",
+    "mask_labels_sha256": "220bed0bf6c51fee82260047ac79e1e63db94aca37344e3df253947f8b0f5840",
+    "source_sha256": "37576d4669a3bc3465160eefdb45f1cc1b7021653081ae0b71173f77f8746abf"
+   },
+   "textured_tiles": 42,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "6eb4f987da4350514c369df3343b1b3bf0ed098866239a28b4cddf36b08a3370",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 3.368471622467041,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.012743701285216957,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.029969674964715,
+     "pi_proxy": 0.012778030423004997,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "685d97ff84e35eae7a68e9714d5cf1626d5f38077530a0d0de5e1b0e88171c94",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 2.7485060691833496,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.18566853436641395,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.82656807446064,
+     "pi_proxy": 0.18616869052642704,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "60cbef71e76f95b387e192e4bdb62e1377221fc5627c2463d01205ebf364fe16",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 0.9880317905563347,
+    "rho": 0.9973134249448776,
+    "paste_fraction": 0.9761904761904762
+   }
+  },
+  {
+   "scene": "ifw03",
+   "chain": {
+    "parent_sha256": "c52e385201829eb9350dfd3267a6940c1ad181b260486849b1ea6cef576779e7",
+    "mask_labels_sha256": "ba38364b304c5f1526651359ee1c704a57042f107b8fb68d0d03bc140999d14c",
+    "source_sha256": "6cfad6da83126b5f9e01c6faece93ab0ec22cb39697656082a2890a4ca1ca704"
+   },
+   "textured_tiles": 485,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "885b62efa105c23ebee91e744c5bc06f8cf6b62420849ce22a626c980e91cbf9",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 4.609182357788086,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.0026759786875345526,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.343561036506427,
+     "pi_proxy": 0.0026851403310692652,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "072f608c08dd720efe1b5fc476560b5e1d39c3e27a37aca3323fed355db64e81",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 1.2436803579330444,
+     "exact_repeat_frac": 0.21448396049828955,
+     "rho": 0.7696599317714572,
+     "paste_fraction": 0.12989690721649486,
+     "freeze_z": 14.033585572265565,
+     "pi_proxy": 0.77229498636688,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "ec5e1087d03d950d139673a7fcea43bb50c42d517e882f5a992e561235f7158f",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 4.76837158203125e-07,
+    "exact_repeat_frac": 0.9998144323242755,
+    "rho": 0.9965880205854774,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "ifw04",
+   "chain": {
+    "parent_sha256": "f857a5f8e875aa021b8c7aaa198b0f934eb3f84ab59e2e416edf25bd1c4242a6",
+    "mask_labels_sha256": "b9b3060b51fa44c56925b746fc47a902f5a425ee3deef037606a2b017a85a488",
+    "source_sha256": "275a29e6ff891e9abfa6955f82f363e6e430641eba3988d7bd3252087967601c"
+   },
+   "textured_tiles": 168,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "1965135ba3b9137b33c572376c793ffaddf59d7df7fa1cb487066ea5cad7754c",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 1.4125953912734985,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.004365047819192114,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.160939273367394,
+     "pi_proxy": -0.0044134512630291224,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "00138f85a543506df2b562d9a940a9508ee90e4747cefc76c819e842df470ce6",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 0.2729431092739105,
+     "exact_repeat_frac": 0.4238748282847098,
+     "rho": 0.7782245371490717,
+     "paste_fraction": 0.32142857142857145,
+     "freeze_z": 12.517018661512632,
+     "pi_proxy": 0.7868541671638578,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "cc511a68af171ac39f49873e097a514e501284faf6bf4c02df14757759b3c012",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9890327453613281,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "ifw05",
+   "chain": {
+    "parent_sha256": "eaa4dbffb589d6cda1c1ec0c140bc8885fa63b41949721e6e63349e68d8f3ab1",
+    "mask_labels_sha256": "9fc6e3d8fa76501f4c39625ee0c576eba36ae3bb83736f1da60c21d22c439aa9",
+    "source_sha256": "5076338df0a84aad28d311fd20384aa1f2bb77a15379a8c4700683872f6790eb"
+   },
+   "textured_tiles": 27,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "d7316da531f3b5eb929e1e92f7b95ac60f447f627b86554b043382ddf0ba5940",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 1.3164710998535156,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.0010409343121864367,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.090465305420437,
+     "pi_proxy": -0.001065352847745827,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "3b964c654cbd9b3813a1cbf86c3033084c64f8a0c069c4f3d92d46742afe295b",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 0.0,
+     "exact_repeat_frac": 0.9792963660055016,
+     "rho": 0.9766132673248649,
+     "paste_fraction": 0.9629629629629629,
+     "freeze_z": 0.0,
+     "pi_proxy": 0.9995229413713029,
+     "paste_flag": true
+    }
+   },
+   "still": {
+    "sha256": "ce3d431486a837e38d107ff0847e484de24f1ec7d848b54ef4e8cafa43be400f",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9770793914794922,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "igt01",
+   "chain": {
+    "parent_sha256": "4a31fca2ea572e2c7b6e455d97fc3400ac33ba961eb7f9fc6164f2d52b38a116",
+    "mask_labels_sha256": "14eb0865a6d7c54847c9462db2d74fd502b13d1a91ee2e726eea655d1691f049",
+    "source_sha256": "7cccf58594c98b6c806b7595c9f9aa3205a86534182e2c7372b9c6e2e4df9f73"
+   },
+   "textured_tiles": 519,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "b46b873e72fc75e97f9fd845d1756e03d0e2f2110a2877b40c3fcb6de021cff4",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 6.989037036895752,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.0010868144795495027,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.8909956631183,
+     "pi_proxy": -0.0010896453515250864,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "20d2f3d3bc79d36efe06bb86cfc13189ac15f92d2c56ce5789e7cd122f02913f",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 3.4573299884796143,
+     "exact_repeat_frac": 0.11172286875787218,
+     "rho": 0.6318612219765782,
+     "paste_fraction": 0.08092485549132948,
+     "freeze_z": 14.187149490866224,
+     "pi_proxy": 0.6335070578201464,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "3dc8d780ceeddd1a085daca25990d54e0483dc75855c335920cb6e51a76697bb",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 2.384185791015625e-06,
+    "exact_repeat_frac": 0.9981295300444236,
+    "rho": 0.9974020244553685,
+    "paste_fraction": 0.9961464354527938
+   }
+  },
+  {
+   "scene": "igt02",
+   "chain": {
+    "parent_sha256": "8acd426398efa2bde5964efd2eebf3fc82e053fb86455090453d117af48ea183",
+    "mask_labels_sha256": "a4cb648aa8a228b1952dad23b1fc72743211711022377312b6ed39ef91a1f916",
+    "source_sha256": "c5d529a1ea0e72baaa020f841410577c3c8f4b7a1d2a013c283e90b6f9bf6267"
+   },
+   "textured_tiles": 20,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "d639c664c7607a91ec94c09e1ecc951a830cf0a7d1e1dc5971570e5f171e41c0",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 10.252056121826172,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.04644507879493176,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.580983981483618,
+     "pi_proxy": -0.04651534581207341,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "b3417dfaf4fa2f0a2555cedb01e763059b926c7fd4936e99a70e1ae0fa27b5fe",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 7.226629734039307,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.3134028995409608,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.231278476051665,
+     "pi_proxy": 0.31387704852478576,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "9348e9f0b65daa421c201af23ade8a2d2d65829f579b24a3affd2b05f827ccdb",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 4.76837158203125e-06,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9984893798828125,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "igt03",
+   "chain": {
+    "parent_sha256": "e0d99a15ab8c8f65033d74ec140bddbd345f16049d927ce9f07efa965c3fa048",
+    "mask_labels_sha256": "96d29f5041774aec72476b7abbcf4f76c78c8d09e85b9bb1251f1b3ca0267acc",
+    "source_sha256": "2e45219ca31df2b620cbe02c77c13c7a90d9a795b053386290d22f3b69953fb8"
+   },
+   "textured_tiles": 524,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "353faefc0c322e634c9245d4bbc0e7a44c461f0bccc4168a58f9db8454e5f8ea",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 8.860685348510742,
+     "exact_repeat_frac": 0.0,
+     "rho": 5.832098702285293e-05,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.351420545369404,
+     "pi_proxy": 5.8469714143413044e-05,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "fddbcd9109478c77822388ec4f6ed6d081234de292b1eb200f926d899e37a354",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 0.9370027780532837,
+     "exact_repeat_frac": 0.2622612094494297,
+     "rho": 0.929945264942944,
+     "paste_fraction": 0.17557251908396945,
+     "freeze_z": 13.104727398728933,
+     "pi_proxy": 0.9323167625563037,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "1abdae7c5e92533bcf134f81c37ea8a09d209c809b8e79c510cdaddcd39ade29",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 1.9073486328125e-06,
+    "exact_repeat_frac": 0.9996121168721701,
+    "rho": 0.9974563391879201,
+    "paste_fraction": 0.9980916030534351
+   }
+  },
+  {
+   "scene": "igt04",
+   "chain": {
+    "parent_sha256": "9b790c9bf995313c1f5effb2dd765be35ef4842d4168125b26cca66a691a184c",
+    "mask_labels_sha256": "ff81c8f3961deb23c32b87b40d595727a682fbcc9727ce5227aed49c8d667a96",
+    "source_sha256": "8347ac28d4f17cd1ce83e92703affc54841022097b460c18e4afd3a499c5add8"
+   },
+   "textured_tiles": 340,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "66a16709dd047a131004d3b3ea7c00416ed59847520a930ab7f87b7248329403",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 1.5491610765457153,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.0020445812297111843,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.253224101433432,
+     "pi_proxy": -0.002060429643668932,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "a99337ee33cf9a93e93cf95dd4726b02427b55424718d8fbe3f28b16292183a4",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 0.8663424849510193,
+     "exact_repeat_frac": 0.235142564668806,
+     "rho": 0.7792480308562517,
+     "paste_fraction": 0.19705882352941176,
+     "freeze_z": 13.672035588521522,
+     "pi_proxy": 0.785288311960913,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "032439d5a420dd85fe530023f76ddbc8bbd7b4efcd33aacaf337920c5b84ab5d",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9923081994056702,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "iow01",
+   "chain": {
+    "parent_sha256": "147c7e7ad60e0566b9e5e45845821db1c636f030897afcf96af54b604bce1c98",
+    "mask_labels_sha256": "1ecb8eecb33e372c7030bd44a7c7723fee4c0b621c98434596ae717defe61de2",
+    "source_sha256": "5329ad5480c595fce303d7d6b8d2f0700d9159031f6cc411d93216489c61d738"
+   },
+   "textured_tiles": 0,
+   "controls": {},
+   "abstain": "0 textured support tiles < 20"
+  },
+  {
+   "scene": "iow02",
+   "chain": {
+    "parent_sha256": "45bd0c188b20352dfcf3c56796ab82eb7512e391d0654191687b5e110a08bef4",
+    "mask_labels_sha256": "e6d9afd0ee72c32ab7f5255fa2867578ad8ad83f0828a0652dc3d4573c2f860e",
+    "source_sha256": "97cddd9625d569cb14e5deba60491c95f12a957ff78601d173e5aaf3c1d616df"
+   },
+   "textured_tiles": 149,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "dd6df3a5179e8407fba5eda11dc20b3c978a08d3e0354c7e88f4c4f98e5d0fa0",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 3.2424473762512207,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.0017822028247564958,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.991838965665933,
+     "pi_proxy": -0.0017899246761177736,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "86c789446028709174365c227721e79d77f2f59830de26ab9c648584890d77d7",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 0.7111508846282959,
+     "exact_repeat_frac": 0.10316480630334865,
+     "rho": 0.8187229987233877,
+     "paste_fraction": 0.0,
+     "freeze_z": 13.474639900938113,
+     "pi_proxy": 0.8222703263419855,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "0edcc2ed0e8e0163ec2139bca9b72033025a53c766bc4ab0568076b2700ecfd2",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 9.5367431640625e-07,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9956859350204468,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "iow03",
+   "chain": {
+    "parent_sha256": "26a5bc07207a5ddd6fa5eaa15e1cca177d4cbc614a74bbffa30940e5cf26ebf7",
+    "mask_labels_sha256": "1041bed3378ea0bad517bce1bdcf6919682ef0088803fee9a9f65a9616d9c768",
+    "source_sha256": "32b5209eae6f5d4124f10f5f830c5b7ceca37802e9ae15cc720e8dd5826a5653"
+   },
+   "textured_tiles": 39,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "2e6a140bf49219544910ba15967413ace1d0f99d7ce7daf2cf94a224db402f9f",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 6.262008190155029,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.006805781656112231,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.886514325799547,
+     "pi_proxy": -0.006819532084179589,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "0672df3d9f759865dde70cc0f968f47884de64673e4f550c5a6d543c061d5411",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 3.7927792072296143,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.45273585664108396,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.385112445404374,
+     "pi_proxy": 0.4536505659492596,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "4f97ae3e9c76ab089e2a01be6260e40e99e2f97af277e57a37ae994b986892ea",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 2.1457672119140625e-06,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9979836698621511,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "iow04",
+   "chain": {
+    "parent_sha256": "bcc7fef25f14056fa74b272c470a6dd12739a01cafdf231961917308b7ea3c3a",
+    "mask_labels_sha256": "5e01de97c5eabe99117db64df283b5f23f382a2501380e8fb408beb516e422a9",
+    "source_sha256": "8c3c49b5bee034a7a3288a106a6cc5631fc0e8a7479c99d717ec6aa57b69cac3"
+   },
+   "textured_tiles": 15,
+   "controls": {},
+   "abstain": "15 textured support tiles < 20"
+  },
+  {
+   "scene": "iow05",
+   "chain": {
+    "parent_sha256": "dbd86fc972fb5f9a3465dce07a9261a1f4d1b7fa0635665be6aa192dec6964f8",
+    "mask_labels_sha256": "3dfab550e9d92a3d5516ab5faeb1a9f44abd82c60cc189d53714f4f2aa8ae6ed",
+    "source_sha256": "ea4c5b3b167a3d8e928b9b2120fc9bebb694911cfd9f2cef931805fedcddb360"
+   },
+   "textured_tiles": 391,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "6b716bd7f150f691a7201314932334fe8692af4d293bbb5b721d5e6f72e7ce56",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 2.5434212684631348,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.002145356127073228,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.749020688750985,
+     "pi_proxy": -0.002154312775465564,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "ca17ad8c3b0b015db349f596938cffb107a396da91623bd253dbc55eb59def22",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 3.814697265625e-06,
+     "exact_repeat_frac": 0.7129147820517953,
+     "rho": 0.9131926521658897,
+     "paste_fraction": 0.6214833759590793,
+     "freeze_z": 1.3388613078852585,
+     "pi_proxy": 0.9170051406365443,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "acc6f1f3b1d3494078628a1ed43e5c3dbdb2bf009202460ec7074425ea9bb2e6",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.995842456817627,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "iwb01",
+   "chain": {
+    "parent_sha256": "c48c828b8065348576b93d6718ea81651a04d91026db5f5f239ab2b973786e4e",
+    "mask_labels_sha256": "e302aacf10c6e42dd5bee14da7e48adc0c99dc83ecefd00ac3724d1553fab665",
+    "source_sha256": "15890b6836a0c456fabc5910965a7385ae482b9087271646e50b6b8cf839f111"
+   },
+   "textured_tiles": 271,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "6cebbb6973b6b68341662cd2d7fe08b999fa5f5fb30d20c2f547e45ee59903c2",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 5.949858665466309,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.0005145018185430672,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.598878023536548,
+     "pi_proxy": 0.0005171664383023726,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "e1133cecabe2099008150e60e90f5e9aa40922299cebcb5552ebe162353ffc40",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 1.7717205286026,
+     "exact_repeat_frac": 0.1171010147601476,
+     "rho": 0.7574089299887419,
+     "paste_fraction": 0.04428044280442804,
+     "freeze_z": 14.387461682473255,
+     "pi_proxy": 0.7613315726850055,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "95c074ae6e0fb1174950a094077e2bc098eddeaca5a5d23d3ce42f87d139cc14",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9948476552963257,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "iwb02",
+   "chain": {
+    "parent_sha256": "fa3ecde41dd626cf17ef9b8254dcf488b814a95ca435b62ed4079e19914d059c",
+    "mask_labels_sha256": "9a3e4e794070a0e804b6a4adb59069e53a9e08b490f2df7f5197e52a9cee1282",
+    "source_sha256": "443433b7ea8ab2801021efd62ae79b7dc9005e4f5ba1f3a52afb60b05e336095"
+   },
+   "textured_tiles": 78,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "5a17527b7239c491dc9940f12d1c914feff126ab245d675b9472368835e67305",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 4.588901996612549,
+     "exact_repeat_frac": 0.0,
+     "rho": 0.0015705021203871183,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.339151336995634,
+     "pi_proxy": 0.001579620813008101,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "d3805280220d70bdafcc53b1b0f68378a44ddd47b5e83727130b475f275841c1",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 0.29172655940055847,
+     "exact_repeat_frac": 0.3656427530038711,
+     "rho": 0.9732476714998484,
+     "paste_fraction": 0.28205128205128205,
+     "freeze_z": 12.583572202107133,
+     "pi_proxy": 0.978898568907301,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "3bb10c2c012070667e75f76632dfbdc55ed169b0dd141017f9704820e30bfa1b",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9942272901535034,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "iwb03",
+   "chain": {
+    "parent_sha256": "79907efbe48e2ec1569d4d33e1f7cb424709c09567206a1f051fe89f3def2ef5",
+    "mask_labels_sha256": "e319a2a920e706804549ad7b57144283d89e9ad32d6247f79e1eebe48d8d8b29",
+    "source_sha256": "58ff9f55764c573e0d0d6a6637e7a2299a97b57509e0c560fe09a5ed516233f4"
+   },
+   "textured_tiles": 414,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "8d047b656402b3e93a1b788eb80884fe99ccb9a4a1bea449208774e282bc23bb",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 5.428976535797119,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.005035213685914641,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.507261190866297,
+     "pi_proxy": -0.005062182119033195,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "5f95bc777a55e4d2a82a5995ca0af9e2e5d4e1d4777c26a829e6b4817eb4bc9c",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 3.814697265625e-06,
+     "exact_repeat_frac": 0.8312557008209183,
+     "rho": 0.9815922351554036,
+     "paste_fraction": 0.7946859903381642,
+     "freeze_z": 1.3388613078852585,
+     "pi_proxy": 0.9868496097565118,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "dd1011af9adc9a2278f8e1c9356bbff227df58c49ffe6386a24262b12835492d",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 4.76837158203125e-07,
+    "exact_repeat_frac": 0.9994299179081788,
+    "rho": 0.9946725675836205,
+    "paste_fraction": 0.9975845410628019
+   }
+  },
+  {
+   "scene": "iwb04",
+   "chain": {
+    "parent_sha256": "503041b046df0aa808f55438d5e49b03652e6b34ea8a449de7947e35da9188e6",
+    "mask_labels_sha256": "e02639042a5bb398e004013b8a744b2a246823377bc6444157963cd0d622cf7a",
+    "source_sha256": "246ec63521a49c6b20afd68177549c08efa3ea8b34e6dbece4997e61333f8a9f"
+   },
+   "textured_tiles": 126,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "73b745cbcd4fd8ab2562f1ce6da15213012f34c847ce36317a7cb5cd83cce9ed",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 9.201836585998535,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.0024967702838694095,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.472908791809484,
+     "pi_proxy": -0.002500759642477612,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "3a87a677138727f9c6cd7aca45d6b8d4d214edbfdf054ffe418b559fc9bbb63d",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 0.3818620443344116,
+     "exact_repeat_frac": 0.43021774920013667,
+     "rho": 0.9376332927495241,
+     "paste_fraction": 0.31746031746031744,
+     "freeze_z": 11.290809822676481,
+     "pi_proxy": 0.9391314503781749,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "74acb256af155091ebf613d1cac560897af36cfcf63d835fa57f5a9011e78c60",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 4.76837158203125e-06,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9984047412872314,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "iwb05",
+   "chain": {
+    "parent_sha256": "ee3e5c363c3cfa20049a3704e9d512f2e85e2770469de998f24c97f9ca83dfd5",
+    "mask_labels_sha256": "56f37c04fc93519eaf08735d19dffd7ec1ae8b0b99ad99d0318c53fc303773e2",
+    "source_sha256": "4664e1e6488a5ae2f6b312a121cde5bfc8b46961cba7af285156c28227438dd8"
+   },
+   "textured_tiles": 40,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "22d1a14b32a460b581e1b37025b6dc9f7f8f78df7c53ae30fb100701ca1d8c03",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 4.145069122314453,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.004821478833605397,
+     "paste_fraction": 0.0,
+     "freeze_z": 15.237430022483526,
+     "pi_proxy": -0.004833099209471791,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "95f130d68451782520315fa96624c3125a025d879635d634a84c77a88b7ba8ec",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 1.0880317687988281,
+     "exact_repeat_frac": 0.256528568623601,
+     "rho": 0.22611331392545253,
+     "paste_fraction": 0.2,
+     "freeze_z": 13.899880905235364,
+     "pi_proxy": 0.22665827570728095,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "cdddc38e33aa10cc9e1ea2a702621221319d1f74eb835ab8cd64434218a73a9a",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.9975956678390503,
+    "paste_fraction": 1.0
+   }
+  },
+  {
+   "scene": "iwb06",
+   "chain": {
+    "parent_sha256": "1b1609d2824195d8274bf4aefe723c2a2774adbf6f2d2e88f72a63064a9aef06",
+    "mask_labels_sha256": "75caa832e3f568bf7e2b8a6961420c47d9ed18a7918a5413c126dd906f5eb203",
+    "source_sha256": "2110d1acdd154c6a3a73ad2013f129413b709191ea727250119bd149762c74bb"
+   },
+   "textured_tiles": 47,
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "c4b08be9aec4a9813bc5e9fb004c861222f3602c7a6917ec1f2cd7fd6585bca6",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 3.1186764240264893,
+     "exact_repeat_frac": 0.0,
+     "rho": -0.016980720034553087,
+     "paste_fraction": 0.0,
+     "freeze_z": 14.95291924670917,
+     "pi_proxy": -0.017093254697896604,
+     "paste_flag": false
+    },
+    "control_composite": {
+     "sha256": "50aeedf0456fd6c81d6ef2423f3d3d3d3a5b761d8d4e3c8ddbabf90f8922d1f4",
+     "fps": 16.0,
+     "frames": 64,
+     "sigma_hf": 0.07972279191017151,
+     "exact_repeat_frac": 0.5163721631354158,
+     "rho": 0.9615628160536289,
+     "paste_fraction": 0.46808510638297873,
+     "freeze_z": 11.28631079516572,
+     "pi_proxy": 0.9679352871601574,
+     "paste_flag": false
+    }
+   },
+   "still": {
+    "sha256": "6d9ea79afd77b6ed2fa54633c5bfd29845fd6e9771f93947978e174404b26a2f",
+    "fps": 16.0,
+    "frames": 64,
+    "sigma_hf": 0.0,
+    "exact_repeat_frac": 1.0,
+    "rho": 0.993416428565979,
+    "paste_fraction": 1.0
+   }
+  }
+ ]
+}

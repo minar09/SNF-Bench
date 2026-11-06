@@ -1,90 +1,75 @@
 % Overview figure (first page). Snapshots: scripts/build_journal_snapshots.py.
+% Type floor: \scriptsize (7 pt in IEEEtran journal 10 pt); nothing smaller. Change maps live in Fig. qualitative.
 \begin{figure*}[t]
 \centering
 \begin{tikzpicture}[
-  font=\footnotesize, >={Stealth[length=1.6mm]},
+  font=\scriptsize, >={Stealth[length=1.6mm]},
   panel/.style={draw=snfgrey!60,rounded corners=2pt,fill=snfpaper,inner sep=3pt},
-  head/.style={font=\scriptsize\bfseries,text=snfink,anchor=south west,inner sep=1pt},
+  head/.style={font=\footnotesize\bfseries,text=snfink,anchor=south west,inner sep=1pt},
   img/.style={inner sep=0pt,outer sep=0pt},
-  stage/.style={draw=snfink!70,fill=white,rounded corners=1.5pt,minimum height=7mm,
-    text width=2.95cm,align=center,font=\scriptsize,inner sep=2pt},
+  stage/.style={draw=snfink!70,fill=white,rounded corners=1.5pt,minimum height=11mm,
+    text width=3.15cm,align=center,font=\footnotesize,inner sep=2pt},
   flow/.style={->,line width=.7pt,snfink!80}]
 
 % ---- (a) inputs
-\node[head] (ha) at (0,4.55) {(a) Inputs};
-\node[panel,anchor=north west,text width=3.0cm,align=left,font=\scriptsize] (txt) at (0,4.5)
-  {\textbf{T2V}\enspace \textit{``\dots recorded by a fixed tripod camera. Rain falls continuously\dots''}};
-\node[img,anchor=north west] (src) at ($(txt.south west)+(0.05,-0.15)$)
-  {\includegraphics[width=3.05cm]{figures/snapshots/role_ifp06.png}};
-\node[anchor=north west,font=\tiny,align=left,inner sep=1pt] (leg) at ($(src.south west)+(0,-0.05)$)
-  {\textbf{I2V} source + role map:\\
-   \swatch{roleSupport}\,support\enspace\swatch{roleMaterial}\,material\enspace
-   \swatch{roleOverlay}\,overlay\enspace\swatch{roleIgnore}\,uncertain};
+\node[head] at (0,4.6) {(a) Inputs};
+\node[panel,anchor=north west,text width=3.4cm,align=left] (txt) at (0,4.45)
+  {\textbf{T2V}\enspace\textit{``\dots recorded by a fixed tripod camera. Rain falls continuously\dots''}};
+\node[img,anchor=north west] (src) at ($(txt.south west)+(0,-0.15)$)
+  {\includegraphics[width=3.6cm]{figures/snapshots/role_piq0140.png}};
+\node[anchor=north west,align=left,inner sep=1pt] at ($(src.south west)+(0,-0.05)$)
+  {\textbf{I2V} source with role map:\\
+   \swatch{roleSupport}\,support\quad\swatch{roleMaterial}\,material\\
+   \swatch{roleIgnore}\,uncertain (enters no measure)};
 
 % ---- (b) long rollout of one published output
-\node[head] at (3.6,4.55) {(b) One 240\,s rollout (fixed-camera prompt)};
+\node[head] at (4.05,4.6) {(b) One 240\,s rollout, fixed-camera prompt};
 \foreach \t/\x in {000/0,060/1,120/2,240/3} {
-  \node[img,anchor=north west] (r\x) at ({3.65+1.72*\x},4.35)
-    {\includegraphics[width=1.66cm]{figures/snapshots/t2v240/p0/CausVid_t\t.png}};
+  \node[img,anchor=north west] (r\x) at ({4.1+1.9*\x},4.4)
+    {\includegraphics[width=1.84cm]{figures/snapshots/t2v240/p0/CausVid_t\t.png}};
 }
-\draw[->,line width=.6pt,snfink] ($(r0.south west)+(0,-0.22)$) -- ($(r3.south east)+(0.05,-0.22)$)
-  node[right,font=\tiny] {$t$};
+\draw[->,line width=.6pt,snfink] ($(r0.south west)+(0,-0.12)$) -- ($(r3.south east)+(0.12,-0.12)$)
+  node[right] {$t$};
 \foreach \lab/\x in {0/0,60/1,120/2,240/3}
-  \node[font=\tiny,below] at ($(r\x.south)+(0,-0.2)$) {\gclock\,\lab\,s};
-\node[font=\tiny,text=snfgrey,anchor=north west,align=left,text width=6.7cm] at ($(r0.south west)+(0,-0.6)$)
-  {Appearance changes across the rollout despite the fixed-camera prompt; whole-frame
-   change can include both intended and unintended effects.};
+  \node[below] at ($(r\x.south)+(0,-0.12)$) {\gclock\,\lab\,s};
+\node[text=snfink!75,anchor=north west,align=left,text width=7.4cm,inner sep=1pt] at ($(r0.south west)+(0,-0.68)$)
+  {The layout departs from the first frame despite the fixed-camera prompt. Whole-frame change mixes
+   intended and unintended effects; Fig.~\ref{fig:qualitative} adds change maps for all eight checkpoints.};
 
-% ---- (c) where it changed / where it still moves
-\node[head] at (10.75,4.55) {(c) Change and late motion};
-\node[img,anchor=north west] (m1) at (10.8,4.35)
-  {\includegraphics[width=1.66cm]{figures/snapshots/t2v240/p0/CausVid_change.png}};
-\node[img,anchor=north west] (m2) at (12.55,4.35)
-  {\includegraphics[width=1.66cm]{figures/snapshots/t2v240/p0/CausVid_motion.png}};
-\node[font=\tiny,below=1pt of m1] {changed, 0$\to$240\,s};
-\node[font=\tiny,below=1pt of m2] {frame change, late};
-\node[font=\tiny,text=snfgrey,anchor=north west,align=left,text width=3.4cm] at ($(m1.south west)+(0,-0.45)$)
-  {Region roles help localize change, but appearance change is not necessarily geometric drift.};
-
-% ---- (d) measures with status
-\node[head] at (14.35,4.55) {(d) Measures and status};
-\node[panel,anchor=north west,text width=3.55cm,align=left,font=\scriptsize] (meas) at (14.35,4.35) {%
-  \setlength{\tabcolsep}{1.5pt}%
-  \begin{tabular}{@{}c@{\hspace{3pt}}l@{\hspace{4pt}}c@{}}
-  \gsupport   & Support fidelity & \stfrozen\\[-2.5pt]
-              & {\tiny fBD\down\,NBF\down\,DLR (context)} & \\
-  \gmotion    & Material motion & \stfrozen\\[-2.5pt]
-              & {\tiny MCFF, FP, DAR (context)} & \\
-  \greplay    & Replay\,/\,progression\,{\tiny R4} & \stcand\\
-  \gdirection & Direction\,{\tiny R3} & \stcand\\
-  \gmaterial  & Material presence\,{\tiny R2} & \stopen\\
-  \gplaus     & Motion plausibility\,{\tiny R5} & \stopen\\
-  \gsupport   & Support integrity\,{\tiny R1} & \stdiag\\
-  \gintegrity & Scene integrity & \stopen\\
-  \ghuman     & Human validation & \stopen
+% ---- (c) measures with status
+\node[head] at (12.0,4.6) {(c) Measures and status};
+\node[panel,anchor=north west,text width=5.75cm,align=left] (meas) at (12.0,4.45) {%
+  \setlength{\tabcolsep}{1.5pt}\renewcommand{\arraystretch}{1.12}%
+  \begin{tabular}{@{}c@{\hspace{3pt}}l@{\hspace{5pt}}l@{\hspace{4pt}}c@{}}
+  \gsupport   & Support fidelity     & fBD\down\,NBF\down; DLR ctx. & \stfrozen\\
+  \gmotion    & Material motion      & MCFF, FP; DAR ctx.           & \stfrozen\\
+  \greplay    & Replay\,/\,progression & R4                         & \stcand\\
+  \gdirection & Direction            & R3                           & \stcand\\
+  \gsupport   & Support integrity    & R1                           & \stdiag\\
+  \gmaterial  & Material presence    & R2                           & \stopen\\
+  \gplaus     & Motion plausibility  & R5                           & \stopen\\
+  \gintegrity & Scene integrity      & ---                          & \stopen\\
+  \ghuman     & Human validation     & ---                          & \stopen
   \end{tabular}};
-\node[anchor=north west,font=\tiny,align=left] at ($(meas.south west)+(0,-0.05)$)
+\node[anchor=north west,align=left,inner sep=1pt] at ($(meas.south west)+(0,-0.08)$)
   {\stfrozen\,frozen definition\quad\stcand\,development candidate\\
-   \stdiag\,diagnostic only\quad\stopen\,planned\quad no summed score};
+   \stdiag\,diagnostic only\quad\stopen\,planned\quad ctx.\,=\,context only};
 
 % ---- stages
-\node[stage] (s1) at (1.55,-0.15) {\cmark\ Specifications\\[-1pt]{\tiny 96 T2V + 48 I2V, nine regimes}};
-\node[stage,right=3.5mm of s1] (s2) {\stcand\ Role maps\\[-1pt]{\tiny auto (I2V); 2 annotators + adjudicator}};
-\node[stage,right=3.5mm of s2] (s3) {\stcand\ Measures\\[-1pt]{\tiny versioned identities, abstentions}};
-\node[stage,right=3.5mm of s3] (s4) {\stcand\ Development\\[-1pt]{\tiny matched controls, real footage}};
-\node[stage,right=3.5mm of s4,fill=snfpaper] (s5) {\glock\ Confirmation\\[-1pt]{\tiny held-out scenes and model families}};
+\node[stage] (s1) at (1.645,-0.55) {\cmark\ Specifications\\[-1pt]{\scriptsize 96 T2V + 48 I2V\\nine regimes}};
+\node[stage,right=3mm of s1] (s2) {\stcand\ Role maps\\[-1pt]{\scriptsize automatic (I2V)\\2 annotators + adjudicator}};
+\node[stage,right=3mm of s2] (s3) {\stcand\ Measures\\[-1pt]{\scriptsize versioned identities\\explicit abstentions}};
+\node[stage,right=3mm of s3] (s4) {\stcand\ Development\\[-1pt]{\scriptsize matched controls\\real footage}};
+\node[stage,right=3mm of s4,fill=snfpaper] (s5) {\glock\ Confirmation\\[-1pt]{\scriptsize held-out scenes\\and model families}};
 \foreach \a/\b in {s1/s2,s2/s3,s3/s4,s4/s5} \draw[flow] (\a) -- (\b);
-\node[font=\tiny,text=snfgrey,anchor=north] at ($(s3.south)+(0,-0.05)$)
+\node[text=snfink!75,anchor=north] at ($(s3.south)+(0,-0.06)$)
   {\ghuman\ blinded human ratings per construct feed development and confirmation};
 \end{tikzpicture}
 \caption{\textbf{SNF-Bench++ at a glance.} (a)~Each scene specifies a fixed viewpoint and names a natural process; I2V
-sources carry role maps (shown: a precipitation scene, whose falling snow is an excluded overlay, so it has no
-measured material region). (b)~Frames of a historical output of a published checkpoint~\cite{yin2025causvid} under the common inference configuration for a
+sources carry role maps; illustrated on a public fixed-camera scene, smoke rising from burning paper, with roles derived from that benchmark's motion masks (overlay pixels such as falling snow, also excluded, are absent here). (b)~Frames of a historical output of a published checkpoint~\cite{yin2025causvid} under the common inference configuration for a
 fixed-camera prompt (first system alphabetically, first 240\,s prompt; Fig.~\ref{fig:qualitative}).
-(c)~Automatic maps of frame appearance change between the first and last second and successive-frame change
-in its last 12\%; the latter also responds to flicker and other non-motion effects. These are visualizations, not metrics. (d)~Measures by construct and validation status.
-Bottom: the protocol, from specification to held-out confirmation. Source image in~(a): Metropolitan
-Transportation Authority of the State of New York, \href{https://commons.wikimedia.org/wiki/File:Snowy_Transit_in_Brooklyn_(12294431174).jpg}{Snowy Transit in Brooklyn}, \href{https://creativecommons.org/licenses/by/2.0/}{CC~BY~2.0}; cropped and overlaid with an unverified role map. An interactive version accompanies the
+(c)~Measures by construct and validation status; no summed score.
+Bottom: the protocol, from specification to held-out confirmation. Image in~(a): Physics-IQ benchmark~\cite{motamed2025physicsiq}, scene 0140, first frame, \copyright~2024 DeepMind Technologies Limited, \href{https://creativecommons.org/licenses/by/4.0/}{CC~BY~4.0}; resized, with roles overlaid. An interactive version accompanies the
 supplementary material (\texttt{interactive/measurement\_map.html}).}
 \label{fig:pp_protocol}
 \end{figure*}

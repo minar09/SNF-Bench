@@ -1,0 +1,1358 @@
+{
+ "entrant": "cfpp/echo_nfpb1_h1_fm_tether100_lr",
+ "identity": {
+  "channel_alignment": "cand-channel-alignment-0",
+  "gravity_sign": "cand-gravity-sign-0",
+  "sign_stability": "cand-sign-stability-0"
+ },
+ "tau_k": 1.0,
+ "route": {
+  "channel_flow": "channel",
+  "falling_water": "down",
+  "buoyant_plume": "up",
+  "combustion": "up"
+ },
+ "flow": {
+  "model": "RAFT raft-things (VBench)",
+  "iters": 20,
+  "max_h": 288,
+  "sample_fps": 8,
+  "window": 0.12,
+  "compensation": "v1.1 similarity on eroded support"
+ },
+ "spread_sigma": 40.0,
+ "min_coherence": 0.5,
+ "caveat": "development data; image y is assumed to be gravity (no roll estimate yet); bank field by normalized convolution, not Laplace",
+ "summary": {
+  "passthrough_crf18": {
+   "channel": {
+    "n": 6,
+    "n_attempted": 6,
+    "median": 0.6712519526481628,
+    "frac_expected_sign": 0.8333333333333334
+   },
+   "down": {
+    "n": 5,
+    "n_attempted": 5,
+    "median": 0.16812992095947266,
+    "frac_expected_sign": 0.6
+   },
+   "up": {
+    "n": 9,
+    "n_attempted": 11,
+    "median": -0.6955733299255371,
+    "frac_expected_sign": 1.0
+   }
+  },
+  "reverse_tail": {
+   "channel": {
+    "n": 6,
+    "n_attempted": 6,
+    "median": 0.7166229486465454,
+    "frac_expected_sign": 0.8333333333333334
+   },
+   "down": {
+    "n": 5,
+    "n_attempted": 5,
+    "median": -0.42011719942092896,
+    "frac_expected_sign": 0.0
+   },
+   "up": {
+    "n": 9,
+    "n_attempted": 11,
+    "median": 0.8194983601570129,
+    "frac_expected_sign": 0.3333333333333333
+   }
+  },
+  "pingpong": {
+   "channel": {
+    "n": 6,
+    "n_attempted": 6,
+    "median": 0.6553517282009125,
+    "frac_expected_sign": 0.8333333333333334
+   },
+   "down": {
+    "n": 5,
+    "n_attempted": 5,
+    "median": -0.4360686242580414,
+    "frac_expected_sign": 0.4
+   },
+   "up": {
+    "n": 10,
+    "n_attempted": 11,
+    "median": 0.5206948965787888,
+    "frac_expected_sign": 0.3
+   }
+  },
+  "noise_warp": {
+   "channel": {
+    "n": 6,
+    "n_attempted": 6,
+    "median": 0.06292858067899942,
+    "frac_expected_sign": 0.6666666666666666
+   },
+   "down": {
+    "n": 5,
+    "n_attempted": 5,
+    "median": -0.004061765503138304,
+    "frac_expected_sign": 0.4
+   },
+   "up": {
+    "n": 6,
+    "n_attempted": 11,
+    "median": -0.5665028393268585,
+    "frac_expected_sign": 0.8333333333333334
+   }
+  },
+  "freeze": {
+   "channel": {
+    "n": 6,
+    "n_attempted": 6,
+    "median": -0.131210558116436,
+    "frac_expected_sign": 0.5
+   },
+   "down": {
+    "n": 5,
+    "n_attempted": 5,
+    "median": -0.4307017922401428,
+    "frac_expected_sign": 0.2
+   },
+   "up": {
+    "n": 10,
+    "n_attempted": 11,
+    "median": -0.35167039930820465,
+    "frac_expected_sign": 0.6
+   }
+  }
+ },
+ "rows": [
+  {
+   "scene": "ibp01",
+   "category": "buoyant_plume",
+   "route": "up",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "70fa8c4254b076c8218207644205d5aad8a0909dc5a4823ab69baa4219d98f26",
+     "tau": 0.0381332730874419,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.904984712600708,
+     "weight": 19542.990234375
+    },
+    "reverse_tail": {
+     "sha256": "71a37b7e40e7d33e54b660da1be490a278361939ffc8aa26fc3991f2bc4097f4",
+     "tau": 0.059671478345990146,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.8549683690071106,
+     "weight": 29044.8515625
+    },
+    "pingpong": {
+     "sha256": "f346c7e0df4e1e3c8c5b048265ea4b5993de0e517134ed8fc895837929dcd264",
+     "tau": 0.03988806940615177,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.7685542702674866,
+     "weight": 2838.02001953125
+    },
+    "noise_warp": {
+     "sha256": "94c555e26959857f98132afd5cb4abc6bc246a725713920d5cff48bb222161e8",
+     "tau": 0.03862254191190004,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.2613544464111328,
+     "weight": 167.71096801757812
+    },
+    "freeze": {
+     "sha256": "b612ef3f268c88bfa56d105a0a38afeb7d483cc582a93a59c937e73deffa6284",
+     "tau": 0.05834404993802306,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.5552860498428345,
+     "weight": 38.36450958251953
+    }
+   }
+  },
+  {
+   "scene": "ibp02",
+   "category": "buoyant_plume",
+   "route": "up",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "4a00a8e1f3adcc02747be3f46d39d5ac37719b5c726d99233c553cbccd45c44d",
+     "tau": 0.8763259053230286,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.8750805258750916,
+     "weight": 350633.5625
+    },
+    "reverse_tail": {
+     "sha256": "71bf2a68bc60b5c0228de265611c60262e78fea2f89415e557f46dc4514a98c4",
+     "tau": 0.36166788935661276,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.8263978958129883,
+     "weight": 284529.03125
+    },
+    "pingpong": {
+     "sha256": "b829a45d2f05ef1c0d9494c1a6731fafdc8da474df1963438a3d31eeaa9066e3",
+     "tau": 0.2545949816703794,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.6677747368812561,
+     "weight": 25958.890625
+    },
+    "noise_warp": {
+     "sha256": "cb43ab2a34a81c0882a7678b5f5680a989be14607aba5c5639b166de1b50e738",
+     "tau": 0.17114089429378504,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.7090613842010498,
+     "weight": 3097.535400390625
+    },
+    "freeze": {
+     "sha256": "826ac000698b2fee2d65337c5e805995d30bfdc25b9d5ab969c2e9cbd87416a1",
+     "tau": 0.037402058392763136,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.5533517003059387,
+     "weight": 1962.810302734375
+    }
+   }
+  },
+  {
+   "scene": "ibp03",
+   "category": "buoyant_plume",
+   "route": "up",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "564f279e1fd707be4baf7e5be35dc7d3c6fb4125a7d9ed23e79e7e708678478a",
+     "tau": 0.07972102053463459,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.9452462792396545,
+     "weight": 619985.5
+    },
+    "reverse_tail": {
+     "sha256": "24330b9f7bf0a358ac67a353a6649ec30d10857e7dc62fcbb62ab98a40f9fe8a",
+     "tau": 0.08500502817332745,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.9450708627700806,
+     "weight": 502825.625
+    },
+    "pingpong": {
+     "sha256": "ec685d1be8429a7529cec7f554f9dcd9d7197390ae8c985862a134dc26e9a668",
+     "tau": 0.08244735188782215,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.8371656537055969,
+     "weight": 64094.9296875
+    },
+    "noise_warp": {
+     "sha256": "578c34f2918417f2ac4638b7fc4cdc977965049ef5a6a770c221e09930621ff9",
+     "tau": 0.07027243636548519,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.8962847590446472,
+     "weight": 3599.750732421875
+    },
+    "freeze": {
+     "sha256": "0ea406baeb48d05c14c6520860b8722ba85495082f3e31e5e4eb19aaa1ea5969",
+     "tau": 0.03363246098160744,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.8419046401977539,
+     "weight": 3763.91552734375
+    }
+   }
+  },
+  {
+   "scene": "ibp04",
+   "category": "buoyant_plume",
+   "route": "up",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "3c64f89f4e4954b7f3574d192f8c7940b618ac6bc97c8da3d92616ee06ed48cd",
+     "tau": 2.162280797958374,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.9989728927612305,
+     "weight": 1964.415771484375
+    },
+    "reverse_tail": {
+     "sha256": "0fa6c48ccde65d935034eb0a70bb06d6a55eb6774736de5e920dbeab2414c271",
+     "tau": 1.787804126739502,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.8671057820320129,
+     "weight": 17029.681640625
+    },
+    "pingpong": {
+     "sha256": "26bebfb6d859e1f4c6593fab7c8ef448285236adeaf631ce7e7c322ac72d8323",
+     "tau": 0.060848403722047806,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.7084627151489258,
+     "weight": 3626.469970703125
+    },
+    "noise_warp": {
+     "sha256": "92d580798de22382db78a053adca506839cdef526dbbd879a4148779323f691f",
+     "tau": 1.6561177968978882,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "abstain": "no steady material flow above tau"
+    },
+    "freeze": {
+     "sha256": "e10428181ea801615c97d00c5039d0995382540ec1eb4af03463fb4b51dfb9ed",
+     "tau": 0.02932157553732395,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.44902172684669495,
+     "weight": 848.2859497070312
+    }
+   }
+  },
+  {
+   "scene": "ibp05",
+   "category": "buoyant_plume",
+   "route": "up",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "8943c264b6219a8ad10a3915944c9ab9227f8e35bd185c5284093312c8a7e7ce",
+     "tau": 0.4044880717992781,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.18834862112998962,
+     "weight": 4884.14501953125
+    },
+    "reverse_tail": {
+     "sha256": "744749828f3f8b684409714eff8e48e39a58b32871565bef220f8044987ef462",
+     "tau": 0.2633541315793991,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.8119688630104065,
+     "weight": 8925.8603515625
+    },
+    "pingpong": {
+     "sha256": "efb08c1d1d1cf2c48766e5cddecca681e1b704080fc10efe488cde9dc6954747",
+     "tau": 0.07453452162444583,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.9135025143623352,
+     "weight": 6352.125
+    },
+    "noise_warp": {
+     "sha256": "f2d2d4f3321e42d6d3e9e97daca6b213c220ddc0930495f82550c2890eff68a8",
+     "tau": 0.5376129150390624,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "abstain": "no steady material flow above tau"
+    },
+    "freeze": {
+     "sha256": "62bb3a3dd2dae80d994129b402bf81ba8a4b80bb76a7f5ee3a766aedd0a0bbe2",
+     "tau": 0.04105246104300019,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.14998909831047058,
+     "weight": 28.051494598388672
+    }
+   }
+  },
+  {
+   "scene": "ibp06",
+   "category": "buoyant_plume",
+   "route": "up",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "573d53403e99b65b4af3ba33a4cafc6e1901ad8ff91786fa676a12593615628d",
+     "tau": 0.3985382556915267,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.6955733299255371,
+     "weight": 199868.859375
+    },
+    "reverse_tail": {
+     "sha256": "8d457910b9d0badb7fb865958355d9a4f09e9587c5afc87d3d6492b782685cf5",
+     "tau": 0.060037005692720365,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.8194983601570129,
+     "weight": 161629.515625
+    },
+    "pingpong": {
+     "sha256": "3d2efa5029667f08ed48ab0ffa20d36f7c1d72c6f033d566c22b1210e57fa2e6",
+     "tau": 0.05209450535476206,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.8624575138092041,
+     "weight": 12625.345703125
+    },
+    "noise_warp": {
+     "sha256": "f798115ae17cdf02c70b15d41981983d54ca39fa492492732ed3ac7e238d9722",
+     "tau": 0.5048054754733988,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "abstain": "no steady material flow above tau"
+    },
+    "freeze": {
+     "sha256": "9be4e70aa8adea85263a8bc2f27149794d9790f8037535d9f12d8199bf3bdb73",
+     "tau": 0.05221729539334773,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.1867990791797638,
+     "weight": 35.68549346923828
+    }
+   }
+  },
+  {
+   "scene": "icb01",
+   "category": "combustion",
+   "route": "up",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "fb75bf2b65079b597f9d9505d1093f776ea43e17c2ee829479597efd292729e2",
+     "tau": 0.05051712021231652,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.4236559569835663,
+     "weight": 790.1368408203125
+    },
+    "reverse_tail": {
+     "sha256": "0d13f113dca7315f5c37ee11758ce3570be5e8767fa9ff734d3add70ae82d3d9",
+     "tau": 0.05135338529944421,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.5292232036590576,
+     "weight": 572.1989135742188
+    },
+    "pingpong": {
+     "sha256": "bd4cea8c6e6d1ee1dc3b3d6196286ddd9fbfe86724592d97502dfcdfbcbf398d",
+     "tau": 0.052513858675956746,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.23965142667293549,
+     "weight": 370.4734802246094
+    },
+    "noise_warp": {
+     "sha256": "c7e52be0af4499735467c1ca426f2e061c3c3f1f067132645d666b9a6dee586f",
+     "tau": 0.050621106103062634,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.5332150459289551,
+     "weight": 83.85977935791016
+    },
+    "freeze": {
+     "sha256": "06d0d7d7daa2250605470c1a23620f38bd4cccffed9fe11545bf796355084948",
+     "tau": 0.05365816205739979,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.8603284358978271,
+     "weight": 19.822439193725586
+    }
+   }
+  },
+  {
+   "scene": "icb02",
+   "category": "combustion",
+   "route": "up",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "857cdaa8a82964be349856e0224be8db65aa87b2409ab1f7db5766b07185d28d",
+     "tau": 0.01228536940179765,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.22930525243282318,
+     "weight": 283.90533447265625
+    },
+    "reverse_tail": {
+     "sha256": "78c5631d716f60437954de1630927bf4bb5a7ac72685274c0d54869e2bbc73c0",
+     "tau": 0.014244719641283153,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.2888462543487549,
+     "weight": 109.49223327636719
+    },
+    "pingpong": {
+     "sha256": "ef92273a69e5282b640131c5e68d662021f8b69bbae13504236e93933b05df60",
+     "tau": 0.011819060752168296,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.841804027557373,
+     "weight": 1148.99755859375
+    },
+    "noise_warp": {
+     "sha256": "a146e77b2eb968821175c08d801e9badec506e69b1912ddcd4409b4ababbe71b",
+     "tau": 0.016193705424666405,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.6436583995819092,
+     "weight": 84.88002014160156
+    },
+    "freeze": {
+     "sha256": "8d9a704347010e19d40ee8b17d22ad01cd88906db5b93c57dd72353798fe15ad",
+     "tau": 0.015506777912378306,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.813580334186554,
+     "weight": 372.8854064941406
+    }
+   }
+  },
+  {
+   "scene": "icb03",
+   "category": "combustion",
+   "route": "up",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "e2632a89009b4fe788fdb5a518ff7bc0439b2f592388e844e45e5c95ce811915",
+     "tau": 0.06940143145620821,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.5291019678115845,
+     "weight": 732.0991821289062
+    },
+    "reverse_tail": {
+     "sha256": "a7b37696ef9bd3c969ab6e18f773a501982345b7eff9c5c17ff011be3ead0491",
+     "tau": 0.06502471640706058,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.22407452762126923,
+     "weight": 452.95977783203125
+    },
+    "pingpong": {
+     "sha256": "67f8b99c0795bc1c6236827834c20e494cfb30340093f5d0d4d08175625d737f",
+     "tau": 0.06275930032134056,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.055859487503767014,
+     "weight": 636.083740234375
+    },
+    "noise_warp": {
+     "sha256": "907394291aab991a7fffc92c9075c7f806d616f6eedf19bc6fb746ab6a87bb0d",
+     "tau": 0.06676514260470866,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.599790632724762,
+     "weight": 20.716825485229492
+    },
+    "freeze": {
+     "sha256": "7ee8204f33d9c05c35d55e99436504e00190ef12b31bce52fdd6e9aab847c6ac",
+     "tau": 0.05680973716080187,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.9260995984077454,
+     "weight": 10.245879173278809
+    }
+   }
+  },
+  {
+   "scene": "icb04",
+   "category": "combustion",
+   "route": "up",
+   "controls": {
+    "passthrough_crf18": {
+     "abstain": "eroded material 0 px < 200 at flow resolution"
+    },
+    "reverse_tail": {
+     "abstain": "eroded material 0 px < 200 at flow resolution"
+    },
+    "pingpong": {
+     "abstain": "eroded material 0 px < 200 at flow resolution"
+    },
+    "noise_warp": {
+     "abstain": "eroded material 0 px < 200 at flow resolution"
+    },
+    "freeze": {
+     "abstain": "eroded material 0 px < 200 at flow resolution"
+    }
+   }
+  },
+  {
+   "scene": "icb05",
+   "category": "combustion",
+   "route": "up",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "809178574cfd66ff0b8988fef6d84884f1a49c52acf09df0319a1c434780c754",
+     "tau": 0.3236258625984192,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "abstain": "no steady material flow above tau"
+    },
+    "reverse_tail": {
+     "sha256": "ac3c52328e82437356daf45eee15498cbdb93a40e4563f774a01a14401c114b6",
+     "tau": 0.41454192996025085,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "abstain": "no steady material flow above tau"
+    },
+    "pingpong": {
+     "sha256": "462709ed39b4eeca89609e8ab4e133643ee9d55e6af4d55d5296fb40a291ba59",
+     "tau": 0.33664004504680634,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.3736150562763214,
+     "weight": 14.15153694152832
+    },
+    "noise_warp": {
+     "sha256": "12179e0de86172ba0fe765cf8f6e28198c3d1bc148f5dbb8d446318b87e43a10",
+     "tau": 0.37940238416194916,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "abstain": "no steady material flow above tau"
+    },
+    "freeze": {
+     "sha256": "b9d16aa4c201cfb77e5108f61a199c062c76afdfc13fc490d03e06a1bc6de4f3",
+     "tau": 0.043859824538230896,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.8259163498878479,
+     "weight": 3.6168770790100098
+    }
+   }
+  },
+  {
+   "scene": "icf01",
+   "category": "channel_flow",
+   "route": "channel",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "893331a045b8e7596e93b7f6c28517cbf07547be9d832f2fe19c86f3dc703a46",
+     "tau": 0.32169371843338007,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": -0.8993593454360962,
+     "weight": 39261.78515625,
+     "bank_px": 1965,
+     "coherent_frac": 0.4234630217785844,
+     "A_near": -0.8217498064041138,
+     "sign_stability": 0.909555870943001
+    },
+    "reverse_tail": {
+     "sha256": "2be2334ead158c3333f2946a00ecfb542abbeffb5ba7a28e82508b2acb2a3e0b",
+     "tau": 0.1018647901713848,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": -0.9284533858299255,
+     "weight": 18155.916015625,
+     "bank_px": 1965,
+     "coherent_frac": 0.4234630217785844,
+     "A_near": -0.4088529944419861,
+     "sign_stability": 0.20527919873938816
+    },
+    "pingpong": {
+     "sha256": "121239f9d28e2d28f459e6f35ee752de91f5bfea8fccaf4075bf62b27a20ecd1",
+     "tau": 0.032882957533001876,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": -0.2524183392524719,
+     "weight": 2924.448974609375,
+     "bank_px": 1965,
+     "coherent_frac": 0.4234630217785844,
+     "A_near": 0.42087310552597046,
+     "sign_stability": 0.5350817949376916
+    },
+    "noise_warp": {
+     "sha256": "7e1aa7fb20bd76057ecae244415e60fb637f48c2d89e946daa686cd373580a82",
+     "tau": 0.1760672509670257,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.5178698897361755,
+     "weight": 77.32398223876953,
+     "bank_px": 1965,
+     "coherent_frac": 0.4234630217785844,
+     "A_near": 0.3429199457168579,
+     "sign_stability": 0.28882991715528217
+    },
+    "freeze": {
+     "sha256": "04aa57b54103c90d9ebebd4d91b91da74f4b53a4363d6ca53a5cfa905594dd2a",
+     "tau": 0.039456443861126844,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": -0.5651170015335083,
+     "weight": 2228.45947265625,
+     "bank_px": 1965,
+     "coherent_frac": 0.4234630217785844,
+     "A_near": -0.3976876139640808,
+     "sign_stability": 0.9979292864851765
+    }
+   }
+  },
+  {
+   "scene": "icf02",
+   "category": "channel_flow",
+   "route": "channel",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "7483da2feb1c3623c8ba80a3ab9c306e9e28fa95621fb2d457734a892b523c80",
+     "tau": 0.04539274610579012,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.6336701512336731,
+     "weight": 699.3311157226562,
+     "bank_px": 1632,
+     "coherent_frac": 0.9357117416597411,
+     "A_near": 0.42388707399368286,
+     "sign_stability": 0.7589139830658318
+    },
+    "reverse_tail": {
+     "sha256": "a4e6163384e3328c926b0e859819349542ee6c0896467df7cbc5ad9004c9fa43",
+     "tau": 0.038873738422989836,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.5354658365249634,
+     "weight": 625.1073608398438,
+     "bank_px": 1632,
+     "coherent_frac": 0.9357117416597411,
+     "A_near": 0.6205291152000427,
+     "sign_stability": 0.5721910114363381
+    },
+    "pingpong": {
+     "sha256": "417c5a2b31ea24873e3f54f079fe3801e47080e1753f9a888d34e8c292f5adb1",
+     "tau": 0.04006731621921062,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.882607102394104,
+     "weight": 972.8792724609375,
+     "bank_px": 1632,
+     "coherent_frac": 0.9357117416597411,
+     "A_near": 0.8545137643814087,
+     "sign_stability": 0.693254809099042
+    },
+    "noise_warp": {
+     "sha256": "3a4d97d5a6863231a716047e5ac8ec013e84a89fa10efdd4c47074829192ebd0",
+     "tau": 0.05430305674672125,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.6311847567558289,
+     "weight": 225.58209228515625,
+     "bank_px": 1632,
+     "coherent_frac": 0.9357117416597411,
+     "A_near": 0.7403255105018616,
+     "sign_stability": 0.35455016921078186
+    },
+    "freeze": {
+     "sha256": "f17e64759e5b24b46141a1764a27b4c2cc32e50e32852b3f07133033260cd7ef",
+     "tau": 0.048936637490987776,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.7991324067115784,
+     "weight": 472.7890930175781,
+     "bank_px": 1632,
+     "coherent_frac": 0.9357117416597411,
+     "A_near": 0.805060625076294,
+     "sign_stability": 1.0
+    }
+   }
+  },
+  {
+   "scene": "icf03",
+   "category": "channel_flow",
+   "route": "channel",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "c11d44ed6376fbf2cac6d8d5353915f3779a5b7d62a1dc6a52b36997c78ca4b9",
+     "tau": 0.023223161511123174,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.970130980014801,
+     "weight": 8785.6806640625,
+     "bank_px": 1844,
+     "coherent_frac": 1.0,
+     "A_near": 0.9583156108856201,
+     "sign_stability": 0.9466680377390523
+    },
+    "reverse_tail": {
+     "sha256": "f13f6849449bd1077f5da98e8841894dde4dbfbb142ad995e0de57b2c3319eb2",
+     "tau": 0.023344136122614143,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.9455875158309937,
+     "weight": 4668.421875,
+     "bank_px": 1844,
+     "coherent_frac": 1.0,
+     "A_near": 0.9324475526809692,
+     "sign_stability": 0.9135404187182665
+    },
+    "pingpong": {
+     "sha256": "f4ca6fa1a311d299f7c4f68140c632720650dd03bf81f8d02b91ec018def11d7",
+     "tau": 0.019487421866506337,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.9096834659576416,
+     "weight": 555.04638671875,
+     "bank_px": 1844,
+     "coherent_frac": 1.0,
+     "A_near": 0.8632383346557617,
+     "sign_stability": 0.40397216126899615
+    },
+    "noise_warp": {
+     "sha256": "6747315b8ddddac658a94c6af8bbb74d0ab92154a3b848b3bdf2a1eb47ab37f8",
+     "tau": 0.019573977589607237,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": -0.2845531105995178,
+     "weight": 475.544189453125,
+     "bank_px": 1844,
+     "coherent_frac": 1.0,
+     "A_near": -0.4086470305919647,
+     "sign_stability": 0.18161482955175598
+    },
+    "freeze": {
+     "sha256": "fca593db9b9fa83061cdc09a8ebb494ce83435054caabd23a4e730c191d4146c",
+     "tau": 0.060210508108139035,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": -0.350425124168396,
+     "weight": 2.67301344871521,
+     "bank_px": 1844,
+     "coherent_frac": 1.0,
+     "A_near": -0.350425124168396,
+     "sign_stability": 1.0
+    }
+   }
+  },
+  {
+   "scene": "icf04",
+   "category": "channel_flow",
+   "route": "channel",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "750240890aff678cca3481aafe69349bdc842118849a6e957fbe2c9defd9f1d8",
+     "tau": 0.050514561496674985,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.9952239394187927,
+     "weight": 992.0909423828125,
+     "bank_px": 6596,
+     "coherent_frac": 0.02147924491248742,
+     "A_near": 0.9952239394187927,
+     "sign_stability": 0.9987260346393404
+    },
+    "reverse_tail": {
+     "sha256": "ff68d5de0935800af44df9b97690ae5e9204d7d231dc7f256a21041d083fa42a",
+     "tau": 0.04099081121385095,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.9917982816696167,
+     "weight": 425.3899841308594,
+     "bank_px": 6596,
+     "coherent_frac": 0.02147924491248742,
+     "A_near": 0.9917982816696167,
+     "sign_stability": 0.9903881390060648
+    },
+    "pingpong": {
+     "sha256": "33799bbad3c43586e94df80550f4fe0d601f3c18c9bd101b655db1e9b95de073",
+     "tau": 0.029894232098013153,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.5610106587409973,
+     "weight": 0.8700219392776489,
+     "bank_px": 6596,
+     "coherent_frac": 0.02147924491248742,
+     "A_near": 0.5610106587409973,
+     "sign_stability": 0.041432208785793845
+    },
+    "noise_warp": {
+     "sha256": "bb9197edebb095447d7eb1bdfcda17bab2aa7f9603e15bd52d67616ecb413ad0",
+     "tau": 0.0399591902270913,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.10535172373056412,
+     "weight": 5.613126754760742,
+     "bank_px": 6596,
+     "coherent_frac": 0.02147924491248742,
+     "A_near": 0.10535172373056412,
+     "sign_stability": 0.19013845454679207
+    },
+    "freeze": {
+     "sha256": "3200dbf4affa8f98e79ad999d4ce682bfa09578f667b31648bd2c8dde2fb3220",
+     "tau": 0.04941784907132387,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.08800400793552399,
+     "weight": 0.10145393759012222,
+     "bank_px": 6596,
+     "coherent_frac": 0.02147924491248742,
+     "A_near": 0.08800400793552399,
+     "sign_stability": 1.0
+    }
+   }
+  },
+  {
+   "scene": "icf05",
+   "category": "channel_flow",
+   "route": "channel",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "c3930ccc2ee15cf30a99723b1863f1b41682197aca5a0aec457ada41b81f58b2",
+     "tau": 0.026536426041275263,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.6363353133201599,
+     "weight": 29329.673828125,
+     "bank_px": 2708,
+     "coherent_frac": 0.8541052275672935,
+     "A_near": 0.3897523880004883,
+     "sign_stability": 0.968114983121124
+    },
+    "reverse_tail": {
+     "sha256": "452e586c5456fec8bd6d6e2a07cb1e34e0608c5e19778d7414ac34826b3cbb3a",
+     "tau": 0.0300145479850471,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.7606278657913208,
+     "weight": 43902.86328125,
+     "bank_px": 2708,
+     "coherent_frac": 0.8541052275672935,
+     "A_near": 0.6255004405975342,
+     "sign_stability": 0.9914636069781099
+    },
+    "pingpong": {
+     "sha256": "5e1a5b49a3ae6bf899202f41c4b9778bb64549f57b5f97f32d101b9c214ed327",
+     "tau": 0.028047729935497045,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.3471083641052246,
+     "weight": 1955.3134765625,
+     "bank_px": 2708,
+     "coherent_frac": 0.8541052275672935,
+     "A_near": 0.21698394417762756,
+     "sign_stability": 0.28801154647943145
+    },
+    "noise_warp": {
+     "sha256": "fa4254134ef174613ad1b95289e432996e884898d1b02df38a5fe1350da8fe0b",
+     "tau": 0.028219085372984405,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": -0.5109767317771912,
+     "weight": 583.591064453125,
+     "bank_px": 2708,
+     "coherent_frac": 0.8541052275672935,
+     "A_near": -0.431527704000473,
+     "sign_stability": 0.10602934043809581
+    },
+    "freeze": {
+     "sha256": "a23f79f124fe05b592801f1e29a9728fd86bc2b87dc936347023df55b4d10be8",
+     "tau": 0.03871455751359462,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.0888863280415535,
+     "weight": 2685.527099609375,
+     "bank_px": 2708,
+     "coherent_frac": 0.8541052275672935,
+     "A_near": 0.029412997886538506,
+     "sign_stability": 0.9995287237125027
+    }
+   }
+  },
+  {
+   "scene": "icf06",
+   "category": "channel_flow",
+   "route": "channel",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "c428c2896583964eeb695d4164ac7e80cd16a4bf2f3c5648b836e77ed5348394",
+     "tau": 0.030062455777078858,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.7061685919761658,
+     "weight": 10628.0029296875,
+     "bank_px": 1316,
+     "coherent_frac": 0.3723038999911964,
+     "A_near": 0.9198637008666992,
+     "sign_stability": 0.9882429839097252
+    },
+    "reverse_tail": {
+     "sha256": "4046d4fb315032937fb23aa77416cc83abdd968133062e80faad1879bd8df94a",
+     "tau": 0.02489969572052358,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.67261803150177,
+     "weight": 5715.96484375,
+     "bank_px": 1316,
+     "coherent_frac": 0.3723038999911964,
+     "A_near": 0.9511158466339111,
+     "sign_stability": 0.9686510467074375
+    },
+    "pingpong": {
+     "sha256": "55afd6bc194a2e4936b31064c0f9cf3cb190c7aacdca9bd4a75cbbe9114eb5d0",
+     "tau": 0.02715338142588733,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.7496927976608276,
+     "weight": 134.09710693359375,
+     "bank_px": 1316,
+     "coherent_frac": 0.3723038999911964,
+     "A_near": 0.7730664014816284,
+     "sign_stability": 0.17818581469901063
+    },
+    "noise_warp": {
+     "sha256": "45c41bffb19e4e82ba914f4d1a6ed63576b0cfb708928a1050ad4646e81ff795",
+     "tau": 0.027689314167946563,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": 0.02050543762743473,
+     "weight": 31.619768142700195,
+     "bank_px": 1316,
+     "coherent_frac": 0.3723038999911964,
+     "A_near": 0.24088817834854126,
+     "sign_stability": 0.1140161344570212
+    },
+    "freeze": {
+     "sha256": "77176a5f5037e2c3f92eae620a59adef3af0db785e3f2ca5c4b4de9dd6094e79",
+     "tau": 0.05444293171167373,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-channel-alignment-0",
+     "A": -0.8648706078529358,
+     "weight": 2.7089273929595947,
+     "bank_px": 1316,
+     "coherent_frac": 0.3723038999911964,
+     "A_near": -0.7378109097480774,
+     "sign_stability": 0.9996991749655646
+    }
+   }
+  },
+  {
+   "scene": "ifw01",
+   "category": "falling_water",
+   "route": "down",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "4a835e5bf2f3ca777412580cc2123988231c94fbd4487ebeb744d53a732fa80a",
+     "tau": 0.034459371119737625,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.7876754403114319,
+     "weight": 1272.1434326171875
+    },
+    "reverse_tail": {
+     "sha256": "359ad4e3e1490daf955d59a7f01bb0bbf96c698726eab020cdd8a131b3d92747",
+     "tau": 0.03568077087402344,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.02008655294775963,
+     "weight": 1818.410888671875
+    },
+    "pingpong": {
+     "sha256": "59770bde69f458835b3993f552e4f4c671fa238359685e2d2953ca769f39b74a",
+     "tau": 0.031656477600336075,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.14367344975471497,
+     "weight": 1899.65966796875
+    },
+    "noise_warp": {
+     "sha256": "75a5bccfce31834011e60807159d51f9e9e018ca5963371b4e90fda285611096",
+     "tau": 0.03467410430312157,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.02157525345683098,
+     "weight": 59.74996566772461
+    },
+    "freeze": {
+     "sha256": "084a2e2b07628d4000db929137a5f6ff89ee171fe3212a60d87fe43ef67702e4",
+     "tau": 0.044052984565496445,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.4307017922401428,
+     "weight": 6.875305652618408
+    }
+   }
+  },
+  {
+   "scene": "ifw02",
+   "category": "falling_water",
+   "route": "down",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "3f111eef2d85250fc2541fe875d5f67f949e20c472e13eebe2e438332ade2979",
+     "tau": 0.035005563497543316,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.11231855303049088,
+     "weight": 437.8757019042969
+    },
+    "reverse_tail": {
+     "sha256": "9074ef62a5849e40e4b55f9ea3ad186633f5fda6332df5e25c1a26d0dbac8536",
+     "tau": 0.03231205791234969,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.42011719942092896,
+     "weight": 1067.270751953125
+    },
+    "pingpong": {
+     "sha256": "3cba8daa76fbee8478f48a83de7457163e2ec080dbed7569bfc2b5f4e064ae32",
+     "tau": 0.031558991968631746,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.4360686242580414,
+     "weight": 505.2245178222656
+    },
+    "noise_warp": {
+     "sha256": "dad0f809b415b6c5e390f94fc5652afbd1dab013047379b037d1c13b2054b840",
+     "tau": 0.041168489307165136,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.33644676208496094,
+     "weight": 498.6017761230469
+    },
+    "freeze": {
+     "sha256": "e06b93366cfc851ff3cfecf6239a604ae014f3b492f65814586296916b4baf0f",
+     "tau": 0.034202775359153746,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.4462328553199768,
+     "weight": 386.6198425292969
+    }
+   }
+  },
+  {
+   "scene": "ifw03",
+   "category": "falling_water",
+   "route": "down",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "1d7520b1cc2080d2028d60a67d2e1c986346b611ee7c273ace387daa5a5a1848",
+     "tau": 0.055205073207616806,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.35354503989219666,
+     "weight": 6933.56103515625
+    },
+    "reverse_tail": {
+     "sha256": "0f7d85560d107a2d04a2a34bc479946877161ca09eaa0986b91a2a6bfcb738c4",
+     "tau": 0.06127405632287264,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.3421887457370758,
+     "weight": 7163.11767578125
+    },
+    "pingpong": {
+     "sha256": "5c7e10e0463a04bc9beb1a90083ebf10ff3a562e414b19912abd217eb9dce3a2",
+     "tau": 0.04900303669273853,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.08103207498788834,
+     "weight": 468.1030578613281
+    },
+    "noise_warp": {
+     "sha256": "cd18215998fb659af3660df5ceb43140a2a788f999f4fdc57f264a07d7f01776",
+     "tau": 0.04667556378990412,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.07670164108276367,
+     "weight": 143.10214233398438
+    },
+    "freeze": {
+     "sha256": "c1aeaa4f0362b0852a2112e2929bb012a5aac40141890f9f9a1683652d186ac2",
+     "tau": 0.058496689423918724,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.45863503217697144,
+     "weight": 22.242143630981445
+    }
+   }
+  },
+  {
+   "scene": "ifw04",
+   "category": "falling_water",
+   "route": "down",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "507dbe2d4178bdab0fa0b5196c606edc3991615283229035ab94fec8ff860fd3",
+     "tau": 0.07367953658103943,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.16812992095947266,
+     "weight": 2783.4345703125
+    },
+    "reverse_tail": {
+     "sha256": "3c74e4a944989c503294f16a0494e071a44e461b42c8c58733d0853e6424eff4",
+     "tau": 0.2165304571390152,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.48555782437324524,
+     "weight": 5897.8955078125
+    },
+    "pingpong": {
+     "sha256": "e8db4f7cb98d760b6aceb472b7b161b62fd7dba6a0a5d66e1939e9ebe1a5c247",
+     "tau": 0.0380883626639843,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.6522141695022583,
+     "weight": 1951.400146484375
+    },
+    "noise_warp": {
+     "sha256": "84b67a6f09ec72a7f07376e91dd034f41d55835821ecb92d96a771ddb652337b",
+     "tau": 0.08141918480396271,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.004061765503138304,
+     "weight": 162.9669189453125
+    },
+    "freeze": {
+     "sha256": "722a641d1f9f1bb26331a616927ee5a8588074d83062f8ad804e1073811a5ca2",
+     "tau": 0.042963750660419464,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": 0.5029724836349487,
+     "weight": 28.734514236450195
+    }
+   }
+  },
+  {
+   "scene": "ifw05",
+   "category": "falling_water",
+   "route": "down",
+   "controls": {
+    "passthrough_crf18": {
+     "sha256": "2027ac409c0d9119bf4f4acf850920b536babd2469e959568bc5bc402764a360",
+     "tau": 0.01704600881785154,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.5719749331474304,
+     "weight": 623.275390625
+    },
+    "reverse_tail": {
+     "sha256": "c1a544b4f493239043636a56a017fa4c37a7336d8ac469781b8305530d6d6646",
+     "tau": 0.017653067596256733,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.7202564477920532,
+     "weight": 763.9661865234375
+    },
+    "pingpong": {
+     "sha256": "81f9c9f8890fba60b648897d7561a5fe837d30a8ca231ece4575a7f3f4393d0c",
+     "tau": 0.01750085288658738,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.6377511024475098,
+     "weight": 466.9198913574219
+    },
+    "noise_warp": {
+     "sha256": "15b3b3261f324f0934ac9d64ef5f9cba89268ce7f6dd93b9f5c366594f9dea7c",
+     "tau": 0.018550440296530718,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.8419793844223022,
+     "weight": 494.7397155761719
+    },
+    "freeze": {
+     "sha256": "8a1a0a78b0c08c41fd198109999d4be9fee7bc779d97de92b061288a641de46c",
+     "tau": 0.02964398656040429,
+     "pairs": 58,
+     "compensation": "similarity",
+     "identity": "cand-gravity-sign-0",
+     "G": -0.040399182587862015,
+     "weight": 807.4299926757812
+    }
+   }
+  }
+ ]
+}

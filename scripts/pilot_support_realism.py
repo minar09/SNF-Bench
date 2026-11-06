@@ -55,8 +55,16 @@ from audit_de_precision import boot_ci  # noqa: E402
 ROOT = _paths.ROOT
 IDENTITY = {"support_change": "cand-support-change-0",
             "support_change_comp": "cand-support-change-comp-0",
-            "edge_profile": "cand-edge-profile-1"}   # -0 measured bands from the dynamic edge
-STATS = ("support_change", "support_change_comp", "edge_spill", "boundary_step")
+            "edge_profile": "cand-edge-profile-1",   # -0 measured bands from the dynamic edge
+            "edge_profile_guarded": "cand-edge-profile-2"}
+# cand-edge-profile-2: the -1 ratios, abstaining when the denominator band's mean activity is
+# below the codec floor. The floor was fixed before use from development controls: 41 frozen
+# controls re-encoded with libx264 CRF 18 decode to 0.000 grey levels median successive change,
+# and the lowest 5% of pass-through originals move 2.7 (manifest/realism_dev_2026_11_05/
+# replay_scenetether.json). Below the floor the ratio measures codec noise, not spill.
+ACT_FLOOR = 0.5   # grey levels, mean absolute successive change
+STATS = ("support_change", "support_change_comp", "edge_spill", "boundary_step", "edge_spill_2",
+         "boundary_step_2")
 MIN_PX = 200
 PHASE_MIN_RESPONSE = 0.05   # not calibrated; recorded in every report
 TEXTURE_MIN = 2.0           # grey levels; below this the support cannot be registered
@@ -181,6 +189,15 @@ def stats(act, dyn, sup, act_comp=None):
             out["boundary_step"] = float(act[near].mean() / max(act[inner].mean(), 1e-6))
         else:
             why["boundary_step"] = f"near {int(near.sum())} / inner {int(inner.sum())} px < {MIN_PX}"
+        # cand-edge-profile-2: same bands, but a denominator under the codec floor abstains
+        for key, num, den, name in (("edge_spill_2", near, far, "far support"),
+                                    ("boundary_step_2", near, inner, "inner dynamic")):
+            if num.sum() < MIN_PX or den.sum() < MIN_PX:
+                why[key] = f"{name} band or near band < {MIN_PX} px"
+            elif act[den].mean() < ACT_FLOOR:
+                why[key] = f"{name} activity {act[den].mean():.3f} < codec floor {ACT_FLOOR}"
+            else:
+                out[key] = float(act[num].mean() / act[den].mean())
     if why:
         out["abstain"] = why
     return out
@@ -216,6 +233,38 @@ def verify_chain(path, chain):
         raise SystemExit(f"{path}: provenance mismatch in {bad}")
 
 
+def verify_reference(path):
+    """Refuse a reference whose sidecar does not record an unmodified pass-through re-encode."""
+    mode = json.load(open(path[:-4] + ".json")).get("mode", "")
+    if not str(mode).startswith("passthrough"):
+        raise SystemExit(f"{path}: reference sidecar records mode {mode!r}, not a pass-through")
+
+
+STATIC_MIN_PSNR = 30.0   # dB vs source for both the first and the last frame; H.264 stills reach 39-40
+
+
+def verify_static(path, source_path):
+    """Static clips have no sidecar: check by content that the clip is the source, still at its end."""
+    cap = cv2.VideoCapture(path)
+    ok, first = cap.read()
+    last = first
+    while ok:
+        ok, f = cap.read()
+        if ok:
+            last = f
+    cap.release()
+    src = cv2.imread(source_path)
+    if first is None or src is None or first.shape != src.shape:
+        raise SystemExit(f"{path}: static clip unreadable or not the source's size")
+    def psnr(x):
+        mse = float(np.mean((x.astype(np.float32) - src.astype(np.float32)) ** 2))
+        return 10 * np.log10(255.0 ** 2 / max(mse, 1e-10))
+    got = dict(psnr_first_db=psnr(first), psnr_last_db=psnr(last))
+    if min(got.values()) < STATIC_MIN_PSNR:
+        raise SystemExit(f"{path}: not a still of {source_path} ({got})")
+    return got
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--videos", required=True, help="tsv: scene id, original video path")
@@ -245,9 +294,12 @@ def main():
         else:
             ref = f"{a.controls}/{a.reference_mode}/{sid}.mp4"
             verify_chain(ref, chain)
+            verify_reference(ref)
+        static = f"{a.static}/{sid}.mp4"
+        static_check = verify_static(static, os.path.join(ROOT, "prompts/v2/i2v/images", f"{sid}.jpg"))
         row = dict(scene=sid, reference=a.reference, chain=chain, reference_sha256=sha256(ref),
-                   static=measure(f"{a.static}/{sid}.mp4", dyn, sup),
-                   static_sha256=sha256(f"{a.static}/{sid}.mp4"),
+                   static=measure(static, dyn, sup), static_check=static_check,
+                   static_sha256=sha256(static),
                    ref=measure(ref, dyn, sup), controls={})
         for m in modes:
             path = f"{a.controls}/{m}/{sid}.mp4"
