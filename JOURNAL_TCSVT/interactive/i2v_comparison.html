@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Image-to-video short comparison</title>
+<style>body{font:16px/1.45 system-ui;margin:2rem auto;padding:0 1rem;max-width:1200px;color:#182431}button{font:inherit;padding:.45rem;margin:.2rem}button[aria-pressed=true]{background:#174f79;color:white}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}figure{margin:0}img{width:100%;display:block}figcaption{font-weight:600;margin:.3rem 0}small{color:#354759}</style></head>
+<body><h1>Image-to-video: two short comparisons</h1>
+<p>One existing output per pipeline on the same source and prompt. These five-second examples do not establish long-horizon performance, naturalness, or a ranking.</p>
+<div role="group" aria-label="Source"><button id="water" aria-pressed="true">Waterfall</button><button id="fire" aria-pressed="false">Campfire</button></div>
+<div role="group" aria-label="Time"><button id="mid" aria-pressed="false">2.5 seconds</button><button id="end" aria-pressed="true">5 seconds</button></div>
+<p id="description" aria-live="polite"></p><div id="grid" class="grid"></div>
+<p><small>Sources: VBench++ image suite, Pexels photos <a href="https://www.pexels.com/photo/161950/">161950</a> and <a href="https://www.pexels.com/photo/10462563/">10462563</a>, cropped and resized. Exact hashes, time indices and inference settings are in the figure's PROVENANCE.json. These sources have been screened against the sibling paper figure files; that screening is not proof against all possible derivatives.</small></p>
+<script>
+const scenes={water:{id:'vb161950',name:'Waterfall'},fire:{id:'vb10462563',name:'Campfire'}};
+const models=[['causal_forcing','Causal-Forcing'],['ltx_video','LTX-Video'],['wan21','Wan2.1'],['wan22','Wan2.2']];
+let scene='water',time='end';
+function render(){for(const id of ['water','fire'])document.getElementById(id).setAttribute('aria-pressed',id===scene);for(const id of ['mid','end'])document.getElementById(id).setAttribute('aria-pressed',id===time);const s=scenes[scene];document.getElementById('description').textContent=s.name+' — source and outputs at '+(time==='mid'?'2.5':'5')+' seconds';let g=document.getElementById('grid');g.replaceChildren();for(const [key,name] of [['source','Source image'],...models]){const f=document.createElement('figure'),im=document.createElement('img'),c=document.createElement('figcaption');im.src='../figures/i2v_comparison_2026_11_08/'+s.id+'_'+(key==='source'?'source':key+'_'+time)+'.png';im.alt=name+' for '+s.name;c.textContent=name;f.append(im,c);g.append(f)}}
+for(const id of ['water','fire'])document.getElementById(id).onclick=()=>{scene=id;render()};for(const id of ['mid','end'])document.getElementById(id).onclick=()=>{time=id;render()};render();
+</script></body></html>

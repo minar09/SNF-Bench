@@ -14,20 +14,20 @@
 \node[role=roleOverlay]  (ovl) at (0,-4.1)  {\textbf{Overlay}};
 \node[role=roleIgnore]   (ign) at (0,-4.75) {\textbf{Uncertain}};
 
-\node[meas,anchor=west] (m1) at (0.98,0) {\gsupport\ \textbf{Support fidelity}\\
-  \stfrozen\ fBD\down\ displacement\\ \stfrozen\ NBF\down\ background flow\\ \stcand\ source $\Delta E_{00}$\down};
-\node[meas,anchor=west,fill=snfpaper] (m3) at (0.98,-1.1) {\stfrozen\ DLR (context):\\ support\,/\,material};
+\node[meas,anchor=west] (m1) at (0.98,0) {\gsupport\ \textbf{Background}\\
+  \stfrozen\ displacement\down\\ \stfrozen\ motion\down\\ \stcand\ source colour difference\down};
+\node[meas,anchor=west,fill=snfpaper] (m3) at (0.98,-1.1) {\stfrozen\ Background-to-material\\ flow ratio (context)};
 \node[meas,anchor=west] (m2) at (0.98,-2.2) {\gmotion\ \textbf{Material motion}\\
-  \stfrozen\ MCFF-E/L flow\\ \stfrozen\ FP persistence\\ \stfrozen\ DAR (context)};
+  \stfrozen\ early / late motion\\ \stfrozen\ motion retention\\ \stfrozen\ compensation effect (context)};
 \node[meas,anchor=west] (m4) at (0.98,-3.3) {\gintegrity\ \stopen\ Scene integrity};
 \node[anchor=west,text=snfink!75,text width=3.2cm,inner sep=2pt] (m5) at (0.98,-4.42)
   {\gnone\ enter no measure;\\ reported as coverage};
 
-\node[real,anchor=west] (r1) at (4.55,0)     {\gsupport\ \stdiag\ R1 support integrity};
-\node[real,anchor=west] (r3) at (4.55,-1.55) {\gdirection\ \stcand\ R3 direction};
-\node[real,anchor=west] (r4) at (4.55,-2.2)  {\greplay\ \stcand\ R4 replay};
-\node[real,anchor=west] (r5) at (4.55,-2.85) {\gplaus\ \stopen\ R5 plausibility};
-\node[real,anchor=west] (r2) at (4.55,-3.5)  {\gmaterial\ \stopen\ R2 presence};
+\node[real,anchor=west] (r1) at (4.55,0)     {\gsupport\ \stdiag\ Background coherence};
+\node[real,anchor=west] (r3) at (4.55,-1.55) {\gdirection\ \stcand\ Motion direction};
+\node[real,anchor=west] (r4) at (4.55,-2.2)  {\greplay\ \stcand\ Repetition and reset};
+\node[real,anchor=west] (r5) at (4.55,-2.85) {\gplaus\ \stopen\ Motion plausibility};
+\node[real,anchor=west] (r2) at (4.55,-3.5)  {\gmaterial\ \stopen\ Motion location};
 
 \draw[wire=roleSupport]  (sup.east) -- (m1.west);
 \draw[wire=roleSupport]  (sup.east) -- ($(m3.west)+(0,0.06)$);
@@ -43,7 +43,7 @@
 \node[font=\footnotesize\bfseries,anchor=south] at ($(m1.north)+(0,0.05)$) {Axes and context};
 \node[font=\footnotesize\bfseries,anchor=south] at ($(r1.north)+(0,0.05)$) {Realism family};
 \end{tikzpicture}
-\caption{\textbf{Illustrative role routing.} Lines show intended inputs, not complete computational dependencies: DLR compares roles and motion compensation can use support information. Scene integrity and subject handling are planned; R2 is material presence. Overlay and uncertain pixels are excluded from the current partitioned measures and reported as coverage. Realism
+\caption{\textbf{Illustrative role routing.} Lines show intended inputs, not complete computational dependencies: the background-to-material flow ratio compares roles and motion compensation can use support information. Scene integrity and subject handling are planned. Overlay and uncertain pixels are excluded from the current partitioned measures and reported as coverage. Realism
 measures are reported beside the axes and never summed with them. A downward arrow marks a directional support statistic, not an overall quality score; material activity and the contextual ratios require joint interpretation. \stfrozen\ frozen definition, construct validation pending; \stcand\ development candidate;
 \stdiag\ diagnostic only; \stopen\ planned. Interactive version: \texttt{interactive/measurement\_map.html}.}
 \label{fig:routing}

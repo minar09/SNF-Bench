@@ -57,6 +57,7 @@ Costs are per clip on an uncontended GPU, taken from earlier runs.
 |---|---|---|---|---|---|---|
 | Causal-Forcing (frame-wise), upstream `8e1ef8f`, released I2V command | 5 s (81 frames, 16 fps, 832×480) | 12/12 | 2 | none (`concurrent: false`) | 463 s for all 12, including model load | `videos/public_bench/renders/causal_forcing/5s/` + `RUN.json` |
 | LTX-Video 13B 0.9.8 distilled, official `inference.py`, prompt enhancement off (disclosed) | 5 s (121 frames, 24 fps, 832×480) | 12/12 | 2 | none | 1042 s for all 12 | `videos/public_bench/renders/ltx_video/5s/` + `RUN.json` |
+| Wan2.1-I2V-14B-480P, official `generate.py` at `9737cba` (clean tree), `--base_seed 0` | 5 s (81 frames, 16 fps, 832×464 from the input aspect) | 12/12 | 3 | none at start or end (`concurrent: false`) | 12361 s for all 12, about 17 min per scene | `videos/public_bench/renders/wan21/5s/` + `RUN.json` |
 
 **What a first look shows** (contact sheet of first, middle and last frames; not a metric). Every prompt asks for a fixed tripod camera, yet within 5 s:
 - the viewpoint pans or zooms in all four Physics-IQ tabletop scenes and on the Skógafoss waterfall;
@@ -80,3 +81,20 @@ These are the failure modes the benchmark measures, now visible on licence-clear
 - deviations recorded: `--base_seed 0`, and 832×480 for Wan2.2 (a supported size; the README example is 1280×720);
 - checkpoint directories are hashed as a tree;
 - each starts with a one-scene smoke render (`--tag _smoke`). Wan2.1 waits for an idle GPU 3; Wan2.2 runs on GPU 2 after the geometry runs.
+
+**2026-11-06.**
+- `/` fell to 102 GB free, below AIA's 100 GiB guard. `render_public_figure_set.py` now refuses to start below 110 GB free on `/`. The geometry flow cache (17 GB, derived and reproducible) moved to `/data1/minar_snf_bench/geometry_flows` (checksum-verified, symlinked in place), which leaves 118 GB free.
+- Helios restored in the isolated checkout `.metric_staging/helios_recovery_2026_11_06`: upstream `babed98` plus the pipeline snapshot recovered from seven earlier runs ([patch](helios_streaming_recovery_2026_11_06.patch)). Output parity and memory are not yet tested, so it is not yet runnable for figures.
+- SVI Pro: one smoke scene, then at most four prespecified new scenes, on a whole free GPU ([decisions](SNF_PP_DECISIONS_AND_HORIZON_AUDIT_2026_11_06.md)).
+- Wan2.1 smoke, 05:35 UTC on GPU 3: out of memory while moving the DiT to the GPU. Its weights hold about 55 GB, because the I2V 14B model is held in fp32. A foreign job (24.6 GB) had started on GPU 3 between the idle check and model load. That job kept running, and no output was written. Re-queued for the next fully idle window. Wan2.1 cannot share GPU 3 with a job of 24 GB or more.
+- Wan2.1 smoke, re-run 08:48 UTC on an idle GPU 3 (pq0140): sampling completed (40 steps in 18 min, about 20 s per step).
+  - The run then crashed while hashing the checkpoint: `transformer/` holds root-owned symlinks to container paths (`/workspace/...`), which do not resolve on the host.
+  - `tree_sha256` now records a symlink's target string instead of hashing it.
+  - The smoke video was kept outside the tree as visual evidence only, with no sidecar. On a contact sheet the camera holds and the smoke rises. The empty output and work folders of the crashed run were removed.
+  - The full 12-scene run is queued without another smoke, behind a waiter that also needs ≥ 110 GB free on `/`. `/` is at 107 GB, lowered by another tenant.
+- **Correction to finding 3:** the official Wan2.1 `generate.py` also wrote 832×464 for pq0140, because I2V sizes the latent from the input image's aspect within an 832×480 area. The 832×464 of the earlier native rows is therefore not by itself evidence of a deviation; only the shift and guidance differences stand.
+- **Wan2.1 full run** (09:38–13:05 UTC). pq0140 is byte-identical to the smoke render (SHA-256 `043a6432…`), so the official pipeline is deterministic here with a fixed seed on this GPU type. Contact sheet against Causal-Forcing and LTX (first, middle and last frames; not a metric):
+  - Wan2.1 holds the camera on all four tabletop scenes, the church, Skógafoss, Iguazu and the night street. The church sky stays the source sky, where LTX and Causal-Forcing replace it.
+  - It leaves the scene on the misty road (vb1165991: the view drops into a red field) and on the lighthouse (vb2683365: the lighthouse leaves the frame and only surf remains). It reframes the breaking waves (vb11117140).
+  - On the kettle (vb10462563), flames grow and blacken the kettle: plausible content, but not in the source.
+  - All three systems lose or alter the lighthouse wave. These scene exits within 5 s are the failure modes the benchmark targets, now on licence-cleared sources.

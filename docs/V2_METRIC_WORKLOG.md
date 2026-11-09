@@ -380,3 +380,44 @@ existing report was changed, and every old identity still computes its old value
   * Reproduces the SceneTether result on SNF masks: pasting repairs the support's colour, not the material's.
   * The paired contrast material − support is **not** a usable headline. It turns positive for every composite only because the pasted support stops drifting. Report the two drifts separately.
   * Drift does not detect freezes. Freeze and noise warp compare one held mid-clip frame (t0 = 30 s) with the early window, where the pass-through compares a 20 s mean, so their drift is larger. That is expected and not a defect.
+
+## 2026-11-06: geometry v1 run, v2 static-bias exclusion
+
+**Disk.** `/` reached 102 GB free, below AIA's 100 GiB guard.
+- The geometry flow cache (17 GB, derived) moved to `/data1/minar_snf_bench/geometry_flows`. The copy was verified by rsync checksum, with 448/448 files, and a symlink is left in place, so the cache paths in reports still resolve. `/` is back to 118 GB.
+- `realism_geometry_run.py` now checks both `/` and the cache's own filesystem.
+- `render_public_figure_set.py` now refuses to start below 110 GB free on `/`; before this it had no guard.
+
+**v1** (`geometry_v1_tether100.json`, `geometry_v1_default.json`; 41 scenes; rates `snf` and `native`).
+- **v0 at the snf rate reproduces the 2026-11-05 report** from the float16 cache:
+  - pass-through: channels 0.671, falls 0.168, plumes −0.696;
+  - freeze: −0.131, −0.431, −0.352.
+- **Passed:**
+  - reversal flips G (falls 0/5 expected-sign at both rates; plumes 2/7 at snf, 1/6 native) and leaves A unchanged (0.73 → 0.72);
+  - `cand-gravity-stability-0` drops under ping-pong (falls 0.55 → 0.33; plumes 0.97 → 0.42), and the channel sign stability drops too (0.96 → 0.37);
+  - the noise warp sends every stability to about 0.2 and transport DAMP from 0.58 to 0.13.
+- **Native rate helps falls:** median G 0.15 (3/5) at snf against 0.37 (4/5) at native, with gravity stability 0.55 against 0.74.
+- **Failed: the gate let one freeze through.** icf01 (channel) passed at both rates. Unrouted coverage also gave C up to 0.79 on frozen ocean and lake tails (ial05, iow01, iow04).
+  - Cause: RAFT on identical frames returns a fixed field. Its magnitude has a median of 0.07–0.18 px and reaches 0.45 px (Q99, iow01), which exceeds TAU_ABS = 0.1, but its spread over the window stays below 0.025 px on all 41 freezes.
+  - Real pass-throughs have a per-scene median spread of at least 0.07 px.
+  - The decoded frames of the freeze are identical: mean absolute difference ≤ 0.001.
+
+**v2** (`scripts/realism_geometry.py` `static_bias`; reports `geometry_v2_tether100.json`, `geometry_v2_default.json`, CPU rescoring of the cache).
+- A pixel is static bias when its flow spread over the window is < 0.03 px and its median |u| < 0.5 px. Static-bias pixels never count as active and carry no weight.
+- New identities:
+  - `cand-activity-gate-1`;
+  - `cand-channel-alignment-2`, `cand-gravity-sign-2`, `cand-sign-stability-2`;
+  - `cand-gravity-stability-1`;
+  - `cand-coverage-1`;
+  - `cand-material-transport-persistence-1`.
+- Rigid translation of ≥ 1 px per pair (the conveyors) is unaffected, as tested.
+- **Calibration and check:**
+  - The thresholds were set on the tether100 freezes, which therefore are not held-out evidence.
+  - On every non-freeze control of tether100, and on the default cell (not used for calibration), v2 values and scored counts equal v1 exactly.
+  - All freezes abstain at both rates (snf 0/22 scored, native 0/22).
+  - Coverage-1 on freezes is at most 0.024, against 0.79 under coverage-0.
+  - A held-out freeze check needs freeze controls of another cell and a GPU run.
+- **Transport-1 caveat:** the active twin still scores 2 of 42 freezes (ibp02 with 1660 px, about 2% of the material; icf05 with 105 px). Its 50-px minimum is far below the gate's 15%. Read transport only where the activity gate passes.
+- **Default cell** (snf, v2): channels 0.64 (3/4 scored ones expected), falls 0.32 (2/3), plumes −0.37 (5/7); 4/6, 3/5 and 7/11 scored. Coverage-1 median 0.75, E10 0.23.
+- **Paper:** `fig_known_answers` gains (c) the expected-direction score and (d) its stability, per scene with route medians, from `build_journal_plots.py` → `known_answer_direction_*.csv`.
+- **Tests:** 197 pass, including 4 new v2 known-answer tests.

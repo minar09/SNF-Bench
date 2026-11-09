@@ -1,0 +1,17 @@
+\begin{figure*}[t]
+\centering
+\setlength{\tabcolsep}{1.1pt}
+\newcommand{\iifigpath}{figures/i2v_comparison_2026_11_08}
+\newcommand{\iicell}[2]{\includegraphics[width=.191\textwidth]{\iifigpath/#1_#2_end.png}}
+\begin{tabular}{@{}ccccc@{}}
+\scriptsize Source & \scriptsize Causal-Forcing & \scriptsize LTX-Video & \scriptsize Wan2.1 & \scriptsize Wan2.2 \\
+\includegraphics[width=.191\textwidth]{\iifigpath/vb161950_source.png} &
+\iicell{vb161950}{causal_forcing} & \iicell{vb161950}{ltx_video} &
+\iicell{vb161950}{wan21} & \iicell{vb161950}{wan22} \\
+\includegraphics[width=.191\textwidth]{\iifigpath/vb10462563_source.png} &
+\iicell{vb10462563}{causal_forcing} & \iicell{vb10462563}{ltx_video} &
+\iicell{vb10462563}{wan21} & \iicell{vb10462563}{wan22} \\
+\end{tabular}
+\caption{\textbf{Image-conditioned comparison on two sources.} Source images and the final available frame of one approximately 5\,s output per system. The waterfall and campfire illustrate different moving materials; each row shares the same input image and prompt across systems. The four runs use their documented inference pipelines, with configuration differences recorded in the accompanying provenance. These short examples do not establish long-horizon performance, motion realism or a ranking. Sources: VBench++ image suite~\cite{huang2024vbench++}, using Pexels images \href{https://www.pexels.com/photo/161950/}{161950} and \href{https://www.pexels.com/photo/10462563/}{10462563}; images are cropped and resized.}
+\label{fig:i2v_comparison}
+\end{figure*}

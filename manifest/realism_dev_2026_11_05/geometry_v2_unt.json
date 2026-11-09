@@ -1,0 +1,5448 @@
+{
+ "entrant": "cfpp/echo_nfpb1_h1_fm_tether0_lr",
+ "cache": "videos/realism_cache/geometry_flows/cfpp__echo_nfpb1_h1_fm_tether0_lr",
+ "identity": {
+  "channel_alignment": "cand-channel-alignment-0",
+  "gravity_sign": "cand-gravity-sign-0",
+  "sign_stability": "cand-sign-stability-0",
+  "channel_alignment_1": "cand-channel-alignment-1",
+  "gravity_sign_1": "cand-gravity-sign-1",
+  "sign_stability_1": "cand-sign-stability-1",
+  "gravity_stability": "cand-gravity-stability-0",
+  "channel_alignment_2": "cand-channel-alignment-2",
+  "gravity_sign_2": "cand-gravity-sign-2",
+  "sign_stability_2": "cand-sign-stability-2",
+  "gravity_stability_2": "cand-gravity-stability-1",
+  "activity_gate_1": "cand-activity-gate-1"
+ },
+ "tau_k": 1.0,
+ "tau_abs": 0.1,
+ "min_active": 0.15,
+ "route": {
+  "channel_flow": "channel",
+  "falling_water": "down",
+  "buoyant_plume": "up",
+  "combustion": "up"
+ },
+ "spread_sigma": 40.0,
+ "min_coherence": 0.5,
+ "static_sigma": 0.03,
+ "static_mag": 0.5,
+ "caveat": "development data; image y is assumed to be gravity (no roll estimate yet); bank field by normalized convolution, not Laplace; v0 from float16-cached flows",
+ "summary": {
+  "native/passthrough_crf18": {
+   "channel_v0": {
+    "n": 6,
+    "n_attempted": 6,
+    "median": 0.5235302597284317,
+    "frac_expected_sign": 0.8333333333333334
+   },
+   "channel_v1": {
+    "n": 6,
+    "n_attempted": 6,
+    "median": 0.5148053765296936,
+    "frac_expected_sign": 0.8333333333333334
+   },
+   "channel_v2": {
+    "n": 6,
+    "n_attempted": 6,
+    "median": 0.5148053765296936,
+    "frac_expected_sign": 0.8333333333333334
+   },
+   "channel_v1_sign_stability_median": 0.9403962781856641,
+   "channel_v2_sign_stability_median": 0.9403962781856641,
+   "down_v0": {
+    "n": 5,
+    "n_attempted": 5,
+    "median": 0.3844774663448334,
+    "frac_expected_sign": 0.8
+   },
+   "down_v1": {
+    "n": 5,
+    "n_attempted": 5,
+    "median": 0.37018781900405884,
+    "frac_expected_sign": 0.8
+   },
+   "down_v2": {
+    "n": 5,
+    "n_attempted": 5,
+    "median": 0.37018781900405884,
+    "frac_expected_sign": 0.8
+   },
+   "down_v1_gravity_stability_median": 0.6617750362609764,
+   "down_v2_gravity_stability_median": 0.6617750362609764,
+   "up_v0": {
+    "n": 10,
+    "n_attempted": 11,
+    "median": -0.7552168369293213,
+    "frac_expected_sign": 0.9
+   },
+   "up_v1": {
+    "n": 9,
+    "n_attempted": 11,
+    "median": -0.8418880701065063,
+    "frac_expected_sign": 0.8888888888888888
+   },
+   "up_v2": {
+    "n": 9,
+    "n_attempted": 11,
+    "median": -0.8418880701065063,
+    "frac_expected_sign": 0.8888888888888888
+   },
+   "up_v1_gravity_stability_median": 0.9072734783095752,
+   "up_v2_gravity_stability_median": 0.9072734783095752,
+   "extent_C_median": 0.7607582533104138,
+   "extent_E10_median": 0.2015475109219551,
+   "extent_C_min_median": 0.6002977183962941,
+   "extent_n": 20,
+   "extent1_C_median": 0.7607582533104138,
+   "extent1_E10_median": 0.2571326792240143,
+   "extent1_C_min_median": 0.6002977183962941,
+   "extent1_n": 20,
+   "transport_delta_median": 0.09703722596168518,
+   "transport_damp_material_median": 0.6872311234474182,
+   "transport_damp_material_active_median": 0.7349867224693298,
+   "transport1_delta_median": 0.09703722596168518,
+   "transport1_damp_material_median": 0.6872311234474182,
+   "transport1_damp_material_active_median": 0.7349867224693298
+  },
+  "snf/passthrough_crf18": {
+   "channel_v0": {
+    "n": 6,
+    "n_attempted": 6,
+    "median": 0.6477299928665161,
+    "frac_expected_sign": 1.0
+   },
+   "channel_v1": {
+    "n": 5,
+    "n_attempted": 6,
+    "median": 0.3345453441143036,
+    "frac_expected_sign": 1.0
+   },
+   "channel_v2": {
+    "n": 5,
+    "n_attempted": 6,
+    "median": 0.3345453441143036,
+    "frac_expected_sign": 1.0
+   },
+   "channel_v1_sign_stability_median": 0.8069626413855263,
+   "channel_v2_sign_stability_median": 0.8069626413855263,
+   "down_v0": {
+    "n": 5,
+    "n_attempted": 5,
+    "median": 0.2384788691997528,
+    "frac_expected_sign": 0.6
+   },
+   "down_v1": {
+    "n": 5,
+    "n_attempted": 5,
+    "median": 0.23695291578769684,
+    "frac_expected_sign": 0.6
+   },
+   "down_v2": {
+    "n": 5,
+    "n_attempted": 5,
+    "median": 0.23695291578769684,
+    "frac_expected_sign": 0.6
+   },
+   "down_v1_gravity_stability_median": 0.5974471121110247,
+   "down_v2_gravity_stability_median": 0.5974471121110247,
+   "up_v0": {
+    "n": 10,
+    "n_attempted": 11,
+    "median": -0.6613463759422302,
+    "frac_expected_sign": 0.8
+   },
+   "up_v1": {
+    "n": 8,
+    "n_attempted": 11,
+    "median": -0.7799332141876221,
+    "frac_expected_sign": 0.875
+   },
+   "up_v2": {
+    "n": 8,
+    "n_attempted": 11,
+    "median": -0.7799332141876221,
+    "frac_expected_sign": 0.875
+   },
+   "up_v1_gravity_stability_median": 0.9648333567007332,
+   "up_v2_gravity_stability_median": 0.9648333567007332,
+   "extent_C_median": 0.816867538014151,
+   "extent_E10_median": 0.19122914969921112,
+   "extent_C_min_median": 0.6813530013870269,
+   "extent_n": 40,
+   "extent1_C_median": 0.816867538014151,
+   "extent1_E10_median": 0.2525571882724762,
+   "extent1_C_min_median": 0.6813530013870269,
+   "extent1_n": 40,
+   "transport_delta_median": 0.0788646936416626,
+   "transport_damp_material_median": 0.7002065777778625,
+   "transport_damp_material_active_median": 0.7016609013080597,
+   "transport1_delta_median": 0.0788646936416626,
+   "transport1_damp_material_median": 0.7002065777778625,
+   "transport1_damp_material_active_median": 0.7016609013080597
+  }
+ },
+ "rows": [
+  {
+   "scene": "ial01",
+   "category": "accumulating_level",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "eeed5e5e5e3fe14863062193878e6ae4c922166f06f1f80a337d86e40c697000",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.6440050601959214,
+       "C": 0.7715507539950484,
+       "E10": 0.18040481209754944,
+       "C_sub": [
+        0.6011703803736215,
+        0.3137519693900518,
+        1.0,
+        0.9880711231150123
+       ],
+       "C_min": 0.3137519693900518,
+       "C_end": 0.9880711231150123,
+       "material_frac": 0.030915998663994654
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.6747274398803711,
+       "damp_support": 0.8435855507850647,
+       "damp_material_active": 0.5977864861488342,
+       "active_px": 3428,
+       "delta": -0.1688581109046936
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.6440050601959214,
+       "C": 0.7715507539950484,
+       "E10": 0.20497550070285797,
+       "C_sub": [
+        0.6011703803736215,
+        0.3137519693900518,
+        1.0,
+        0.9880711231150123
+       ],
+       "C_min": 0.3137519693900518,
+       "C_end": 0.9880711231150123,
+       "material_frac": 0.030915998663994654
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.6747274398803711,
+       "damp_support": 0.8435855507850647,
+       "damp_material_active": 0.5977864861488342,
+       "active_px": 3428,
+       "delta": -0.1688581109046936
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "ial02",
+   "category": "accumulating_level",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "a9effb0a16f81dd3c45472a1b3be1520f66619347f5b2c3f5f34c4b50dd91ef6",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.5381533705561339,
+       "E10": 0.1954922378063202,
+       "C_sub": [
+        0.45698873852559857,
+        0.5394940222705908,
+        0.5250938456200119,
+        0.5626163212516956
+       ],
+       "C_min": 0.45698873852559857,
+       "C_end": 0.5626163212516956,
+       "material_frac": 0.44117401469605877
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.47249075770378113,
+       "damp_support": 0.35677167773246765,
+       "damp_material_active": 0.5960533022880554,
+       "active_px": 34120,
+       "delta": 0.11571907997131348
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.5381533705561339,
+       "E10": 0.28683435916900635,
+       "C_sub": [
+        0.45698873852559857,
+        0.5394940222705908,
+        0.5250938456200119,
+        0.5626163212516956
+       ],
+       "C_min": 0.45698873852559857,
+       "C_end": 0.5626163212516956,
+       "material_frac": 0.44117401469605877
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.47249075770378113,
+       "damp_support": 0.35677167773246765,
+       "damp_material_active": 0.5960533022880554,
+       "active_px": 34120,
+       "delta": 0.11571907997131348
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "ial03",
+   "category": "accumulating_level",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "d27d169f4747fb3ec9d2aae39b5eefb87ae7ca67e582e47bd1f10f1d942e15cc",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.8201601266860962,
+       "C": 0.22476978011651946,
+       "E10": 0.1558745801448822,
+       "C_sub": [
+        0.005387458497776107,
+        0.5300382133684145,
+        0.17903902775167574,
+        0.35225208294180294
+       ],
+       "C_min": 0.005387458497776107,
+       "C_end": 0.35225208294180294,
+       "material_frac": 0.11107631930527723
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.6496115922927856,
+       "damp_support": 0.6698497533798218,
+       "damp_material_active": 0.8440676331520081,
+       "active_px": 3588,
+       "delta": -0.020238161087036133
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.8201601266860962,
+       "C": 0.22476978011651946,
+       "E10": 0.46848776936531067,
+       "C_sub": [
+        0.005387458497776107,
+        0.5300382133684145,
+        0.17903902775167574,
+        0.35225208294180294
+       ],
+       "C_min": 0.005387458497776107,
+       "C_end": 0.35225208294180294,
+       "material_frac": 0.11107631930527723
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.6496115922927856,
+       "damp_support": 0.6698497533798218,
+       "damp_material_active": 0.8440676331520081,
+       "active_px": 3588,
+       "delta": -0.020238161087036133
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "ial04",
+   "category": "accumulating_level",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "40d3de6e1362443ab75f12065daa8807cf70c2a972f14c88c2b6f9229981e9f2",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.8451681793913508,
+       "E10": 0.16203896701335907,
+       "C_sub": [
+        0.781512401106635,
+        0.7977236324807067,
+        0.8830752802989856,
+        0.8123574236761637
+       ],
+       "C_min": 0.781512401106635,
+       "C_end": 0.8123574236761637,
+       "material_frac": 0.2867262302382543
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.3456626534461975,
+       "damp_support": 0.47208529710769653,
+       "damp_material_active": 0.3520234227180481,
+       "active_px": 34826,
+       "delta": -0.12642264366149902
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.8451681793913508,
+       "E10": 0.17502589523792267,
+       "C_sub": [
+        0.781512401106635,
+        0.7977236324807067,
+        0.8830752802989856,
+        0.8123574236761637
+       ],
+       "C_min": 0.781512401106635,
+       "C_end": 0.8123574236761637,
+       "material_frac": 0.2867262302382543
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.3456626534461975,
+       "damp_support": 0.47208529710769653,
+       "damp_material_active": 0.3520234227180481,
+       "active_px": 34826,
+       "delta": -0.12642264366149902
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "ial05",
+   "category": "accumulating_level",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "961553abba0475448059d9165ccd71239cf21950b4c7750da24ea59df7fefc41",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.9994419337542539,
+       "E10": 0.29587042331695557,
+       "C_sub": [
+        1.0,
+        0.9995841859345421,
+        0.9992230842461182,
+        0.9807412432840558
+       ],
+       "C_min": 0.9807412432840558,
+       "C_end": 0.9807412432840558,
+       "material_frac": 0.6359037519483411
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.6762213706970215,
+       "damp_support": 0.600809633731842,
+       "damp_material_active": 0.6762200593948364,
+       "active_px": 91336,
+       "delta": 0.07541173696517944
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.9994419337542539,
+       "E10": 0.29588696360588074,
+       "C_sub": [
+        1.0,
+        0.9995841859345421,
+        0.9992230842461182,
+        0.9807412432840558
+       ],
+       "C_min": 0.9807412432840558,
+       "C_end": 0.9807412432840558,
+       "material_frac": 0.6359037519483411
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.6762213706970215,
+       "damp_support": 0.600809633731842,
+       "damp_material_active": 0.6762200593948364,
+       "active_px": 91336,
+       "delta": 0.07541173696517944
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "ibp01",
+   "category": "buoyant_plume",
+   "route": "up",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "23ae50fbd4233a17dabb22ad2b94c6e8041f340aa7febd2416acab8263befddd",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.28046155422925945,
+       "C": 0.9039218949353747,
+       "E10": 0.30462589859962463,
+       "C_sub": [
+        0.9797525933322239,
+        0.8397958617629112,
+        0.8801242580573584,
+        0.8836744882675986
+       ],
+       "C_min": 0.8397958617629112,
+       "C_end": 0.8836744882675986,
+       "material_frac": 0.12543837675350702
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.8408218026161194,
+       "damp_support": 0.8754456639289856,
+       "damp_material_active": 0.8898580074310303,
+       "active_px": 16295,
+       "delta": -0.03462386131286621
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.28046155422925945,
+       "C": 0.9039218949353747,
+       "E10": 0.3071187734603882,
+       "C_sub": [
+        0.9797525933322239,
+        0.8397958617629112,
+        0.8801242580573584,
+        0.8836744882675986
+       ],
+       "C_min": 0.8397958617629112,
+       "C_end": 0.8836744882675986,
+       "material_frac": 0.12543837675350702
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.8408218026161194,
+       "damp_support": 0.8754456639289856,
+       "damp_material_active": 0.8898580074310303,
+       "active_px": 16295,
+       "delta": -0.03462386131286621
+      },
+      "v0": {
+       "tau": 0.29991850107908236,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.6648277044296265,
+       "weight": 43975.79296875
+      },
+      "v1": {
+       "G": -0.6641153693199158,
+       "weight": 44095.47265625,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.9951839893518976,
+       "gate": {
+        "tau1": 0.28046155422925945,
+        "active_frac": 0.9039218949353747,
+        "support_active_frac": 0.050007461016190406,
+        "material_activity_median": 0.5982871055603027
+       }
+      },
+      "v2": {
+       "G": -0.6641153693199158,
+       "weight": 44095.47265625,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.9951839893518976,
+       "gate": {
+        "tau1": 0.28046155422925945,
+        "active_frac": 0.9039218949353747,
+        "support_active_frac": 0.050007461016190406,
+        "material_activity_median": 0.5982871055603027,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "23ae50fbd4233a17dabb22ad2b94c6e8041f340aa7febd2416acab8263befddd",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.5959586501121521,
+       "C": 0.8069562323181894,
+       "E10": 0.5886808037757874,
+       "C_sub": [
+        0.9839130193598491,
+        0.6814223109779775,
+        0.6775392466855272,
+        0.5241027347867089
+       ],
+       "C_min": 0.5241027347867089,
+       "C_end": 0.5241027347867089,
+       "material_frac": 0.12543837675350702
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.8037936687469482,
+       "damp_support": 0.9082356095314026,
+       "damp_material_active": 0.8322575688362122,
+       "active_px": 14547,
+       "delta": -0.10444194078445435
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.5959586501121521,
+       "C": 0.8069562323181894,
+       "E10": 0.6195820569992065,
+       "C_sub": [
+        0.9839130193598491,
+        0.6814223109779775,
+        0.6775392466855272,
+        0.5241027347867089
+       ],
+       "C_min": 0.5241027347867089,
+       "C_end": 0.5241027347867089,
+       "material_frac": 0.12543837675350702
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.8037936687469482,
+       "damp_support": 0.9082356095314026,
+       "damp_material_active": 0.8322575688362122,
+       "active_px": 14547,
+       "delta": -0.10444194078445435
+      },
+      "v0": {
+       "tau": 0.6508922100067136,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.6690705418586731,
+       "weight": 45218.53125
+      },
+      "v1": {
+       "G": -0.6641427278518677,
+       "weight": 45770.4453125,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.979880662989303,
+       "gate": {
+        "tau1": 0.5959586501121521,
+        "active_frac": 0.8069562323181894,
+        "support_active_frac": 0.050007461016190406,
+        "material_activity_median": 0.6848583817481995
+       }
+      },
+      "v2": {
+       "G": -0.6641427278518677,
+       "weight": 45770.4453125,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.979880662989303,
+       "gate": {
+        "tau1": 0.5959586501121521,
+        "active_frac": 0.8069562323181894,
+        "support_active_frac": 0.050007461016190406,
+        "material_activity_median": 0.6848583817481995,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "ibp02",
+   "category": "buoyant_plume",
+   "route": "up",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "54711c2ee746c0672031a1d39d5493212ddf373077670682bfdc1eb256694b58",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.9263248229993564,
+       "E10": 0.25720974802970886,
+       "C_sub": [
+        0.9535006793964099,
+        0.9070013587928198,
+        0.9173853965529571,
+        0.9115497389687478
+       ],
+       "C_min": 0.9070013587928198,
+       "C_end": 0.9115497389687478,
+       "material_frac": 0.4864938209752839
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.7732669711112976,
+       "damp_support": 0.44517412781715393,
+       "damp_material_active": 0.8049300909042358,
+       "active_px": 64764,
+       "delta": 0.3280928432941437
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.9263248229993564,
+       "E10": 0.25754058361053467,
+       "C_sub": [
+        0.9535006793964099,
+        0.9070013587928198,
+        0.9173853965529571,
+        0.9115497389687478
+       ],
+       "C_min": 0.9070013587928198,
+       "C_end": 0.9115497389687478,
+       "material_frac": 0.4864938209752839
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.7732669711112976,
+       "damp_support": 0.44517412781715393,
+       "damp_material_active": 0.8049300909042358,
+       "active_px": 64764,
+       "delta": 0.3280928432941437
+      },
+      "v0": {
+       "tau": 0.04392152428627011,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.9859963059425354,
+       "weight": 290874.53125
+      },
+      "v1": {
+       "G": -0.9860773682594299,
+       "weight": 290800.8125,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.9984147459617246,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.9263248229993564,
+        "support_active_frac": 0.0,
+        "material_activity_median": 1.001576542854309
+       }
+      },
+      "v2": {
+       "G": -0.9860773682594299,
+       "weight": 290800.8125,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.9984147459617246,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.9263248229993564,
+        "support_active_frac": 0.0,
+        "material_activity_median": 1.001576542854309,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "54711c2ee746c0672031a1d39d5493212ddf373077670682bfdc1eb256694b58",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.9591790030751627,
+       "E10": 0.2750733494758606,
+       "C_sub": [
+        0.9883000786669527,
+        0.9446327683615819,
+        0.9291425302152614,
+        0.9463348351569764
+       ],
+       "C_min": 0.9291425302152614,
+       "C_end": 0.9463348351569764,
+       "material_frac": 0.4864938209752839
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.7201860547065735,
+       "damp_support": 0.39891713857650757,
+       "damp_material_active": 0.7382844686508179,
+       "active_px": 67061,
+       "delta": 0.3212689161300659
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.9591790030751627,
+       "E10": 0.2751866281032562,
+       "C_sub": [
+        0.9883000786669527,
+        0.9446327683615819,
+        0.9291425302152614,
+        0.9463348351569764
+       ],
+       "C_min": 0.9291425302152614,
+       "C_end": 0.9463348351569764,
+       "material_frac": 0.4864938209752839
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.7201860547065735,
+       "damp_support": 0.39891713857650757,
+       "damp_material_active": 0.7382844686508179,
+       "active_px": 67061,
+       "delta": 0.3212689161300659
+      },
+      "v0": {
+       "tau": 0.0375908151268959,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.9897063970565796,
+       "weight": 506952.28125
+      },
+      "v1": {
+       "G": -0.9897534251213074,
+       "weight": 506889.90625,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.9966401614507386,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.9591790030751627,
+        "support_active_frac": 0.0096,
+        "material_activity_median": 1.0298783779144287
+       }
+      },
+      "v2": {
+       "G": -0.9897534251213074,
+       "weight": 506889.90625,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.9966401614507386,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.9591790030751627,
+        "support_active_frac": 0.0096,
+        "material_activity_median": 1.0298783779144287,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "ibp03",
+   "category": "buoyant_plume",
+   "route": "up",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "c15c3460869b00a6ecd9c34ad3fb1ab76274af17979e53e0c792b6c157010e45",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.9714303536897262,
+       "E10": 0.14768867194652557,
+       "C_sub": [
+        0.9436560414197492,
+        0.9840621296238538,
+        0.9812706630902626,
+        0.9616368286445013
+       ],
+       "C_min": 0.9436560414197492,
+       "C_end": 0.9616368286445013,
+       "material_frac": 0.4461979514584725
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.94472736120224,
+       "damp_support": 0.5237382054328918,
+       "damp_material_active": 0.9549351334571838,
+       "active_px": 62292,
+       "delta": 0.42098915576934814
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.9714303536897262,
+       "E10": 0.14773832261562347,
+       "C_sub": [
+        0.9436560414197492,
+        0.9840621296238538,
+        0.9812706630902626,
+        0.9616368286445013
+       ],
+       "C_min": 0.9436560414197492,
+       "C_end": 0.9616368286445013,
+       "material_frac": 0.4461979514584725
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.94472736120224,
+       "damp_support": 0.5237382054328918,
+       "damp_material_active": 0.9549351334571838,
+       "active_px": 62292,
+       "delta": 0.42098915576934814
+      },
+      "v0": {
+       "tau": 0.04984929505735636,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.8415542244911194,
+       "weight": 461337.21875
+      },
+      "v1": {
+       "G": -0.8418880701065063,
+       "weight": 461244.09375,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.9969139788116123,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.9714303536897262,
+        "support_active_frac": 0.0,
+        "material_activity_median": 8.705873489379883
+       }
+      },
+      "v2": {
+       "G": -0.8418880701065063,
+       "weight": 461244.09375,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.9969139788116123,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.9714303536897262,
+        "support_active_frac": 0.0,
+        "material_activity_median": 8.705873489379883,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "c15c3460869b00a6ecd9c34ad3fb1ab76274af17979e53e0c792b6c157010e45",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.9741126567275903,
+       "E10": 0.15632060170173645,
+       "C_sub": [
+        0.9520772253758343,
+        0.9793836940926954,
+        0.9780425425737633,
+        0.9711652423429605
+       ],
+       "C_min": 0.9520772253758343,
+       "C_end": 0.9711652423429605,
+       "material_frac": 0.4461979514584725
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.9330711960792542,
+       "damp_support": 0.4216456413269043,
+       "damp_material_active": 0.9420632719993591,
+       "active_px": 62464,
+       "delta": 0.5114255547523499
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.9741126567275903,
+       "E10": 0.15634749829769135,
+       "C_sub": [
+        0.9520772253758343,
+        0.9793836940926954,
+        0.9780425425737633,
+        0.9711652423429605
+       ],
+       "C_min": 0.9520772253758343,
+       "C_end": 0.9711652423429605,
+       "material_frac": 0.4461979514584725
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.9330711960792542,
+       "damp_support": 0.4216456413269043,
+       "damp_material_active": 0.9420632719993591,
+       "active_px": 62464,
+       "delta": 0.5114255547523499
+      },
+      "v0": {
+       "tau": 0.04979765601456165,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.8429909348487854,
+       "weight": 790577.75
+      },
+      "v1": {
+       "G": -0.8431404232978821,
+       "weight": 790503.75,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.9917382266486047,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.9741126567275903,
+        "support_active_frac": 0.0,
+        "material_activity_median": 15.45105266571045
+       }
+      },
+      "v2": {
+       "G": -0.8431404232978821,
+       "weight": 790503.75,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.9917382266486047,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.9741126567275903,
+        "support_active_frac": 0.0,
+        "material_activity_median": 15.45105266571045,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "ibp04",
+   "category": "buoyant_plume",
+   "route": "up",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "d89c960ffed74b3b9224e1392f35d5440669b0dfc05bc4f090f4cc61d2277936",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 1.0,
+       "E10": 0.345109224319458,
+       "C_sub": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ],
+       "C_min": 1.0,
+       "C_end": 1.0,
+       "material_frac": 0.17271348252059676
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.4656198024749756,
+       "damp_support": 0.8722972869873047,
+       "damp_material_active": 0.4656198024749756,
+       "active_px": 24821,
+       "delta": -0.4066774845123291
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 1.0,
+       "E10": 0.345109224319458,
+       "C_sub": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ],
+       "C_min": 1.0,
+       "C_end": 1.0,
+       "material_frac": 0.17271348252059676
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.4656198024749756,
+       "damp_support": 0.8722972869873047,
+       "damp_material_active": 0.4656198024749756,
+       "active_px": 24821,
+       "delta": -0.4066774845123291
+      },
+      "v0": {
+       "tau": 2.2105064392089844,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.9976327419281006,
+       "weight": 1837.53564453125
+      },
+      "v1": {
+       "G": -0.9761624932289124,
+       "weight": 9535.12890625,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.9072734783095752,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 1.0,
+        "support_active_frac": 0.04923607938683316,
+        "material_activity_median": 0.3251867890357971
+       }
+      },
+      "v2": {
+       "G": -0.9761624932289124,
+       "weight": 9535.12890625,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.9072734783095752,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 1.0,
+        "support_active_frac": 0.04923607938683316,
+        "material_activity_median": 0.3251867890357971,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "d89c960ffed74b3b9224e1392f35d5440669b0dfc05bc4f090f4cc61d2277936",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 1.0,
+       "E10": 0.24179603159427643,
+       "C_sub": [
+        1.0,
+        1.0,
+        1.0,
+        0.9906933644897465
+       ],
+       "C_min": 0.9906933644897465,
+       "C_end": 0.9906933644897465,
+       "material_frac": 0.17271348252059676
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.6184157133102417,
+       "damp_support": 0.8877608180046082,
+       "damp_material_active": 0.6184157133102417,
+       "active_px": 24821,
+       "delta": -0.26934510469436646
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 1.0,
+       "E10": 0.24179603159427643,
+       "C_sub": [
+        1.0,
+        1.0,
+        1.0,
+        0.9906933644897465
+       ],
+       "C_min": 0.9906933644897465,
+       "C_end": 0.9906933644897465,
+       "material_frac": 0.17271348252059676
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.6184157133102417,
+       "damp_support": 0.8877608180046082,
+       "damp_material_active": 0.6184157133102417,
+       "active_px": 24821,
+       "delta": -0.26934510469436646
+      },
+      "v0": {
+       "tau": 3.6936776638031006,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.9958299398422241,
+       "weight": 873.6263427734375
+      },
+      "v1": {
+       "G": -0.9519356489181519,
+       "weight": 18581.650390625,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.9497860504121635,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 1.0,
+        "support_active_frac": 0.031521242576518956,
+        "material_activity_median": 0.333209753036499
+       }
+      },
+      "v2": {
+       "G": -0.9519356489181519,
+       "weight": 18581.650390625,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.9497860504121635,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 1.0,
+        "support_active_frac": 0.031521242576518956,
+        "material_activity_median": 0.333209753036499,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "ibp05",
+   "category": "buoyant_plume",
+   "route": "up",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "4e68dbe51fed6e6348cb712b63bd2176a1808261304b94c7ad58f65458ced0ea",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.7831592568629263,
+       "E10": 0.14349685609340668,
+       "C_sub": [
+        0.9130233847860246,
+        0.5865606802846843,
+        0.7707736389684814,
+        0.402625011553748
+       ],
+       "C_min": 0.402625011553748,
+       "C_end": 0.402625011553748,
+       "material_frac": 0.07528250946337119
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.6981349587440491,
+       "damp_support": 0.4002699553966522,
+       "damp_material_active": 0.7005124092102051,
+       "active_px": 8473,
+       "delta": 0.29786500334739685
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.7831592568629263,
+       "E10": 0.16724534332752228,
+       "C_sub": [
+        0.9130233847860246,
+        0.5865606802846843,
+        0.7707736389684814,
+        0.402625011553748
+       ],
+       "C_min": 0.402625011553748,
+       "C_end": 0.402625011553748,
+       "material_frac": 0.07528250946337119
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.6981349587440491,
+       "damp_support": 0.4002699553966522,
+       "damp_material_active": 0.7005124092102051,
+       "active_px": 8473,
+       "delta": 0.29786500334739685
+      },
+      "v0": {
+       "tau": 0.9756695181131358,
+       "identity": "cand-gravity-sign-0",
+       "G": 0.11568156629800797,
+       "weight": 12105.2578125
+      },
+      "v1": {
+       "G": 0.12283290922641754,
+       "weight": 12824.052734375,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.35378369598796794,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.7831592568629263,
+        "support_active_frac": 0.0010675206832132373,
+        "material_activity_median": 0.12342321872711182
+       }
+      },
+      "v2": {
+       "G": 0.12283290922641754,
+       "weight": 12824.052734375,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.35378369598796794,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.7831592568629263,
+        "support_active_frac": 0.0010675206832132373,
+        "material_activity_median": 0.12342321872711182,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "4e68dbe51fed6e6348cb712b63bd2176a1808261304b94c7ad58f65458ced0ea",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1281627051532268,
+       "C": 0.7841759866900823,
+       "E10": 0.1267235279083252,
+       "C_sub": [
+        0.918384323874665,
+        0.5796284314631667,
+        0.8327017284407061,
+        0.35049450041593494
+       ],
+       "C_min": 0.35049450041593494,
+       "C_end": 0.35049450041593494,
+       "material_frac": 0.07528250946337119
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.7161644101142883,
+       "damp_support": 0.4648784101009369,
+       "damp_material_active": 0.7220132946968079,
+       "active_px": 8484,
+       "delta": 0.25128600001335144
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1281627051532268,
+       "C": 0.7841759866900823,
+       "E10": 0.14888055622577667,
+       "C_sub": [
+        0.918384323874665,
+        0.5796284314631667,
+        0.8327017284407061,
+        0.35049450041593494
+       ],
+       "C_min": 0.35049450041593494,
+       "C_end": 0.35049450041593494,
+       "material_frac": 0.07528250946337119
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.7161644101142883,
+       "damp_support": 0.4648784101009369,
+       "damp_material_active": 0.7220132946968079,
+       "active_px": 8484,
+       "delta": 0.25128600001335144
+      },
+      "v0": {
+       "tau": 0.45548264086246487,
+       "identity": "cand-gravity-sign-0",
+       "G": 0.08400284498929977,
+       "weight": 18627.71484375
+      },
+      "v1": {
+       "G": 0.08360140770673752,
+       "weight": 18704.958984375,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.33291575020571734,
+       "gate": {
+        "tau1": 0.1281627051532268,
+        "active_frac": 0.7841759866900823,
+        "support_active_frac": 0.0500400320256205,
+        "material_activity_median": 0.15799349546432495
+       }
+      },
+      "v2": {
+       "G": 0.08360140770673752,
+       "weight": 18704.958984375,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.33291575020571734,
+       "gate": {
+        "tau1": 0.1281627051532268,
+        "active_frac": 0.7841759866900823,
+        "support_active_frac": 0.0500400320256205,
+        "material_activity_median": 0.15799349546432495,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "ibp06",
+   "category": "buoyant_plume",
+   "route": "up",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "61d32be6d1cb00c08fc58b95fc1dbdb0d2d97d7b08f7ab9f2d2df7f7d0947716",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.8086819469928741,
+       "C": 0.838425553687596,
+       "E10": 0.20168469846248627,
+       "C_sub": [
+        0.8444192675973978,
+        0.7891966961479424,
+        0.8741320078941598,
+        0.8583802353629121
+       ],
+       "C_min": 0.7891966961479424,
+       "C_end": 0.8583802353629121,
+       "material_frac": 0.19039467824537964
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.9509995579719543,
+       "damp_support": 0.7327332496643066,
+       "damp_material_active": 0.9662537574768066,
+       "active_px": 22941,
+       "delta": 0.2182663083076477
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.8086819469928741,
+       "C": 0.838425553687596,
+       "E10": 0.20355984568595886,
+       "C_sub": [
+        0.8444192675973978,
+        0.7891966961479424,
+        0.8741320078941598,
+        0.8583802353629121
+       ],
+       "C_min": 0.7891966961479424,
+       "C_end": 0.8583802353629121,
+       "material_frac": 0.19039467824537964
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.9509995579719543,
+       "damp_support": 0.7327332496643066,
+       "damp_material_active": 0.9662537574768066,
+       "active_px": 22941,
+       "delta": 0.2182663083076477
+      },
+      "v0": {
+       "tau": 2.5936807870864853,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.6688794493675232,
+       "weight": 134143.1875
+      },
+      "v1": {
+       "G": -0.6746087670326233,
+       "weight": 143142.046875,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.9979941548528508,
+       "gate": {
+        "tau1": 0.8086819469928741,
+        "active_frac": 0.838425553687596,
+        "support_active_frac": 0.05000266254859151,
+        "material_activity_median": 6.2580366134643555
+       }
+      },
+      "v2": {
+       "G": -0.6746087670326233,
+       "weight": 143142.046875,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.9979941548528508,
+       "gate": {
+        "tau1": 0.8086819469928741,
+        "active_frac": 0.838425553687596,
+        "support_active_frac": 0.05000266254859151,
+        "material_activity_median": 6.2580366134643555,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "61d32be6d1cb00c08fc58b95fc1dbdb0d2d97d7b08f7ab9f2d2df7f7d0947716",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1874507218599318,
+       "C": 0.9080476573349902,
+       "E10": 0.21842695772647858,
+       "C_sub": [
+        0.9317301366859148,
+        0.8636795555880418,
+        0.8587091586872304,
+        0.8976317520649075
+       ],
+       "C_min": 0.8587091586872304,
+       "C_end": 0.8976317520649075,
+       "material_frac": 0.19039467824537964
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.9428977966308594,
+       "damp_support": 0.707574188709259,
+       "damp_material_active": 0.955450713634491,
+       "active_px": 24846,
+       "delta": 0.23532360792160034
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1874507218599318,
+       "C": 0.9080476573349902,
+       "E10": 0.21879319846630096,
+       "C_sub": [
+        0.9317301366859148,
+        0.8636795555880418,
+        0.8587091586872304,
+        0.8976317520649075
+       ],
+       "C_min": 0.8587091586872304,
+       "C_end": 0.8976317520649075,
+       "material_frac": 0.19039467824537964
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.9428977966308594,
+       "damp_support": 0.707574188709259,
+       "damp_material_active": 0.955450713634491,
+       "active_px": 24846,
+       "delta": 0.23532360792160034
+      },
+      "v0": {
+       "tau": 1.769455516338348,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.6324803829193115,
+       "weight": 194542.109375
+      },
+      "v1": {
+       "G": -0.6348587870597839,
+       "weight": 197736.84375,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.9856676978978612,
+       "gate": {
+        "tau1": 0.1874507218599318,
+        "active_frac": 0.9080476573349902,
+        "support_active_frac": 0.05000266254859151,
+        "material_activity_median": 8.7774658203125
+       }
+      },
+      "v2": {
+       "G": -0.6348587870597839,
+       "weight": 197736.84375,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.9856676978978612,
+       "gate": {
+        "tau1": 0.1874507218599318,
+        "active_frac": 0.9080476573349902,
+        "support_active_frac": 0.05000266254859151,
+        "material_activity_median": 8.7774658203125,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "icb01",
+   "category": "combustion",
+   "route": "up",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "c602155e0995ede12849c3fd588fdc450775fe1b274ccc6eb169f20165f999ff",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.0029866251136216075,
+       "E10": 0.1520828902721405,
+       "C_sub": [
+        0.0020776522529541617,
+        0.005323983898195039,
+        0.04194260485651214,
+        0.010258407998961173
+       ],
+       "C_min": 0.0020776522529541617,
+       "C_end": 0.010258407998961173,
+       "material_frac": 0.05358633934535738
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.4941664934158325,
+       "damp_support": 0.5768207311630249,
+       "damp_material_active": null,
+       "active_px": 23,
+       "delta": -0.08265423774719238
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.0029866251136216075,
+       "E10": 0.9999998807907104,
+       "C_sub": [
+        0.0020776522529541617,
+        0.005323983898195039,
+        0.04194260485651214,
+        0.010258407998961173
+       ],
+       "C_min": 0.0020776522529541617,
+       "C_end": 0.010258407998961173,
+       "material_frac": 0.05358633934535738
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.4941664934158325,
+       "damp_support": 0.5768207311630249,
+       "damp_material_active": null,
+       "active_px": 23,
+       "delta": -0.08265423774719238
+      },
+      "v0": {
+       "tau": 0.064698126912117,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.1544675976037979,
+       "weight": 94.2335433959961
+      },
+      "v1": {
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.0029866251136216075,
+        "support_active_frac": 8.254684533472746e-05,
+        "material_activity_median": 0.05279315635561943
+       },
+       "abstain": "material active share 0.003 < 0.15 (not more active than the support)"
+      },
+      "v2": {
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.0029866251136216075,
+        "support_active_frac": 8.254684533472746e-05,
+        "material_activity_median": 0.05279315635561943,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       },
+       "abstain": "material active share 0.003 < 0.15 (not more active than the support)"
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "c602155e0995ede12849c3fd588fdc450775fe1b274ccc6eb169f20165f999ff",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.12478601038455964,
+       "C": 0.0027269185820023374,
+       "E10": 0.13953833281993866,
+       "C_sub": [
+        0.0031164783794312427,
+        0.03298272951564732,
+        0.02558109336449812,
+        0.0016880924555252564
+       ],
+       "C_min": 0.0016880924555252564,
+       "C_end": 0.0016880924555252564,
+       "material_frac": 0.05358633934535738
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.4821033775806427,
+       "damp_support": 0.6601150631904602,
+       "damp_material_active": null,
+       "active_px": 21,
+       "delta": -0.1780116856098175
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.12478601038455964,
+       "C": 0.0027269185820023374,
+       "E10": 1.0,
+       "C_sub": [
+        0.0031164783794312427,
+        0.03298272951564732,
+        0.02558109336449812,
+        0.0016880924555252564
+       ],
+       "C_min": 0.0016880924555252564,
+       "C_end": 0.0016880924555252564,
+       "material_frac": 0.05358633934535738
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.4821033775806427,
+       "damp_support": 0.6601150631904602,
+       "damp_material_active": null,
+       "active_px": 21,
+       "delta": -0.1780116856098175
+      },
+      "v0": {
+       "tau": 0.11777966991066936,
+       "identity": "cand-gravity-sign-0",
+       "G": 0.24943748116493225,
+       "weight": 109.90980529785156
+      },
+      "v1": {
+       "gate": {
+        "tau1": 0.12478601038455964,
+        "active_frac": 0.0027269185820023374,
+        "support_active_frac": 0.05002338827284484,
+        "material_activity_median": 0.07027178257703781
+       },
+       "abstain": "material active share 0.003 < 0.15 (not more active than the support)"
+      },
+      "v2": {
+       "gate": {
+        "tau1": 0.12478601038455964,
+        "active_frac": 0.0027269185820023374,
+        "support_active_frac": 0.05002338827284484,
+        "material_activity_median": 0.07027178257703781,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       },
+       "abstain": "material active share 0.003 < 0.15 (not more active than the support)"
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "icb02",
+   "category": "combustion",
+   "route": "up",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "b8dfbbf5071f85b69bc37af76ec62144754b5531b27c3a81f47445db09b58c59",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.1740678676162547,
+       "E10": 0.1702951341867447,
+       "C_sub": [
+        0.09645999162128194,
+        0.6297653958944281,
+        0.178780896522832,
+        0.10054461667364893
+       ],
+       "C_min": 0.09645999162128194,
+       "C_end": 0.10054461667364893,
+       "material_frac": 0.06643843242039635
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.37957248091697693,
+       "damp_support": 0.2684955894947052,
+       "damp_material_active": 0.5833002924919128,
+       "active_px": 1662,
+       "delta": 0.11107689142227173
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.1740678676162547,
+       "E10": 0.6336131691932678,
+       "C_sub": [
+        0.09645999162128194,
+        0.6297653958944281,
+        0.178780896522832,
+        0.10054461667364893
+       ],
+       "C_min": 0.09645999162128194,
+       "C_end": 0.10054461667364893,
+       "material_frac": 0.06643843242039635
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.37957248091697693,
+       "damp_support": 0.2684955894947052,
+       "damp_material_active": 0.5833002924919128,
+       "active_px": 1662,
+       "delta": 0.11107689142227173
+      },
+      "v0": {
+       "tau": 0.01255218908190727,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.3792310953140259,
+       "weight": 505.403076171875
+      },
+      "v1": {
+       "G": -0.34486836194992065,
+       "weight": 448.16436767578125,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.5636369028532441,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.1740678676162547,
+        "support_active_frac": 0.0,
+        "material_activity_median": 0.07542448490858078
+       }
+      },
+      "v2": {
+       "G": -0.34486836194992065,
+       "weight": 448.16436767578125,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.5636369028532441,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.1740678676162547,
+        "support_active_frac": 0.0,
+        "material_activity_median": 0.07542448490858078,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "b8dfbbf5071f85b69bc37af76ec62144754b5531b27c3a81f47445db09b58c59",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.5344574780058651,
+       "E10": 0.17646922171115875,
+       "C_sub": [
+        0.3480310012568077,
+        0.8547339757017176,
+        0.3095936321742773,
+        0.5509007121910348
+       ],
+       "C_min": 0.3095936321742773,
+       "C_end": 0.5509007121910348,
+       "material_frac": 0.06643843242039635
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.36669859290122986,
+       "damp_support": 0.1981656551361084,
+       "damp_material_active": 0.32595646381378174,
+       "active_px": 5103,
+       "delta": 0.16853293776512146
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.5344574780058651,
+       "E10": 0.26040175557136536,
+       "C_sub": [
+        0.3480310012568077,
+        0.8547339757017176,
+        0.3095936321742773,
+        0.5509007121910348
+       ],
+       "C_min": 0.3095936321742773,
+       "C_end": 0.5509007121910348,
+       "material_frac": 0.06643843242039635
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.36669859290122986,
+       "damp_support": 0.1981656551361084,
+       "damp_material_active": 0.32595646381378174,
+       "active_px": 5103,
+       "delta": 0.16853293776512146
+      },
+      "v0": {
+       "tau": 0.014744091406464556,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.6536222100257874,
+       "weight": 566.0119018554688
+      },
+      "v1": {
+       "G": -0.7167260050773621,
+       "weight": 528.29736328125,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.638430291303055,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.5344574780058651,
+        "support_active_frac": 0.0,
+        "material_activity_median": 0.10278012603521347
+       }
+      },
+      "v2": {
+       "G": -0.7167260050773621,
+       "weight": 528.29736328125,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.638430291303055,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.5344574780058651,
+        "support_active_frac": 0.0,
+        "material_activity_median": 0.10278012603521347,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "icb03",
+   "category": "combustion",
+   "route": "up",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "1ae88d1c5273dc907ebe76084b8dc2246dd8c809bde68b0f5020584f1601a0da",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1312916167080402,
+       "C": 0.2095223561727453,
+       "E10": 0.14350345730781555,
+       "C_sub": [
+        0.8629635281550435,
+        0.2322600335724096,
+        0.031435983518998935,
+        0.07218068060430337
+       ],
+       "C_min": 0.031435983518998935,
+       "C_end": 0.07218068060430337,
+       "material_frac": 0.045598140725896234
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.6330550909042358,
+       "damp_support": 0.5973716974258423,
+       "damp_material_active": 0.700060248374939,
+       "active_px": 1373,
+       "delta": 0.035683393478393555
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1312916167080402,
+       "C": 0.2095223561727453,
+       "E10": 0.520637571811676,
+       "C_sub": [
+        0.8629635281550435,
+        0.2322600335724096,
+        0.031435983518998935,
+        0.07218068060430337
+       ],
+       "C_min": 0.031435983518998935,
+       "C_end": 0.07218068060430337,
+       "material_frac": 0.045598140725896234
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.6330550909042358,
+       "damp_support": 0.5973716974258423,
+       "damp_material_active": 0.700060248374939,
+       "active_px": 1373,
+       "delta": 0.035683393478393555
+      },
+      "v0": {
+       "tau": 0.19304567426443078,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.9130585789680481,
+       "weight": 1174.5084228515625
+      },
+      "v1": {
+       "G": -0.9122505187988281,
+       "weight": 1217.5081787109375,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.8158572554803452,
+       "gate": {
+        "tau1": 0.1312916167080402,
+        "active_frac": 0.2095223561727453,
+        "support_active_frac": 0.05,
+        "material_activity_median": 0.11184938251972198
+       }
+      },
+      "v2": {
+       "G": -0.9122505187988281,
+       "weight": 1217.5081787109375,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.8158572554803452,
+       "gate": {
+        "tau1": 0.1312916167080402,
+        "active_frac": 0.2095223561727453,
+        "support_active_frac": 0.05,
+        "material_activity_median": 0.11184938251972198,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "1ae88d1c5273dc907ebe76084b8dc2246dd8c809bde68b0f5020584f1601a0da",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.206594344228506,
+       "C": 0.0051884632992522505,
+       "E10": 0.11963071674108505,
+       "C_sub": [
+        0.9819929803143599,
+        0.14481916679383489,
+        0.027926140698916527,
+        0.004272852128795971
+       ],
+       "C_min": 0.004272852128795971,
+       "C_end": 0.004272852128795971,
+       "material_frac": 0.045598140725896234
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.6084591746330261,
+       "damp_support": 0.6158207654953003,
+       "damp_material_active": null,
+       "active_px": 34,
+       "delta": -0.00736159086227417
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.206594344228506,
+       "C": 0.0051884632992522505,
+       "E10": 1.0,
+       "C_sub": [
+        0.9819929803143599,
+        0.14481916679383489,
+        0.027926140698916527,
+        0.004272852128795971
+       ],
+       "C_min": 0.004272852128795971,
+       "C_end": 0.004272852128795971,
+       "material_frac": 0.045598140725896234
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.6084591746330261,
+       "damp_support": 0.6158207654953003,
+       "damp_material_active": null,
+       "active_px": 34,
+       "delta": -0.00736159086227417
+      },
+      "v0": {
+       "tau": 0.36983513683080665,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.47453489899635315,
+       "weight": 364.5179443359375
+      },
+      "v1": {
+       "gate": {
+        "tau1": 0.206594344228506,
+        "active_frac": 0.0051884632992522505,
+        "support_active_frac": 0.05,
+        "material_activity_median": 0.15761816501617432
+       },
+       "abstain": "material active share 0.005 < 0.15 (not more active than the support)"
+      },
+      "v2": {
+       "gate": {
+        "tau1": 0.206594344228506,
+        "active_frac": 0.0051884632992522505,
+        "support_active_frac": 0.05,
+        "material_activity_median": 0.15761816501617432,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       },
+       "abstain": "material active share 0.005 < 0.15 (not more active than the support)"
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "icb04",
+   "category": "combustion",
+   "route": "up",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "68745024facf73df55dc7fcbeed70b2fe8dedf33e04f70e2f523de2ee1578bcd",
+      "abstain": "eroded material 0 px < 200 at flow resolution",
+      "v0": {
+       "abstain": "eroded material 0 px < 200 at flow resolution"
+      },
+      "v1": {
+       "abstain": "eroded material 0 px < 200 at flow resolution"
+      },
+      "v2": {
+       "abstain": "eroded material 0 px < 200 at flow resolution"
+      },
+      "extent": {
+       "abstain": "eroded material 0 px < 200 at flow resolution"
+      },
+      "transport": {
+       "abstain": "eroded material 0 px < 200 at flow resolution"
+      },
+      "extent1": {
+       "abstain": "eroded material 0 px < 200 at flow resolution"
+      },
+      "transport1": {
+       "abstain": "eroded material 0 px < 200 at flow resolution"
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "68745024facf73df55dc7fcbeed70b2fe8dedf33e04f70e2f523de2ee1578bcd",
+      "abstain": "eroded material 0 px < 200 at flow resolution",
+      "v0": {
+       "abstain": "eroded material 0 px < 200 at flow resolution"
+      },
+      "v1": {
+       "abstain": "eroded material 0 px < 200 at flow resolution"
+      },
+      "v2": {
+       "abstain": "eroded material 0 px < 200 at flow resolution"
+      },
+      "extent": {
+       "abstain": "eroded material 0 px < 200 at flow resolution"
+      },
+      "transport": {
+       "abstain": "eroded material 0 px < 200 at flow resolution"
+      },
+      "extent1": {
+       "abstain": "eroded material 0 px < 200 at flow resolution"
+      },
+      "transport1": {
+       "abstain": "eroded material 0 px < 200 at flow resolution"
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "icb05",
+   "category": "combustion",
+   "route": "up",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "9162fa566d6a20b6496e0701a755a10080cf89e032951034a6b25b15f5b61f07",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "abstain": "material 0.008 of the frame < 0.02"
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.47292155027389526,
+       "damp_support": 0.578942596912384,
+       "damp_material_active": 0.47292155027389526,
+       "active_px": 1110,
+       "delta": -0.10602104663848877
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "abstain": "material 0.008 of the frame < 0.02"
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.47292155027389526,
+       "damp_support": 0.578942596912384,
+       "damp_material_active": 0.47292155027389526,
+       "active_px": 1110,
+       "delta": -0.10602104663848877
+      },
+      "v0": {
+       "tau": 0.4185391217470169,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.9850630164146423,
+       "weight": 100.31474304199219
+      },
+      "v1": {
+       "G": -0.8647891879081726,
+       "weight": 166.2720489501953,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.7192050168182285,
+       "gate": {
+        "tau1": 0.1636848971247673,
+        "active_frac": 1.0,
+        "support_active_frac": 0.05000682946077613,
+        "material_activity_median": 0.21066917479038239
+       }
+      },
+      "v2": {
+       "G": -0.8647891879081726,
+       "weight": 166.2720489501953,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.7192050168182285,
+       "gate": {
+        "tau1": 0.1636848971247673,
+        "active_frac": 1.0,
+        "support_active_frac": 0.05000682946077613,
+        "material_activity_median": 0.21066917479038239,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "9162fa566d6a20b6496e0701a755a10080cf89e032951034a6b25b15f5b61f07",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "abstain": "material 0.008 of the frame < 0.02"
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.4526869058609009,
+       "damp_support": 0.556254506111145,
+       "damp_material_active": 0.4526869058609009,
+       "active_px": 1110,
+       "delta": -0.10356760025024414
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "abstain": "material 0.008 of the frame < 0.02"
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.4526869058609009,
+       "damp_support": 0.556254506111145,
+       "damp_material_active": 0.4526869058609009,
+       "active_px": 1110,
+       "delta": -0.10356760025024414
+      },
+      "v0": {
+       "tau": 0.514928549528122,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.937783420085907,
+       "weight": 516.5341796875
+      },
+      "v1": {
+       "G": -0.9395626187324524,
+       "weight": 541.0487670898438,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.8276123773989968,
+       "gate": {
+        "tau1": 0.14524490386247635,
+        "active_frac": 1.0,
+        "support_active_frac": 0.05000682946077613,
+        "material_activity_median": 0.26321542263031006
+       }
+      },
+      "v2": {
+       "G": -0.9395626187324524,
+       "weight": 541.0487670898438,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.8276123773989968,
+       "gate": {
+        "tau1": 0.14524490386247635,
+        "active_frac": 1.0,
+        "support_active_frac": 0.05000682946077613,
+        "material_activity_median": 0.26321542263031006,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "icf01",
+   "category": "channel_flow",
+   "route": "channel",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "518fe837c678419bb6a59e56e70af69c4d60cdbce13793acfe6f8f2ebbeb970c",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.5917082577132486,
+       "E10": 0.19922961294651031,
+       "C_sub": [
+        0.5636153962492438,
+        0.5814995462794919,
+        0.5579438898971567,
+        0.5546827737447066
+       ],
+       "C_min": 0.5546827737447066,
+       "C_end": 0.5546827737447066,
+       "material_frac": 0.7361389445557782
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.6052823066711426,
+       "damp_support": 0.5180470943450928,
+       "damp_material_active": 0.5750358700752258,
+       "active_px": 62598,
+       "delta": 0.0872352123260498
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.5917082577132486,
+       "E10": 0.2567247748374939,
+       "C_sub": [
+        0.5636153962492438,
+        0.5814995462794919,
+        0.5579438898971567,
+        0.5546827737447066
+       ],
+       "C_min": 0.5546827737447066,
+       "C_end": 0.5546827737447066,
+       "material_frac": 0.7361389445557782
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.6052823066711426,
+       "damp_support": 0.5180470943450928,
+       "damp_material_active": 0.5750358700752258,
+       "active_px": 62598,
+       "delta": 0.0872352123260498
+      },
+      "v0": {
+       "tau": 0.035784798860549916,
+       "identity": "cand-channel-alignment-0",
+       "A": -0.2153603732585907,
+       "weight": 5773.91796875,
+       "bank_px": 1965,
+       "coherent_frac": 0.4234630217785844,
+       "A_near": -0.03568028658628464,
+       "sign_stability": 0.9254806782699321
+      },
+      "v1": {
+       "A": -0.33505502343177795,
+       "weight": 4899.93505859375,
+       "bank_px": 1965,
+       "coherent_frac": 0.4234630217785844,
+       "A_near": -0.3560163378715515,
+       "sign_stability": 0.9369895404337814,
+       "identity": [
+        "cand-channel-alignment-1",
+        "cand-sign-stability-1"
+       ],
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.5917082577132486,
+        "support_active_frac": 0.005702647657841141,
+        "material_activity_median": 0.1155540868639946
+       }
+      },
+      "v2": {
+       "A": -0.33505502343177795,
+       "weight": 4899.93505859375,
+       "bank_px": 1965,
+       "coherent_frac": 0.4234630217785844,
+       "A_near": -0.3560163378715515,
+       "sign_stability": 0.9369895404337814,
+       "identity": [
+        "cand-channel-alignment-2",
+        "cand-sign-stability-2"
+       ],
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.5917082577132486,
+        "support_active_frac": 0.005702647657841141,
+        "material_activity_median": 0.1155540868639946,
+        "static_frac": 0.00017959770114942528,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "518fe837c678419bb6a59e56e70af69c4d60cdbce13793acfe6f8f2ebbeb970c",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.820638611615245,
+       "E10": 0.1909681260585785,
+       "C_sub": [
+        0.7016787658802178,
+        0.7858628251663642,
+        0.7900502873563219,
+        0.9212416817906836
+       ],
+       "C_min": 0.7016787658802178,
+       "C_end": 0.9212416817906836,
+       "material_frac": 0.7361389445557782
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.6352230906486511,
+       "damp_support": 0.5563583970069885,
+       "damp_material_active": 0.6015107035636902,
+       "active_px": 86817,
+       "delta": 0.0788646936416626
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.820638611615245,
+       "E10": 0.21188615262508392,
+       "C_sub": [
+        0.7016787658802178,
+        0.7825355414398064,
+        0.7900502873563219,
+        0.9212416817906836
+       ],
+       "C_min": 0.7016787658802178,
+       "C_end": 0.9212416817906836,
+       "material_frac": 0.7361389445557782
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.6352230906486511,
+       "damp_support": 0.5563583970069885,
+       "damp_material_active": 0.6015107035636902,
+       "active_px": 86817,
+       "delta": 0.0788646936416626
+      },
+      "v0": {
+       "tau": 0.07369013875722881,
+       "identity": "cand-channel-alignment-0",
+       "A": 0.2048945128917694,
+       "weight": 6105.26123046875,
+       "bank_px": 1965,
+       "coherent_frac": 0.4234630217785844,
+       "A_near": 0.06930501013994217,
+       "sign_stability": 0.8083193115267026
+      },
+      "v1": {
+       "A": 0.18096254765987396,
+       "weight": 5514.90283203125,
+       "bank_px": 1965,
+       "coherent_frac": 0.4234630217785844,
+       "A_near": -0.05608127638697624,
+       "sign_stability": 0.8069626413855263,
+       "identity": [
+        "cand-channel-alignment-1",
+        "cand-sign-stability-1"
+       ],
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.820638611615245,
+        "support_active_frac": 0.048472505091649694,
+        "material_activity_median": 0.14481675624847412
+       }
+      },
+      "v2": {
+       "A": 0.18096254765987396,
+       "weight": 5514.90283203125,
+       "bank_px": 1965,
+       "coherent_frac": 0.4234630217785844,
+       "A_near": -0.05608127638697624,
+       "sign_stability": 0.8069626413855263,
+       "identity": [
+        "cand-channel-alignment-2",
+        "cand-sign-stability-2"
+       ],
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.820638611615245,
+        "support_active_frac": 0.048472505091649694,
+        "material_activity_median": 0.14481675624847412,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "icf02",
+   "category": "channel_flow",
+   "route": "channel",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "3902d1e4e2c17c6fd411fceabfcd79ba684bdd68418ab7d4af893307a3639785",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.17102257907390578,
+       "C": 0.5836993945150184,
+       "E10": 0.20239390432834625,
+       "C_sub": [
+        0.6839012228422178,
+        0.2551347500890419,
+        0.6200284934108987,
+        0.6017452214175472
+       ],
+       "C_min": 0.2551347500890419,
+       "C_end": 0.6017452214175472,
+       "material_frac": 0.1172205522155422
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.5562629103660583,
+       "damp_support": 0.45922568440437317,
+       "damp_material_active": 0.6643187403678894,
+       "active_px": 9833,
+       "delta": 0.09703722596168518
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.17102257907390578,
+       "C": 0.5836993945150184,
+       "E10": 0.24586334824562073,
+       "C_sub": [
+        0.6839012228422178,
+        0.2551347500890419,
+        0.6200284934108987,
+        0.6017452214175472
+       ],
+       "C_min": 0.2551347500890419,
+       "C_end": 0.6017452214175472,
+       "material_frac": 0.1172205522155422
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.5562629103660583,
+       "damp_support": 0.45922568440437317,
+       "damp_material_active": 0.6643187403678894,
+       "active_px": 9833,
+       "delta": 0.09703722596168518
+      },
+      "v0": {
+       "tau": 0.523546707630157,
+       "identity": "cand-channel-alignment-0",
+       "A": 0.6227757334709167,
+       "weight": 1394.737548828125,
+       "bank_px": 1632,
+       "coherent_frac": 0.9357117416597411,
+       "A_near": 0.6733605861663818,
+       "sign_stability": 0.8783955500201965
+      },
+      "v1": {
+       "A": 0.6055861115455627,
+       "weight": 2505.634765625,
+       "bank_px": 1632,
+       "coherent_frac": 0.9357117416597411,
+       "A_near": 0.6317115426063538,
+       "sign_stability": 0.8500705382864908,
+       "identity": [
+        "cand-channel-alignment-1",
+        "cand-sign-stability-1"
+       ],
+       "gate": {
+        "tau1": 0.17102257907390578,
+        "active_frac": 0.5836993945150184,
+        "support_active_frac": 0.0500025076483274,
+        "material_activity_median": 0.24603399634361267
+       }
+      },
+      "v2": {
+       "A": 0.6055861115455627,
+       "weight": 2505.634765625,
+       "bank_px": 1632,
+       "coherent_frac": 0.9357117416597411,
+       "A_near": 0.6317115426063538,
+       "sign_stability": 0.8500705382864908,
+       "identity": [
+        "cand-channel-alignment-2",
+        "cand-sign-stability-2"
+       ],
+       "gate": {
+        "tau1": 0.17102257907390578,
+        "active_frac": 0.5836993945150184,
+        "support_active_frac": 0.0500025076483274,
+        "material_activity_median": 0.24603399634361267,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "3902d1e4e2c17c6fd411fceabfcd79ba684bdd68418ab7d4af893307a3639785",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.2095730632543558,
+       "C": 0.6343345601329693,
+       "E10": 0.18489879369735718,
+       "C_sub": [
+        0.5815623886976137,
+        0.3863231627686098,
+        0.8125964620681467,
+        0.5944437848747477
+       ],
+       "C_min": 0.3863231627686098,
+       "C_end": 0.5944437848747477,
+       "material_frac": 0.1172205522155422
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.3588956296443939,
+       "damp_support": 0.49220141768455505,
+       "damp_material_active": 0.31331101059913635,
+       "active_px": 10686,
+       "delta": -0.13330578804016113
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.2095730632543558,
+       "C": 0.6343345601329693,
+       "E10": 0.2314463108778,
+       "C_sub": [
+        0.5815623886976137,
+        0.3863231627686098,
+        0.8125964620681467,
+        0.5944437848747477
+       ],
+       "C_min": 0.3863231627686098,
+       "C_end": 0.5944437848747477,
+       "material_frac": 0.1172205522155422
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.3588956296443939,
+       "damp_support": 0.49220141768455505,
+       "damp_material_active": 0.31331101059913635,
+       "active_px": 10686,
+       "delta": -0.13330578804016113
+      },
+      "v0": {
+       "tau": 0.6752346277236929,
+       "identity": "cand-channel-alignment-0",
+       "A": 0.8430359363555908,
+       "weight": 273.307861328125,
+       "bank_px": 1632,
+       "coherent_frac": 0.9357117416597411,
+       "A_near": 0.8496643304824829,
+       "sign_stability": 0.7285574213639409
+      },
+      "v1": {
+       "A": 0.3345453441143036,
+       "weight": 791.7197265625,
+       "bank_px": 1632,
+       "coherent_frac": 0.9357117416597411,
+       "A_near": 0.6010568141937256,
+       "sign_stability": 0.6273188801398946,
+       "identity": [
+        "cand-channel-alignment-1",
+        "cand-sign-stability-1"
+       ],
+       "gate": {
+        "tau1": 0.2095730632543558,
+        "active_frac": 0.6343345601329693,
+        "support_active_frac": 0.0500025076483274,
+        "material_activity_median": 0.2633858323097229
+       }
+      },
+      "v2": {
+       "A": 0.3345453441143036,
+       "weight": 791.7197265625,
+       "bank_px": 1632,
+       "coherent_frac": 0.9357117416597411,
+       "A_near": 0.6010568141937256,
+       "sign_stability": 0.6273188801398946,
+       "identity": [
+        "cand-channel-alignment-2",
+        "cand-sign-stability-2"
+       ],
+       "gate": {
+        "tau1": 0.2095730632543558,
+        "active_frac": 0.6343345601329693,
+        "support_active_frac": 0.0500025076483274,
+        "material_activity_median": 0.2633858323097229,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "icf03",
+   "category": "channel_flow",
+   "route": "channel",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "421482f26e41430a302367ef0b419313af29e588f8f3fe430513fc582dd90721",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.10993643887341022,
+       "C": 0.8897696047347284,
+       "E10": 0.1638115793466568,
+       "C_sub": [
+        0.8762770379764673,
+        0.9675191996054393,
+        0.8103642640738392,
+        0.7408229408863525
+       ],
+       "C_min": 0.7408229408863525,
+       "C_end": 0.7408229408863525,
+       "material_frac": 0.19752004008016033
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.8326306939125061,
+       "damp_support": 0.7756134271621704,
+       "damp_material_active": 0.8630288243293762,
+       "active_px": 25257,
+       "delta": 0.05701726675033569
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.10993643887341022,
+       "C": 0.8897696047347284,
+       "E10": 0.17233526706695557,
+       "C_sub": [
+        0.8762770379764673,
+        0.9675191996054393,
+        0.8103642640738392,
+        0.7408229408863525
+       ],
+       "C_min": 0.7408229408863525,
+       "C_end": 0.7408229408863525,
+       "material_frac": 0.19752004008016033
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.8326306939125061,
+       "damp_support": 0.7756134271621704,
+       "damp_material_active": 0.8630288243293762,
+       "active_px": 25257,
+       "delta": 0.05701726675033569
+      },
+      "v0": {
+       "tau": 0.11038550063967699,
+       "identity": "cand-channel-alignment-0",
+       "A": 0.42428478598594666,
+       "weight": 5264.375,
+       "bank_px": 1844,
+       "coherent_frac": 1.0,
+       "A_near": 0.6280972361564636,
+       "sign_stability": 0.9438516978721485
+      },
+      "v1": {
+       "A": 0.42402464151382446,
+       "weight": 5267.7763671875,
+       "bank_px": 1844,
+       "coherent_frac": 1.0,
+       "A_near": 0.6265528202056885,
+       "sign_stability": 0.9438030159375467,
+       "identity": [
+        "cand-channel-alignment-1",
+        "cand-sign-stability-1"
+       ],
+       "gate": {
+        "tau1": 0.10993643887341022,
+        "active_frac": 0.8897696047347284,
+        "support_active_frac": 0.05000884590434629,
+        "material_activity_median": 0.19676682353019714
+       }
+      },
+      "v2": {
+       "A": 0.42402464151382446,
+       "weight": 5267.7763671875,
+       "bank_px": 1844,
+       "coherent_frac": 1.0,
+       "A_near": 0.6265528202056885,
+       "sign_stability": 0.9438030159375467,
+       "identity": [
+        "cand-channel-alignment-2",
+        "cand-sign-stability-2"
+       ],
+       "gate": {
+        "tau1": 0.10993643887341022,
+        "active_frac": 0.8897696047347284,
+        "support_active_frac": 0.05000884590434629,
+        "material_activity_median": 0.19676682353019714,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "421482f26e41430a302367ef0b419313af29e588f8f3fe430513fc582dd90721",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.21542748063802716,
+       "C": 0.8530613682801381,
+       "E10": 0.14871177077293396,
+       "C_sub": [
+        0.8639117875008807,
+        0.944233072641443,
+        0.7945113788487282,
+        0.6458465440710209
+       ],
+       "C_min": 0.6458465440710209,
+       "C_end": 0.6458465440710209,
+       "material_frac": 0.19752004008016033
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.8548458218574524,
+       "damp_support": 0.8541014194488525,
+       "damp_material_active": 0.8842596411705017,
+       "active_px": 24215,
+       "delta": 0.0007444024085998535
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.21542748063802716,
+       "C": 0.8530613682801381,
+       "E10": 0.16186539828777313,
+       "C_sub": [
+        0.8639117875008807,
+        0.944233072641443,
+        0.7945113788487282,
+        0.6458465440710209
+       ],
+       "C_min": 0.6458465440710209,
+       "C_end": 0.6458465440710209,
+       "material_frac": 0.19752004008016033
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.8548458218574524,
+       "damp_support": 0.8541014194488525,
+       "damp_material_active": 0.8842596411705017,
+       "active_px": 24215,
+       "delta": 0.0007444024085998535
+      },
+      "v0": {
+       "tau": 0.21547482386231423,
+       "identity": "cand-channel-alignment-0",
+       "A": 0.4524240493774414,
+       "weight": 9225.4501953125,
+       "bank_px": 1844,
+       "coherent_frac": 1.0,
+       "A_near": 0.6929433941841125,
+       "sign_stability": 0.9644981560302851
+      },
+      "v1": {
+       "A": 0.4524240493774414,
+       "weight": 9225.4501953125,
+       "bank_px": 1844,
+       "coherent_frac": 1.0,
+       "A_near": 0.6929433941841125,
+       "sign_stability": 0.9644981560302851,
+       "identity": [
+        "cand-channel-alignment-1",
+        "cand-sign-stability-1"
+       ],
+       "gate": {
+        "tau1": 0.21542748063802716,
+        "active_frac": 0.8530613682801381,
+        "support_active_frac": 0.05000884590434629,
+        "material_activity_median": 0.3290630877017975
+       }
+      },
+      "v2": {
+       "A": 0.4524240493774414,
+       "weight": 9225.4501953125,
+       "bank_px": 1844,
+       "coherent_frac": 1.0,
+       "A_near": 0.6929433941841125,
+       "sign_stability": 0.9644981560302851,
+       "identity": [
+        "cand-channel-alignment-2",
+        "cand-sign-stability-2"
+       ],
+       "gate": {
+        "tau1": 0.21542748063802716,
+        "active_frac": 0.8530613682801381,
+        "support_active_frac": 0.05000884590434629,
+        "material_activity_median": 0.3290630877017975,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "icf04",
+   "category": "channel_flow",
+   "route": "channel",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "9d0f02e3c9493d21400915157df16daeec4b67af212130aa3dda46819fec0c88",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.8571814321133122,
+       "E10": 0.23548465967178345,
+       "C_sub": [
+        0.8649630556987505,
+        0.8673932788374206,
+        0.79986253283256,
+        0.8225937108770897
+       ],
+       "C_min": 0.79986253283256,
+       "C_end": 0.8225937108770897,
+       "material_frac": 0.2834627588510354
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.7626830339431763,
+       "damp_support": 0.4346756935119629,
+       "damp_material_active": 0.8205831050872803,
+       "active_px": 34919,
+       "delta": 0.3280073404312134
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.8571814321133122,
+       "E10": 0.2400265634059906,
+       "C_sub": [
+        0.8649630556987505,
+        0.8673932788374206,
+        0.79986253283256,
+        0.8225937108770897
+       ],
+       "C_min": 0.79986253283256,
+       "C_end": 0.8225937108770897,
+       "material_frac": 0.2834627588510354
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.7626830339431763,
+       "damp_support": 0.4346756935119629,
+       "damp_material_active": 0.8205831050872803,
+       "active_px": 34919,
+       "delta": 0.3280073404312134
+      },
+      "v0": {
+       "tau": 0.07692421488463877,
+       "identity": "cand-channel-alignment-0",
+       "A": 0.9915978908538818,
+       "weight": 534.8817138671875,
+       "bank_px": 6596,
+       "coherent_frac": 0.02147924491248742,
+       "A_near": 0.9915978908538818,
+       "sign_stability": 0.9976712246182272
+      },
+      "v1": {
+       "A": 0.9916249513626099,
+       "weight": 534.345947265625,
+       "bank_px": 6596,
+       "coherent_frac": 0.02147924491248742,
+       "A_near": 0.9916249513626099,
+       "sign_stability": 0.9976937897234994,
+       "identity": [
+        "cand-channel-alignment-1",
+        "cand-sign-stability-1"
+       ],
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.8571814321133122,
+        "support_active_frac": 0.04251012145748988,
+        "material_activity_median": 0.42078784108161926
+       }
+      },
+      "v2": {
+       "A": 0.9916249513626099,
+       "weight": 534.345947265625,
+       "bank_px": 6596,
+       "coherent_frac": 0.02147924491248742,
+       "A_near": 0.9916249513626099,
+       "sign_stability": 0.9976937897234994,
+       "identity": [
+        "cand-channel-alignment-2",
+        "cand-sign-stability-2"
+       ],
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.8571814321133122,
+        "support_active_frac": 0.04251012145748988,
+        "material_activity_median": 0.42078784108161926,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "9d0f02e3c9493d21400915157df16daeec4b67af212130aa3dda46819fec0c88",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1318714693188667,
+       "C": 0.8243611458870315,
+       "E10": 0.25260066986083984,
+       "C_sub": [
+        0.8550457814762992,
+        0.8604217296315388,
+        0.7326263593293566,
+        0.8077177995434126
+       ],
+       "C_min": 0.7326263593293566,
+       "C_end": 0.8077177995434126,
+       "material_frac": 0.2834627588510354
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.7441030144691467,
+       "damp_support": 0.3892597258090973,
+       "damp_material_active": 0.7894610166549683,
+       "active_px": 33582,
+       "delta": 0.35484328866004944
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1318714693188667,
+       "C": 0.8243611458870315,
+       "E10": 0.2597300410270691,
+       "C_sub": [
+        0.8550457814762992,
+        0.8604217296315388,
+        0.7326263593293566,
+        0.8077177995434126
+       ],
+       "C_min": 0.7326263593293566,
+       "C_end": 0.8077177995434126,
+       "material_frac": 0.2834627588510354
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.7441030144691467,
+       "damp_support": 0.3892597258090973,
+       "damp_material_active": 0.7894610166549683,
+       "active_px": 33582,
+       "delta": 0.35484328866004944
+      },
+      "v0": {
+       "tau": 0.10682150386273856,
+       "identity": "cand-channel-alignment-0",
+       "A": 0.9856327772140503,
+       "weight": 879.99267578125,
+       "bank_px": 6596,
+       "coherent_frac": 0.02147924491248742,
+       "A_near": 0.9856327772140503,
+       "sign_stability": 0.9958821784296729
+      },
+      "v1": {
+       "A": 0.9856503009796143,
+       "weight": 879.2054443359375,
+       "bank_px": 6596,
+       "coherent_frac": 0.02147924491248742,
+       "A_near": 0.9856503009796143,
+       "sign_stability": 0.995897233701454,
+       "identity": [
+        "cand-channel-alignment-1",
+        "cand-sign-stability-1"
+       ],
+       "gate": {
+        "tau1": 0.1318714693188667,
+        "active_frac": 0.8243611458870315,
+        "support_active_frac": 0.050101214574898786,
+        "material_activity_median": 0.48066192865371704
+       }
+      },
+      "v2": {
+       "A": 0.9856503009796143,
+       "weight": 879.2054443359375,
+       "bank_px": 6596,
+       "coherent_frac": 0.02147924491248742,
+       "A_near": 0.9856503009796143,
+       "sign_stability": 0.995897233701454,
+       "identity": [
+        "cand-channel-alignment-2",
+        "cand-sign-stability-2"
+       ],
+       "gate": {
+        "tau1": 0.1318714693188667,
+        "active_frac": 0.8243611458870315,
+        "support_active_frac": 0.050101214574898786,
+        "material_activity_median": 0.48066192865371704,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "icf05",
+   "category": "channel_flow",
+   "route": "channel",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "bbf716d725d0cce7fb831cec01040b80948ef3a407fdfbf92dc118cb07face73",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.8607276141643524,
+       "C": 0.37068204444277475,
+       "E10": 0.13942745327949524,
+       "C_sub": [
+        0.28491462704510023,
+        0.4906925634427184,
+        0.7568044780885474,
+        0.10868381013205101
+       ],
+       "C_min": 0.10868381013205101,
+       "C_end": 0.10868381013205101,
+       "material_frac": 0.3704422734357604
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.7743303179740906,
+       "damp_support": 0.7854023575782776,
+       "damp_material_active": 0.8152713775634766,
+       "active_px": 19734,
+       "delta": -0.011072039604187012
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.8607276141643524,
+       "C": 0.37068204444277475,
+       "E10": 0.3073287904262543,
+       "C_sub": [
+        0.28491462704510023,
+        0.4906925634427184,
+        0.7568044780885474,
+        0.10868381013205101
+       ],
+       "C_min": 0.10868381013205101,
+       "C_end": 0.10868381013205101,
+       "material_frac": 0.3704422734357604
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.7743303179740906,
+       "damp_support": 0.7854023575782776,
+       "damp_material_active": 0.8152713775634766,
+       "active_px": 19734,
+       "delta": -0.011072039604187012
+      },
+      "v0": {
+       "tau": 0.9455372780561446,
+       "identity": "cand-channel-alignment-0",
+       "A": 0.8144212365150452,
+       "weight": 3884.595947265625,
+       "bank_px": 2708,
+       "coherent_frac": 0.8541052275672935,
+       "A_near": 0.8660485744476318,
+       "sign_stability": 0.9722191827522989
+      },
+      "v1": {
+       "A": 0.7472161054611206,
+       "weight": 6602.625,
+       "bank_px": 2708,
+       "coherent_frac": 0.8541052275672935,
+       "A_near": 0.7460567951202393,
+       "sign_stability": 0.9688535089132608,
+       "identity": [
+        "cand-channel-alignment-1",
+        "cand-sign-stability-1"
+       ],
+       "gate": {
+        "tau1": 0.8607276141643524,
+        "active_frac": 0.37068204444277475,
+        "support_active_frac": 0.05005213764337852,
+        "material_activity_median": 0.8177416920661926
+       }
+      },
+      "v2": {
+       "A": 0.7472161054611206,
+       "weight": 6602.625,
+       "bank_px": 2708,
+       "coherent_frac": 0.8541052275672935,
+       "A_near": 0.7460567951202393,
+       "sign_stability": 0.9688535089132608,
+       "identity": [
+        "cand-channel-alignment-2",
+        "cand-sign-stability-2"
+       ],
+       "gate": {
+        "tau1": 0.8607276141643524,
+        "active_frac": 0.37068204444277475,
+        "support_active_frac": 0.05005213764337852,
+        "material_activity_median": 0.8177416920661926,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "bbf716d725d0cce7fb831cec01040b80948ef3a407fdfbf92dc118cb07face73",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 2.262470817565918,
+       "C": 0.41431711028044405,
+       "E10": 0.14971224963665009,
+       "C_sub": [
+        0.29984785017938653,
+        0.5227942971993162,
+        0.4363318744482221,
+        0.4782951706519902
+       ],
+       "C_min": 0.29984785017938653,
+       "C_end": 0.4782951706519902,
+       "material_frac": 0.3704422734357604
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.4401598274707794,
+       "damp_support": 0.7903026938438416,
+       "damp_material_active": 0.28685691952705383,
+       "active_px": 22057,
+       "delta": -0.35014286637306213
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 2.262470817565918,
+       "C": 0.41431711028044405,
+       "E10": 0.2750316262245178,
+       "C_sub": [
+        0.29984785017938653,
+        0.5227942971993162,
+        0.4363318744482221,
+        0.4782951706519902
+       ],
+       "C_min": 0.29984785017938653,
+       "C_end": 0.4782951706519902,
+       "material_frac": 0.3704422734357604
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.4401598274707794,
+       "damp_support": 0.7903026938438416,
+       "damp_material_active": 0.28685691952705383,
+       "active_px": 22057,
+       "delta": -0.35014286637306213
+      },
+      "v0": {
+       "tau": 2.184375274181366,
+       "identity": "cand-channel-alignment-0",
+       "A": 0.960939347743988,
+       "weight": 22.533926010131836,
+       "bank_px": 2708,
+       "coherent_frac": 0.8541052275672935,
+       "A_near": 0.960939347743988,
+       "sign_stability": 0.9982657074403029
+      },
+      "v1": {
+       "abstain": "no steady material flow above tau on coherent banks",
+       "identity": [
+        "cand-channel-alignment-1",
+        "cand-sign-stability-1"
+       ],
+       "gate": {
+        "tau1": 2.262470817565918,
+        "active_frac": 0.41431711028044405,
+        "support_active_frac": 0.05005213764337852,
+        "material_activity_median": 2.1070823669433594
+       }
+      },
+      "v2": {
+       "abstain": "no steady material flow above tau on coherent banks",
+       "identity": [
+        "cand-channel-alignment-2",
+        "cand-sign-stability-2"
+       ],
+       "gate": {
+        "tau1": 2.262470817565918,
+        "active_frac": 0.41431711028044405,
+        "support_active_frac": 0.05005213764337852,
+        "material_activity_median": 2.1070823669433594,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "icf06",
+   "category": "channel_flow",
+   "route": "channel",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "12c6ae3828d45c4780e1697688dc6e2a72178bd8185ceea089d8b8d4f2f07e3c",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.11948721148073654,
+       "C": 0.7383572497579012,
+       "E10": 0.20141032338142395,
+       "C_sub": [
+        0.7787657364204595,
+        0.6993573377938199,
+        0.7584294392111982,
+        0.7161721982568888
+       ],
+       "C_min": 0.6993573377938199,
+       "C_end": 0.7161721982568888,
+       "material_frac": 0.07904002449343131
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.6872311234474182,
+       "damp_support": 0.5221489071846008,
+       "damp_material_active": 0.7694610357284546,
+       "active_px": 8387,
+       "delta": 0.16508221626281738
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.11948721148073654,
+       "C": 0.7383572497579012,
+       "E10": 0.20698852837085724,
+       "C_sub": [
+        0.7787657364204595,
+        0.6993573377938199,
+        0.7584294392111982,
+        0.7161721982568888
+       ],
+       "C_min": 0.6993573377938199,
+       "C_end": 0.7161721982568888,
+       "material_frac": 0.07904002449343131
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.6872311234474182,
+       "damp_support": 0.5221489071846008,
+       "damp_material_active": 0.7694610357284546,
+       "active_px": 8387,
+       "delta": 0.16508221626281738
+      },
+      "v0": {
+       "tau": 0.09890914820134623,
+       "identity": "cand-channel-alignment-0",
+       "A": 0.31319573521614075,
+       "weight": 3364.939453125,
+       "bank_px": 1316,
+       "coherent_frac": 0.3723038999911964,
+       "A_near": 0.8423994183540344,
+       "sign_stability": 0.7427443047792665
+      },
+      "v1": {
+       "A": 0.313191682100296,
+       "weight": 3364.880859375,
+       "bank_px": 1316,
+       "coherent_frac": 0.3723038999911964,
+       "A_near": 0.8424136638641357,
+       "sign_stability": 0.7427445702499877,
+       "identity": [
+        "cand-channel-alignment-1",
+        "cand-sign-stability-1"
+       ],
+       "gate": {
+        "tau1": 0.11948721148073654,
+        "active_frac": 0.7383572497579012,
+        "support_active_frac": 0.050013879892662164,
+        "material_activity_median": 0.9184278249740601
+       }
+      },
+      "v2": {
+       "A": 0.313191682100296,
+       "weight": 3364.880859375,
+       "bank_px": 1316,
+       "coherent_frac": 0.3723038999911964,
+       "A_near": 0.8424136638641357,
+       "sign_stability": 0.7427445702499877,
+       "identity": [
+        "cand-channel-alignment-2",
+        "cand-sign-stability-2"
+       ],
+       "gate": {
+        "tau1": 0.11948721148073654,
+        "active_frac": 0.7383572497579012,
+        "support_active_frac": 0.050013879892662164,
+        "material_activity_median": 0.9184278249740601,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "12c6ae3828d45c4780e1697688dc6e2a72178bd8185ceea089d8b8d4f2f07e3c",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.22841334566473936,
+       "C": 0.6899374944977551,
+       "E10": 0.2630384862422943,
+       "C_sub": [
+        0.7435513689585351,
+        0.7166123778501629,
+        0.7265604366581565,
+        0.6718901311735188
+       ],
+       "C_min": 0.6718901311735188,
+       "C_end": 0.6718901311735188,
+       "material_frac": 0.07904002449343131
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.6464309692382812,
+       "damp_support": 0.6120178699493408,
+       "damp_material_active": 0.7019872069358826,
+       "active_px": 7837,
+       "delta": 0.03441309928894043
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.22841334566473936,
+       "C": 0.6899374944977551,
+       "E10": 0.28152647614479065,
+       "C_sub": [
+        0.7435513689585351,
+        0.7166123778501629,
+        0.7265604366581565,
+        0.6718901311735188
+       ],
+       "C_min": 0.6718901311735188,
+       "C_end": 0.6718901311735188,
+       "material_frac": 0.07904002449343131
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.6464309692382812,
+       "damp_support": 0.6120178699493408,
+       "damp_material_active": 0.7019872069358826,
+       "active_px": 7837,
+       "delta": 0.03441309928894043
+      },
+      "v0": {
+       "tau": 0.1897879391908644,
+       "identity": "cand-channel-alignment-0",
+       "A": 0.2965158522129059,
+       "weight": 4634.63818359375,
+       "bank_px": 1316,
+       "coherent_frac": 0.3723038999911964,
+       "A_near": 0.8605906963348389,
+       "sign_stability": 0.7493904750525718
+      },
+      "v1": {
+       "A": 0.2965170443058014,
+       "weight": 4634.01513671875,
+       "bank_px": 1316,
+       "coherent_frac": 0.3723038999911964,
+       "A_near": 0.8607725501060486,
+       "sign_stability": 0.7493928613555375,
+       "identity": [
+        "cand-channel-alignment-1",
+        "cand-sign-stability-1"
+       ],
+       "gate": {
+        "tau1": 0.22841334566473936,
+        "active_frac": 0.6899374944977551,
+        "support_active_frac": 0.050013879892662164,
+        "material_activity_median": 0.7718950510025024
+       }
+      },
+      "v2": {
+       "A": 0.2965170443058014,
+       "weight": 4634.01513671875,
+       "bank_px": 1316,
+       "coherent_frac": 0.3723038999911964,
+       "A_near": 0.8607725501060486,
+       "sign_stability": 0.7493928613555375,
+       "identity": [
+        "cand-channel-alignment-2",
+        "cand-sign-stability-2"
+       ],
+       "gate": {
+        "tau1": 0.22841334566473936,
+        "active_frac": 0.6899374944977551,
+        "support_active_frac": 0.050013879892662164,
+        "material_activity_median": 0.7718950510025024,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "ifw01",
+   "category": "falling_water",
+   "route": "down",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "e2d41852d3585f9a1a4ae244c04270b89fa38eb7f3ebdef7f746a730a7c51aa4",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.41154903758020167,
+       "E10": 0.21146312355995178,
+       "C_sub": [
+        0.6057352363493519,
+        0.3775042555977478,
+        0.33848369778708914,
+        0.4470341757234516
+       ],
+       "C_min": 0.33848369778708914,
+       "C_end": 0.4470341757234516,
+       "material_frac": 0.05314100423068359
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.38528406620025635,
+       "damp_support": 0.4950789213180542,
+       "damp_material_active": 0.4171315133571625,
+       "active_px": 3143,
+       "delta": -0.10979485511779785
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.41154903758020167,
+       "E10": 0.35642683506011963,
+       "C_sub": [
+        0.6057352363493519,
+        0.3775042555977478,
+        0.33848369778708914,
+        0.4470341757234516
+       ],
+       "C_min": 0.33848369778708914,
+       "C_end": 0.4470341757234516,
+       "material_frac": 0.05314100423068359
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.38528406620025635,
+       "damp_support": 0.4950789213180542,
+       "damp_material_active": 0.4171315133571625,
+       "active_px": 3143,
+       "delta": -0.10979485511779785
+      },
+      "v0": {
+       "tau": 0.054725341498851776,
+       "identity": "cand-gravity-sign-0",
+       "G": 0.8975489735603333,
+       "weight": 461.6495361328125
+      },
+      "v1": {
+       "G": 0.9178602695465088,
+       "weight": 422.35986328125,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.6617750362609764,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.41154903758020167,
+        "support_active_frac": 0.00963410710959855,
+        "material_activity_median": 0.0897027999162674
+       }
+      },
+      "v2": {
+       "G": 0.9178602695465088,
+       "weight": 422.35986328125,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.6617750362609764,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.41154903758020167,
+        "support_active_frac": 0.00963410710959855,
+        "material_activity_median": 0.0897027999162674,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "e2d41852d3585f9a1a4ae244c04270b89fa38eb7f3ebdef7f746a730a7c51aa4",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.15348076820373535,
+       "C": 0.4669372790362708,
+       "E10": 0.2392401248216629,
+       "C_sub": [
+        0.617781851512374,
+        0.36008904019903104,
+        0.24865784994107634,
+        0.6670158439177688
+       ],
+       "C_min": 0.24865784994107634,
+       "C_end": 0.6670158439177688,
+       "material_frac": 0.05314100423068359
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.4435005187988281,
+       "damp_support": 0.5521534085273743,
+       "damp_material_active": 0.4411100745201111,
+       "active_px": 3566,
+       "delta": -0.10865288972854614
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.15348076820373535,
+       "C": 0.4669372790362708,
+       "E10": 0.37191975116729736,
+       "C_sub": [
+        0.617781851512374,
+        0.36008904019903104,
+        0.24865784994107634,
+        0.6670158439177688
+       ],
+       "C_min": 0.24865784994107634,
+       "C_end": 0.6670158439177688,
+       "material_frac": 0.05314100423068359
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.4435005187988281,
+       "damp_support": 0.5521534085273743,
+       "damp_material_active": 0.4411100745201111,
+       "active_px": 3566,
+       "delta": -0.10865288972854614
+      },
+      "v0": {
+       "tau": 0.10773491114377975,
+       "identity": "cand-gravity-sign-0",
+       "G": 0.6295763254165649,
+       "weight": 572.4283447265625
+      },
+      "v1": {
+       "G": 0.704062819480896,
+       "weight": 450.27642822265625,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.5974471121110247,
+       "gate": {
+        "tau1": 0.15348076820373535,
+        "active_frac": 0.4669372790362708,
+        "support_active_frac": 0.04999915341765294,
+        "material_activity_median": 0.1472519338130951
+       }
+      },
+      "v2": {
+       "G": 0.704062819480896,
+       "weight": 450.27642822265625,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.5974471121110247,
+       "gate": {
+        "tau1": 0.15348076820373535,
+        "active_frac": 0.4669372790362708,
+        "support_active_frac": 0.04999915341765294,
+        "material_activity_median": 0.1472519338130951,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "ifw02",
+   "category": "falling_water",
+   "route": "down",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "7dfaf3de429b919176990af60604a75e955dc496f3ee8aafe24182f38e041b76",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.6787823120325417,
+       "E10": 0.21922865509986877,
+       "C_sub": [
+        0.5965752525915234,
+        0.505248655032148,
+        0.7268731137645978,
+        0.8388006823251541
+       ],
+       "C_min": 0.505248655032148,
+       "C_end": 0.8388006823251541,
+       "material_frac": 0.10605934090403028
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.6497114896774292,
+       "damp_support": 0.4683128595352173,
+       "damp_material_active": 0.6693560481071472,
+       "active_px": 10346,
+       "delta": 0.18139863014221191
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.6787823120325417,
+       "E10": 0.2650658190250397,
+       "C_sub": [
+        0.5965752525915234,
+        0.505248655032148,
+        0.7268731137645978,
+        0.8388006823251541
+       ],
+       "C_min": 0.505248655032148,
+       "C_end": 0.8388006823251541,
+       "material_frac": 0.10605934090403028
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.6497114896774292,
+       "damp_support": 0.4683128595352173,
+       "damp_material_active": 0.6693560481071472,
+       "active_px": 10346,
+       "delta": 0.18139863014221191
+      },
+      "v0": {
+       "tau": 0.04521238654851913,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.11216758191585541,
+       "weight": 1242.9666748046875
+      },
+      "v1": {
+       "G": -0.2140352874994278,
+       "weight": 859.9058837890625,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.5051767765357686,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.6787823120325417,
+        "support_active_frac": 0.0,
+        "material_activity_median": 0.12171909213066101
+       }
+      },
+      "v2": {
+       "G": -0.2140352874994278,
+       "weight": 859.9058837890625,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.5051767765357686,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.6787823120325417,
+        "support_active_frac": 0.0,
+        "material_activity_median": 0.12171909213066101,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "7dfaf3de429b919176990af60604a75e955dc496f3ee8aafe24182f38e041b76",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.8134103136071382,
+       "E10": 0.1812819093465805,
+       "C_sub": [
+        0.7581682193937803,
+        0.7210339850413332,
+        0.8838078992258234,
+        0.9723133447054192
+       ],
+       "C_min": 0.7210339850413332,
+       "C_end": 0.9723133447054192,
+       "material_frac": 0.10605934090403028
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.5278505682945251,
+       "damp_support": 0.4282052516937256,
+       "damp_material_active": 0.5206775069236755,
+       "active_px": 12398,
+       "delta": 0.09964531660079956
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.8134103136071382,
+       "E10": 0.2030784785747528,
+       "C_sub": [
+        0.7581682193937803,
+        0.7210339850413332,
+        0.8838078992258234,
+        0.9723133447054192
+       ],
+       "C_min": 0.7210339850413332,
+       "C_end": 0.9723133447054192,
+       "material_frac": 0.10605934090403028
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.5278505682945251,
+       "damp_support": 0.4282052516937256,
+       "damp_material_active": 0.5206775069236755,
+       "active_px": 12398,
+       "delta": 0.09964531660079956
+      },
+      "v0": {
+       "tau": 0.0378179408609867,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.08675272762775421,
+       "weight": 1130.1995849609375
+      },
+      "v1": {
+       "G": -0.29948946833610535,
+       "weight": 811.1328735351562,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.680740930471962,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.8134103136071382,
+        "support_active_frac": 0.0,
+        "material_activity_median": 0.1406477838754654
+       }
+      },
+      "v2": {
+       "G": -0.29948946833610535,
+       "weight": 811.1328735351562,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.680740930471962,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.8134103136071382,
+        "support_active_frac": 0.0,
+        "material_activity_median": 0.1406477838754654,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "ifw03",
+   "category": "falling_water",
+   "route": "down",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "e910bd46c24114b52c580e78561b16c73ea9e663d6a95ab87d340f1303466287",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.10004241205751896,
+       "C": 0.37176440362258334,
+       "E10": 0.3612762689590454,
+       "C_sub": [
+        0.34616866850793243,
+        0.4540432911555013,
+        0.713469073158199,
+        0.3998330014772946
+       ],
+       "C_min": 0.34616866850793243,
+       "C_end": 0.3998330014772946,
+       "material_frac": 0.21666945001113339
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.7078110575675964,
+       "damp_support": 0.4666176736354828,
+       "damp_material_active": 0.8886536359786987,
+       "active_px": 11576,
+       "delta": 0.24119338393211365
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.10004241205751896,
+       "C": 0.37176440362258334,
+       "E10": 0.47677314281463623,
+       "C_sub": [
+        0.34616866850793243,
+        0.4540432911555013,
+        0.713469073158199,
+        0.3998330014772946
+       ],
+       "C_min": 0.34616866850793243,
+       "C_end": 0.3998330014772946,
+       "material_frac": 0.21666945001113339
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.7078110575675964,
+       "damp_support": 0.4666176736354828,
+       "damp_material_active": 0.8886536359786987,
+       "active_px": 11576,
+       "delta": 0.24119338393211365
+      },
+      "v0": {
+       "tau": 0.07228485308587551,
+       "identity": "cand-gravity-sign-0",
+       "G": 0.3844774663448334,
+       "weight": 5903.32861328125
+      },
+      "v1": {
+       "G": 0.37018781900405884,
+       "weight": 5652.4140625,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.9951569189263295,
+       "gate": {
+        "tau1": 0.10004241205751896,
+        "active_frac": 0.37176440362258334,
+        "support_active_frac": 0.05001310223486692,
+        "material_activity_median": 0.08696355670690536
+       }
+      },
+      "v2": {
+       "G": 0.37018781900405884,
+       "weight": 5652.4140625,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.9951569189263295,
+       "gate": {
+        "tau1": 0.10004241205751896,
+        "active_frac": 0.37176440362258334,
+        "support_active_frac": 0.05001310223486692,
+        "material_activity_median": 0.08696355670690536,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "e910bd46c24114b52c580e78561b16c73ea9e663d6a95ab87d340f1303466287",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.18522293865680695,
+       "C": 0.29632603250048173,
+       "E10": 0.39797309041023254,
+       "C_sub": [
+        0.263954011176055,
+        0.40590275547562465,
+        0.4646733894277089,
+        0.3025242469008928
+       ],
+       "C_min": 0.263954011176055,
+       "C_end": 0.3025242469008928,
+       "material_frac": 0.21666945001113339
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.7155289649963379,
+       "damp_support": 0.4923626184463501,
+       "damp_material_active": 0.9247461557388306,
+       "active_px": 9227,
+       "delta": 0.2231663465499878
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.18522293865680695,
+       "C": 0.29632603250048173,
+       "E10": 0.5294965505599976,
+       "C_sub": [
+        0.263954011176055,
+        0.40590275547562465,
+        0.4646733894277089,
+        0.3025242469008928
+       ],
+       "C_min": 0.263954011176055,
+       "C_end": 0.3025242469008928,
+       "material_frac": 0.21666945001113339
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.7155289649963379,
+       "damp_support": 0.4923626184463501,
+       "damp_material_active": 0.9247461557388306,
+       "active_px": 9227,
+       "delta": 0.2231663465499878
+      },
+      "v0": {
+       "tau": 0.13859586417675018,
+       "identity": "cand-gravity-sign-0",
+       "G": 0.3816169798374176,
+       "weight": 9280.8076171875
+      },
+      "v1": {
+       "G": 0.3784899115562439,
+       "weight": 9205.73828125,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.9908350733321462,
+       "gate": {
+        "tau1": 0.18522293865680695,
+        "active_frac": 0.29632603250048173,
+        "support_active_frac": 0.05001310223486692,
+        "material_activity_median": 0.12469204515218735
+       }
+      },
+      "v2": {
+       "G": 0.3784899115562439,
+       "weight": 9205.73828125,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.9908350733321462,
+       "gate": {
+        "tau1": 0.18522293865680695,
+        "active_frac": 0.29632603250048173,
+        "support_active_frac": 0.05001310223486692,
+        "material_activity_median": 0.12469204515218735,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "ifw04",
+   "category": "falling_water",
+   "route": "down",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "bf88697eddf8e1edd183660764daeb0b38c89f7df96e4a0c9f90e86c4ce0bbf9",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.8817989300044583,
+       "E10": 0.22429528832435608,
+       "C_sub": [
+        0.9654480606330806,
+        0.7740191707534552,
+        0.9741417744092733,
+        0.7182902362906821
+       ],
+       "C_min": 0.7182902362906821,
+       "C_end": 0.7182902362906821,
+       "material_frac": 0.12486083277666445
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.9006932377815247,
+       "damp_support": 0.5046500563621521,
+       "damp_material_active": 0.901885449886322,
+       "active_px": 15823,
+       "delta": 0.39604318141937256
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.8817989300044583,
+       "E10": 0.23109567165374756,
+       "C_sub": [
+        0.9654480606330806,
+        0.7740191707534552,
+        0.9741417744092733,
+        0.7182902362906821
+       ],
+       "C_min": 0.7182902362906821,
+       "C_end": 0.7182902362906821,
+       "material_frac": 0.12486083277666445
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.9006932377815247,
+       "damp_support": 0.5046500563621521,
+       "damp_material_active": 0.901885449886322,
+       "active_px": 15823,
+       "delta": 0.39604318141937256
+      },
+      "v0": {
+       "tau": 0.05068475008010864,
+       "identity": "cand-gravity-sign-0",
+       "G": 0.9016199707984924,
+       "weight": 41403.81640625
+      },
+      "v1": {
+       "G": 0.901627779006958,
+       "weight": 41399.546875,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.9378797219625928,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.8817989300044583,
+        "support_active_frac": 0.036838825556247935,
+        "material_activity_median": 0.2746793031692505
+       }
+      },
+      "v2": {
+       "G": 0.901627779006958,
+       "weight": 41399.546875,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.9378797219625928,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.8817989300044583,
+        "support_active_frac": 0.036838825556247935,
+        "material_activity_median": 0.2746793031692505,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "bf88697eddf8e1edd183660764daeb0b38c89f7df96e4a0c9f90e86c4ce0bbf9",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.8101315202853322,
+       "E10": 0.20997464656829834,
+       "C_sub": [
+        0.9662839946500222,
+        0.7787561301827909,
+        0.8075122603655818,
+        0.690815871600535
+       ],
+       "C_min": 0.690815871600535,
+       "C_end": 0.690815871600535,
+       "material_frac": 0.12486083277666445
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.4236428737640381,
+       "damp_support": 0.40582790970802307,
+       "damp_material_active": 0.39824599027633667,
+       "active_px": 14537,
+       "delta": 0.017814964056015015
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.8101315202853322,
+       "E10": 0.22407718002796173,
+       "C_sub": [
+        0.9662839946500222,
+        0.7787561301827909,
+        0.8075122603655818,
+        0.690815871600535
+       ],
+       "C_min": 0.690815871600535,
+       "C_end": 0.690815871600535,
+       "material_frac": 0.12486083277666445
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.4236428737640381,
+       "damp_support": 0.40582790970802307,
+       "damp_material_active": 0.39824599027633667,
+       "active_px": 14537,
+       "delta": 0.017814964056015015
+      },
+      "v0": {
+       "tau": 0.05498083308339119,
+       "identity": "cand-gravity-sign-0",
+       "G": 0.2384788691997528,
+       "weight": 3280.529296875
+      },
+      "v1": {
+       "G": 0.23695291578769684,
+       "weight": 3258.9501953125,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.12109419951853002,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.8101315202853322,
+        "support_active_frac": 0.043803379641508745,
+        "material_activity_median": 0.22731266915798187
+       }
+      },
+      "v2": {
+       "G": 0.23695291578769684,
+       "weight": 3258.9501953125,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.12109419951853002,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.8101315202853322,
+        "support_active_frac": 0.043803379641508745,
+        "material_activity_median": 0.22731266915798187,
+        "static_frac": 0.0,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "ifw05",
+   "category": "falling_water",
+   "route": "down",
+   "rates": {
+    "native": {
+     "passthrough_crf18": {
+      "sha256": "76933ed58e2c16189478bd26a67939f7d0843526a89486dc1bcc6215a277012f",
+      "pairs": 116,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.8925301790488536,
+       "E10": 0.17298296093940735,
+       "C_sub": [
+        0.8797699100704853,
+        0.9114882929595722,
+        0.9065057117394475,
+        0.6459126630478814
+       ],
+       "C_min": 0.6459126630478814,
+       "C_end": 0.6459126630478814,
+       "material_frac": 0.17177410376308172
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.6565980315208435,
+       "damp_support": 0.5743374228477478,
+       "damp_material_active": 0.6475834846496582,
+       "active_px": 22033,
+       "delta": 0.0822606086730957
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.8925301790488536,
+       "E10": 0.17636191844940186,
+       "C_sub": [
+        0.8797699100704853,
+        0.9114882929595722,
+        0.9065057117394475,
+        0.6459126630478814
+       ],
+       "C_min": 0.6459126630478814,
+       "C_end": 0.6459126630478814,
+       "material_frac": 0.17177410376308172
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.6565980315208435,
+       "damp_support": 0.5743374228477478,
+       "damp_material_active": 0.6475834846496582,
+       "active_px": 22033,
+       "delta": 0.0822606086730957
+      },
+      "v0": {
+       "tau": 0.016714714467525482,
+       "identity": "cand-gravity-sign-0",
+       "G": 0.02841894142329693,
+       "weight": 3388.54541015625
+      },
+      "v1": {
+       "G": 0.00966678373515606,
+       "weight": 3249.56640625,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.11070790806692933,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.8925301790488536,
+        "support_active_frac": 0.0,
+        "material_activity_median": 0.25263693928718567
+       }
+      },
+      "v2": {
+       "G": 0.00966678373515606,
+       "weight": 3249.56640625,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.11070790806692933,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.8925301790488536,
+        "support_active_frac": 0.0,
+        "material_activity_median": 0.25263693928718567,
+        "static_frac": 0.040751843149963544,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    },
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "76933ed58e2c16189478bd26a67939f7d0843526a89486dc1bcc6215a277012f",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.9039536579437738,
+       "E10": 0.16731199622154236,
+       "C_sub": [
+        0.8863323341165033,
+        0.9142428907072835,
+        0.9129466094142429,
+        0.8298225714980151
+       ],
+       "C_min": 0.8298225714980151,
+       "C_end": 0.8298225714980151,
+       "material_frac": 0.17177410376308172
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.7022794485092163,
+       "damp_support": 0.5816543698310852,
+       "damp_material_active": 0.7013345956802368,
+       "active_px": 22315,
+       "delta": 0.1206250786781311
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.9039536579437738,
+       "E10": 0.16936655342578888,
+       "C_sub": [
+        0.8863323341165033,
+        0.9142428907072835,
+        0.9129466094142429,
+        0.8298225714980151
+       ],
+       "C_min": 0.8298225714980151,
+       "C_end": 0.8298225714980151,
+       "material_frac": 0.17177410376308172
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.7022794485092163,
+       "damp_support": 0.5816543698310852,
+       "damp_material_active": 0.7013345956802368,
+       "active_px": 22315,
+       "delta": 0.1206250786781311
+      },
+      "v0": {
+       "tau": 0.020027700718492268,
+       "identity": "cand-gravity-sign-0",
+       "G": -0.09632374346256256,
+       "weight": 7028.75537109375
+      },
+      "v1": {
+       "G": -0.0991184413433075,
+       "weight": 6967.48681640625,
+       "identity": [
+        "cand-gravity-sign-1",
+        "cand-gravity-stability-0"
+       ],
+       "gravity_stability": 0.316108573669448,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.9039536579437738,
+        "support_active_frac": 0.0,
+        "material_activity_median": 0.4157074987888336
+       }
+      },
+      "v2": {
+       "G": -0.0991184413433075,
+       "weight": 6967.48681640625,
+       "identity": [
+        "cand-gravity-sign-2",
+        "cand-gravity-stability-1"
+       ],
+       "gravity_stability": 0.316108573669448,
+       "gate": {
+        "tau1": 0.1,
+        "active_frac": 0.9039536579437738,
+        "support_active_frac": 0.0,
+        "material_activity_median": 0.4157074987888336,
+        "static_frac": 0.0019444219395608848,
+        "identity": "cand-activity-gate-1"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "igt01",
+   "category": "geothermal",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "503bb197e677948994918b53745018c0a65192a389a3a708012b4e103d019653",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 1.3562533497810363,
+       "C": 0.0,
+       "E10": 0.17030422389507294,
+       "C_sub": [
+        0.03771239121425611,
+        0.27676474651194916,
+        0.0,
+        0.0
+       ],
+       "C_min": 0.0,
+       "C_end": 0.0,
+       "material_frac": 0.1007431529726119
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.9097416996955872,
+       "damp_support": 0.8187538385391235,
+       "damp_material_active": null,
+       "active_px": 0,
+       "delta": 0.09098786115646362
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 1.3562533497810363,
+       "C": 0.0,
+       "E10": null,
+       "C_sub": [
+        0.03771239121425611,
+        0.27676474651194916,
+        0.0,
+        0.0
+       ],
+       "C_min": 0.0,
+       "C_end": 0.0,
+       "material_frac": 0.1007431529726119
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.9097416996955872,
+       "damp_support": 0.8187538385391235,
+       "damp_material_active": null,
+       "active_px": 0,
+       "delta": 0.09098786115646362
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "igt02",
+   "category": "geothermal",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "bbb43c5cade8639fbdf92aeede0ab35092cf94ed795aacf84608706e71c61544",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.9663143539038527,
+       "E10": 0.19149017333984375,
+       "C_sub": [
+        0.9170814865325605,
+        0.9843618593021934,
+        0.9599499943175361,
+        0.9641777474713036
+       ],
+       "C_min": 0.9170814865325605,
+       "C_end": 0.9641777474713036,
+       "material_frac": 0.30613309953239815
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.41673544049263,
+       "damp_support": 0.4468935430049896,
+       "damp_material_active": 0.40749847888946533,
+       "active_px": 42513,
+       "delta": -0.03015810251235962
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.9663143539038527,
+       "E10": 0.19265030324459076,
+       "C_sub": [
+        0.9170814865325605,
+        0.9843618593021934,
+        0.9599499943175361,
+        0.9641777474713036
+       ],
+       "C_min": 0.9170814865325605,
+       "C_end": 0.9641777474713036,
+       "material_frac": 0.30613309953239815
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.41673544049263,
+       "damp_support": 0.4468935430049896,
+       "damp_material_active": 0.40749847888946533,
+       "active_px": 42513,
+       "delta": -0.03015810251235962
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "igt03",
+   "category": "geothermal",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "e4dd90e1570a2a89168b8730a2ea817cbe84fc05cc57a6afb30ff97182c608ff",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.6823084592819209,
+       "C": 0.6660033448356162,
+       "E10": 0.16784502565860748,
+       "C_sub": [
+        0.646294218515147,
+        0.7211931325020641,
+        0.7294705421597476,
+        0.5201431081567416
+       ],
+       "C_min": 0.5201431081567416,
+       "C_end": 0.5201431081567416,
+       "material_frac": 0.3286921064350924
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.8951108455657959,
+       "damp_support": 0.802540123462677,
+       "damp_material_active": 0.9424017071723938,
+       "active_px": 31460,
+       "delta": 0.0925707221031189
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.6823084592819209,
+       "C": 0.6660033448356162,
+       "E10": 0.1997082382440567,
+       "C_sub": [
+        0.646294218515147,
+        0.7211931325020641,
+        0.7294705421597476,
+        0.5201431081567416
+       ],
+       "C_min": 0.5201431081567416,
+       "C_end": 0.5201431081567416,
+       "material_frac": 0.3286921064350924
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.8951108455657959,
+       "damp_support": 0.802540123462677,
+       "damp_material_active": 0.9424017071723938,
+       "active_px": 31460,
+       "delta": 0.0925707221031189
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "igt04",
+   "category": "geothermal",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "2d50c9bc5e97be527f20f5db292572a3b0f074eb375f918f747202bbeff2cd8a",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 11.676035690307616,
+       "C": 0.7308398147338985,
+       "E10": 0.15284238755702972,
+       "C_sub": [
+        0.7869002883859127,
+        0.48182294852748403,
+        0.7864633400332081,
+        0.7034431530193131
+       ],
+       "C_min": 0.48182294852748403,
+       "C_end": 0.7034431530193131,
+       "material_frac": 0.1592490536628813
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.9615176320075989,
+       "damp_support": 0.7219089269638062,
+       "damp_material_active": 0.989751398563385,
+       "active_px": 16726,
+       "delta": 0.23960870504379272
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 11.676035690307616,
+       "C": 0.7308398147338985,
+       "E10": 0.16008184850215912,
+       "C_sub": [
+        0.7869002883859127,
+        0.48182294852748403,
+        0.7864633400332081,
+        0.7034431530193131
+       ],
+       "C_min": 0.48182294852748403,
+       "C_end": 0.7034431530193131,
+       "material_frac": 0.1592490536628813
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.9615176320075989,
+       "damp_support": 0.7219089269638062,
+       "damp_material_active": 0.989751398563385,
+       "active_px": 16726,
+       "delta": 0.23960870504379272
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "iow01",
+   "category": "oscillatory_water",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "2f6219f7cba4abba59ee88aa6673792df315f162db8b7848db87bbcaaa721737",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.9608558400561207,
+       "E10": 0.16344834864139557,
+       "C_sub": [
+        0.9737285163100666,
+        0.9687478077867415,
+        0.8929849175727815,
+        0.947316730971589
+       ],
+       "C_min": 0.8929849175727815,
+       "C_end": 0.947316730971589,
+       "material_frac": 0.1983828768648408
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.46774211525917053,
+       "damp_support": 0.4205751419067383,
+       "damp_material_active": 0.46243053674697876,
+       "active_px": 27394,
+       "delta": 0.04716697335243225
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.9608558400561207,
+       "E10": 0.16460305452346802,
+       "C_sub": [
+        0.9737285163100666,
+        0.9687478077867415,
+        0.8929849175727815,
+        0.947316730971589
+       ],
+       "C_min": 0.8929849175727815,
+       "C_end": 0.947316730971589,
+       "material_frac": 0.1983828768648408
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.46774211525917053,
+       "damp_support": 0.4205751419067383,
+       "damp_material_active": 0.46243053674697876,
+       "active_px": 27394,
+       "delta": 0.04716697335243225
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "iow02",
+   "category": "oscillatory_water",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "7b2745a3a0cc27a589666cb87382b5f65a704cb51bbc60a736b392cd71f858c4",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.9029164373869979,
+       "E10": 0.304528146982193,
+       "C_sub": [
+        0.8443518591305715,
+        0.9051961323795299,
+        0.9755129313733197,
+        0.8908759793517281
+       ],
+       "C_min": 0.8443518591305715,
+       "C_end": 0.8908759793517281,
+       "material_frac": 0.5311038744154977
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.7685906291007996,
+       "damp_support": 0.31540682911872864,
+       "damp_material_active": 0.8095143437385559,
+       "active_px": 68916,
+       "delta": 0.4531837999820709
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.9029164373869979,
+       "E10": 0.3072480261325836,
+       "C_sub": [
+        0.8443518591305715,
+        0.9051961323795299,
+        0.9755129313733197,
+        0.8908759793517281
+       ],
+       "C_min": 0.8443518591305715,
+       "C_end": 0.8908759793517281,
+       "material_frac": 0.5311038744154977
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.7685906291007996,
+       "damp_support": 0.31540682911872864,
+       "damp_material_active": 0.8095143437385559,
+       "active_px": 68916,
+       "delta": 0.4531837999820709
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "iow03",
+   "category": "oscillatory_water",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "398b021e561be23f74e11bab38697dfb029e1b10e9d83a8da6e17d89dc843574",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.8203247624211638,
+       "E10": 0.265889972448349,
+       "C_sub": [
+        0.9033275306070032,
+        0.9349333637738649,
+        0.6953283296709569,
+        0.5993550412374076
+       ],
+       "C_min": 0.5993550412374076,
+       "C_end": 0.5993550412374076,
+       "material_frac": 0.4876558672901358
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.39346814155578613,
+       "damp_support": 0.43829014897346497,
+       "damp_material_active": 0.43186986446380615,
+       "active_px": 57490,
+       "delta": -0.04482200741767883
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.8203247624211638,
+       "E10": 0.2843427360057831,
+       "C_sub": [
+        0.9033275306070032,
+        0.9349333637738649,
+        0.6953283296709569,
+        0.5993550412374076
+       ],
+       "C_min": 0.5993550412374076,
+       "C_end": 0.5993550412374076,
+       "material_frac": 0.4876558672901358
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.39346814155578613,
+       "damp_support": 0.43829014897346497,
+       "damp_material_active": 0.43186986446380615,
+       "active_px": 57490,
+       "delta": -0.04482200741767883
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "iow04",
+   "category": "oscillatory_water",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "06f41dcc8e016bae0b271cdb9f1f814d8b3a2445fd3537c8696500a2336b63a2",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 0.9991168418263711,
+       "E10": 0.2525368332862854,
+       "C_sub": [
+        1.0,
+        0.9986163855279814,
+        0.9642762518767111,
+        0.9902411021814007
+       ],
+       "C_min": 0.9642762518767111,
+       "C_end": 0.9902411021814007,
+       "material_frac": 0.4727371409485638
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.7002065777778625,
+       "damp_support": 0.46410220861434937,
+       "damp_material_active": 0.7003411054611206,
+       "active_px": 67878,
+       "delta": 0.23610436916351318
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 0.9991168418263711,
+       "E10": 0.2525571882724762,
+       "C_sub": [
+        1.0,
+        0.9986163855279814,
+        0.9642762518767111,
+        0.9902411021814007
+       ],
+       "C_min": 0.9642762518767111,
+       "C_end": 0.9902411021814007,
+       "material_frac": 0.4727371409485638
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.7002065777778625,
+       "damp_support": 0.46410220861434937,
+       "damp_material_active": 0.7003411054611206,
+       "active_px": 67878,
+       "delta": 0.23610436916351318
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "iow05",
+   "category": "oscillatory_water",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "9402b0bdb02cdf08c8943dd28b7bd930c251716c9d79cf431eb16ec9e0767d89",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.11342465877532959,
+       "C": 0.9963535589264878,
+       "E10": 0.32189077138900757,
+       "C_sub": [
+        0.9800175029171528,
+        0.9743582263710618,
+        1.0,
+        0.9920653442240374
+       ],
+       "C_min": 0.9743582263710618,
+       "C_end": 0.9920653442240374,
+       "material_frac": 0.23853262079714985
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.8196664452552795,
+       "damp_support": 0.7188628911972046,
+       "damp_material_active": 0.8206595182418823,
+       "active_px": 34155,
+       "delta": 0.10080355405807495
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.11342465877532959,
+       "C": 0.9963535589264878,
+       "E10": 0.32198670506477356,
+       "C_sub": [
+        0.9800175029171528,
+        0.9743582263710618,
+        1.0,
+        0.9920653442240374
+       ],
+       "C_min": 0.9743582263710618,
+       "C_end": 0.9920653442240374,
+       "material_frac": 0.23853262079714985
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.8196664452552795,
+       "damp_support": 0.7188628911972046,
+       "damp_material_active": 0.8206595182418823,
+       "active_px": 34155,
+       "delta": 0.10080355405807495
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "iwb01",
+   "category": "windborne",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "09d7710e4536330d79128cb41170f50228e27517d9fb0bf0879f358b66e2455e",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 1.0256714582443232,
+       "C": 0.5199128512383454,
+       "E10": 0.18126243352890015,
+       "C_sub": [
+        0.2741020793950851,
+        0.41597513697093974,
+        0.8631892601967255,
+        0.5683252699368813
+       ],
+       "C_min": 0.2741020793950851,
+       "C_end": 0.5683252699368813,
+       "material_frac": 0.21717741037630817
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.7654756307601929,
+       "damp_support": 0.8847704529762268,
+       "damp_material_active": 0.9680055379867554,
+       "active_px": 16227,
+       "delta": -0.11929482221603394
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 1.0256714582443232,
+       "C": 0.5199128512383454,
+       "E10": 0.2568286955356598,
+       "C_sub": [
+        0.2741020793950851,
+        0.41597513697093974,
+        0.8631892601967255,
+        0.5683252699368813
+       ],
+       "C_min": 0.2741020793950851,
+       "C_end": 0.5683252699368813,
+       "material_frac": 0.21717741037630817
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.7654756307601929,
+       "damp_support": 0.8847704529762268,
+       "damp_material_active": 0.9680055379867554,
+       "active_px": 16227,
+       "delta": -0.11929482221603394
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "iwb02",
+   "category": "windborne",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "ab7d0782d075cab6ab7df2a054c156f8e6cb10a5e3ee3f49b58d50b8cae97b3b",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.9162299394607544,
+       "C": 0.2639136200037886,
+       "E10": 0.32908737659454346,
+       "C_sub": [
+        0.5032108353854897,
+        0.2167266527751468,
+        0.350274673233567,
+        0.29558628528130326
+       ],
+       "C_min": 0.2167266527751468,
+       "C_end": 0.29558628528130326,
+       "material_frac": 0.7346637719884213
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.7196080088615417,
+       "damp_support": 0.8312804698944092,
+       "damp_material_active": 0.6635086536407471,
+       "active_px": 27864,
+       "delta": -0.11167246103286743
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.9162299394607544,
+       "C": 0.2639136200037886,
+       "E10": 0.6301844716072083,
+       "C_sub": [
+        0.5032108353854897,
+        0.2167266527751468,
+        0.350274673233567,
+        0.29558628528130326
+       ],
+       "C_min": 0.2167266527751468,
+       "C_end": 0.29558628528130326,
+       "material_frac": 0.7346637719884213
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.7196080088615417,
+       "damp_support": 0.8312804698944092,
+       "damp_material_active": 0.6635086536407471,
+       "active_px": 27864,
+       "delta": -0.11167246103286743
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "iwb03",
+   "category": "windborne",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "5d8c2f2c043f9f9c13e72fbacf1ca2b8671a13ff162a3c933f66b518527b9fe2",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.10303004458546634,
+       "C": 1.0,
+       "E10": 0.2212754786014557,
+       "C_sub": [
+        1.0,
+        1.0,
+        0.9994958936335567,
+        0.8665798483480014
+       ],
+       "C_min": 0.8665798483480014,
+       "C_end": 0.8665798483480014,
+       "material_frac": 0.33128061678913384
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.8877815008163452,
+       "damp_support": 0.5070799589157104,
+       "damp_material_active": 0.8877815008163452,
+       "active_px": 47609,
+       "delta": 0.38070154190063477
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.10303004458546634,
+       "C": 1.0,
+       "E10": 0.2212754786014557,
+       "C_sub": [
+        1.0,
+        1.0,
+        0.9994958936335567,
+        0.8665798483480014
+       ],
+       "C_min": 0.8665798483480014,
+       "C_end": 0.8665798483480014,
+       "material_frac": 0.33128061678913384
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.8877815008163452,
+       "damp_support": 0.5070799589157104,
+       "damp_material_active": 0.8877815008163452,
+       "active_px": 47609,
+       "delta": 0.38070154190063477
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "iwb04",
+   "category": "windborne",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "4b114fa483258a5d9992fda1f6b702d39f4771f7d3f2e95efd6d119bd2b46249",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.1,
+       "C": 1.0,
+       "E10": 0.32556068897247314,
+       "C_sub": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ],
+       "C_min": 1.0,
+       "C_end": 1.0,
+       "material_frac": 0.465145568915609
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.8209800124168396,
+       "damp_support": 0.45356836915016174,
+       "damp_material_active": 0.8209800124168396,
+       "active_px": 66847,
+       "delta": 0.36741164326667786
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.1,
+       "C": 1.0,
+       "E10": 0.32556068897247314,
+       "C_sub": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ],
+       "C_min": 1.0,
+       "C_end": 1.0,
+       "material_frac": 0.465145568915609
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.8209800124168396,
+       "damp_support": 0.45356836915016174,
+       "damp_material_active": 0.8209800124168396,
+       "active_px": 66847,
+       "delta": 0.36741164326667786
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "iwb05",
+   "category": "windborne",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "e8a697958f3342414f0c5d89ca39ecc87cefc49733fba8c6c35c7e5cd6440bdc",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.11336876749992365,
+       "C": 0.9622798687126173,
+       "E10": 0.2228124737739563,
+       "C_sub": [
+        0.9908698622148915,
+        0.9676446577031372,
+        0.9471518301927658,
+        0.945818963362823
+       ],
+       "C_min": 0.945818963362823,
+       "C_end": 0.945818963362823,
+       "material_frac": 0.41764779559118237
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.8652113080024719,
+       "damp_support": 0.4533870220184326,
+       "damp_material_active": 0.8842832446098328,
+       "active_px": 57757,
+       "delta": 0.4118242859840393
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.11336876749992365,
+       "C": 0.9622798687126173,
+       "E10": 0.22329756617546082,
+       "C_sub": [
+        0.9908698622148915,
+        0.9676446577031372,
+        0.9471518301927658,
+        0.945818963362823
+       ],
+       "C_min": 0.945818963362823,
+       "C_end": 0.945818963362823,
+       "material_frac": 0.41764779559118237
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.8652113080024719,
+       "damp_support": 0.4533870220184326,
+       "damp_material_active": 0.8842832446098328,
+       "active_px": 57757,
+       "delta": 0.4118242859840393
+      }
+     }
+    }
+   }
+  },
+  {
+   "scene": "iwb06",
+   "category": "windborne",
+   "route": "none",
+   "rates": {
+    "snf": {
+     "passthrough_crf18": {
+      "sha256": "67975cad27a6b035aa7db8799e743f18be0dfb9139b60ad8ed5627821ffb2438",
+      "pairs": 58,
+      "compensation": "similarity",
+      "extent": {
+       "identity": "cand-coverage-0",
+       "tau": 0.6338724613189698,
+       "C": 1.0,
+       "E10": 0.15106041729450226,
+       "C_sub": [
+        1.0,
+        0.9998145950756452,
+        0.999962919015129,
+        1.0
+       ],
+       "C_min": 0.9998145950756452,
+       "C_end": 1.0,
+       "material_frac": 0.5629592518370073
+      },
+      "transport": {
+       "identity": "cand-material-transport-persistence-0",
+       "damp_material": 0.7411841154098511,
+       "damp_support": 0.5325326323509216,
+       "damp_material_active": 0.7411841154098511,
+       "active_px": 80904,
+       "delta": 0.20865148305892944
+      },
+      "extent1": {
+       "identity": "cand-coverage-1",
+       "tau": 0.6338724613189698,
+       "C": 1.0,
+       "E10": 0.15106041729450226,
+       "C_sub": [
+        1.0,
+        0.9998145950756452,
+        0.999962919015129,
+        1.0
+       ],
+       "C_min": 0.9998145950756452,
+       "C_end": 1.0,
+       "material_frac": 0.5629592518370073
+      },
+      "transport1": {
+       "identity": "cand-material-transport-persistence-1",
+       "damp_material": 0.7411841154098511,
+       "damp_support": 0.5325326323509216,
+       "damp_material_active": 0.7411841154098511,
+       "active_px": 80904,
+       "delta": 0.20865148305892944
+      }
+     }
+    }
+   }
+  }
+ ]
+}

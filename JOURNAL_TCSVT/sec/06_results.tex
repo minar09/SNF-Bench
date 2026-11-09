@@ -3,9 +3,26 @@
 \subsection{Existing Evidence}
 The existing source-fixed port was checked on two nine-scene, 60-second subsets against stored scores. These checks establish numerical reproduction on those inputs, not construct validity. Existing 60-second image-conditioned scores permit matched comparison of source-fixed SNF, VBench-I2V and VBench-Long on shared source scenes. The 120- and 240-second method records score 60-second endpoint windows of separately requested generations; these should not be interpreted as trajectories of a single rollout. Historical text-to-video records use different mask and measurement identities and are reported separately.
 
-\input{sec/fig_qualitative}
+\begin{table*}[t]
+\caption{\textbf{Coverage of existing development evidence.} Counts are scenes or prompts per method, not independent confirmation samples. Text- and image-conditioned protocols use different masks and references; their numbers should not be pooled. Some samples are also used in simultaneous method submissions and are not used as new qualitative examples here.}
+\label{tab:existing_evidence}
+\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Track & 60 s & 120 s & 240 s & Interpretation \\
+\midrule
+Text to video & 22 shared prompt IDs & 6 prompts & 4 prompts & Legacy masks; prompt sets differ across durations \\
+Image to video & 48 appearance / 41 motion & 48 / 41 & 48 / 41 & Shared source masks; 60 s endpoint windows \\
+\bottomrule
+\end{tabular}
+\end{table*}
 
-Figure~\ref{fig:qualitative} shows eight historical text-to-video checkpoints at the longest existing horizon; Fig.~\ref{fig:qualitative_all} shows all four prompts with outputs from all eight, with none excluded. Seven are historical outputs from the recorded common inference configuration and Steady-Forcing~\cite{minar2025steady} is its released checkpoint under its native configuration, all on the earlier prompt set rather than the expanded suite. A source-matched image-to-video panel awaits native renders of the published entrants.
+Table~\ref{tab:existing_evidence} describes the available development records rather than a new leaderboard. The text-conditioned 60 s count is the unambiguous shared-identifier intersection in the existing comparison; identifiers still need video-hash verification. The 120 and 240 s counts are for the seven historical checkpoints. The image-conditioned counts describe paired examples from the previously scored family; different measures can have different eligible populations. The image-conditioned endpoint comparisons use separately requested durations, not prefixes of one long video.
+
+\input{sec/fig_i2v_comparison}
+
+Figure~\ref{fig:i2v_comparison} illustrates image-conditioned outputs from four released pipelines on two sources. These are five-second examples, not the planned minute-scale comparisons. The prior 240-second text-conditioned figure reused rollout samples shown in a simultaneous Steady-Forcing submission and has been removed. \pending{non-overlapping text-to-video qualitative comparison and longer image-to-video comparisons}
 
 \subsection{Leaderboard}
 Results are reported per track and horizon as per-axis profiles with 95\% source-clustered bootstrap intervals~\cite{efron1979bootstrap}, macro-averaged over regimes, with eligibility counts beside every value. No single summed score is reported. \pending{leaderboard tables per track and horizon}

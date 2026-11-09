@@ -53,3 +53,13 @@ def test_abstains_on_tiny_material():
     mat = np.zeros((H, W), bool)
     mat[:2, :2] = True
     assert "abstain" in X.coverage(noise(), mat, ~mat)
+
+
+def test_coverage_1_ignores_a_fixed_bias_field():
+    mat, sup = masks()
+    rng = np.random.default_rng(3)
+    f = np.repeat(rng.normal(0, 0.15, (1, H, W, 2)).astype(np.float32), T, axis=0)
+    f[..., 100:, :] = 0.0                         # the support is still
+    assert X.coverage(f, mat, sup)["C"] > 0.5      # coverage-0 counts it
+    out = X.coverage(f, mat, sup, static=True)
+    assert out["identity"] == "cand-coverage-1" and out["C"] < 0.01 and out["C_min"] < 0.01

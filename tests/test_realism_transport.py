@@ -38,3 +38,11 @@ def test_global_slide_gives_no_paired_contrast():
     mat, f = setup()
     f[..., 0] += 1.0                                  # whole frame translates
     assert abs(TR.transport(f, mat, ~mat)["delta"]) < 0.02
+
+
+def test_version_1_does_not_score_a_fixed_bias_field():
+    mat, _ = setup()
+    f = np.zeros((T, H, W, 2), np.float32)
+    f[:, :, :50] = np.random.default_rng(2).normal(0, 0.15, (1, H, 50, 2))
+    assert TR.transport(f, mat, ~mat)["damp_material_active"] > 0.99    # version 0: fully "persistent"
+    assert TR.transport(f, mat, ~mat, static=True)["damp_material_active"] is None

@@ -1,15 +1,17 @@
 \section{Introduction}
 \input{sec/fig_overview}
-\IEEEPARstart{F}{ixed-camera} animation appears in nature observation and sustained visual content. A plausible output must preserve stable support without freezing the intended moving material, while avoiding replay, drift and scene corruption. General-purpose video benchmarks already measure important aspects of quality and consistency~\cite{huang2023vbench,huang2024vbench++,Zheng2025VBench20AV,liu2024evalcrafter,duan2025worldscore}; a task-specific benchmark must demonstrate its additional value on shared inputs rather than assume those measures are blind to fixed-camera failure.
+\IEEEPARstart{I}{n} a fixed-camera video of a river, the water should move while the banks stay in place. Long generated videos can fail in either direction: the landscape may drift while the river moves, or the image may stay stable because the river has frozen. A useful evaluation must show both failures separately.
 
-Long-horizon generators are now evaluated at minute scale~\cite{huang2025selfforcing,liu2025rolling,yang2025longlive,helios,li2025stable}, yet two failure modes of this setting are rewarded by measures that read a statistic in one direction. Activity measures reward any motion, including incoherent or boiling motion. Source-referenced fidelity measures reward any support that stays close to the source, including a pasted still image. A fixed-camera benchmark therefore needs measures that are two-sided, region-aware and validated against real footage.
+Existing benchmarks already measure important aspects of video quality, motion and consistency~\cite{huang2023vbench,huang2024vbench++,Zheng2025VBench20AV,liu2024evalcrafter,duan2025worldscore}. Our question is whether a fixed-camera evaluation adds useful information on the same videos, not whether those benchmarks are unable to see the problem. The distinction matters at long horizons, where small changes can accumulate over minutes~\cite{huang2025selfforcing,liu2025rolling,yang2025longlive,helios,li2025stable}.
 
-We study a versioned evaluation protocol for text-to-video and image-to-video outputs. The contribution is an independently validated measurement and evaluation resource, not a new generation method. The original SNF-Bench preprint~\cite{minar2026snfbench} and the source-fixed method-paper protocol are prior evidence; Appendix~\ref{app:prior} states what is new here. Human and animal animation are possible separately validated extension tracks, not evidence for the present nature-flow core.
+SNF-Bench++ evaluates text-to-video and image-to-video generation for fixed-camera scenes with continuous natural motion. It separates the \emph{background}, which should remain stable, from the \emph{material}, such as water or smoke, that the prompt asks to move. We report background displacement and motion alongside early and late material motion. We also study checks for motion location, direction, repetition and plausibility. These checks are candidates until their controls, real-footage comparisons and human studies are complete.
 
-The contributions are:
+The original SNF-Bench preprint~\cite{minar2026snfbench} and the source-fixed method-paper protocol are prior work. Appendix~\ref{app:prior} will distinguish their contributions from this journal study. Human and animal subjects are possible extension tracks; they are not evidence for the present nature-flow task.
+
+This working manuscript sets out:
 \begin{itemize}
-\item \textbf{A fixed-camera benchmark suite} for text- and image-conditioned generation at 60, 120 and 240 seconds, with a regime taxonomy, source-derived role maps, contamination-audited splits and a datasheet (Section~\ref{sec:benchmark}).
-\item \textbf{A measurement suite} that separates support fidelity, material behavior, continuity and two-sided realism, with explicit eligibility and abstention (Section~\ref{sec:measurement}).
-\item \textbf{A validation protocol} in which every measure must pass constructed adversaries, real-footage bands and blinded human judgments before admission (Section~\ref{sec:validation}).
-\item \textbf{An evaluation of published long-horizon generators} under one protocol, with per-regime results and findings (Sections~\ref{sec:results} and~\ref{sec:findings}). \pending{panel size and headline findings}
+\item \textbf{A scene suite} for both generation tracks, with planned 60, 120 and 240 second horizons and documented region maps (Section~\ref{sec:benchmark}).
+\item \textbf{Separate measurements} of background change, material motion and temporal behavior, with explicit limits and abstentions (Section~\ref{sec:measurement}).
+\item \textbf{A validation plan} using targeted controls, real footage, human judgments and comparisons on shared inputs (Section~\ref{sec:validation}).
+\item \textbf{An evaluation plan} for released long-video generators (Section~\ref{sec:results}). \pending{independent panel, human validation and headline findings}
 \end{itemize}

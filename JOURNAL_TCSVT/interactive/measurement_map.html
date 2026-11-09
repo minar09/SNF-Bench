@@ -51,8 +51,7 @@ Click or focus a node (<kbd>Tab</kbd>, <kbd>Enter</kbd>) to trace its connection
   <aside id="panel" aria-live="polite"><h2>Select a node</h2><p class="st">Roles, axes, realism constructs and the
   established comparators they are checked against.</p></aside>
 </div>
-<p class="legend">Development evidence quoted in the panel is from round&nbsp;1 (2026-11-05): constructed controls on
-development videos of one model family, no real footage, no human labels. It shows separability, not validity.</p>
+<p class="legend">This map describes candidate constructs and planned validation; it does not present results from samples used by simultaneous method submissions.</p>
 </main>
 <script>
 (function () {
@@ -73,39 +72,36 @@ development videos of one model family, no real footage, no human labels. It sho
     {id: 'uncertain', c: 0, label: 'Uncertain', st: 'role', col: 'uncertain', g: '■',
       d: 'Ignore band between roles and ambiguous pixels (3–108 px band on v2 masks). Enters no measure.'},
     // axes
-    {id: 'fbd', c: 1, label: 'fBD ↓ displacement', st: 'frozen', col: 'support', g: '●',
+    {id: 'fbd', c: 1, label: 'Background displacement ↓', st: 'frozen', col: 'support', g: '●',
       d: 'Feature-aligned background drift: median displacement of matched persistent structure in the support, % of frame diagonal. Reported with match coverage and abstention.'},
-    {id: 'nbf', c: 1, label: 'NBF ↓ background flow', st: 'frozen', col: 'support', g: '●',
+    {id: 'nbf', c: 1, label: 'Background motion ↓', st: 'frozen', col: 'support', g: '●',
       d: 'Normalized background flow: mean optical-flow magnitude in the support, 10⁻³ frame-widths per second.'},
     {id: 'de', c: 1, label: 'Source ΔE00 ↓', st: 'cand', col: 'support', g: '◐',
-      d: 'Pixelwise CIEDE2000 between late support and the source image (I2V). Candidate identity cand-support-de00-0; replaces a region-mean field with a float32 defect.'},
-    {id: 'dlr', c: 1, label: 'DLR (context)', st: 'frozen', col: 'support', g: '●',
+      d: 'Pixelwise colour difference between the late background and the source image. This candidate is distinct from a historical region-mean field with a numerical defect.'},
+    {id: 'dlr', c: 1, label: 'Background/material ratio', st: 'frozen', col: 'support', g: '●',
       d: 'Late support flow relative to raw material flow. Unbounded above; never described as a fraction or share.'},
-    {id: 'mcff', c: 1, label: 'MCFF-E/L flow', st: 'frozen', col: 'material', g: '●',
+    {id: 'mcff', c: 1, label: 'Early / late material motion', st: 'frozen', col: 'material', g: '●',
       d: 'Material-region flow after global similarity compensation, early and late windows, always both reported.'},
-    {id: 'fp', c: 1, label: 'FP persistence', st: 'frozen', col: 'material', g: '●',
-      d: 'Late over early MCFF, clipped. Never reported without its MCFF magnitudes; above 1 is not automatically better.'},
-    {id: 'dar', c: 1, label: 'DAR (context)', st: 'frozen', col: 'material', g: '●',
+    {id: 'fp', c: 1, label: 'Motion retention', st: 'frozen', col: 'material', g: '●',
+      d: 'Late material motion divided by early material motion, clipped. Report with both motion amounts; above 1 is not automatically better.'},
+    {id: 'dar', c: 1, label: 'Compensation effect', st: 'frozen', col: 'material', g: '●',
       d: 'Signed relative attenuation of material flow after compensation, under this estimator. Stored signed, reported clipped.'},
     {id: 'integ', c: 1, label: 'Scene integrity', st: 'open', col: 'subject', g: '○',
       d: 'Missing or invented content beyond the measured support. Planned with v2.1 subject layers.'},
     // realism family
-    {id: 'r1', c: 2, label: 'R1 support integrity', st: 'diag', col: 'support', g: '□',
+    {id: 'r1', c: 2, label: 'Background coherence', st: 'diag', col: 'support', g: '□',
       d: 'Support change after drift and illumination compensation, and boundary coherence.',
-      ev: 'Separates matched-history composites from this generator’s own videos 42/42, but only because the generator’s support changes (3–4.5 grey levels); a still real background would look the same. Boundary step ties on a feathered composite (0.78 vs 0.78). Diagnostic only.',
       next: 'Real fixed-camera footage band; codec sweep; human question on background coherence.'},
-    {id: 'r2', c: 2, label: 'R2 material presence', st: 'open', col: 'material', g: '○',
+    {id: 'r2', c: 2, label: 'Material motion location', st: 'open', col: 'material', g: '○',
       d: 'Whether the named material, not a subject or another region, carries the motion.',
       next: 'v2.1 material and subject layers from two annotators and an adjudicator.'},
-    {id: 'r3', c: 2, label: 'R3 direction', st: 'cand', col: 'material', g: '◐',
-      d: 'Flow component along a direction label (cand-direction-flux-0). Round 1 used text-derived candidate directions; independent annotation is planned.',
-      ev: 'Reversal flips the sign in 81% of scenes; freeze abstains 42/42; noise warp and ping-pong drive it toward 0. Speed ×2 reads as ×1.31. Agreement with text-derived labels is 56–75%, which is not accuracy.',
+    {id: 'r3', c: 2, label: 'Motion direction', st: 'cand', col: 'material', g: '◐',
+      d: 'Flow component along a direction label. Round 1 used text-derived candidate directions; independent annotation is planned.',
       next: 'Independent direction annotation with unknown and multi-direction options; real footage per medium.'},
-    {id: 'r4', c: 2, label: 'R4 replay vs progression', st: 'cand', col: 'material', g: '◐',
-      d: 'Sustained self-match of the moving residual at lags ≥ 2 s (cand-recurrence-1), with seam and freeze evidence.',
-      ev: 'Incumbent appearance recurrence scores ≥ 0.95 on 34/41 original generated videos, which have not been independently labelled loop-free. Residual version peaks at 0.941 on them vs about 1.0 on constructed exact loops, an easy known answer.',
+    {id: 'r4', c: 2, label: 'Repetition and reset', st: 'cand', col: 'material', g: '◐',
+      d: 'Sustained self-match of changing content at lags of at least 2 s, with seam and freeze evidence.',
       next: 'Jittered, variable-period and partial loops; natural surf, flame and fountain negatives.'},
-    {id: 'r5', c: 2, label: 'R5 motion plausibility', st: 'open', col: 'material', g: '○',
+    {id: 'r5', c: 2, label: 'Motion plausibility', st: 'open', col: 'material', g: '○',
       d: 'Flow, track and texture statistics compared with real footage of the same medium.',
       next: 'Real-footage distributions per medium; comparators on the same eligible inputs.'},
     // comparators
@@ -114,7 +110,7 @@ development videos of one model family, no real footage, no human labels. It sho
     {id: 'bgc', c: 3, label: 'VBench background consistency', st: 'inc', col: 'inc', g: '◆',
       d: 'Feature similarity of the background over time; compared with the support axis on matched inputs.'},
     {id: 'trajan', c: 3, label: 'TRAJAN (per video)', st: 'inc', col: 'inc', g: '◆',
-      d: 'Point-track motion consistency model; a per-video comparator for R5.'},
+      d: 'Point-track motion consistency model; a per-video comparator for motion plausibility.'},
     {id: 'fvmd', c: 3, label: 'FVMD (set level only)', st: 'inc', col: 'inc', g: '◆',
       d: 'Distribution distance of track-based motion features; used only between sets, never per video.'},
     {id: 'vb2', c: 3, label: 'VBench-2.0 physics', st: 'inc', col: 'inc', g: '◆',

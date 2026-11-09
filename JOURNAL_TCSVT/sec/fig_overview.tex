@@ -22,38 +22,34 @@
    \swatch{roleSupport}\,support\quad\swatch{roleMaterial}\,material\\
    \swatch{roleIgnore}\,uncertain (enters no measure)};
 
-% ---- (b) long rollout of one published output
-\node[head] at (4.05,4.6) {(b) One 240\,s rollout, fixed-camera prompt};
-\foreach \t/\x in {000/0,060/1,120/2,240/3} {
-  \node[img,anchor=north west] (r\x) at ({4.1+1.9*\x},4.4)
-    {\includegraphics[width=1.84cm]{figures/snapshots/t2v240/p0/CausVid_t\t.png}};
-}
-\draw[->,line width=.6pt,snfink] ($(r0.south west)+(0,-0.12)$) -- ($(r3.south east)+(0.12,-0.12)$)
-  node[right] {$t$};
-\foreach \lab/\x in {0/0,60/1,120/2,240/3}
-  \node[below] at ($(r\x.south)+(0,-0.12)$) {\gclock\,\lab\,s};
-\node[text=snfink!75,anchor=north west,align=left,text width=7.4cm,inner sep=1pt] at ($(r0.south west)+(0,-0.68)$)
-  {The layout departs from the first frame despite the fixed-camera prompt. Whole-frame change mixes
-   intended and unintended effects; Fig.~\ref{fig:qualitative} adds change maps for all eight checkpoints.};
+% ---- (b) task questions, without reused samples from simultaneous submissions
+\node[head] at (4.05,4.6) {(b) Questions across the generated video};
+\node[panel,anchor=north west,text width=7.1cm,align=left,inner sep=5pt] (questions) at (4.1,4.35)
+  {\textbf{Background:} do the parts meant to stay fixed remain in place?\\[3pt]
+   \textbf{Moving material:} does it keep moving in the intended region?\\[3pt]
+   \textbf{Over time:} does the motion repeat, reset or stop?};
+\node[text=snfink!75,anchor=north west,align=left,text width=7.1cm,inner sep=1pt]
+  at ($(questions.south west)+(0,-0.15)$)
+  {These are separate questions for both tracks. The image-conditioned track also checks the source image.};
 
 % ---- (c) measures with status
 \node[head] at (12.0,4.6) {(c) Measures and status};
 \node[panel,anchor=north west,text width=5.75cm,align=left] (meas) at (12.0,4.45) {%
   \setlength{\tabcolsep}{1.5pt}\renewcommand{\arraystretch}{1.12}%
   \begin{tabular}{@{}c@{\hspace{3pt}}l@{\hspace{5pt}}l@{\hspace{4pt}}c@{}}
-  \gsupport   & Support fidelity     & fBD\down\,NBF\down; DLR ctx. & \stfrozen\\
-  \gmotion    & Material motion      & MCFF, FP; DAR ctx.           & \stfrozen\\
-  \greplay    & Replay\,/\,progression & R4                         & \stcand\\
-  \gdirection & Direction            & R3                           & \stcand\\
-  \gsupport   & Support integrity    & R1                           & \stdiag\\
-  \gmaterial  & Material presence    & R2                           & \stopen\\
-  \gplaus     & Motion plausibility  & R5                           & \stopen\\
+  \gsupport   & Background           & displacement, motion         & \stfrozen\\
+  \gmotion    & Material motion      & early, late, retention       & \stfrozen\\
+  \greplay    & Repetition and reset &                              & \stcand\\
+  \gdirection & Motion direction     &                              & \stcand\\
+  \gsupport   & Background coherence &                              & \stdiag\\
+  \gmaterial  & Motion location      &                              & \stopen\\
+  \gplaus     & Motion plausibility  &                              & \stopen\\
   \gintegrity & Scene integrity      & ---                          & \stopen\\
   \ghuman     & Human validation     & ---                          & \stopen
   \end{tabular}};
 \node[anchor=north west,align=left,inner sep=1pt] at ($(meas.south west)+(0,-0.08)$)
   {\stfrozen\,frozen definition\quad\stcand\,development candidate\\
-   \stdiag\,diagnostic only\quad\stopen\,planned\quad ctx.\,=\,context only};
+   \stdiag\,diagnostic only\quad\stopen\,planned};
 
 % ---- stages
 \node[stage] (s1) at (1.645,-0.55) {\cmark\ Specifications\\[-1pt]{\scriptsize 96 T2V + 48 I2V\\nine regimes}};
@@ -66,8 +62,7 @@
   {\ghuman\ blinded human ratings per construct feed development and confirmation};
 \end{tikzpicture}
 \caption{\textbf{SNF-Bench++ at a glance.} (a)~Each scene specifies a fixed viewpoint and names a natural process; I2V
-sources carry role maps; illustrated on a public fixed-camera scene, smoke rising from burning paper, with roles derived from that benchmark's motion masks (overlay pixels such as falling snow, also excluded, are absent here). (b)~Frames of a historical output of a published checkpoint~\cite{yin2025causvid} under the common inference configuration for a
-fixed-camera prompt (first system alphabetically, first 240\,s prompt; Fig.~\ref{fig:qualitative}).
+sources carry role maps; illustrated on a public fixed-camera scene, smoke rising from burning paper, with roles derived from that benchmark's motion masks (overlay pixels such as falling snow, also excluded, are absent here). (b)~The questions shared by the text- and image-conditioned tracks.
 (c)~Measures by construct and validation status; no summed score.
 Bottom: the protocol, from specification to held-out confirmation. Image in~(a): Physics-IQ benchmark~\cite{motamed2025physicsiq}, scene 0140, first frame, \copyright~2024 DeepMind Technologies Limited, \href{https://creativecommons.org/licenses/by/4.0/}{CC~BY~4.0}; resized, with roles overlaid. An interactive version accompanies the
 supplementary material (\texttt{interactive/measurement\_map.html}).}

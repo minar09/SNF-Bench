@@ -9,6 +9,10 @@ CSV is written with a header comment naming its source report and its SHA-256.
 * known_answer_paste.csv: per-scene source-match proxy pi of A2 for the
   pass-throughs and each composite construction (support_provenance_v1_*.json),
   with a deterministic vertical jitter for the strip plot.
+* known_answer_direction_{channel,down,up}.csv / _n.csv: per-scene expected-direction score and
+  temporal stability of the v2 geometry candidates on the tether100 temporal
+  controls at the frozen-spec rate, and scored/attempted counts per control
+  (manifest/realism_dev_2026_11_05/geometry_v2_tether100.json).
 
     /home/minar/miniconda3/envs/snfeval/bin/python scripts/build_journal_plots.py
 """
@@ -65,10 +69,54 @@ def paste():
         "y,label,n,median\n" + "\n".join(f"{order.index(k)},{k},{len(v)},{np.median(v):.4f}" for k, v in med.items()) + "\n")
 
 
+GEO_MODES = ["passthrough_crf18", "reverse_tail", "pingpong", "shuffle", "noise_warp", "freeze"]
+GEO_ROUTES = {"channel": ("A", 1.0, "sign_stability"), "down": ("G", 1.0, "gravity_stability"),
+              "up": ("G", -1.0, "gravity_stability")}
+
+
+def geometry(rate="snf", ver="v2"):
+    """Per-scene expected-direction score (A for channels, G for falls, -G for plumes and flames) and
+    temporal stability on the tether100 temporal controls; abstentions counted per row."""
+    src = f"{DEV}/geometry_v2_tether100.json"
+    rows = json.load(open(src))["rows"]
+    rng = np.random.default_rng(0)
+    order = list(reversed(GEO_MODES))
+    off = {"channel": -0.25, "down": 0.0, "up": 0.25}
+    pts, n, med = {k: ["y,label,score,stability"] for k in GEO_ROUTES}, {}, {}
+    for r in rows:
+        if r["route"] not in GEO_ROUTES:
+            continue
+        key, sgn, stab = GEO_ROUTES[r["route"]]
+        for md in GEO_MODES:
+            v = r["rates"].get(rate, {}).get(md, {}).get(ver)
+            if v is None:
+                continue
+            c = n.setdefault(md, [0, 0])
+            c[1] += 1
+            if v.get(key) is None:
+                continue
+            c[0] += 1
+            y = order.index(md) + off[r["route"]] + rng.uniform(-0.08, 0.08)
+            st = v.get(stab)
+            med.setdefault((r["route"], md), []).append((sgn * v[key], np.nan if st is None else st))
+            pts[r["route"]].append(f"{y:.3f},{MODE_LABEL[md]},{sgn * v[key]:.4f},{'nan' if st is None else f'{st:.4f}'}")
+    for route, lines in pts.items():
+        open(f"{OUT}/known_answer_direction_{route}.csv", "w").write(header(None, src) + "\n".join(lines) + "\n")
+        m = [f"{order.index(md) + off[route]:.2f},{MODE_LABEL[md]},{len(med[(route, md)])},"
+             f"{np.median([a for a, _ in med[(route, md)]]):.4f},{np.nanmedian([b for _, b in med[(route, md)]]):.4f}"
+             for md in order if (route, md) in med]
+        open(f"{OUT}/known_answer_direction_{route}_median.csv", "w").write(
+            header(None, src) + "y,label,n,score,stability\n" + "\n".join(m) + "\n")
+    open(f"{OUT}/known_answer_direction_n.csv", "w").write(
+        header(None, src) + "y,label,scored,attempted,text\n" + "\n".join(
+            f"{order.index(md)},{MODE_LABEL[md]},{n[md][0]},{n[md][1]},{n[md][0]}/{n[md][1]}" for md in order) + "\n")
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     replay()
     paste()
+    geometry()
     print("wrote", sorted(os.listdir(OUT)))
 
 

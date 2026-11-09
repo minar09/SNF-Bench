@@ -35,6 +35,18 @@ passes it, and identical frames give identical noise flow (R = 1).
   the vertical sign holds over the window and low under ping-pong; G alone
   cannot see ping-pong, because the window holds an unequal share of each
   phase and G normalizes the mean flow to unit length.
+
+Version 2 (`-2` identities, `cand-gravity-stability-1`, gate `cand-activity-gate-1`),
+after the v1 run (geometry_v1_tether100.json) scored one of 41 freezes (icf01;
+ial05, iow01, iow04 also passed the gate on unrouted coverage): RAFT on
+identical frames returns a fixed field of up to 0.45 px (Q99, ocean texture)
+whose spread over the window stays below 0.025 px, so TAU_ABS alone cannot
+reject it. `static_bias` marks pixels whose flow is both nearly constant over the
+window (spread < STATIC_SIGMA) and small (median |u| < STATIC_MAG); v2 removes
+them from the gate's active share and from every weight. Rigid translation of
+1 px per pair or more (the conveyor controls) is not affected. Thresholds were
+set on the tether100 freezes; on the pass-throughs of tether100 and of the
+untouched default cell no gate decision changes.
 """
 import cv2
 import numpy as np
@@ -42,7 +54,10 @@ import numpy as np
 IDENTITY = {"channel_alignment": "cand-channel-alignment-0", "gravity_sign": "cand-gravity-sign-0",
             "sign_stability": "cand-sign-stability-0",
             "channel_alignment_1": "cand-channel-alignment-1", "gravity_sign_1": "cand-gravity-sign-1",
-            "sign_stability_1": "cand-sign-stability-1", "gravity_stability": "cand-gravity-stability-0"}
+            "sign_stability_1": "cand-sign-stability-1", "gravity_stability": "cand-gravity-stability-0",
+            "channel_alignment_2": "cand-channel-alignment-2", "gravity_sign_2": "cand-gravity-sign-2",
+            "sign_stability_2": "cand-sign-stability-2", "gravity_stability_2": "cand-gravity-stability-1",
+            "activity_gate_1": "cand-activity-gate-1"}
 BORDER = 4            # px: contour within this of the frame edge is not a bank
 SPREAD_SIGMA = 40.0   # px: normalized-convolution scale for the tangent field
 MIN_BANK_PX = 200
@@ -50,6 +65,8 @@ MIN_COHERENCE = 0.5
 NEAR_FRAC = 0.25      # near-bank band: distance <= this fraction of the local half-width
 TAU_ABS = 0.1         # px per pair at flow resolution: below this nothing counts as motion
 MIN_ACTIVE = 0.15     # active share of the material required by the v1 gate
+STATIC_SIGMA = 0.03   # px: spread over the window of RAFT's flow on identical frames (max 0.025 on 41 freezes)
+STATIC_MAG = 0.5      # px: magnitude of that flow (Q99 0.45)
 
 
 def bank_tangent_field(material, border=BORDER, sigma=SPREAD_SIGMA):
@@ -82,8 +99,15 @@ def weights(flows, tau):
     return mean, R, mag * R * (mag > tau)
 
 
-def channel_alignment(flows, material, tau):
+def static_bias(flows, sigma=STATIC_SIGMA, mag=STATIC_MAG):
+    """Pixels whose flow cannot be told from RAFT's output on identical frames: constant over the window and small."""
+    act = np.median(np.linalg.norm(flows, axis=-1), axis=0)
+    return (np.linalg.norm(flows.std(axis=0), axis=-1) < sigma) & (act < mag)
+
+
+def channel_alignment(flows, material, tau, keep=None):
     mean, R, w = weights(flows, tau)
+    w = w if keep is None else w * keep
     c2, s2, coh, bank = bank_tangent_field(material)
     ok = material & (coh >= MIN_COHERENCE)
     if bank < MIN_BANK_PX:
@@ -110,8 +134,9 @@ def channel_alignment(flows, material, tau):
     return out
 
 
-def gravity_sign(flows, material, tau):
+def gravity_sign(flows, material, tau, keep=None):
     mean, R, w = weights(flows, tau)
+    w = w if keep is None else w * keep
     ww = w * material
     if ww.sum() <= 0:
         return dict(identity=IDENTITY["gravity_sign"], abstain="no steady material flow above tau")
@@ -119,14 +144,17 @@ def gravity_sign(flows, material, tau):
     return dict(identity=IDENTITY["gravity_sign"], G=float((ww * uy).sum() / ww.sum()), weight=float(ww.sum()))
 
 
-def activity_gate(flows, material, support, tau_abs=TAU_ABS, min_active=MIN_ACTIVE):
-    """(tau1, report, abstain reason or None) of the v1 gate."""
+def activity_gate(flows, material, support, tau_abs=TAU_ABS, min_active=MIN_ACTIVE, exclude=None):
+    """(tau1, report, abstain reason or None) of the v1 gate; with `exclude` (v2), those pixels never count as active."""
     act = np.median(np.linalg.norm(flows, axis=-1), axis=0)
     sup = act[support] if support.any() else np.zeros(1)
     tau1 = max(tau_abs, float(np.percentile(sup, 95)))
-    frac = float((act[material] > tau1).mean()) if material.any() else 0.0
+    active = act > tau1 if exclude is None else (act > tau1) & ~exclude
+    frac = float(active[material].mean()) if material.any() else 0.0
     rep = dict(tau1=tau1, active_frac=frac, support_active_frac=float((sup > tau1).mean()),
                material_activity_median=float(np.median(act[material])) if material.any() else 0.0)
+    if exclude is not None:
+        rep["static_frac"] = float(exclude[material].mean()) if material.any() else 0.0
     why = None if frac >= min_active else f"material active share {frac:.3f} < {min_active} (not more active than the support)"
     return tau1, rep, why
 
@@ -137,21 +165,25 @@ def gravity_stability(flows, ww):
     return num / den if den > 0 else None
 
 
-def geometry_v1(route, flows, material, support):
-    """All v1 statistics for one routed video: gate first, then A/sign stability or G/gravity stability."""
-    tau1, rep, why = activity_gate(flows, material, support)
+def geometry_v1(route, flows, material, support, version=1):
+    """All v1 (or v2) statistics for one routed video: gate first, then A/sign stability or G/gravity stability."""
+    keep = None if version == 1 else ~static_bias(flows)
+    tau1, rep, why = activity_gate(flows, material, support, exclude=None if keep is None else ~keep)
+    if version == 2:
+        rep["identity"] = IDENTITY["activity_gate_1"]
     if why is not None:
         return dict(gate=rep, abstain=why)
     if route == "channel":
-        r = channel_alignment(flows, material, tau1)
+        r = channel_alignment(flows, material, tau1, keep)
         out = {k: v for k, v in r.items() if k != "identity"}
-        out["identity"] = [IDENTITY["channel_alignment_1"], IDENTITY["sign_stability_1"]]
+        out["identity"] = [IDENTITY[f"channel_alignment_{version}"], IDENTITY[f"sign_stability_{version}"]]
     else:
-        r = gravity_sign(flows, material, tau1)
+        r = gravity_sign(flows, material, tau1, keep)
         out = {k: v for k, v in r.items() if k != "identity"}
-        out["identity"] = [IDENTITY["gravity_sign_1"], IDENTITY["gravity_stability"]]
+        out["identity"] = [IDENTITY[f"gravity_sign_{version}"],
+                           IDENTITY["gravity_stability" if version == 1 else "gravity_stability_2"]]
         if "abstain" not in r:
             mean, R, w = weights(flows, tau1)
-            out["gravity_stability"] = gravity_stability(flows, w * material)
+            out["gravity_stability"] = gravity_stability(flows, w * material if keep is None else w * material * keep)
     out["gate"] = rep
     return out

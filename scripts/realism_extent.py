@@ -18,12 +18,17 @@ coverage circular).
 * C(t) over N_SUB consecutive sub-windows, reported as C_min and C_end, so motion
   that stops inside the window is visible.
 Abstains when the material is under MIN_MATERIAL of the frame.
+
+`cand-coverage-1`: the same with `static=True`: pixels marked by
+realism_geometry.static_bias (RAFT's fixed output on identical frames; computed
+per sub-window for C_sub) never count as moving and carry no activity in E10.
+Coverage-0 gave C up to 0.72 on frozen tails of ocean and lake scenes.
 """
 import numpy as np
 
-from realism_geometry import TAU_ABS
+from realism_geometry import TAU_ABS, static_bias
 
-IDENTITY = {"coverage": "cand-coverage-0"}
+IDENTITY = {"coverage": "cand-coverage-0", "coverage_1": "cand-coverage-1"}
 MIN_MATERIAL = 0.02
 N_SUB = 4
 
@@ -32,15 +37,20 @@ def _activity(flows):
     return np.median(np.linalg.norm(flows, axis=-1), axis=0)
 
 
-def coverage(flows, material, support, tau_abs=TAU_ABS):
+def coverage(flows, material, support, tau_abs=TAU_ABS, static=False):
+    ident = IDENTITY["coverage_1" if static else "coverage"]
     if material.mean() < MIN_MATERIAL:
-        return dict(identity=IDENTITY["coverage"], abstain=f"material {material.mean():.3f} of the frame < {MIN_MATERIAL}")
+        return dict(identity=ident, abstain=f"material {material.mean():.3f} of the frame < {MIN_MATERIAL}")
     act = _activity(flows)
     sup = act[support] if support.any() else np.zeros(1)
     tau = max(tau_abs, float(np.percentile(sup, 95)))
-    a = act[material]
+
+    def moving(f, a):
+        return a > tau if not static else (a > tau) & ~static_bias(f)
+    mov = moving(flows, act)
+    a = np.where(mov, act, 0.0)[material] if static else act[material]
     top = np.sort(a)[::-1][:max(1, int(round(0.1 * a.size)))]
-    subs = [float((_activity(c)[material] > tau).mean()) for c in np.array_split(flows, N_SUB) if len(c)]
-    return dict(identity=IDENTITY["coverage"], tau=tau, C=float((a > tau).mean()),
+    subs = [float(moving(c, _activity(c))[material].mean()) for c in np.array_split(flows, N_SUB) if len(c)]
+    return dict(identity=ident, tau=tau, C=float(mov[material].mean()),
                 E10=float(top.sum() / a.sum()) if a.sum() > 0 else None,
                 C_sub=subs, C_min=min(subs), C_end=subs[-1], material_frac=float(material.mean()))

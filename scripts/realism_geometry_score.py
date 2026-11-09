@@ -12,7 +12,10 @@ Statistics: `cand-coverage-0` (scripts/realism_extent.py) and
 cached scene; v0 (`cand-channel-alignment-0`, `cand-sign-stability-0`,
 `cand-gravity-sign-0`, tau = TAU_K x Q95 of the support's mean speed) for
 continuity with the v0 report, and v1 (activity gate, `-1` identities,
-`cand-gravity-stability-0`; scripts/realism_geometry.py).
+`cand-gravity-stability-0`; scripts/realism_geometry.py), and v2 with the
+static-bias exclusion (`-2` identities, `cand-gravity-stability-1`,
+`cand-coverage-1`, `cand-material-transport-persistence-1`) under `v2`,
+`extent1` and `transport1`.
 
     python scripts/realism_geometry_score.py --cache <dir> --label <cell> --out <json>
 """
@@ -44,9 +47,12 @@ def score_v0(route, flows, material, support):
 
 def score(route, flows, material, support):
     flows = flows.astype(np.float32)
-    out = dict(extent=X.coverage(flows, material, support), transport=TR.transport(flows, material, support))
+    out = dict(extent=X.coverage(flows, material, support), transport=TR.transport(flows, material, support),
+               extent1=X.coverage(flows, material, support, static=True),
+               transport1=TR.transport(flows, material, support, static=True))
     if route != "none":
-        out.update(v0=score_v0(route, flows, material, support), v1=G.geometry_v1(route, flows, material, support))
+        out.update(v0=score_v0(route, flows, material, support), v1=G.geometry_v1(route, flows, material, support),
+                   v2=G.geometry_v1(route, flows, material, support, version=2))
     return out
 
 
@@ -63,23 +69,26 @@ def summarize(rows, modes, rates):
             s = {}
             for route, (key, ok) in EXPECT.items():
                 rs = [r for r in rows if r["route"] == route and md in r["rates"].get(rate, {})]
-                for ver in ("v0", "v1"):
+                for ver in ("v0", "v1", "v2"):
                     v = [r["rates"][rate][md][ver][key] for r in rs if r["rates"][rate][md][ver].get(key) is not None]
                     s[f"{route}_{ver}"] = dict(n=len(v), n_attempted=len(rs),
                                               median=float(np.median(v)) if v else None,
                                               frac_expected_sign=float(np.mean([ok(x) for x in v])) if v else None)
                 stab = "sign_stability" if route == "channel" else "gravity_stability"
-                v = [r["rates"][rate][md]["v1"][stab] for r in rs if r["rates"][rate][md]["v1"].get(stab) is not None]
-                s[f"{route}_v1_{stab}_median"] = float(np.median(v)) if v else None
-            ext = [r["rates"][rate][md]["extent"] for r in rows if md in r["rates"].get(rate, {})]
-            for key in ("C", "E10", "C_min"):
-                v = [e[key] for e in ext if e.get(key) is not None]
-                s[f"extent_{key}_median"] = float(np.median(v)) if v else None
-            s["extent_n"] = sum(1 for e in ext if "C" in e)
-            tr = [r["rates"][rate][md]["transport"] for r in rows if md in r["rates"].get(rate, {})]
-            for key in ("delta", "damp_material", "damp_material_active"):
-                v = [e[key] for e in tr if e.get(key) is not None]
-                s[f"transport_{key}_median"] = float(np.median(v)) if v else None
+                for ver in ("v1", "v2"):
+                    v = [r["rates"][rate][md][ver][stab] for r in rs if r["rates"][rate][md][ver].get(stab) is not None]
+                    s[f"{route}_{ver}_{stab}_median"] = float(np.median(v)) if v else None
+            for ek in ("extent", "extent1"):
+                ext = [r["rates"][rate][md][ek] for r in rows if md in r["rates"].get(rate, {})]
+                for key in ("C", "E10", "C_min"):
+                    v = [e[key] for e in ext if e.get(key) is not None]
+                    s[f"{ek}_{key}_median"] = float(np.median(v)) if v else None
+                s[f"{ek}_n"] = sum(1 for e in ext if "C" in e)
+            for tk in ("transport", "transport1"):
+                tr = [r["rates"][rate][md][tk] for r in rows if md in r["rates"].get(rate, {})]
+                for key in ("delta", "damp_material", "damp_material_active"):
+                    v = [e[key] for e in tr if e.get(key) is not None]
+                    s[f"{tk}_{key}_median"] = float(np.median(v)) if v else None
             out[f"{rate}/{md}"] = s
     return out
 
@@ -105,7 +114,8 @@ def main():
             meta = json.load(open(f))
             row = rows.setdefault(sid, dict(scene=sid, category=meta["category"], route=meta["route"], rates={}))
             row["rates"].setdefault(rate, {})[md] = dict(sha256=meta["sha256"], abstain=meta["abstain"],
-                                                        **{k: dict(abstain=meta["abstain"]) for k in ("v0", "v1", "extent", "transport")})
+                                                        **{k: dict(abstain=meta["abstain"]) for k in ("v0", "v1", "v2", "extent", "transport",
+                                                                                      "extent1", "transport1")})
             continue
         flows, mat, sup, meta = load(f)
         row = rows.setdefault(sid, dict(scene=sid, category=meta["category"], route=meta["route"], rates={}))
@@ -116,6 +126,7 @@ def main():
     rep = dict(entrant=a.label, cache=os.path.relpath(a.cache, os.path.dirname(HERE)),
                identity=G.IDENTITY, tau_k=TAU_K, tau_abs=G.TAU_ABS, min_active=G.MIN_ACTIVE, route=ROUTE,
                spread_sigma=G.SPREAD_SIGMA, min_coherence=G.MIN_COHERENCE,
+               static_sigma=G.STATIC_SIGMA, static_mag=G.STATIC_MAG,
                caveat="development data; image y is assumed to be gravity (no roll estimate yet); "
                       "bank field by normalized convolution, not Laplace; v0 from float16-cached flows",
                summary=summarize(rows, modes, rates), rows=rows)

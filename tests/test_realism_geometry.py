@@ -106,3 +106,26 @@ def test_gravity_stability_drops_under_pingpong_but_G_does_not():
     out = G.geometry_v1("down", f, m, ~m)
     assert out["G"] == pytest.approx(1.0, abs=0.01)  # the mean still points down
     assert out["gravity_stability"] < 0.25
+
+
+def bias_field(mag=0.15, jitter=0.005, seed=0):
+    """RAFT on identical frames: a fixed sub-pixel field with almost no spread over the window."""
+    rng = np.random.default_rng(seed)
+    b = rng.normal(0, mag, (1, H, W, 2)).astype(np.float32)
+    return np.repeat(b, T, axis=0) + rng.normal(0, jitter, (T, H, W, 2)).astype(np.float32)
+
+
+def test_v2_gate_rejects_a_fixed_bias_field_that_passes_v1():
+    m = river(90)
+    f = bias_field() * m[None, ..., None]             # only the material carries the bias, as on frozen water
+    assert "abstain" not in G.geometry_v1("down", f, m, ~m)    # the v1 defect (icf01)
+    out = G.geometry_v1("down", f, m, ~m, version=2)
+    assert "abstain" in out and out["gate"]["static_frac"] > 0.9
+
+
+def test_v2_keeps_rigid_translation_and_v1_values():
+    m = river(0)
+    f = uniform_flow(0, speed=1.0) * m[None, ..., None]       # a conveyor: constant over time, but 1 px per pair
+    v1, v2 = G.geometry_v1("channel", f, m, ~m), G.geometry_v1("channel", f, m, ~m, version=2)
+    assert v2["A"] == pytest.approx(v1["A"]) and v2["A"] == pytest.approx(1.0, abs=0.02)
+    assert v2["identity"] == ["cand-channel-alignment-2", "cand-sign-stability-2"]

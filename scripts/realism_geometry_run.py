@@ -115,8 +115,8 @@ def flows_for(model, path, dyn, sup, device, rate):
 
 
 def disk_ok():
-    st = os.statvfs("/")
-    return st.f_bavail * st.f_frsize >= DISK_MIN
+    """DISK_MIN free on / and on the cache's filesystem (the cache may be a symlink to another disk)."""
+    return all(os.statvfs(p).f_bavail * os.statvfs(p).f_frsize >= DISK_MIN for p in ("/", os.path.realpath(CACHE)))
 
 
 def main():
@@ -134,7 +134,7 @@ def main():
     if not gpu_free(a.gpu):
         raise SystemExit(f"GPU {a.gpu} has other compute processes; RAFT is not run beside them")
     if not disk_ok():
-        raise SystemExit(f"less than {DISK_MIN / 1e9:.0f} GB free on /")
+        raise SystemExit(f"less than {DISK_MIN / 1e9:.0f} GB free on / or the cache disk")
     os.environ["CUDA_VISIBLE_DEVICES"] = str(a.gpu)
     import torch
     device = torch.device("cuda")
@@ -175,7 +175,7 @@ def main():
                     print(sid, md, rate, "abstained:", why, flush=True)
                     continue
                 if not disk_ok():
-                    raise SystemExit(f"less than {DISK_MIN / 1e9:.0f} GB free on /; stopped before {dst}")
+                    raise SystemExit(f"less than {DISK_MIN / 1e9:.0f} GB free on / or the cache disk; stopped before {dst}")
                 os.makedirs(os.path.dirname(dst), exist_ok=True)
                 meta = dict(sha256=vsha, video=path, category=cats[sid], route=route, rate=rate,
                             compensation=got["compensation"], mask_labels_sha256=lsha,

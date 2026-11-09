@@ -121,12 +121,14 @@ def sha256(path):
 
 
 def tree_sha256(d):
-    """SHA-256 over (relative path, file SHA-256) of every file in a checkpoint directory."""
+    """SHA-256 over (relative path, file SHA-256) of every file in a checkpoint directory; a symlink
+    contributes its target string instead (Wan's transformer/ links point at container paths)."""
     h = hashlib.sha256()
     for root, _, files in sorted(os.walk(d)):
         for f in sorted(files):
             p = os.path.join(root, f)
-            h.update(f"{os.path.relpath(p, d)}\t{sha256(p)}\n".encode())
+            v = "-> " + os.readlink(p) if os.path.islink(p) else sha256(p)
+            h.update(f"{os.path.relpath(p, d)}\t{v}\n".encode())
     return h.hexdigest()
 
 

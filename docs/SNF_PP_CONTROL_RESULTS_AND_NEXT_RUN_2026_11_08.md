@@ -1,0 +1,20 @@
+# Spatial control results and next run, 2026-11-08
+
+These are development-only controls on one CF++ family and previously inspected sources. They are not evidence of natural-motion validity or held-out benchmark performance.
+
+## Completed work
+
+The 2026-11-07 recovery finished both reports: `manifest/realism_dev_2026_11_05/geometry_v2_tether100_conveyor.json` and `geometry_v2_tether100_patch.json`. `icb04` has an empty material mask, so no spatial-control videos were generated for it. The scoring script aggregates all available files under the cell cache; each report is a snapshot of that cache at the time it was scored, not a separately isolated dataset. Use per-mode attempted and scored counts.
+
+* On the six eligible channel controls at 8 fps, median channel alignment was 0.977 for the along-flow conveyor and -0.876 for the across-flow conveyor. Native-rate medians were 0.977 and -0.809. These are synthetic rigid-texture interventions and do not validate direction for natural fluids.
+* At 8 fps the five falling-water controls had median gravity sign 0.999 for the down conveyor; ten buoyant-plume/combustion controls had median -1.000 for the up conveyor. The controls encode their direction by construction; real footage and independent annotations are needed.
+* Coverage-1 median was 0.939 for 40 eligible parent pass-throughs and 0.644, 0.673, 0.687 for controls where 5%, 15%, and 30% of the material mask was allowed to retain source motion. The patch controls create optical-flow effects outside the selected region; the nominal patch fraction is not ground-truth flow coverage. In paired comparisons the controls were lower than their parent in 31/40, 31/40 and 30/40 scenes; median paired parent-minus-control differences were 0.161, 0.170 and 0.085. This is partial sensitivity, not calibrated coverage and not reliable monotonic severity ordering.
+* Wan2.2 has a 12-scene `videos/public_bench/renders/wan22/5s/RUN.json` and an earlier smoke report; do not regenerate these clips. The run record reports another GPU process in the end snapshot despite `concurrent: false`; snapshots alone do not prove whether there was any overlap, so audit timing before making a no-contention or runtime claim. The image set is exposure-logged figure material, not a confirmation cohort.
+
+## New frozen-control check
+
+The v2 static-bias threshold was tuned on the tether100 cell. `scripts/run_fp_freeze_validation.py` prepares new freeze controls from the existing fp-cell parents, reuses its pass-throughs and existing flows after checking hashes, and scores new freeze flows on GPU 3. The fp cell is a new control cell for this threshold, not an independent source set or model family. Scene `icb04` is excluded because its material mask is empty; coverage and abstentions must be reported. Controls and final report use distinct, non-overwriting paths and can be resumed per scene. The report is `manifest/realism_dev_2026_11_05/geometry_v2_fp_freeze_2026_11_08.json` when complete. No output is a result until that report is written and inspected.
+
+GPU 2 had an active VBench process at the initial check; it must not be used by another benchmark process while occupied. GPU 3 scoring is guarded by the existing device and >=110 GB free-space checks for both root and the cache filesystem. Preparing controls is CPU work; GPU flow scoring begins after preparation and only if the device is still free. No process from the other session was changed.
+
+**Update:** all 41 eligible new freeze controls and their sidecars were created; `icb04` abstained due to its empty material mask. A different job started on GPU 3 during CPU preparation, so the scorer stopped before running; GPU 2 was also occupied. `scripts/wait_fp_freeze_gpu.py` is waiting for device 2 or 3 to have no compute processes on two checks 60 seconds apart while both disk guards pass. It fails closed if the GPU query fails and invokes the existing scorer, which rechecks GPU occupancy. No freeze-flow report exists yet.

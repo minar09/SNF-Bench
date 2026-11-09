@@ -1,0 +1,177 @@
+{
+  "role": "exposure-logged qualitative development evidence, not confirmation",
+  "selection": "Two public-benchmark sources selected for distinct natural materials: waterfall and campfire; four systems with existing 5s outputs on both.",
+  "limitations": "Short-window visualization; no long-horizon or model-ranking claim. Visual cross-paper overlap audit is documented separately.",
+  "scenes": {
+    "vb161950": {
+      "source_sha256": "9a6cda07eee54680edf2513eb453fd004a1d24488858899c76882375039118ae",
+      "source_url": "https://www.pexels.com/photo/161950/",
+      "setting": "A tall waterfall dropping from a green cliff onto a gravel plain",
+      "text": "A tall waterfall dropping from a green cliff onto a gravel plain. Recorded by a fixed tripod camera, unmoving. The cliff faces, the grassy slopes and the gravel bank hold their positions. White water plunges from the lip into the pool top to bottom. Bright midday sun.",
+      "models": {
+        "causal_forcing": {
+          "video_sha256": "a02f36626930987fa9dd48c92504b639d029b58bec3e5048bbea1ca79979a770",
+          "run_sha256": "9ba3637b4b528267c98a63bbddc6871e7304c10b36a86ad32cc809d353457759",
+          "fps": 16.0,
+          "frames": 81,
+          "frame_indices": {
+            "mid": 40,
+            "end": 80
+          },
+          "frame_times_s": {
+            "mid": 2.5,
+            "end": 5.0
+          },
+          "configuration": "upstream released I2V command (README, 'NEW: I2V')",
+          "deviations": [
+            "checkpoint paths edited to ../ckpt (no behavioural change)"
+          ]
+        },
+        "ltx_video": {
+          "video_sha256": "c664d6ddf1ad75d7e96ce36b01e9a8cf028542caf8c2e96b56d72f16f68aa2a1",
+          "run_sha256": "a5a7aa583e5fb98bf09b5726e91e104f44fd606810cdc2b16909cafdd2d710c3",
+          "fps": 24.0,
+          "frames": 121,
+          "frame_indices": {
+            "mid": 60,
+            "end": 120
+          },
+          "frame_times_s": {
+            "mid": 2.5,
+            "end": 5.0
+          },
+          "configuration": "official inference.py, released distilled multi-scale config",
+          "deviations": [
+            "prompt_enhancement_words_threshold 120 -> 0 (enhancement off, same text for every system)",
+            "config checkpoint paths made absolute (no behavioural change)",
+            "text encoder PixArt-XL-2-1024-MS from a local cache copied out of the regfor_eval container"
+          ]
+        },
+        "wan21": {
+          "video_sha256": "5549247c7c1c1fc6e9b418ec38c0729675db044e3f1dc81d811980d812a5a035",
+          "run_sha256": "8607c7f79bc2880b0741a8e4c8167be2500a2495901cb485522b27064514deeb",
+          "fps": 16.0,
+          "frames": 81,
+          "frame_indices": {
+            "mid": 40,
+            "end": 80
+          },
+          "frame_times_s": {
+            "mid": 2.5,
+            "end": 5.0
+          },
+          "configuration": "official README single-GPU I2V command, generate.py defaults",
+          "deviations": [
+            "--base_seed 0 (README leaves it random)",
+            "one generate.py call per scene via scripts/wan_official_loop.py (no behavioural change)"
+          ]
+        },
+        "wan22": {
+          "video_sha256": "10dab136627529efe0a9b806d1c0bad9d38668f156fa918fd46e48e4141f9694",
+          "run_sha256": "ebf9cae714bf184dbe4070b2d5123fcd766b894c92cf49e04fa0347baac9e5d3",
+          "fps": 16.0,
+          "frames": 81,
+          "frame_indices": {
+            "mid": 40,
+            "end": 80
+          },
+          "frame_times_s": {
+            "mid": 2.5,
+            "end": 5.0
+          },
+          "configuration": "official README single-GPU I2V command, config defaults",
+          "deviations": [
+            "--size 832*480 instead of the README example 1280*720 (a supported size; matches the panel)",
+            "--base_seed 0 (README leaves it random)",
+            "one generate.py call per scene via scripts/wan_official_loop.py (no behavioural change)"
+          ]
+        }
+      }
+    },
+    "vb10462563": {
+      "source_sha256": "add637a65bf7f6c37822c5812f89a63ac619ecf9cb892d988ee7f7a0d47bbfc1",
+      "source_url": "https://www.pexels.com/photo/10462563/",
+      "setting": "A blackened kettle hanging over a small campfire",
+      "text": "A blackened kettle hanging over a small campfire. Recorded by a fixed tripod camera, unmoving. The kettle, its hook stick, the logs and the stony ground hold their positions. Small flames lick around the burning log, rising upward. Low warm sunlight.",
+      "models": {
+        "causal_forcing": {
+          "video_sha256": "649ce2bd3c45e6382ce68f35e4aa621c183be5bb405e5a8f1986dfad62e73366",
+          "run_sha256": "9ba3637b4b528267c98a63bbddc6871e7304c10b36a86ad32cc809d353457759",
+          "fps": 16.0,
+          "frames": 81,
+          "frame_indices": {
+            "mid": 40,
+            "end": 80
+          },
+          "frame_times_s": {
+            "mid": 2.5,
+            "end": 5.0
+          },
+          "configuration": "upstream released I2V command (README, 'NEW: I2V')",
+          "deviations": [
+            "checkpoint paths edited to ../ckpt (no behavioural change)"
+          ]
+        },
+        "ltx_video": {
+          "video_sha256": "3339ea7276d002aeb7a38f759a67fcfaa895dbcdbde752e2f1c6256d7174598c",
+          "run_sha256": "a5a7aa583e5fb98bf09b5726e91e104f44fd606810cdc2b16909cafdd2d710c3",
+          "fps": 24.0,
+          "frames": 121,
+          "frame_indices": {
+            "mid": 60,
+            "end": 120
+          },
+          "frame_times_s": {
+            "mid": 2.5,
+            "end": 5.0
+          },
+          "configuration": "official inference.py, released distilled multi-scale config",
+          "deviations": [
+            "prompt_enhancement_words_threshold 120 -> 0 (enhancement off, same text for every system)",
+            "config checkpoint paths made absolute (no behavioural change)",
+            "text encoder PixArt-XL-2-1024-MS from a local cache copied out of the regfor_eval container"
+          ]
+        },
+        "wan21": {
+          "video_sha256": "2e948f5a9f321b301c2b430b293f11ce8d04fcbb2d5cabbea683789cfae41f82",
+          "run_sha256": "8607c7f79bc2880b0741a8e4c8167be2500a2495901cb485522b27064514deeb",
+          "fps": 16.0,
+          "frames": 81,
+          "frame_indices": {
+            "mid": 40,
+            "end": 80
+          },
+          "frame_times_s": {
+            "mid": 2.5,
+            "end": 5.0
+          },
+          "configuration": "official README single-GPU I2V command, generate.py defaults",
+          "deviations": [
+            "--base_seed 0 (README leaves it random)",
+            "one generate.py call per scene via scripts/wan_official_loop.py (no behavioural change)"
+          ]
+        },
+        "wan22": {
+          "video_sha256": "909cef728e7e6e5817af46730db755b23ba08e825318065447dbbb78ce5e5d9f",
+          "run_sha256": "ebf9cae714bf184dbe4070b2d5123fcd766b894c92cf49e04fa0347baac9e5d3",
+          "fps": 16.0,
+          "frames": 81,
+          "frame_indices": {
+            "mid": 40,
+            "end": 80
+          },
+          "frame_times_s": {
+            "mid": 2.5,
+            "end": 5.0
+          },
+          "configuration": "official README single-GPU I2V command, config defaults",
+          "deviations": [
+            "--size 832*480 instead of the README example 1280*720 (a supported size; matches the panel)",
+            "--base_seed 0 (README leaves it random)",
+            "one generate.py call per scene via scripts/wan_official_loop.py (no behavioural change)"
+          ]
+        }
+      }
+    }
+  }
+}

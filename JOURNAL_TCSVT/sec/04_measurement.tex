@@ -1,19 +1,45 @@
-\section{Measurement Suite}
+\section{What We Measure}
 \label{sec:measurement}
-\textbf{Support fidelity} includes source-relative appearance and geometric displacement, with registration failures reported. \textbf{Material behavior} separates activity, active area and direction where observable. \textbf{Continuity} targets replay and resets while retaining legitimate periodic flow. \textbf{Scene integrity} addresses missing or invented content beyond the measured support. Human ratings assess the corresponding observable attributes separately. Figure~\ref{fig:routing} shows which role each measure reads.
+Our task asks two questions: \emph{Does the background stay in place?} and \emph{does the intended material keep moving?} We report the answers separately. For example, a frozen river can preserve its banks perfectly, while a moving river can be accompanied by a drifting landscape. Neither result is sufficient on its own.
+
+The \emph{background} is the region expected to remain stable, such as a riverbank or a building. The \emph{material} is the region expected to move, such as water or smoke. The region maps and their limitations are described in Section~\ref{sec:benchmark}. Figure~\ref{fig:routing} summarizes how the measures use these regions.
 \input{sec/fig_routing}
 
-These are candidate axes, not an admitted headline score. A sharp static frame can preserve detail without motion; noise can increase activity; natural surf can exhibit periodicity. Frame-based displacement (fBD) remains a diagnostic, not a sufficient surrogate for source fidelity. A historical mean-colour field has a documented float32 accumulation defect and retains its original measurement identity.
+\subsection{Background and Motion}
+Table~\ref{tab:plain_metrics} introduces the names used in this paper. The definitions below retain the original identifiers to connect them to the published SNF-Bench definitions and stored records. A name does not change a formula, mask, reference frame, unit or version. In particular, background displacement in the earlier output-referenced protocol and the source-referenced variant must remain separately identified.
 
-\subsection{Realism Family}
-Realism is a separate family of measures, reported beside support fidelity, material behavior and continuity, and never summed with them. Each measure names the single construct it targets. A measure that orders a statistic in one direction can reward an exploit: activity rewards incoherent motion, and closeness to the source rewards a pasted still image. Each realism statistic is therefore read relative to an explicit reference: real fixed-camera footage of the same medium where the construct allows, otherwise encoded controls.
+\begin{table}[t]
+\caption{\textbf{Core measurements in plain language.} These labels describe what is measured, not overall video quality. Frozen definitions remain subject to validation and eligibility checks.}
+\label{tab:plain_metrics}
+\centering
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{0.36\columnwidth}p{0.51\columnwidth}@{}}
+\toprule
+Measurement & Question answered \\
+\midrule
+Background displacement & How far do matched background features move relative to the chosen reference? \\
+Background motion & How much optical-flow motion occurs in the background region? \\
+Early and late material motion & How much material-region motion remains after estimated global motion is removed? \\
+Motion retention & How does late material motion compare with early motion? \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Background displacement (fBD) is a diagnostic: it requires trackable features and does not capture every appearance change. Background motion (NBF) can also respond to lighting changes or flow-estimation errors. Report both with the region, reference and failure counts. NBF is derived from the stored \texttt{BFR} field using the effective sampling rate; raw BFR and time-normalized NBF must not be interchanged.
+
+Read motion retention (FP) together with the early and late material motion values (MCFF-E and MCFF-L). A retention ratio near one can arise when the material barely moves throughout, and a value above one is not automatically better. Optical flow can also be high because of flicker or an unrealistic texture. Thus neither motion amount nor retention establishes natural motion.
+
+The historical background-to-material flow ratio (DLR) and compensation effect (DAR) are supporting diagnostics, not headline quality scores. DLR compares background flow with raw material flow; DAR describes how estimated global-motion compensation changes the material-flow estimate. Neither is a percentage of motion caused by drift.
+
+\subsection{Additional Checks Under Development}
+The core measurements do not tell us whether motion is in the right region, follows a plausible direction, or repeats. We therefore investigate the following checks alongside them; none is included in a combined score.
 \begin{itemize}
-\item \emph{Support integrity.} Successive-frame change in the support after drift and global-illumination compensation, read against real footage and against pass-through, pasted, grain-matched and feathered composites. It is a diagnostic: a valid fixed background can be still and a careful composite can look natural, so it does not by itself establish that a support was pasted or redrawn.
-\item \emph{Material presence and location.} Whether the requested material, rather than another region or a subject, carries the motion. It is checked against source-conditioned material and subject annotations; for example, a moving boat over frozen water is not persistent water flow.
-\item \emph{Direction.} The flow component along an image-plane direction that is annotated independently of the scene text, with unknown, ambiguous and multi-direction options, defined only where the direction is visible, and tested against time-reversed and ping-pong controls of matched magnitude.
-\item \emph{Progression versus replay.} Multi-frame recurrence with seam and reset evidence, gated by active area. Detection and false-positive rates are reported separately, with natural periodic surf, fire and foliage as negatives.
-\item \emph{Motion plausibility.} Flow, point-track and dynamic-texture statistics inside the dynamic role, compared with medium-level distributions of real footage with source-family uncertainty, and with established comparators on the same eligible inputs: TRAJAN per video~\cite{allen2025trajan}, FVMD at set level only~\cite{liu2024fvmd}, and VBench-2.0 physics~\cite{Zheng2025VBench20AV} with any adaptation recorded.
+\item \textbf{Background coherence:} do the appearance and boundary of the stable region fit the rest of the scene? Frame-change and boundary statistics are diagnostics, not reliable detectors of pasted backgrounds.
+\item \textbf{Material motion location:} does the requested material move, or is the observed motion confined to another object? This requires separately verified material and subject regions.
+\item \textbf{Motion direction:} where a direction is observable and independently annotated, does the measured motion follow it? Ambiguous, turbulent and multi-direction cases require an appropriate label or abstention.
+\item \textbf{Repetition and reset:} does motion visibly replay, jump back or freeze? Natural waves and foliage can repeat, so a recurrence signal alone is not a loop verdict.
+\item \textbf{Motion plausibility:} does the motion resemble that of the specified material? Candidate flow, track and texture measurements will be compared with real footage and human judgments; TRAJAN, set-level FVMD and VBench-2.0 provide relevant comparisons~\cite{allen2025trajan,liu2024fvmd,Zheng2025VBench20AV}.
 \end{itemize}
-A real continuation of a source frame is one plausible realization, not the correct trajectory, so no measure compares pixels with it. No two-dimensional statistic establishes physical correctness, and none of these measures is claimed validated before Section~\ref{sec:validation}. A scientifically plausible cinemagraph can be a valid output; a composite counts as a defect only where the task or human raters say so.
+These are \emph{questions and candidate checks}, not validated realism scores. Source-matched real footage is not a unique correct continuation, and two-dimensional statistics do not prove physical correctness. The validation plan in Section~\ref{sec:validation} separates the failures each check should detect from natural variation it should tolerate.
 
-\textbf{Eligibility and abstention.} A measure abstains when its region is empty or registration to the source fails, and the number of eligible videos is reported beside every value. Abstentions are never imputed, and registration failures are counted rather than dropped.
+\textbf{When a measurement cannot be made.} We report how many videos are eligible and why a measurement abstains, for example because a region is empty or registration fails. An abstention is not replaced with a score.
