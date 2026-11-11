@@ -1,0 +1,125 @@
+{
+ "scene_id": "vb161950",
+ "category": "falling_water",
+ "mask_version": "source-clipseg-auto-v0",
+ "labels": {
+  "ignore": 0,
+  "support": 1,
+  "dynamic": 2,
+  "overlay": 3
+ },
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "model_input_size": 352,
+ "device": "cpu",
+ "source_image": "/home/minar/snf-bench/videos/public_bench/conditioning/vb161950.jpg",
+ "source_sha256": "9a6cda07eee54680edf2513eb453fd004a1d24488858899c76882375039118ae",
+ "source_size": [
+  832,
+  480
+ ],
+ "prompt": {
+  "text": "A tall waterfall dropping from a green cliff onto a gravel plain. Recorded by a fixed tripod camera, unmoving. The cliff faces, the grassy slopes and the gravel bank hold their positions. White water plunges from the lip into the pool top to bottom. Bright midday sun.",
+  "dynamic_medium": "White water plunges from the lip into the pool",
+  "static_support": "The cliff faces, the grassy slopes and the gravel bank",
+  "direction": "top to bottom"
+ },
+ "queries": {
+  "dynamic": [
+   "White water plunges from the lip into the pool",
+   "falling water",
+   "waterfall",
+   "white water",
+   "water jet"
+  ],
+  "support": [
+   "The cliff faces, the grassy slopes and the gravel bank",
+   "The cliff faces",
+   "the grassy slopes",
+   "the gravel bank"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.42745098039215684,
+  "t_sup": 0.4666666666666667,
+  "t_ovl": 0.44313725490196076,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "p_stats": {
+  "p_dyn_mean": 0.09427304565906525,
+  "p_dyn_max": 0.9626573920249939,
+  "p_sup_mean": 0.595761775970459,
+  "p_sup_max": 0.9088970422744751,
+  "p_ovl_mean": 0.2920337915420532,
+  "p_ovl_max": 0.9245344400405884
+ },
+ "coverage": {
+  "support_frac": 0.5610476762820513,
+  "dynamic_frac": 0.07970753205128205,
+  "overlay_frac": 0.17789963942307693,
+  "uncertain_frac": 0.18134515224358974,
+  "support_frac_latent": 0.5629807692307692,
+  "dynamic_frac_latent": 0.0798076923076923,
+  "overlay_frac_latent": 0.18076923076923077,
+  "uncertain_frac_latent": 0.18189102564102563,
+  "support_frac_eval": 0.5630705856156758,
+  "dynamic_frac_eval": 0.07972890224894233,
+  "support_px_eval": 80920,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_static": [],
+ "abstain_motion": [],
+ "abstain": false,
+ "abstain_reasons": [],
+ "review": "unreviewed (automatic CLIPSeg mask; see review_manifest.json)",
+ "files_sha256": {
+  "labels.png": "f288602a6f0ba3f6442cdd6b2dfe3046c71d352ed370ba5e28fa90e9a52e59c3",
+  "support.png": "de3e337f05a78a22bfdd515c279687e666db52544327d495ec3e4378bb5bc4cd",
+  "support_latent.png": "9c05279c62f0d89b39db06b1c91b29c701bf4518fdd20f37bdafe32e50f5fdd9",
+  "dynamic.png": "c6bf59eaefba4fb56ed2c5d9c434a0a54b5f58875fa7c1a76c6a665fff73d965",
+  "dynamic_latent.png": "dac46225a764fcc0da696a52d78244b78eabe5117e138f84c6e3c6f738936a1d",
+  "overlay.png": "0e15d2efc28890dbc3f661812b21f123189dfbacbd95b8187474243b9e6f2b4f",
+  "overlay_latent.png": "c768c65e4498ad3d14939c94aaf2546751f4c42b0344f0551745a7d897165224",
+  "uncertain.png": "a12d0491a9a40fcd7d0a7420e627eb5457ba714ce78f04d2f31629b6b85868c3",
+  "uncertain_latent.png": "c151cad2ba820a60d25adb4ef2edce2d03317e6ae9f08abba707ad35e43800b5",
+  "p_dyn.png": "89325a8c407cc6c238ac0d1712c8ea0781e8558744f6c8cfecce32a9a294f129",
+  "p_sup.png": "ef793462a433272514ac146706c3939876c4fea8db7717ad585b28456fbc933d",
+  "p_ovl.png": "163bb6c17cc0b271cfaee723ab258e1840937827e5464f4d5f63a23e19a052bd"
+ },
+ "elapsed_s": 4.2,
+ "time": "2026-11-10T00:45:04+0000"
+}

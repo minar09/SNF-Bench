@@ -1,0 +1,100 @@
+{
+ "scene_id": "vb1236906",
+ "labels": "0 ignore/uncertain, 1 support, 2 dynamic, 3 overlay",
+ "size": [
+  832,
+  480
+ ],
+ "review": "automatic, unreviewed",
+ "mask_version": "source-clipseg-auto-v0",
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "hf_home": "/home/minar/.cache/hf_minar",
+ "device": "cpu",
+ "method": "AIA tools/factorial_scoring/source_masks.py process_scene (imported read-only)",
+ "method_sha256": "7699480358ea351581315fd10085fa8ff92a7d720782c2b7a70e3eb48c439c9b",
+ "adapter": "scripts/make_public_role_maps.py",
+ "adapter_sha256": "d5554df3cae273ba5ae54b64ae1585e63604b1f05382e3d8be83897953210718",
+ "manifest": "manifest/public_figure_set_2026_11_05.json",
+ "manifest_sha256": "6ff1ac4d92a31bffe36049531b173903b81d232f193b3a209f5c476736fb6a3b",
+ "image": "videos/public_bench/conditioning/vb1236906.jpg",
+ "image_sha256": "b6563f8001347013037c932b772b81fc6e6f909e1bbf40dfd0c1cfce389559e2",
+ "prompt_fields": {
+  "source": "manifest/public_figure_set_2026_11_05.json (verbatim)",
+  "dynamic_medium": "Brown water pours over the ledges into the river below",
+  "static_support": "The cliffs, the rock ledges and the far rim of the gorge",
+  "category": "falling_water"
+ },
+ "queries": {
+  "dynamic": [
+   "Brown water pours over the ledges into the river below",
+   "falling water",
+   "waterfall",
+   "white water",
+   "water jet"
+  ],
+  "support": [
+   "The cliffs, the rock ledges and the far rim of the gorge",
+   "The cliffs",
+   "the rock ledges",
+   "the far rim of the gorge"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.33725490196078434,
+  "t_sup": 0.403921568627451,
+  "t_ovl": 0.4196078431372549,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "coverage": {
+  "support_frac": 0.35678836137820513,
+  "dynamic_frac": 0.09767127403846154,
+  "overlay_frac": 0.07060797275641026,
+  "uncertain_frac": 0.4749323918269231,
+  "support_frac_latent": 0.3596153846153846,
+  "dynamic_frac_latent": 0.09791666666666667,
+  "overlay_frac_latent": 0.07115384615384615,
+  "uncertain_frac_latent": 0.4703525641025641,
+  "support_frac_eval": 0.35717963705188155,
+  "dynamic_frac_eval": 0.0978275996437319,
+  "support_px_eval": 51331,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_reasons": [],
+ "labels_sha256": "2bcbbec4fe615cf14b0d7a62791f38e3d2090ccdec6882b9ab48d5162a32353f",
+ "written": "2026-11-10T00:45:08+0000"
+}

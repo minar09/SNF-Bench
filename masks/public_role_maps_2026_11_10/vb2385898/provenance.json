@@ -1,0 +1,103 @@
+{
+ "scene_id": "vb2385898",
+ "labels": "0 ignore/uncertain, 1 support, 2 dynamic, 3 overlay",
+ "size": [
+  832,
+  480
+ ],
+ "review": "automatic, unreviewed",
+ "mask_version": "source-clipseg-auto-v0",
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "hf_home": "/home/minar/.cache/hf_minar",
+ "device": "cpu",
+ "method": "AIA tools/factorial_scoring/source_masks.py process_scene (imported read-only)",
+ "method_sha256": "7699480358ea351581315fd10085fa8ff92a7d720782c2b7a70e3eb48c439c9b",
+ "adapter": "scripts/make_public_role_maps.py",
+ "adapter_sha256": "d5554df3cae273ba5ae54b64ae1585e63604b1f05382e3d8be83897953210718",
+ "manifest": "manifest/public_figure_set_2026_11_05.json",
+ "manifest_sha256": "6ff1ac4d92a31bffe36049531b173903b81d232f193b3a209f5c476736fb6a3b",
+ "image": "videos/public_bench/conditioning/vb2385898.jpg",
+ "image_sha256": "9502f89a9a4e764aa2c0f02db123a873df43fae7acc5bf0d79fe5831a23ce461",
+ "prompt_fields": {
+  "source": "manifest/public_figure_set_2026_11_05.json (verbatim)",
+  "dynamic_medium": "Snow falls steadily through the lamplight",
+  "static_support": "The building fronts, the lampposts, the advertising pillars and the railings",
+  "category": "falling_precip"
+ },
+ "queries": {
+  "dynamic": [
+   "Snow falls steadily through the lamplight",
+   "falling rain",
+   "falling snow",
+   "raindrops",
+   "snowfall"
+  ],
+  "support": [
+   "The building fronts, the lampposts, the advertising pillars and the railings",
+   "The building fronts",
+   "the lampposts",
+   "the advertising pillars",
+   "the railings"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.4666666666666667,
+  "t_sup": 0.3254901960784314,
+  "t_ovl": 0.3803921568627451,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": true,
+  "rule": "overlay medium: sup = p_sup>=t_sup+band & border, eroded 5x5; dynamic = EMPTY; overlay = (p_dyn>=t_dyn+band | p_ovl>=t_ovl) & ~sup; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "coverage": {
+  "support_frac": 0.1883563701923077,
+  "dynamic_frac": 0.0,
+  "overlay_frac": 0.28451772836538464,
+  "uncertain_frac": 0.5271259014423076,
+  "support_frac_latent": 0.18493589743589745,
+  "dynamic_frac_latent": 0.0,
+  "overlay_frac_latent": 0.2842948717948718,
+  "uncertain_frac_latent": 0.5328525641025641,
+  "support_frac_eval": 0.1892117568470274,
+  "dynamic_frac_eval": 0.0,
+  "support_px_eval": 27192,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_reasons": [
+  "dynamic fraction 0.000 < 0.03 (overlay medium: by construction)"
+ ],
+ "labels_sha256": "4c381eacf207bd6af15acd1ce309f9058c60dec52f5f1b43a7d1fd4b50f7024e",
+ "written": "2026-11-10T00:45:24+0000"
+}

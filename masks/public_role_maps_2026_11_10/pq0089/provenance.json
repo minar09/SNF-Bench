@@ -1,0 +1,103 @@
+{
+ "scene_id": "pq0089",
+ "labels": "0 ignore/uncertain, 1 support, 2 dynamic, 3 overlay",
+ "size": [
+  832,
+  480
+ ],
+ "review": "automatic, unreviewed",
+ "mask_version": "source-clipseg-auto-v0",
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "hf_home": "/home/minar/.cache/hf_minar",
+ "device": "cpu",
+ "method": "AIA tools/factorial_scoring/source_masks.py process_scene (imported read-only)",
+ "method_sha256": "7699480358ea351581315fd10085fa8ff92a7d720782c2b7a70e3eb48c439c9b",
+ "adapter": "scripts/make_public_role_maps.py",
+ "adapter_sha256": "d5554df3cae273ba5ae54b64ae1585e63604b1f05382e3d8be83897953210718",
+ "manifest": "manifest/public_figure_set_2026_11_05.json",
+ "manifest_sha256": "6ff1ac4d92a31bffe36049531b173903b81d232f193b3a209f5c476736fb6a3b",
+ "image": "videos/public_bench/conditioning/pq0089.jpg",
+ "image_sha256": "420615c187f44d49f63359efc9f05d0a42551cd57835b70ddf473bcb82899da3",
+ "prompt_fields": {
+  "source": "manifest/public_figure_set_2026_11_05.json (verbatim)",
+  "dynamic_medium": "Red juice spills over the glass rim and runs down its sides",
+  "static_support": "The dispenser, the wicker stand, the glass and the metal tray",
+  "category": "falling_water"
+ },
+ "queries": {
+  "dynamic": [
+   "Red juice spills over the glass rim and runs down its sides",
+   "falling water",
+   "waterfall",
+   "white water",
+   "water jet"
+  ],
+  "support": [
+   "The dispenser, the wicker stand, the glass and the metal tray",
+   "The dispenser",
+   "the wicker stand",
+   "the glass",
+   "the metal tray"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.3,
+  "t_sup": 0.43137254901960786,
+  "t_ovl": 0.35,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "coverage": {
+  "support_frac": 0.5564853766025641,
+  "dynamic_frac": 0.015049078525641026,
+  "overlay_frac": 0.0013171073717948719,
+  "uncertain_frac": 0.4271484375,
+  "support_frac_latent": 0.5540064102564103,
+  "dynamic_frac_latent": 0.015224358974358974,
+  "overlay_frac_latent": 0.001282051282051282,
+  "uncertain_frac_latent": 0.42948717948717946,
+  "support_frac_eval": 0.5572881874860833,
+  "dynamic_frac_eval": 0.015162268982409263,
+  "support_px_eval": 80089,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_reasons": [
+  "dynamic fraction 0.015 < 0.03"
+ ],
+ "labels_sha256": "8ca829dd49042e6420431834bdb710f1a3690f26e17b29a42c6a28f415e614d6",
+ "written": "2026-11-10T00:45:00+0000"
+}

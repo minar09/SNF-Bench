@@ -1,0 +1,129 @@
+{
+ "scene_id": "pq0092",
+ "category": "combustion",
+ "mask_version": "source-clipseg-auto-v0",
+ "labels": {
+  "ignore": 0,
+  "support": 1,
+  "dynamic": 2,
+  "overlay": 3
+ },
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "model_input_size": 352,
+ "device": "cpu",
+ "source_image": "/home/minar/snf-bench/videos/public_bench/conditioning/pq0092.jpg",
+ "source_sha256": "347756fcad49ee9b8beddca1f1153dd5e6b97f727e088717e859125609f680f2",
+ "source_size": [
+  832,
+  480
+ ],
+ "prompt": {
+  "text": "Two red candles in brass holders on a wooden table. Recorded by a fixed tripod camera, unmoving. The candlesticks, the brass holders, the table and the wall hold their positions. The flame on the left candle flickers, licking upward. Soft indoor daylight.",
+  "dynamic_medium": "The flame on the left candle flickers, licking",
+  "static_support": "The candlesticks, the brass holders, the table and the wall",
+  "direction": "upward"
+ },
+ "queries": {
+  "dynamic": [
+   "The flame on the left candle flickers, licking",
+   "fire",
+   "flames",
+   "burning flames"
+  ],
+  "support": [
+   "The candlesticks, the brass holders, the table and the wall",
+   "The candlesticks",
+   "the brass holders",
+   "the table",
+   "the wall"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.3,
+  "t_sup": 0.6352941176470588,
+  "t_ovl": 0.35,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "p_stats": {
+  "p_dyn_mean": 0.059574294835329056,
+  "p_dyn_max": 0.6685035228729248,
+  "p_sup_mean": 0.7315955758094788,
+  "p_sup_max": 0.8817119598388672,
+  "p_ovl_mean": 0.04286063835024834,
+  "p_ovl_max": 0.8208851218223572
+ },
+ "coverage": {
+  "support_frac": 0.5940604967948718,
+  "dynamic_frac": 0.004189202724358974,
+  "overlay_frac": 0.005045572916666667,
+  "uncertain_frac": 0.3967047275641026,
+  "support_frac_latent": 0.5951923076923077,
+  "dynamic_frac_latent": 0.004326923076923077,
+  "overlay_frac_latent": 0.005128205128205128,
+  "uncertain_frac_latent": 0.3998397435897436,
+  "support_frac_eval": 0.5950929637051882,
+  "dynamic_frac_eval": 0.00410543308839902,
+  "support_px_eval": 85522,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_static": [],
+ "abstain_motion": [
+  "dynamic fraction 0.004 < 0.03"
+ ],
+ "abstain": false,
+ "abstain_reasons": [
+  "dynamic fraction 0.004 < 0.03"
+ ],
+ "review": "unreviewed (automatic CLIPSeg mask; see review_manifest.json)",
+ "files_sha256": {
+  "labels.png": "9d9b640f79c83b8aedde9cf21f3b94a3a32f4177198a6e0dc2ab5088c5cddba7",
+  "support.png": "916f8ce7818e93d612e804732a0c31e0829da058517ccc11585ffe9a034b09ea",
+  "support_latent.png": "3ef28985e0247162ee1711d127dbeb3f95162865efe88cbc63fb4e73920b9e12",
+  "dynamic.png": "65df4f6892431e34fb1c6c77df90fe267a3264c203eaff01f7abf304aaaf6781",
+  "dynamic_latent.png": "9219011444322325f0f6490b84843c03bd1c1fc54dfc8c559a60cce11e1db36c",
+  "overlay.png": "2c8b667b14013839bdcebda96d7a71b51077e6707f419fa079e35a1977f7bcb6",
+  "overlay_latent.png": "bcf1bbda1ffa791b150b83f1053759018bc11cb73ad91f361405d3d0df72a738",
+  "uncertain.png": "2f314b6b782bd1bdf8468efddafd33757b76f0df5a1a90b12d17ee02e1e54c16",
+  "uncertain_latent.png": "eff9ec430f8d774f04b9378909ef0ca07a9d031f94b9ea7cd7e94854f7d2170a",
+  "p_dyn.png": "071eef9948f9821e6733e2b0ccf80df6e7d12ea5acddb97463b325f23f20f61f",
+  "p_sup.png": "4aa3fc55887878aa32e22db1fb29354439a97c98afb458dc5fbe04cd216c5bad",
+  "p_ovl.png": "0d598152d847f1d7cec62b30a22cca4657017f06416f4f86b3d1cc37ac959a88"
+ },
+ "elapsed_s": 4.2,
+ "time": "2026-11-10T00:44:47+0000"
+}

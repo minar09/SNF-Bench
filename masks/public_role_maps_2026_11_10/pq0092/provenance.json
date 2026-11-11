@@ -1,0 +1,102 @@
+{
+ "scene_id": "pq0092",
+ "labels": "0 ignore/uncertain, 1 support, 2 dynamic, 3 overlay",
+ "size": [
+  832,
+  480
+ ],
+ "review": "automatic, unreviewed",
+ "mask_version": "source-clipseg-auto-v0",
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "hf_home": "/home/minar/.cache/hf_minar",
+ "device": "cpu",
+ "method": "AIA tools/factorial_scoring/source_masks.py process_scene (imported read-only)",
+ "method_sha256": "7699480358ea351581315fd10085fa8ff92a7d720782c2b7a70e3eb48c439c9b",
+ "adapter": "scripts/make_public_role_maps.py",
+ "adapter_sha256": "d5554df3cae273ba5ae54b64ae1585e63604b1f05382e3d8be83897953210718",
+ "manifest": "manifest/public_figure_set_2026_11_05.json",
+ "manifest_sha256": "6ff1ac4d92a31bffe36049531b173903b81d232f193b3a209f5c476736fb6a3b",
+ "image": "videos/public_bench/conditioning/pq0092.jpg",
+ "image_sha256": "347756fcad49ee9b8beddca1f1153dd5e6b97f727e088717e859125609f680f2",
+ "prompt_fields": {
+  "source": "manifest/public_figure_set_2026_11_05.json (verbatim)",
+  "dynamic_medium": "The flame on the left candle flickers, licking",
+  "static_support": "The candlesticks, the brass holders, the table and the wall",
+  "category": "combustion"
+ },
+ "queries": {
+  "dynamic": [
+   "The flame on the left candle flickers, licking",
+   "fire",
+   "flames",
+   "burning flames"
+  ],
+  "support": [
+   "The candlesticks, the brass holders, the table and the wall",
+   "The candlesticks",
+   "the brass holders",
+   "the table",
+   "the wall"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.3,
+  "t_sup": 0.6352941176470588,
+  "t_ovl": 0.35,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "coverage": {
+  "support_frac": 0.5940604967948718,
+  "dynamic_frac": 0.004189202724358974,
+  "overlay_frac": 0.005045572916666667,
+  "uncertain_frac": 0.3967047275641026,
+  "support_frac_latent": 0.5951923076923077,
+  "dynamic_frac_latent": 0.004326923076923077,
+  "overlay_frac_latent": 0.005128205128205128,
+  "uncertain_frac_latent": 0.3998397435897436,
+  "support_frac_eval": 0.5950929637051882,
+  "dynamic_frac_eval": 0.00410543308839902,
+  "support_px_eval": 85522,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_reasons": [
+  "dynamic fraction 0.004 < 0.03"
+ ],
+ "labels_sha256": "9d9b640f79c83b8aedde9cf21f3b94a3a32f4177198a6e0dc2ab5088c5cddba7",
+ "written": "2026-11-10T00:44:47+0000"
+}

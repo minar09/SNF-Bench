@@ -1,0 +1,125 @@
+{
+ "scene_id": "vb14357872",
+ "category": "windborne",
+ "mask_version": "source-clipseg-auto-v0",
+ "labels": {
+  "ignore": 0,
+  "support": 1,
+  "dynamic": 2,
+  "overlay": 3
+ },
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "model_input_size": 352,
+ "device": "cpu",
+ "source_image": "/home/minar/snf-bench/videos/public_bench/conditioning/vb14357872.jpg",
+ "source_sha256": "c742a2e60ed0cd6ecca04c8d980c4c6a5af3bbbaf1d29511c5cef28ea6bbfd8e",
+ "source_size": [
+  832,
+  480
+ ],
+ "prompt": {
+  "text": "A hilltop church under a towering cloudy sky. Recorded by a fixed tripod camera, unmoving. The church towers, its walls and the hilltop hold their positions. Large white clouds roll and billow across the sky. Warm late-afternoon sun.",
+  "dynamic_medium": "Large white clouds roll and billow across the sky",
+  "static_support": "The church towers, its walls and the hilltop",
+  "direction": null
+ },
+ "queries": {
+  "dynamic": [
+   "Large white clouds roll and billow across the sky",
+   "dust cloud",
+   "dust storm",
+   "sand haze",
+   "storm clouds"
+  ],
+  "support": [
+   "The church towers, its walls and the hilltop",
+   "The church towers",
+   "its walls",
+   "the hilltop"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.4235294117647059,
+  "t_sup": 0.30980392156862746,
+  "t_ovl": 0.4549019607843137,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "p_stats": {
+  "p_dyn_mean": 0.4570748209953308,
+  "p_dyn_max": 0.9121664762496948,
+  "p_sup_mean": 0.2262030392885208,
+  "p_sup_max": 0.7991047501564026,
+  "p_ovl_mean": 0.49553290009498596,
+  "p_ovl_max": 0.914955198764801
+ },
+ "coverage": {
+  "support_frac": 0.256563000801282,
+  "dynamic_frac": 0.5243239182692307,
+  "overlay_frac": 0.018830128205128204,
+  "uncertain_frac": 0.20028295272435898,
+  "support_frac_latent": 0.25272435897435896,
+  "dynamic_frac_latent": 0.5243589743589744,
+  "overlay_frac_latent": 0.01826923076923077,
+  "uncertain_frac_latent": 0.2094551282051282,
+  "support_frac_eval": 0.2570349031396126,
+  "dynamic_frac_eval": 0.5241455132487196,
+  "support_px_eval": 36939,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_static": [],
+ "abstain_motion": [],
+ "abstain": false,
+ "abstain_reasons": [],
+ "review": "unreviewed (automatic CLIPSeg mask; see review_manifest.json)",
+ "files_sha256": {
+  "labels.png": "ac7e52fd36f3a06b64b0eb38a0dd2589ed564d0b7e90b51ce060588a697f19a2",
+  "support.png": "965951d225e4a41a9cb6b1744d14d18b92fd2c35cc4b6eb7da142874d8d2ad1c",
+  "support_latent.png": "8974a156b60f727ae61bf6bd9c0b241c8088e9af85bc0f5bcc766cd9b872e2fd",
+  "dynamic.png": "cb08929107aea1fb2c07ace25a53998ceec1bdeb6677e4ea1854499eef577c7f",
+  "dynamic_latent.png": "070432cc10e45fb26403a69daa33c3ebd9b0da06748cfdaaca288668bd834161",
+  "overlay.png": "825de2fc02e6a6292f0da234095efd59620e1753670bdc33c6fa05494d7ba695",
+  "overlay_latent.png": "6d6898c5a6fa66e6bde8fbb7a77fc25295988dd88f1c1fe56d64d73cadc28eef",
+  "uncertain.png": "06976028ea884aeaf16ef0d14040d4f59afe38d377b1b6a2536f883e760948d2",
+  "uncertain_latent.png": "ff08fa7c6cc4353d8d45ab903f1eeaffa01eac84aaf732438c643c29166dc27c",
+  "p_dyn.png": "8c8ddc28990f8d168a407179cc0590f615ab058fb39dfc7850674b4bdc60c400",
+  "p_sup.png": "471bdadc07e7de9580227a5e71f0b550c19e83cc3741590930c5f1eee2aed622",
+  "p_ovl.png": "a9227a4e2a7c65d6c595baeeaa804c021be7b258c94139b39e13480dbaaa93a0"
+ },
+ "elapsed_s": 3.81,
+ "time": "2026-11-10T00:45:19+0000"
+}

@@ -1,0 +1,100 @@
+{
+ "scene_id": "vb2683365",
+ "labels": "0 ignore/uncertain, 1 support, 2 dynamic, 3 overlay",
+ "size": [
+  832,
+  480
+ ],
+ "review": "automatic, unreviewed",
+ "mask_version": "source-clipseg-auto-v0",
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "hf_home": "/home/minar/.cache/hf_minar",
+ "device": "cpu",
+ "method": "AIA tools/factorial_scoring/source_masks.py process_scene (imported read-only)",
+ "method_sha256": "7699480358ea351581315fd10085fa8ff92a7d720782c2b7a70e3eb48c439c9b",
+ "adapter": "scripts/make_public_role_maps.py",
+ "adapter_sha256": "d5554df3cae273ba5ae54b64ae1585e63604b1f05382e3d8be83897953210718",
+ "manifest": "manifest/public_figure_set_2026_11_05.json",
+ "manifest_sha256": "6ff1ac4d92a31bffe36049531b173903b81d232f193b3a209f5c476736fb6a3b",
+ "image": "videos/public_bench/conditioning/vb2683365.jpg",
+ "image_sha256": "7bbe1d5689749270dab9c5125f6e326589c07446351aa68a742858222849e678",
+ "prompt_fields": {
+  "source": "manifest/public_figure_set_2026_11_05.json (verbatim)",
+  "dynamic_medium": "Waves burst against the pier and throw up white spray",
+  "static_support": "The lighthouse tower, its hut and the pier wall",
+  "category": "oscillatory_water"
+ },
+ "queries": {
+  "dynamic": [
+   "Waves burst against the pier and throw up white spray",
+   "sea water",
+   "breaking waves",
+   "surf",
+   "sea foam and spray"
+  ],
+  "support": [
+   "The lighthouse tower, its hut and the pier wall",
+   "The lighthouse tower",
+   "its hut",
+   "the pier wall"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.37254901960784315,
+  "t_sup": 0.3,
+  "t_ovl": 0.6,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "coverage": {
+  "support_frac": 0.09539513221153846,
+  "dynamic_frac": 0.4298277243589744,
+  "overlay_frac": 0.3121895032051282,
+  "uncertain_frac": 0.16258764022435898,
+  "support_frac_latent": 0.09471153846153846,
+  "dynamic_frac_latent": 0.4306089743589744,
+  "overlay_frac_latent": 0.3128205128205128,
+  "uncertain_frac_latent": 0.16618589743589743,
+  "support_frac_eval": 0.09585142507236695,
+  "dynamic_frac_eval": 0.4291151747940325,
+  "support_px_eval": 13775,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_reasons": [],
+ "labels_sha256": "1fcec3e3f855d0be036044ba5edf1a14b9d814522824a2911ae113320692f549",
+ "written": "2026-11-10T00:45:12+0000"
+}

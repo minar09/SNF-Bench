@@ -1,0 +1,125 @@
+{
+ "scene_id": "pq0140",
+ "category": "buoyant_plume",
+ "mask_version": "source-clipseg-auto-v0",
+ "labels": {
+  "ignore": 0,
+  "support": 1,
+  "dynamic": 2,
+  "overlay": 3
+ },
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "model_input_size": 352,
+ "device": "cpu",
+ "source_image": "/home/minar/snf-bench/videos/public_bench/conditioning/pq0140.jpg",
+ "source_sha256": "1f12a49d8810963ebc214537b1aaafd800915d5bd1b4dac9d6b3656b264ae9c1",
+ "source_size": [
+  832,
+  480
+ ],
+ "prompt": {
+  "text": "A scrap of smouldering paper on a glass board on a wooden table. Recorded by a fixed tripod camera, unmoving. The glass board, the table top and the back wall hold their positions. Thin grey smoke curls off the paper, rising upward. Bright window sidelight.",
+  "dynamic_medium": "Thin grey smoke curls off the paper, rising",
+  "static_support": "The glass board, the table top and the back wall",
+  "direction": "upward"
+ },
+ "queries": {
+  "dynamic": [
+   "Thin grey smoke curls off the paper",
+   "steam plume",
+   "smoke",
+   "white vapour",
+   "rising steam"
+  ],
+  "support": [
+   "The glass board, the table top and the back wall",
+   "The glass board",
+   "the table top",
+   "the back wall"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.3568627450980392,
+  "t_sup": 0.6705882352941176,
+  "t_ovl": 0.35,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "p_stats": {
+  "p_dyn_mean": 0.09881969541311264,
+  "p_dyn_max": 0.9020480513572693,
+  "p_sup_mean": 0.6357475519180298,
+  "p_sup_max": 0.9310834407806396,
+  "p_ovl_mean": 0.2811453640460968,
+  "p_ovl_max": 0.9334560632705688
+ },
+ "coverage": {
+  "support_frac": 0.03293519631410256,
+  "dynamic_frac": 0.04161157852564103,
+  "overlay_frac": 0.33220653044871795,
+  "uncertain_frac": 0.5932466947115385,
+  "support_frac_latent": 0.026442307692307692,
+  "dynamic_frac_latent": 0.040705128205128206,
+  "overlay_frac_latent": 0.3342948717948718,
+  "uncertain_frac_latent": 0.6004807692307692,
+  "support_frac_eval": 0.033017423736361615,
+  "dynamic_frac_eval": 0.04172929191716767,
+  "support_px_eval": 4745,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_static": [],
+ "abstain_motion": [],
+ "abstain": false,
+ "abstain_reasons": [],
+ "review": "unreviewed (automatic CLIPSeg mask; see review_manifest.json)",
+ "files_sha256": {
+  "labels.png": "caf43a9d90bfd21f27968c751a42a9094352e9656570030b180cacb2d7067fb8",
+  "support.png": "bd293b89e6af9501159be1ea1fda09750faac76ee87159234d4c27f6e2f96545",
+  "support_latent.png": "01bba7bfbd95f5e436651d6f3cf3c449f371567567c2723eb23f01ae0d17e588",
+  "dynamic.png": "2500542dd81677e86a1370e2fee01e57edce1e9c7dc1c28ab2dc67faa51f8e04",
+  "dynamic_latent.png": "bf59c9355a2b868fe81a6e42862945db5cdb49ed9c45637071e0d6cd5eeaad13",
+  "overlay.png": "2e625280052a47e9f85a92a882ddaa7225b9851f9cf08a10c4a6d7156c5d59b6",
+  "overlay_latent.png": "68800757db4d26f39544b1631a8a9687bc7eb70fb788df28c85d4e83cd1b494e",
+  "uncertain.png": "15bcd344ec047a8ff94b417e6ce1610bd39f1329ccfbbdb8ecb0cf57b2dbe4ec",
+  "uncertain_latent.png": "8571ad77fabfa15f46a6e0037d068f46fb88e7b9a36edd8ffee34260bd687c58",
+  "p_dyn.png": "95837b81c984d486b87adaff36ffc4eee9e913fd20fdcdcb19c9876631bb4a1a",
+  "p_sup.png": "3e978452534997f1834d2daf118bbae69ef16a170955c5222e25b2e1d2588e0e",
+  "p_ovl.png": "d92b829a193b5eab2c89138645a21082d671f63398369fc9ef0881689b7c39f9"
+ },
+ "elapsed_s": 4.05,
+ "time": "2026-11-10T00:44:51+0000"
+}

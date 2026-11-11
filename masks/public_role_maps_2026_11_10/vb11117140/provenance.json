@@ -1,0 +1,99 @@
+{
+ "scene_id": "vb11117140",
+ "labels": "0 ignore/uncertain, 1 support, 2 dynamic, 3 overlay",
+ "size": [
+  832,
+  480
+ ],
+ "review": "automatic, unreviewed",
+ "mask_version": "source-clipseg-auto-v0",
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "hf_home": "/home/minar/.cache/hf_minar",
+ "device": "cpu",
+ "method": "AIA tools/factorial_scoring/source_masks.py process_scene (imported read-only)",
+ "method_sha256": "7699480358ea351581315fd10085fa8ff92a7d720782c2b7a70e3eb48c439c9b",
+ "adapter": "scripts/make_public_role_maps.py",
+ "adapter_sha256": "d5554df3cae273ba5ae54b64ae1585e63604b1f05382e3d8be83897953210718",
+ "manifest": "manifest/public_figure_set_2026_11_05.json",
+ "manifest_sha256": "6ff1ac4d92a31bffe36049531b173903b81d232f193b3a209f5c476736fb6a3b",
+ "image": "videos/public_bench/conditioning/vb11117140.jpg",
+ "image_sha256": "5055569f6a3f5484637fd34a40f5ae16b9bc38f5b7719895323f9052e932b6cc",
+ "prompt_fields": {
+  "source": "manifest/public_figure_set_2026_11_05.json (verbatim)",
+  "dynamic_medium": "Waves surge over the rocks and drain back in foam",
+  "static_support": "The dark rock shelf and the distant houses",
+  "category": "oscillatory_water"
+ },
+ "queries": {
+  "dynamic": [
+   "Waves surge over the rocks and drain back in foam",
+   "sea water",
+   "breaking waves",
+   "surf",
+   "sea foam and spray"
+  ],
+  "support": [
+   "The dark rock shelf and the distant houses",
+   "The dark rock shelf",
+   "the distant houses"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.43529411764705883,
+  "t_sup": 0.3,
+  "t_ovl": 0.6980392156862745,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "coverage": {
+  "support_frac": 0.039495693108974356,
+  "dynamic_frac": 0.6175906450320513,
+  "overlay_frac": 0.2981971153846154,
+  "uncertain_frac": 0.04471654647435897,
+  "support_frac_latent": 0.04038461538461539,
+  "dynamic_frac_latent": 0.6182692307692308,
+  "overlay_frac_latent": 0.3016025641025641,
+  "uncertain_frac_latent": 0.047275641025641024,
+  "support_frac_eval": 0.03982965931863727,
+  "dynamic_frac_eval": 0.6163646737920285,
+  "support_px_eval": 5724,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_reasons": [],
+ "labels_sha256": "77960814b3848468b3074ebf05693e3bb3b46140fae1ad679ad17141b8b67fb5",
+ "written": "2026-11-10T00:45:16+0000"
+}

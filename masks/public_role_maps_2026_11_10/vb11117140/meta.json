@@ -1,0 +1,124 @@
+{
+ "scene_id": "vb11117140",
+ "category": "oscillatory_water",
+ "mask_version": "source-clipseg-auto-v0",
+ "labels": {
+  "ignore": 0,
+  "support": 1,
+  "dynamic": 2,
+  "overlay": 3
+ },
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "model_input_size": 352,
+ "device": "cpu",
+ "source_image": "/home/minar/snf-bench/videos/public_bench/conditioning/vb11117140.jpg",
+ "source_sha256": "5055569f6a3f5484637fd34a40f5ae16b9bc38f5b7719895323f9052e932b6cc",
+ "source_size": [
+  832,
+  480
+ ],
+ "prompt": {
+  "text": "Storm waves breaking over a rocky headland. Recorded by a fixed tripod camera, unmoving. The dark rock shelf and the distant houses hold their positions. Waves surge over the rocks and drain back in foam. Grey stormy light.",
+  "dynamic_medium": "Waves surge over the rocks and drain back in foam",
+  "static_support": "The dark rock shelf and the distant houses",
+  "direction": null
+ },
+ "queries": {
+  "dynamic": [
+   "Waves surge over the rocks and drain back in foam",
+   "sea water",
+   "breaking waves",
+   "surf",
+   "sea foam and spray"
+  ],
+  "support": [
+   "The dark rock shelf and the distant houses",
+   "The dark rock shelf",
+   "the distant houses"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.43529411764705883,
+  "t_sup": 0.3,
+  "t_ovl": 0.6980392156862745,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "p_stats": {
+  "p_dyn_mean": 0.5414114594459534,
+  "p_dyn_max": 0.9298974275588989,
+  "p_sup_mean": 0.18975244462490082,
+  "p_sup_max": 0.7251989841461182,
+  "p_ovl_mean": 0.7006590366363525,
+  "p_ovl_max": 0.9805068969726562
+ },
+ "coverage": {
+  "support_frac": 0.039495693108974356,
+  "dynamic_frac": 0.6175906450320513,
+  "overlay_frac": 0.2981971153846154,
+  "uncertain_frac": 0.04471654647435897,
+  "support_frac_latent": 0.04038461538461539,
+  "dynamic_frac_latent": 0.6182692307692308,
+  "overlay_frac_latent": 0.3016025641025641,
+  "uncertain_frac_latent": 0.047275641025641024,
+  "support_frac_eval": 0.03982965931863727,
+  "dynamic_frac_eval": 0.6163646737920285,
+  "support_px_eval": 5724,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_static": [],
+ "abstain_motion": [],
+ "abstain": false,
+ "abstain_reasons": [],
+ "review": "unreviewed (automatic CLIPSeg mask; see review_manifest.json)",
+ "files_sha256": {
+  "labels.png": "77960814b3848468b3074ebf05693e3bb3b46140fae1ad679ad17141b8b67fb5",
+  "support.png": "4bee77f48c0017dc698f308d4726e8142bf6e16fdb39808606a401e0d21ceb74",
+  "support_latent.png": "35916b5a518cf2b4a193e3ae4ad8533f9838b2170298f396dfe079ce26be461d",
+  "dynamic.png": "62b94b2575c3907d1f0a1506cb82c799fa1320615ba5691254caf0e8fec53839",
+  "dynamic_latent.png": "1b201e87154b8dcdaab425afc38293e306c201e702cab2109bcd64acdb50cbf4",
+  "overlay.png": "148397c546f799810dd1ee07c8e0c76a3d3439d182704ba02ea7e7dc48857b99",
+  "overlay_latent.png": "8561b8b9d4d54334defbee0a8691741888c25ec31edfb679ba871747487b1949",
+  "uncertain.png": "ecd2075f918881508792c95c43c262139ff3a4b23e6f13cccc9b4f8f3f96fe31",
+  "uncertain_latent.png": "057fa2349d47ad3ea6c9724cfbeca78a8389d053147bed0e02833351861d53bf",
+  "p_dyn.png": "9d55512dfc0b3776a92dc33216e86091d0eba72ec14eeea985ebc94710937906",
+  "p_sup.png": "e0b2a0e549bc7be7af44bdf356d699b3668b5ea149b82be672618ed524fc29d0",
+  "p_ovl.png": "8a96ee4b7a836ee7b18318437bf548fae9766ae278b305908ff01da469613893"
+ },
+ "elapsed_s": 3.79,
+ "time": "2026-11-10T00:45:16+0000"
+}

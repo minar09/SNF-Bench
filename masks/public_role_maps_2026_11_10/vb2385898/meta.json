@@ -1,0 +1,130 @@
+{
+ "scene_id": "vb2385898",
+ "category": "falling_precip",
+ "mask_version": "source-clipseg-auto-v0",
+ "labels": {
+  "ignore": 0,
+  "support": 1,
+  "dynamic": 2,
+  "overlay": 3
+ },
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "model_input_size": 352,
+ "device": "cpu",
+ "source_image": "/home/minar/snf-bench/videos/public_bench/conditioning/vb2385898.jpg",
+ "source_sha256": "9502f89a9a4e764aa2c0f02db123a873df43fae7acc5bf0d79fe5831a23ce461",
+ "source_size": [
+  832,
+  480
+ ],
+ "prompt": {
+  "text": "A city street at night in a snowstorm. Recorded by a fixed tripod camera, unmoving. The building fronts, the lampposts, the advertising pillars and the railings hold their positions. Snow falls steadily through the lamplight. Night street lamps.",
+  "dynamic_medium": "Snow falls steadily through the lamplight",
+  "static_support": "The building fronts, the lampposts, the advertising pillars and the railings",
+  "direction": null
+ },
+ "queries": {
+  "dynamic": [
+   "Snow falls steadily through the lamplight",
+   "falling rain",
+   "falling snow",
+   "raindrops",
+   "snowfall"
+  ],
+  "support": [
+   "The building fronts, the lampposts, the advertising pillars and the railings",
+   "The building fronts",
+   "the lampposts",
+   "the advertising pillars",
+   "the railings"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.4666666666666667,
+  "t_sup": 0.3254901960784314,
+  "t_ovl": 0.3803921568627451,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": true,
+  "rule": "overlay medium: sup = p_sup>=t_sup+band & border, eroded 5x5; dynamic = EMPTY; overlay = (p_dyn>=t_dyn+band | p_ovl>=t_ovl) & ~sup; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "p_stats": {
+  "p_dyn_mean": 0.4064579904079437,
+  "p_dyn_max": 0.8606962561607361,
+  "p_sup_mean": 0.26103782653808594,
+  "p_sup_max": 0.9310411810874939,
+  "p_ovl_mean": 0.2576664388179779,
+  "p_ovl_max": 0.8019757866859436
+ },
+ "coverage": {
+  "support_frac": 0.1883563701923077,
+  "dynamic_frac": 0.0,
+  "overlay_frac": 0.28451772836538464,
+  "uncertain_frac": 0.5271259014423076,
+  "support_frac_latent": 0.18493589743589745,
+  "dynamic_frac_latent": 0.0,
+  "overlay_frac_latent": 0.2842948717948718,
+  "uncertain_frac_latent": 0.5328525641025641,
+  "support_frac_eval": 0.1892117568470274,
+  "dynamic_frac_eval": 0.0,
+  "support_px_eval": 27192,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_static": [],
+ "abstain_motion": [
+  "dynamic fraction 0.000 < 0.03 (overlay medium: by construction)"
+ ],
+ "abstain": false,
+ "abstain_reasons": [
+  "dynamic fraction 0.000 < 0.03 (overlay medium: by construction)"
+ ],
+ "review": "unreviewed (automatic CLIPSeg mask; see review_manifest.json)",
+ "files_sha256": {
+  "labels.png": "4c381eacf207bd6af15acd1ce309f9058c60dec52f5f1b43a7d1fd4b50f7024e",
+  "support.png": "798be903dfd1b007a3e4706814b42b53f178e10ddfd4466dd9d77fa16502a46a",
+  "support_latent.png": "6733e74ab95a7be57d20d670934e7c02426787050a5e8d121894bbc6e2b21d2f",
+  "dynamic.png": "91a481e5850d9d602cceb952c1cf1f94eeb716166b1745949f3c889a8748d56f",
+  "dynamic_latent.png": "8df041e97880bdab2ae0f21afa3ee22423cd494197de12267ca90ca38ba56af7",
+  "overlay.png": "1fe370d6dfd7f0b682f8e772d61dc88bcdf7a10e629844eefe83540e4465f6e0",
+  "overlay_latent.png": "4b82fa8f4a54bfbb96fe55b29a2c15574271115c2e99f3bb195d6e4277e7a1c7",
+  "uncertain.png": "1b03ddac180e1acd2eb4ebc06f079db6e20086e14928eaa4333c30f1d28ec39e",
+  "uncertain_latent.png": "59bf90d5e6f4a837416fd0966cd32a7cfc1a4221ab13995db338427919879fe5",
+  "p_dyn.png": "a464c83766262b5fd3cfe27d888f8a31922ce910740640365e7472c761a6228e",
+  "p_sup.png": "59a454282e9759ea8494b5e7a9271850b6f590290737ecfef510248d53551a6a",
+  "p_ovl.png": "d21a81d78145c3163de26482ce5b92317739aed1563979470cb8743cc69793d8"
+ },
+ "elapsed_s": 4.2,
+ "time": "2026-11-10T00:45:24+0000"
+}

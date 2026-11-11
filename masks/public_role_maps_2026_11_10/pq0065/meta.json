@@ -1,0 +1,130 @@
+{
+ "scene_id": "pq0065",
+ "category": "falling_water",
+ "mask_version": "source-clipseg-auto-v0",
+ "labels": {
+  "ignore": 0,
+  "support": 1,
+  "dynamic": 2,
+  "overlay": 3
+ },
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "model_input_size": 352,
+ "device": "cpu",
+ "source_image": "/home/minar/snf-bench/videos/public_bench/conditioning/pq0065.jpg",
+ "source_sha256": "0316226e20cb89f8731b23ed8d74f19bee12aaba3f57e67d24ef36b620e2b52a",
+ "source_size": [
+  832,
+  480
+ ],
+ "prompt": {
+  "text": "A drinks dispenser pouring into a glass on a wooden table. Recorded by a fixed tripod camera, unmoving. The dispenser jar, its wicker stand, the glass and the table hold their positions. A thin red stream runs from the tap into the glass top to bottom. Soft indoor daylight.",
+  "dynamic_medium": "A thin red stream runs from the tap into the glass",
+  "static_support": "The dispenser jar, its wicker stand, the glass and the table",
+  "direction": "top to bottom"
+ },
+ "queries": {
+  "dynamic": [
+   "A thin red stream runs from the tap into the glass",
+   "falling water",
+   "waterfall",
+   "white water",
+   "water jet"
+  ],
+  "support": [
+   "The dispenser jar, its wicker stand, the glass and the table",
+   "The dispenser jar",
+   "its wicker stand",
+   "the glass",
+   "the table"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.35294117647058826,
+  "t_sup": 0.3764705882352941,
+  "t_ovl": 0.35,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "p_stats": {
+  "p_dyn_mean": 0.16554367542266846,
+  "p_dyn_max": 0.8837012052536011,
+  "p_sup_mean": 0.46817684173583984,
+  "p_sup_max": 0.9575158953666687,
+  "p_ovl_mean": 0.1378682404756546,
+  "p_ovl_max": 0.7159281373023987
+ },
+ "coverage": {
+  "support_frac": 0.3479667467948718,
+  "dynamic_frac": 0.012657752403846154,
+  "overlay_frac": 0.17372546073717948,
+  "uncertain_frac": 0.46565004006410254,
+  "support_frac_latent": 0.3458333333333333,
+  "dynamic_frac_latent": 0.01201923076923077,
+  "overlay_frac_latent": 0.17467948717948717,
+  "uncertain_frac_latent": 0.4641025641025641,
+  "support_frac_eval": 0.34921231351592075,
+  "dynamic_frac_eval": 0.01245546648853262,
+  "support_px_eval": 50186,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_static": [],
+ "abstain_motion": [
+  "dynamic fraction 0.013 < 0.03"
+ ],
+ "abstain": false,
+ "abstain_reasons": [
+  "dynamic fraction 0.013 < 0.03"
+ ],
+ "review": "unreviewed (automatic CLIPSeg mask; see review_manifest.json)",
+ "files_sha256": {
+  "labels.png": "8651db8995ca89c8b62e6509d6113c9db5c59d9758493d3c4d6b69df1c0c00d8",
+  "support.png": "e1f561795a10af151d9a88a99669d3e635661c83ec7313d40f560688a5ce1074",
+  "support_latent.png": "c0295f751e0cad8746ecf9fd8ef663705b2d4d230a2fea0bacc46816de3017c2",
+  "dynamic.png": "e7a39228d7eb717a30a2226e9422ac78bc88402752394cd13e22d95f4f1ab59b",
+  "dynamic_latent.png": "eb2989c20cda9852763697457081020b10d7ca3f2a0cda597b771655ec056170",
+  "overlay.png": "1acb41609573d297346257824f1dba68e8dd5fb26b1062bec2b5c3fa1e615123",
+  "overlay_latent.png": "58aded356579b0433ce86e0fb2fa3db0d36ed150f671735529c70a0734b3730c",
+  "uncertain.png": "5ed8d0aabaea342db16ec9642c80d5539ef70d9b34256b81c9eb0ccb5922a7c7",
+  "uncertain_latent.png": "d2393d250c941567e4d03a8b105621b0207f928132d99b8b33331d45230538da",
+  "p_dyn.png": "b7c2ee1b4bef886ec1874ca85cd25df6d56eafe5ab4bec845beeb317f85fdb51",
+  "p_sup.png": "a10114b8fae6c0d6ccf1bbd7be367713ad285b73a9354f946798080433e5333e",
+  "p_ovl.png": "b4a7eab7d142e8c659c392730c5d02f616cd53f93d95cce3d03dadfbaa833434"
+ },
+ "elapsed_s": 4.22,
+ "time": "2026-11-10T00:44:55+0000"
+}

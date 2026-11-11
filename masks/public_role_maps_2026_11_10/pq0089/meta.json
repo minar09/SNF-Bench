@@ -1,0 +1,130 @@
+{
+ "scene_id": "pq0089",
+ "category": "falling_water",
+ "mask_version": "source-clipseg-auto-v0",
+ "labels": {
+  "ignore": 0,
+  "support": 1,
+  "dynamic": 2,
+  "overlay": 3
+ },
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "model_input_size": 352,
+ "device": "cpu",
+ "source_image": "/home/minar/snf-bench/videos/public_bench/conditioning/pq0089.jpg",
+ "source_sha256": "420615c187f44d49f63359efc9f05d0a42551cd57835b70ddf473bcb82899da3",
+ "source_size": [
+  832,
+  480
+ ],
+ "prompt": {
+  "text": "An overfull glass under a dispenser tap in a baking tray. Recorded by a fixed tripod camera, unmoving. The dispenser, the wicker stand, the glass and the metal tray hold their positions. Red juice spills over the glass rim and runs down its sides top to bottom. Soft indoor daylight.",
+  "dynamic_medium": "Red juice spills over the glass rim and runs down its sides",
+  "static_support": "The dispenser, the wicker stand, the glass and the metal tray",
+  "direction": "top to bottom"
+ },
+ "queries": {
+  "dynamic": [
+   "Red juice spills over the glass rim and runs down its sides",
+   "falling water",
+   "waterfall",
+   "white water",
+   "water jet"
+  ],
+  "support": [
+   "The dispenser, the wicker stand, the glass and the metal tray",
+   "The dispenser",
+   "the wicker stand",
+   "the glass",
+   "the metal tray"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.3,
+  "t_sup": 0.43137254901960786,
+  "t_ovl": 0.35,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "p_stats": {
+  "p_dyn_mean": 0.06657243520021439,
+  "p_dyn_max": 0.7965841293334961,
+  "p_sup_mean": 0.5395045876502991,
+  "p_sup_max": 0.9602664709091187,
+  "p_ovl_mean": 0.04914116486907005,
+  "p_ovl_max": 0.5193411707878113
+ },
+ "coverage": {
+  "support_frac": 0.5564853766025641,
+  "dynamic_frac": 0.015049078525641026,
+  "overlay_frac": 0.0013171073717948719,
+  "uncertain_frac": 0.4271484375,
+  "support_frac_latent": 0.5540064102564103,
+  "dynamic_frac_latent": 0.015224358974358974,
+  "overlay_frac_latent": 0.001282051282051282,
+  "uncertain_frac_latent": 0.42948717948717946,
+  "support_frac_eval": 0.5572881874860833,
+  "dynamic_frac_eval": 0.015162268982409263,
+  "support_px_eval": 80089,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_static": [],
+ "abstain_motion": [
+  "dynamic fraction 0.015 < 0.03"
+ ],
+ "abstain": false,
+ "abstain_reasons": [
+  "dynamic fraction 0.015 < 0.03"
+ ],
+ "review": "unreviewed (automatic CLIPSeg mask; see review_manifest.json)",
+ "files_sha256": {
+  "labels.png": "8ca829dd49042e6420431834bdb710f1a3690f26e17b29a42c6a28f415e614d6",
+  "support.png": "a31e320156c21bce4de180a9203b58a027132cab909d87b020c762cc7131e4b5",
+  "support_latent.png": "c9c511d4efc0cb75f0492f336909312a7727cc761dcc9acb637978d580f5b7ae",
+  "dynamic.png": "cd561282ae87a3b0447dc7a0fa3326739f00c6fcc974cf2595031dd7b66e522a",
+  "dynamic_latent.png": "1c5b023a6bf7be5072070d1acd22a8f263a85ce48680e6c241e9ab4e6905f9b6",
+  "overlay.png": "2ed04693144a1d0f08347aeb239fe8299b47421be77d389614e9208d87971a00",
+  "overlay_latent.png": "e4251dc8b6039af4cf7fc3c8d9736821d67691037db823e3f18febfd3800f0aa",
+  "uncertain.png": "ca1cf299430f0df5e5023eb7ef73222c6947e082302b029c22475d1725522e64",
+  "uncertain_latent.png": "554eaf9ca93282921c61eeee17f6516e8af668c02c4a30e9a59f12f26d3a842e",
+  "p_dyn.png": "c7eb314e1336128a9ffdc20e6abadfaec5f15c973ed3244c232bfbf6aefc2bbc",
+  "p_sup.png": "656387d7eb5392e17c5408eda12a51d7d0403eac241bc1bdba327d0fa8ad8863",
+  "p_ovl.png": "42c9a61f0e37d1e8c9d60f93a85ef9141f7eadecf52a0572d6d07947fb451f9f"
+ },
+ "elapsed_s": 4.41,
+ "time": "2026-11-10T00:45:00+0000"
+}

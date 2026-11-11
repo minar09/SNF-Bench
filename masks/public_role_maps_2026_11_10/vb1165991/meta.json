@@ -1,0 +1,125 @@
+{
+ "scene_id": "vb1165991",
+ "category": "windborne",
+ "mask_version": "source-clipseg-auto-v0",
+ "labels": {
+  "ignore": 0,
+  "support": 1,
+  "dynamic": 2,
+  "overlay": 3
+ },
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "model_input_size": 352,
+ "device": "cpu",
+ "source_image": "/home/minar/snf-bench/videos/public_bench/conditioning/vb1165991.jpg",
+ "source_sha256": "a6414a7d6598a794047a7f11b4d3e006d21df10b72724969808e6c15c1b68646",
+ "source_size": [
+  832,
+  480
+ ],
+ "prompt": {
+  "text": "A country road through fields in morning fog. Recorded by a fixed tripod camera, unmoving. The road surface, its verge and the field edges hold their positions. Low fog creeps slowly over the fields. Soft golden backlight.",
+  "dynamic_medium": "Low fog creeps slowly over the fields",
+  "static_support": "The road surface, its verge and the field edges",
+  "direction": null
+ },
+ "queries": {
+  "dynamic": [
+   "Low fog creeps slowly over the fields",
+   "dust cloud",
+   "dust storm",
+   "sand haze",
+   "storm clouds"
+  ],
+  "support": [
+   "The road surface, its verge and the field edges",
+   "The road surface",
+   "its verge",
+   "the field edges"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.43137254901960786,
+  "t_sup": 0.3,
+  "t_ovl": 0.4549019607843137,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "p_stats": {
+  "p_dyn_mean": 0.4177081286907196,
+  "p_dyn_max": 0.8058937191963196,
+  "p_sup_mean": 0.18353833258152008,
+  "p_sup_max": 0.9597021341323853,
+  "p_ovl_mean": 0.4905951917171478,
+  "p_ovl_max": 0.8569650053977966
+ },
+ "coverage": {
+  "support_frac": 0.2257762419871795,
+  "dynamic_frac": 0.43705178285256413,
+  "overlay_frac": 0.12487479967948718,
+  "uncertain_frac": 0.21229717548076923,
+  "support_frac_latent": 0.22419871794871796,
+  "dynamic_frac_latent": 0.43509615384615385,
+  "overlay_frac_latent": 0.12451923076923077,
+  "uncertain_frac_latent": 0.22435897435897437,
+  "support_frac_eval": 0.2266546982854598,
+  "dynamic_frac_eval": 0.4380357938098419,
+  "support_px_eval": 32573,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_static": [],
+ "abstain_motion": [],
+ "abstain": false,
+ "abstain_reasons": [],
+ "review": "unreviewed (automatic CLIPSeg mask; see review_manifest.json)",
+ "files_sha256": {
+  "labels.png": "351e77b75527b6cf02fad1af41ea2351e2f5843d8be683f1651f84c52e69a780",
+  "support.png": "f40b03e1a8840815ee7b81ce6a2ce18790adc1a626da278131fc2c0f187139a0",
+  "support_latent.png": "71b438cc513aa795ce94d9727d381072697c36dd4526f5e6ab5ad45f92e18a89",
+  "dynamic.png": "7cc9dac6e0b49dd80557cee29455fc7d755eaa811dd4968ef7ea1a4339a7e709",
+  "dynamic_latent.png": "02ca0c23fff3a780964780e36c1d9fe52df97944de4ae05ccc186c7f124002d8",
+  "overlay.png": "a6c855f42402c42ff0cc59144a39003865b874405924fbfbb47f15f7b1917149",
+  "overlay_latent.png": "283357ea76cdc88ee400775cd558b1388068ff913a596b043ad5cb2b9169ba11",
+  "uncertain.png": "a8886818db3279a0b3c81b152f3336e8485c7aeecccfb13fe432387d0e7542c1",
+  "uncertain_latent.png": "cf8ce3040b29b4c4079c699905c53ef72590e364fb9ef668410f03213a229ad6",
+  "p_dyn.png": "16e047762636e1045188e42c5884a1f63b77e36b92e3b1f1b25abb4f13c250d8",
+  "p_sup.png": "b50fcccd1629853e99d2c3728cacba583b4372bd7833c68e78211111e982952a",
+  "p_ovl.png": "c398f1a2102459dba6575d60a935d16aae80286e6fa2ba6cc9fd379817205bcf"
+ },
+ "elapsed_s": 3.9,
+ "time": "2026-11-10T00:45:31+0000"
+}

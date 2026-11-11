@@ -1,0 +1,100 @@
+{
+ "scene_id": "vb14357872",
+ "labels": "0 ignore/uncertain, 1 support, 2 dynamic, 3 overlay",
+ "size": [
+  832,
+  480
+ ],
+ "review": "automatic, unreviewed",
+ "mask_version": "source-clipseg-auto-v0",
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "hf_home": "/home/minar/.cache/hf_minar",
+ "device": "cpu",
+ "method": "AIA tools/factorial_scoring/source_masks.py process_scene (imported read-only)",
+ "method_sha256": "7699480358ea351581315fd10085fa8ff92a7d720782c2b7a70e3eb48c439c9b",
+ "adapter": "scripts/make_public_role_maps.py",
+ "adapter_sha256": "d5554df3cae273ba5ae54b64ae1585e63604b1f05382e3d8be83897953210718",
+ "manifest": "manifest/public_figure_set_2026_11_05.json",
+ "manifest_sha256": "6ff1ac4d92a31bffe36049531b173903b81d232f193b3a209f5c476736fb6a3b",
+ "image": "videos/public_bench/conditioning/vb14357872.jpg",
+ "image_sha256": "c742a2e60ed0cd6ecca04c8d980c4c6a5af3bbbaf1d29511c5cef28ea6bbfd8e",
+ "prompt_fields": {
+  "source": "manifest/public_figure_set_2026_11_05.json (verbatim)",
+  "dynamic_medium": "Large white clouds roll and billow across the sky",
+  "static_support": "The church towers, its walls and the hilltop",
+  "category": "windborne"
+ },
+ "queries": {
+  "dynamic": [
+   "Large white clouds roll and billow across the sky",
+   "dust cloud",
+   "dust storm",
+   "sand haze",
+   "storm clouds"
+  ],
+  "support": [
+   "The church towers, its walls and the hilltop",
+   "The church towers",
+   "its walls",
+   "the hilltop"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.4235294117647059,
+  "t_sup": 0.30980392156862746,
+  "t_ovl": 0.4549019607843137,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "coverage": {
+  "support_frac": 0.256563000801282,
+  "dynamic_frac": 0.5243239182692307,
+  "overlay_frac": 0.018830128205128204,
+  "uncertain_frac": 0.20028295272435898,
+  "support_frac_latent": 0.25272435897435896,
+  "dynamic_frac_latent": 0.5243589743589744,
+  "overlay_frac_latent": 0.01826923076923077,
+  "uncertain_frac_latent": 0.2094551282051282,
+  "support_frac_eval": 0.2570349031396126,
+  "dynamic_frac_eval": 0.5241455132487196,
+  "support_px_eval": 36939,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_reasons": [],
+ "labels_sha256": "ac7e52fd36f3a06b64b0eb38a0dd2589ed564d0b7e90b51ce060588a697f19a2",
+ "written": "2026-11-10T00:45:19+0000"
+}

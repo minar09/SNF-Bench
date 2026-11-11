@@ -1,0 +1,125 @@
+{
+ "scene_id": "vb2683365",
+ "category": "oscillatory_water",
+ "mask_version": "source-clipseg-auto-v0",
+ "labels": {
+  "ignore": 0,
+  "support": 1,
+  "dynamic": 2,
+  "overlay": 3
+ },
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "model_input_size": 352,
+ "device": "cpu",
+ "source_image": "/home/minar/snf-bench/videos/public_bench/conditioning/vb2683365.jpg",
+ "source_sha256": "7bbe1d5689749270dab9c5125f6e326589c07446351aa68a742858222849e678",
+ "source_size": [
+  832,
+  480
+ ],
+ "prompt": {
+  "text": "A harbour lighthouse at the end of a stone pier in a storm. Recorded by a fixed tripod camera, unmoving. The lighthouse tower, its hut and the pier wall hold their positions. Waves burst against the pier and throw up white spray. Pale overcast light.",
+  "dynamic_medium": "Waves burst against the pier and throw up white spray",
+  "static_support": "The lighthouse tower, its hut and the pier wall",
+  "direction": null
+ },
+ "queries": {
+  "dynamic": [
+   "Waves burst against the pier and throw up white spray",
+   "sea water",
+   "breaking waves",
+   "surf",
+   "sea foam and spray"
+  ],
+  "support": [
+   "The lighthouse tower, its hut and the pier wall",
+   "The lighthouse tower",
+   "its hut",
+   "the pier wall"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.37254901960784315,
+  "t_sup": 0.3,
+  "t_ovl": 0.6,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "p_stats": {
+  "p_dyn_mean": 0.3823079466819763,
+  "p_dyn_max": 0.8420422077178955,
+  "p_sup_mean": 0.10481782257556915,
+  "p_sup_max": 0.7828116416931152,
+  "p_ovl_mean": 0.6639612317085266,
+  "p_ovl_max": 0.8986726403236389
+ },
+ "coverage": {
+  "support_frac": 0.09539513221153846,
+  "dynamic_frac": 0.4298277243589744,
+  "overlay_frac": 0.3121895032051282,
+  "uncertain_frac": 0.16258764022435898,
+  "support_frac_latent": 0.09471153846153846,
+  "dynamic_frac_latent": 0.4306089743589744,
+  "overlay_frac_latent": 0.3128205128205128,
+  "uncertain_frac_latent": 0.16618589743589743,
+  "support_frac_eval": 0.09585142507236695,
+  "dynamic_frac_eval": 0.4291151747940325,
+  "support_px_eval": 13775,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_static": [],
+ "abstain_motion": [],
+ "abstain": false,
+ "abstain_reasons": [],
+ "review": "unreviewed (automatic CLIPSeg mask; see review_manifest.json)",
+ "files_sha256": {
+  "labels.png": "1fcec3e3f855d0be036044ba5edf1a14b9d814522824a2911ae113320692f549",
+  "support.png": "6cca3c133e80eae8f7c75a9bb3eb7bea49d32566a130a4b7005e2ea98a237bb8",
+  "support_latent.png": "e9dcbd2d0d5e0b98982a42e48122541c8a47edfa2d6e2ec07a27f378f918f49c",
+  "dynamic.png": "bf65735767249084372a6ad2239804e47070d3c1b88ef8ba5466ffd523e2d113",
+  "dynamic_latent.png": "566208aa529505aeba5c0ccc767ea74f5b52309be8aed0da09d2f6cfb094f5d6",
+  "overlay.png": "38cade6394b6366da2665709449ac9eee4edd920fb24b8b6744ca98dd6a9b8ec",
+  "overlay_latent.png": "ec483685ec1927cce0ebc27d4a3146be62104cd545e8bad0349fd280d0545dc9",
+  "uncertain.png": "84f5e55871881bd90174d062ca87f5efa3367487705f6698870365511ced6da4",
+  "uncertain_latent.png": "a353c6de08aad197db3f8947cc7764670f8492304b7e3e4b8dccd7a2f0b18ce5",
+  "p_dyn.png": "598bb04dd5f05cae1dd0a0aca8e43dab2988fc93efb9b5cc5f9bc4fa4bbec5c5",
+  "p_sup.png": "18264886d9c5e29c3202731e73f13603b69a06ae4d866cbfa2a920e30cb66ee2",
+  "p_ovl.png": "20354f937f48f9f9f5a9de000c26a902d8017fedeb9654d002f35b44a2b61fdb"
+ },
+ "elapsed_s": 3.89,
+ "time": "2026-11-10T00:45:12+0000"
+}

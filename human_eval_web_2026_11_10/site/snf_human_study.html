@@ -1,0 +1,340 @@
+<title>SNF-Bench Human Study</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single working column like a lab protocol sheet; media rows go side by side when wide. */
+:root {
+  --paper: #f5f7f6; --surface: #ffffff; --ink: #18252d; --muted: #5a6a72; --line: #d6dedd;
+  --accent: #0d6a85; --accent-ink: #ffffff; --warn: #9a5b00; --ok: #2c7a4b; --bad: #a3312a;
+  --role-support: #0072b2; --role-material: #e69f00; --role-overlay: #cc79a7; --role-ignore: #8a949e;
+  --f-display: "Instrument Serif", Georgia, serif; --f-body: "Instrument Sans", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #11181c; --surface: #172127; --ink: #e3eaeb; --muted: #9aaab0; --line: #2b3a41;
+  --accent: #4fb3cf; --accent-ink: #0b1418; --warn: #e0a24a; --ok: #6cc28f; --bad: #e57d74; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #11181c; --surface: #172127; --ink: #e3eaeb; --muted: #9aaab0; --line: #2b3a41;
+  --accent: #4fb3cf; --accent-ink: #0b1418; --warn: #e0a24a; --ok: #6cc28f; --bad: #e57d74; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--paper); color: var(--ink); font: 15px/1.55 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 48px }
+main { max-width: 1100px; margin: 0 auto; display: grid; gap: 20px }
+h1, h2 { font-family: var(--f-display); font-weight: 400; text-wrap: balance; margin: 0 }
+h1 { font-size: 2.1rem; line-height: 1.1 } h2 { font-size: 1.5rem }
+p { margin: 0; max-width: 68ch } .muted { color: var(--muted) } .mono { font-family: var(--f-mono); font-size: .85em }
+.eyebrow { font: 500 .72rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
+nav { display: flex; gap: 6px; flex-wrap: wrap }
+nav a { color: var(--ink); text-decoration: none; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: .9rem }
+nav a[aria-current="page"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 14px; min-width: 0 }
+.stack { display: grid; gap: 10px } .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center }
+button, .btn { font: 500 .92rem var(--f-body); padding: 9px 16px; border-radius: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
+button:disabled { opacity: .45; cursor: not-allowed }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, label.opt:focus-within { outline: 2px solid var(--accent); outline-offset: 2px }
+input[type=text], select, textarea { font: inherit; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px }
+textarea { width: 100%; min-height: 60px }
+.notice { border-left: 3px solid var(--warn); padding: 8px 12px; background: color-mix(in srgb, var(--warn) 9%, transparent); border-radius: 0 6px 6px 0 }
+.notice.ok { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 9%, transparent) }
+.clips { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px }
+.clip { display: grid; gap: 6px; min-width: 0 } .clip video { width: 100%; aspect-ratio: 832/480; background: #000; border-radius: 6px; max-width: 100% }
+fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 8px; min-width: 0 }
+legend { font-weight: 600; padding: 0; margin-bottom: 4px }
+.scale { display: flex; flex-wrap: wrap; gap: 6px }
+label.opt { display: inline-flex; align-items: center; gap: 6px; padding: 7px 11px; border: 1px solid var(--line); border-radius: 6px; cursor: pointer; font-size: .9rem; background: var(--paper) }
+label.opt input { accent-color: var(--accent) }
+label.opt:has(input:checked) { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface)) }
+.progress { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden } .progress i { display: block; height: 100%; background: var(--accent) }
+.grid-scenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px }
+.scene-card { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); text-align: left; padding: 0; display: grid }
+.scene-card img { width: 100%; aspect-ratio: 832/480; object-fit: cover; display: block }
+.scene-card span { padding: 6px 9px; font-size: .82rem; display: flex; justify-content: space-between; gap: 6px }
+.pill { font: 500 .7rem var(--f-mono); padding: 2px 7px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap }
+.pill.done { color: var(--ok); border-color: var(--ok) }
+.editor { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 14px }
+@media (max-width: 820px) { .editor { grid-template-columns: 1fr } }
+.canvas-wrap { position: relative; width: 100%; max-width: 100%; aspect-ratio: 832/480; touch-action: none; border-radius: 6px; overflow: hidden; background: #000 }
+.canvas-wrap canvas { position: absolute; inset: 0; width: 100%; height: 100% }
+.swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block }
+.tbl { overflow-x: auto } table { border-collapse: collapse; width: 100%; font-size: .88rem; font-variant-numeric: tabular-nums }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+</style>
+
+<main>
+  <header class="stack">
+    <span class="eyebrow">SNF-Bench++ · long-horizon fixed-camera video</span>
+    <h1>SNF-Bench Human Study</h1>
+    <nav aria-label="Sections">
+      <a href="#rate" id="nav-rate">Rate videos</a>
+      <a href="#annotate" id="nav-annotate">Annotate scenes</a>
+      <a href="#owner" id="nav-owner" hidden>Study owner</a>
+    </nav>
+  </header>
+  <div id="status" class="notice" hidden></div>
+  <section id="view"></section>
+</main>
+
+<script>
+const S = { db: null, user: null, uid: null, owner: false, canWrite: null, stim: null, scenes: null, local: false };
+const $ = (sel, el = document) => el.querySelector(sel);
+const h = (tag, attrs = {}, ...kids) => { const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) { if (k === 'class') e.className = v; else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else if (v === true) e.setAttribute(k, ''); else if (v !== false && v != null) e.setAttribute(k, v); }
+  for (const c of kids.flat()) if (c != null && c !== false) e.append(c.nodeType ? c : document.createTextNode(c)); return e; };
+const status = (msg, ok) => { const s = $('#status'); s.hidden = !msg; s.textContent = msg || ''; s.className = 'notice' + (ok ? ' ok' : ''); };
+const lsGet = k => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch { return null; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+const now = () => new Date().toISOString();
+
+/* ---------- storage: the shared db when this viewer may write, else this browser plus a download ---------- */
+async function put(path, data) {
+  if (S.db && S.uid && !S.local) {
+    try { await S.db.doc(path).set(data); return true; }
+    catch (e) { S.local = true; status('This page cannot save to the study database for your account, so your answers are kept in this browser. Use "Download my answers" at the end and send the file to the study owner.'); }
+  }
+  const all = lsGet('snf-study-local') || {}; all[path] = data; lsSet('snf-study-local', all); return false;
+}
+async function getAll(coll) {
+  if (S.db && S.uid && !S.local) { try { const q = await S.db.collection(coll).get(); return q.docs.map(d => ({ id: d.id, ...d.data() })); } catch {} }
+  const all = lsGet('snf-study-local') || {}; return Object.entries(all).filter(([p]) => p.startsWith(coll + '/') && p.split('/').length === coll.split('/').length + 1).map(([p, v]) => ({ id: p.split('/').pop(), ...v }));
+}
+async function getOne(path) {
+  if (S.db && S.uid && !S.local) { try { const d = await S.db.doc(path).get(); return d.exists ? d.data() : null; } catch {} }
+  return (lsGet('snf-study-local') || {})[path] || null;
+}
+async function downloadMine(prefix) {
+  const dl = await window.claude?.use?.('downloads');
+  const data = { exported: now(), uid: S.uid, local: lsGet('snf-study-local') || {} };
+  if (S.db && S.uid && !S.local) for (const c of [`${prefix}/${S.uid}/items`, `${prefix}/${S.uid}/maps`]) data[c] = await getAll(c);
+  if (!dl) { status('Downloads are not available in this view. Open the page in a browser tab and try again.'); return; }
+  try { await dl.save({ filename: `snf-study-${prefix}-${(S.uid || 'local').slice(0, 8)}.json`, data: JSON.stringify(data, null, 1) }); } catch {}
+}
+
+/* ---------- deterministic order per rater ---------- */
+function seeded(str) { let x = 2166136261; for (const c of str) x = Math.imul(x ^ c.charCodeAt(0), 16777619); return () => { x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return ((x >>> 0) % 1e6) / 1e6; }; }
+function shuffle(a, key) { const r = seeded(key), b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; }
+
+/* ---------- rating ---------- */
+const DIR_TEXT = d => d ? `expected: ${d}` : 'no single expected direction (waves, flames, fog): judge whether the motion looks physically sensible';
+const QUESTIONS = it => [
+  { k: 'background', t: 'Still parts of the scene', q: 'Compared with the beginning, how much have the parts that should stay still (ground, rocks, walls, buildings, horizon) moved, warped or changed in the end clip?',
+    o: [['1', 'Not at all'], ['2', 'Slightly'], ['3', 'Noticeably'], ['4', 'A lot'], ['5', 'Completely']] },
+  { k: 'motion', t: 'Amount of motion', q: `How much is the moving material (${it.medium.toLowerCase()}) moving in the end clip, compared with the beginning?`,
+    o: [['1', 'Stopped'], ['2', 'Much less'], ['3', 'About the same'], ['4', 'More'], ['5', 'Much more']] },
+  { k: 'direction', t: 'Direction', q: `In the end clip, does the material move the way it should? (${DIR_TEXT(it.direction)})`,
+    o: [['yes', 'Yes'], ['no', 'No'], ['cannot', 'Cannot tell']] },
+  { k: 'loop', t: 'Repetition', q: 'Does the end clip look like a short repeating loop, or like it is playing backward?',
+    o: [['no', 'No'], ['yes', 'Yes'], ['unsure', 'Not sure']] },
+  { k: 'natural', t: 'Naturalness', q: 'How natural does the motion in the end clip look?',
+    o: [['1', 'Very unnatural'], ['2', 'Unnatural'], ['3', 'Neutral'], ['4', 'Natural'], ['5', 'Completely natural']] },
+  { k: 'same', t: 'Same scene', q: 'Is the end clip still the same scene as the beginning?',
+    o: [['yes', 'Yes'], ['partly', 'Partly'], ['no', 'No']] },
+];
+
+async function rateView(root) {
+  if (!S.stim?.items?.length) { root.append(h('div', { class: 'panel' }, h('p', {}, 'The study videos are being prepared. Please come back later.'))); return; }
+  const prof = await getOne(`resp/${S.uid || 'local'}`);
+  if (!prof?.consent) return consentView(root);
+  const done = new Set((await getAll(`resp/${S.uid || 'local'}/items`)).map(d => d.id));
+  const order = shuffle(S.stim.items, (S.uid || 'local') + ':' + prof.code);
+  const next = order.find(it => !done.has(it.id));
+  const prog = h('div', { class: 'progress', role: 'progressbar', 'aria-valuemin': 0, 'aria-valuemax': order.length, 'aria-valuenow': done.size }, h('i', { style: `width:${100 * done.size / order.length}%` }));
+  if (!next) {
+    root.append(h('div', { class: 'panel' }, h('h2', {}, 'Thank you'), h('p', {}, `You rated all ${order.length} videos. Your answers are saved${S.local ? ' in this browser only' : ''}.`),
+      prog, h('div', { class: 'row' }, h('button', { onclick: () => downloadMine('resp') }, 'Download my answers'))));
+    return;
+  }
+  const t0 = performance.now(), ans = {};
+  const vid = (src, label) => h('div', { class: 'clip' }, h('span', { class: 'eyebrow' }, label),
+    h('video', { src, muted: true, loop: true, autoplay: true, playsinline: true, controls: true, preload: 'auto' }));
+  const qs = QUESTIONS(next).map(q => h('fieldset', {}, h('legend', {}, q.t),
+    h('p', { class: 'muted' }, q.q),
+    h('div', { class: 'scale' }, q.o.map(([v, l]) => h('label', { class: 'opt' },
+      h('input', { type: 'radio', name: q.k, value: v, id: `${q.k}-${v}`, onchange: () => { ans[q.k] = v; save.disabled = QUESTIONS(next).some(x => !ans[x.k]); } }), l)))));
+  const note = h('textarea', { id: 'note', placeholder: 'Optional: anything else you noticed' });
+  const save = h('button', { class: 'primary', disabled: true, onclick: async () => {
+    save.disabled = true;
+    await put(`resp/${S.uid || 'local'}/items/${next.id}`, { answers: ans, note: note.value.trim(), ms: Math.round(performance.now() - t0), at: now(), code: prof.code, stimuli_version: S.stim.version });
+    render(); window.scrollTo({ top: 0 });
+  } }, 'Save and continue');
+  root.append(h('div', { class: 'panel' },
+    h('div', { class: 'row', style: 'justify-content:space-between' }, h('span', { class: 'eyebrow' }, `Video ${done.size + 1} of ${order.length}`), h('span', { class: 'mono muted' }, prof.code)), prog,
+    h('div', { class: 'clips' }, vid(next.begin, 'Beginning (seconds 2 to 8)'), vid(next.end, 'End (later in the same video)')),
+    h('p', { class: 'muted' }, 'Both clips loop. Watch each at least twice; the camera was meant to stay fixed throughout.'),
+    ...qs, note, h('div', { class: 'row' }, save, h('button', { onclick: () => downloadMine('resp') }, 'Download my answers'))));
+}
+
+function consentView(root) {
+  const code = h('input', { type: 'text', id: 'code', placeholder: 'e.g. R07', maxlength: 16, autocomplete: 'off' });
+  const agree = h('input', { type: 'checkbox', id: 'agree' });
+  const go = h('button', { class: 'primary', onclick: async () => {
+    if (!/^[A-Za-z0-9-]{2,16}$/.test(code.value.trim())) { status('Enter the participant code you were given (letters, digits or a dash).'); return; }
+    if (!agree.checked) { status('Please tick the agreement box to take part.'); return; }
+    status('');
+    await put(`resp/${S.uid || 'local'}`, { code: code.value.trim().toUpperCase(), consent: true, consent_at: now(), role: 'rater', stimuli_version: S.stim.version });
+    render();
+  } }, 'Start');
+  root.append(h('div', { class: 'panel' },
+    h('h2', {}, 'Rating long generated videos'),
+    h('p', {}, `You will see ${S.stim.items.length} short pairs of clips from computer-generated videos of water, fire, smoke, weather and similar scenes. Each pair shows the beginning of a video and a later moment of the same video. For each pair you answer six multiple-choice questions about what changed. Most people need about one minute per pair, and you can stop and come back later on the same account.`),
+    h('p', {}, 'Every video was requested from a fixed tripod camera, so the camera and the still parts of the scene should not move, while the water, fire or smoke should keep moving naturally. There are no right answers except for a few built-in check clips; please answer what you see.'),
+    h('div', { class: 'stack' }, h('span', { class: 'eyebrow' }, 'What is recorded'),
+      h('p', { class: 'muted' }, 'Your answers, the time spent on each pair, your participant code and an anonymous account identifier issued by the platform. No video, audio or other personal data is collected. Participation is voluntary; you may stop at any time without giving a reason. Ask the person who invited you how to have your answers removed.')),
+    h('label', { class: 'row', for: 'code' }, h('span', {}, 'Participant code'), code),
+    h('label', { class: 'row', for: 'agree' }, agree, h('span', {}, 'I have read the above, I am 18 or older, and I agree to take part.')),
+    h('div', { class: 'row' }, go)));
+}
+
+/* ---------- annotation ---------- */
+const ROLE_COL = () => { const cs = getComputedStyle(document.documentElement);
+  const rgb = v => { const c = cs.getPropertyValue(v).trim(); const n = parseInt(c.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
+  return { 0: rgb('--role-ignore'), 1: rgb('--role-support'), 2: rgb('--role-material'), 3: rgb('--role-overlay') }; };
+const LABEL_NAMES = [[1, 'Support', 'Parts that must stay still: rock, shore, ground, buildings, railings, furniture'], [2, 'Moving material', 'Only the named flowing medium: the water, flames, smoke, waves, clouds or fog'], [3, 'Overlay / mixed', 'Still and moving overlap: reflections, spray or rain over buildings, thin smoke over background, transitions'], [0, 'Ignore', 'Cannot tell, or neither']];
+const unrle = (s, n) => { const a = new Uint8Array(n); let i = 0; for (const p of s.split(',')) { const [v, c] = p.split(':').map(Number); a.fill(v, i, i + c); i += c; } return a; };
+const enrle = a => { const o = []; let v = a[0], c = 0; for (let i = 0; i < a.length; i++) { if (a[i] === v) c++; else { o.push(v + ':' + c); v = a[i]; c = 1; } } o.push(v + ':' + c); return o.join(','); };
+
+async function annotateView(root) {
+  let prof = await getOne(`ann/${S.uid || 'local'}`);
+  if (!prof?.role) {
+    const code = h('input', { type: 'text', id: 'acode', placeholder: 'e.g. A1', maxlength: 16 });
+    const role = h('select', { id: 'arole' }, h('option', { value: 'A' }, 'Annotator A'), h('option', { value: 'B' }, 'Annotator B'), h('option', { value: 'ADJ' }, 'Adjudicator'));
+    root.append(h('div', { class: 'panel' }, h('h2', {}, 'Scene role maps'),
+      h('p', {}, 'You will mark, on each of 12 still images, which parts must stay still and which material should move. These maps decide where the benchmark measures camera drift and where it measures motion. Work independently: do not compare maps with another annotator.'),
+      h('label', { class: 'row', for: 'acode' }, 'Annotator code', code), h('label', { class: 'row', for: 'arole' }, 'Role', role),
+      h('div', { class: 'row' }, h('button', { class: 'primary', onclick: async () => {
+        if (!/^[A-Za-z0-9-]{2,16}$/.test(code.value.trim())) { status('Enter the annotator code you were given.'); return; }
+        status(''); await put(`ann/${S.uid || 'local'}`, { code: code.value.trim().toUpperCase(), role: role.value, at: now() }); render(); } }, 'Continue'))));
+    return;
+  }
+  const saved = new Map((await getAll(`ann/${S.uid || 'local'}/maps`)).map(d => [d.id, d]));
+  const open = location.hash.split('-')[1];
+  const sc = S.scenes.find(s => s.id === open);
+  if (sc) return editor(root, sc, prof, saved.get(sc.id));
+  root.append(h('div', { class: 'panel' },
+    h('div', { class: 'row', style: 'justify-content:space-between' }, h('h2', {}, 'Choose a scene'), h('span', { class: 'mono muted' }, `${prof.code} · ${prof.role === 'ADJ' ? 'Adjudicator' : 'Annotator ' + prof.role} · ${saved.size}/12 saved`)),
+    h('div', { class: 'grid-scenes' }, S.scenes.map(s => h('a', { class: 'scene-card btn', href: `#annotate-${s.id}` },
+      h('img', { src: s.image, alt: s.medium, loading: 'lazy' }), h('span', {}, h('span', {}, s.medium), h('span', { class: 'pill' + (saved.has(s.id) ? ' done' : '') }, saved.has(s.id) ? 'saved' : 'to do'))))),
+    h('div', { class: 'row' }, h('button', { onclick: () => downloadMine('ann') }, 'Download my maps'))));
+}
+
+async function editor(root, sc, prof, prev) {
+  const W = sc.w, H = sc.h, N = W * H;
+  let lab = prev?.rle ? unrle(prev.rle, N) : unrle(sc.auto_rle, N), from = prev?.from || 'automatic';
+  const undo = [];
+  let cur = 2, tool = 'brush', size = 18, alpha = .5, arrow = prev?.arrow || null, nodir = prev?.nodir ?? !sc.direction;
+  const img = new Image(); img.src = sc.image;
+  const base = h('canvas', { width: W, height: H }), over = h('canvas', { width: W, height: H, 'aria-label': `Role map of ${sc.medium}` });
+  const bctx = base.getContext('2d'), octx = over.getContext('2d');
+  const odata = octx.createImageData(W, H);
+  const COL = ROLE_COL();
+  const paint = () => {
+    for (let i = 0; i < N; i++) { const c = COL[lab[i]], j = 4 * i; odata.data[j] = c[0]; odata.data[j + 1] = c[1]; odata.data[j + 2] = c[2]; odata.data[j + 3] = lab[i] === 0 ? 40 * alpha : 255 * alpha; }
+    octx.putImageData(odata, 0, 0);
+    if (arrow && !nodir) { octx.save(); octx.strokeStyle = '#fff'; octx.fillStyle = '#fff'; octx.lineWidth = 5; octx.shadowColor = '#000'; octx.shadowBlur = 4;
+      const { x0, y0, x1, y1 } = arrow, a = Math.atan2(y1 - y0, x1 - x0);
+      octx.beginPath(); octx.moveTo(x0, y0); octx.lineTo(x1, y1); octx.stroke();
+      octx.beginPath(); octx.moveTo(x1, y1); octx.lineTo(x1 - 22 * Math.cos(a - .45), y1 - 22 * Math.sin(a - .45)); octx.lineTo(x1 - 22 * Math.cos(a + .45), y1 - 22 * Math.sin(a + .45)); octx.closePath(); octx.fill(); octx.restore(); }
+  };
+  img.onload = () => { bctx.drawImage(img, 0, 0, W, H); paint(); };
+  const pos = e => { const r = over.getBoundingClientRect(); return [Math.round((e.clientX - r.left) * W / r.width), Math.round((e.clientY - r.top) * H / r.height)]; };
+  const dab = (x, y) => { const r = size; for (let yy = Math.max(0, y - r); yy < Math.min(H, y + r); yy++) for (let xx = Math.max(0, x - r); xx < Math.min(W, x + r); xx++) if ((xx - x) ** 2 + (yy - y) ** 2 <= r * r) lab[yy * W + xx] = cur; };
+  const fill = (x, y) => { const t = lab[y * W + x]; if (t === cur) return; const st = [y * W + x]; while (st.length) { const i = st.pop(); if (lab[i] !== t) continue; lab[i] = cur; const px = i % W; if (px > 0) st.push(i - 1); if (px < W - 1) st.push(i + 1); if (i >= W) st.push(i - W); if (i < N - W) st.push(i + W); } };
+  let down = null;
+  over.addEventListener('pointerdown', e => { over.setPointerCapture(e.pointerId); const [x, y] = pos(e); undo.push(lab.slice()); if (undo.length > 30) undo.shift();
+    if (tool === 'brush') { dab(x, y); down = [x, y]; } else if (tool === 'fill') fill(x, y); else { arrow = { x0: x, y0: y, x1: x, y1: y }; nodir = false; nodirBox.checked = false; down = [x, y]; } paint(); });
+  over.addEventListener('pointermove', e => { if (!down) return; const [x, y] = pos(e);
+    if (tool === 'brush') { const [px, py] = down, d = Math.hypot(x - px, y - py), n = Math.max(1, Math.ceil(d / (size / 2))); for (let k = 1; k <= n; k++) dab(Math.round(px + (x - px) * k / n), Math.round(py + (y - py) * k / n)); down = [x, y]; }
+    else if (tool === 'arrow') { arrow.x1 = x; arrow.y1 = y; } paint(); });
+  over.addEventListener('pointerup', () => { down = null; });
+  const labelBtns = h('div', { class: 'scale' }, LABEL_NAMES.map(([v, n, d]) => h('label', { class: 'opt', title: d },
+    h('input', { type: 'radio', name: 'lab', id: `lab-${v}`, value: v, checked: v === cur, onchange: () => { cur = v; } }),
+    h('span', { class: 'swatch', style: `background:var(${['--role-ignore', '--role-support', '--role-material', '--role-overlay'][v]})` }), n)));
+  const toolBtns = h('div', { class: 'scale' }, [['brush', 'Brush'], ['fill', 'Fill region'], ['arrow', 'Draw direction']].map(([v, n]) =>
+    h('label', { class: 'opt' }, h('input', { type: 'radio', name: 'tool', id: `tool-${v}`, value: v, checked: v === tool, onchange: () => { tool = v; } }), n)));
+  const nodirBox = h('input', { type: 'checkbox', id: 'nodir', checked: nodir, onchange: () => { nodir = nodirBox.checked; paint(); } });
+  const conf = h('select', { id: 'conf' }, ['high', 'medium', 'low'].map(c => h('option', { value: c, selected: c === (prev?.confidence || 'medium') }, c)));
+  const notes = h('textarea', { id: 'anote', placeholder: 'Notes: what was hard to decide, and why' }); notes.value = prev?.notes || '';
+  const adjBox = h('div', { class: 'stack' });
+  if (prof.role === 'ADJ') {
+    const rel = await getOne(`adj/${sc.id}`);
+    if (rel) adjBox.append(h('span', { class: 'eyebrow' }, 'Released annotations'), h('div', { class: 'row' },
+      ['A', 'B'].map(k => rel[k] && h('button', { onclick: () => { undo.push(lab.slice()); lab = unrle(rel[k].rle, N); arrow = rel[k].arrow; nodir = !!rel[k].nodir; nodirBox.checked = nodir; from = k; paint(); } }, `Load ${k} (${rel[k].code})`)),
+      rel.A && rel.B && h('button', { onclick: () => { const a = unrle(rel.A.rle, N), b = unrle(rel.B.rle, N); undo.push(lab.slice()); for (let i = 0; i < N; i++) lab[i] = a[i] === b[i] ? a[i] : 0; from = 'A∩B'; paint(); status('Pixels where A and B disagree are now Ignore (grey). Decide each one.', true); } }, 'Agreement only')));
+    else adjBox.append(h('p', { class: 'muted' }, 'The study owner has not released the two annotations for this scene yet.'));
+  }
+  const saveBtn = h('button', { class: 'primary', onclick: async () => {
+    if (!nodir && !arrow) { status('Draw the direction the material should move, or tick "No single direction".'); return; }
+    saveBtn.disabled = true;
+    const counts = [0, 0, 0, 0]; for (let i = 0; i < N; i++) counts[lab[i]]++;
+    const ok = await put(`ann/${S.uid || 'local'}/maps/${sc.id}`, { rle: enrle(lab), w: W, h: H, arrow: nodir ? null : arrow, nodir, confidence: conf.value, notes: notes.value.trim(), from, code: prof.code, role: prof.role, share: counts.map(c => +(c / N).toFixed(4)), at: now() });
+    status(ok ? `Saved ${sc.id}.` : 'Saved in this browser only. Download your maps when you finish.', ok); saveBtn.disabled = false;
+  } }, 'Save map');
+  root.append(h('div', { class: 'panel' },
+    h('div', { class: 'row', style: 'justify-content:space-between' }, h('a', { href: '#annotate', class: 'btn' }, 'All scenes'), h('span', { class: 'mono muted' }, `${sc.id} · ${prof.code} · ${prof.role}`)),
+    h('div', { class: 'stack' }, h('h2', {}, sc.medium), h('p', { class: 'muted' }, `Should stay still: ${sc.support}. Expected direction: ${sc.direction || 'none (no single direction)'}.`)),
+    h('div', { class: 'editor' },
+      h('div', { class: 'stack' }, h('div', { class: 'canvas-wrap' }, base, over),
+        h('p', { class: 'muted mono' }, `${sc.credit} · ${sc.licence}. Starting map: ${prev ? 'your saved map' : 'automatic (CLIPSeg), unreviewed'}.`)),
+      h('div', { class: 'stack' },
+        h('span', { class: 'eyebrow' }, 'Paint label'), labelBtns,
+        h('span', { class: 'eyebrow' }, 'Tool'), toolBtns,
+        h('label', { class: 'row', for: 'bsize' }, 'Brush', h('input', { type: 'range', id: 'bsize', min: 3, max: 60, value: size, oninput: e => { size = +e.target.value; } })),
+        h('label', { class: 'row', for: 'opa' }, 'Overlay', h('input', { type: 'range', id: 'opa', min: 0, max: 100, value: alpha * 100, oninput: e => { alpha = e.target.value / 100; paint(); } })),
+        h('label', { class: 'row', for: 'nodir' }, nodirBox, 'No single direction (waves, flames, fog)'),
+        h('label', { class: 'row', for: 'conf' }, 'Confidence', conf), notes, adjBox,
+        h('div', { class: 'row' }, h('button', { onclick: () => { if (undo.length) { lab = undo.pop(); paint(); } } }, 'Undo'),
+          h('button', { onclick: () => { undo.push(lab.slice()); lab = unrle(sc.auto_rle, N); from = 'automatic'; paint(); } }, 'Reset to automatic')),
+        saveBtn))));
+}
+
+/* ---------- owner: progress, release to adjudicator, export ---------- */
+async function ownerView(root) {
+  if (!S.owner) { root.append(h('div', { class: 'panel' }, h('p', {}, 'Only the study owner can open this section.'))); return; }
+  const raters = await getAll('resp'), anns = await getAll('ann');
+  for (const r of raters) r.items = await getAll(`resp/${r.id}/items`);
+  for (const a of anns) a.maps = await getAll(`ann/${a.id}/maps`);
+  const tbl = (head, rows) => h('div', { class: 'tbl' }, h('table', {}, h('thead', {}, h('tr', {}, head.map(x => h('th', {}, x)))), h('tbody', {}, rows.map(r => h('tr', {}, r.map(x => h('td', {}, x)))))));
+  const byRole = k => anns.filter(a => a.role === k);
+  const relRows = S.scenes.map(s => { const A = byRole('A').find(a => a.maps.some(m => m.id === s.id)), B = byRole('B').find(a => a.maps.some(m => m.id === s.id));
+    const btn = h('button', { disabled: !(A && B), onclick: async () => { const pick = x => { const m = x.maps.find(m => m.id === s.id); return { code: x.code, rle: m.rle, arrow: m.arrow, nodir: m.nodir, confidence: m.confidence, at: m.at }; };
+      await S.db.doc(`adj/${s.id}`).set({ A: pick(A), B: pick(B), released: now() }); btn.textContent = 'Released'; btn.disabled = true; } }, 'Release to adjudicator');
+    return [s.id, A?.code || '—', B?.code || '—', btn]; });
+  root.append(h('div', { class: 'panel' }, h('h2', {}, 'Raters'),
+    tbl(['Code', 'Consented', 'Pairs rated', 'Last answer'], raters.map(r => [r.code || '?', r.consent ? 'yes' : 'no', `${r.items.length}/${S.stim.items.length}`, r.items.map(i => i.at).sort().pop() || '—']))),
+    h('div', { class: 'panel' }, h('h2', {}, 'Annotators'),
+      tbl(['Code', 'Role', 'Maps saved'], anns.map(a => [a.code || '?', a.role || '?', `${a.maps.length}/12`])),
+      h('p', { class: 'muted' }, 'Release a scene once both independent maps exist. The adjudicator then sees A, B and their agreement.'),
+      tbl(['Scene', 'Annotator A', 'Annotator B', ''], relRows)),
+    h('div', { class: 'panel' }, h('div', { class: 'row' }, h('button', { class: 'primary', onclick: async () => {
+      const dl = await window.claude?.use?.('downloads'); if (!dl) { status('Downloads are not available in this view.'); return; }
+      try { await dl.save({ filename: `snf-study-export-${now().slice(0, 10)}.json`, data: JSON.stringify({ exported: now(), stimuli_version: S.stim.version, raters, annotators: anns }, null, 1) }); } catch {} } }, 'Export all responses'))));
+}
+
+/* ---------- routing ---------- */
+async function render() {
+  const route = (location.hash.slice(1) || 'rate').split('-')[0];
+  for (const k of ['rate', 'annotate', 'owner']) { const a = $('#nav-' + k); a.removeAttribute('aria-current'); if (k === route) a.setAttribute('aria-current', 'page'); }
+  const root = $('#view'); root.replaceChildren();
+  try { await ({ rate: rateView, annotate: annotateView, owner: ownerView }[route] || rateView)(root); }
+  catch (e) { root.append(h('div', { class: 'panel' }, h('p', {}, 'This section could not load. Reload the page; if it persists, tell the study owner: ' + (e?.message || e)))); }
+}
+window.addEventListener('hashchange', render);
+
+(async function boot() {
+  const [stim, scenes] = await Promise.all([fetch('stimuli.json').then(r => r.json()).catch(() => null), fetch('annotation_scenes.json').then(r => r.json()).catch(() => null)]);
+  S.stim = stim; S.scenes = scenes?.scenes || [];
+  render();
+  const timer = setTimeout(() => { if (!S.db) { S.local = true; status('The study database did not answer. Your work is kept in this browser; download it when you finish.'); } }, 10000);
+  const [db, user] = await Promise.all([window.claude?.use?.('db') ?? null, window.claude?.use?.('user') ?? null]);
+  clearTimeout(timer);
+  S.db = db; S.user = user;
+  if (user) { S.uid = await user.id(); S.owner = await user.isOwner(); S.canWrite = await user.can('data.write'); }
+  if (db && S.uid && S.canWrite === false) { S.local = true; status('Your account can view this study but cannot save to it, so your work is kept in this browser. Download it when you finish and send it to the person who invited you.'); }
+  else if (!db || !S.uid) { S.local = true; status('You are not signed in to a Claude account that can save to this study, so your work is kept in this browser. Download it when you finish and send it to the person who invited you.'); }
+  else status('');
+  $('#nav-owner').hidden = !S.owner;
+  render();
+})();
+</script>

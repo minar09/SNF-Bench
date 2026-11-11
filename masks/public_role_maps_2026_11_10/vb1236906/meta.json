@@ -1,0 +1,125 @@
+{
+ "scene_id": "vb1236906",
+ "category": "falling_water",
+ "mask_version": "source-clipseg-auto-v0",
+ "labels": {
+  "ignore": 0,
+  "support": 1,
+  "dynamic": 2,
+  "overlay": 3
+ },
+ "model": "CIDAS/clipseg-rd64-refined",
+ "model_weights_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+ "model_input_size": 352,
+ "device": "cpu",
+ "source_image": "/home/minar/snf-bench/videos/public_bench/conditioning/vb1236906.jpg",
+ "source_sha256": "b6563f8001347013037c932b772b81fc6e6f909e1bbf40dfd0c1cfce389559e2",
+ "source_size": [
+  832,
+  480
+ ],
+ "prompt": {
+  "text": "Several waterfalls pouring into a forested gorge. Recorded by a fixed tripod camera, unmoving. The cliffs, the rock ledges and the far rim of the gorge hold their positions. Brown water pours over the ledges into the river below top to bottom. Hazy afternoon light.",
+  "dynamic_medium": "Brown water pours over the ledges into the river below",
+  "static_support": "The cliffs, the rock ledges and the far rim of the gorge",
+  "direction": "top to bottom"
+ },
+ "queries": {
+  "dynamic": [
+   "Brown water pours over the ledges into the river below",
+   "falling water",
+   "waterfall",
+   "white water",
+   "water jet"
+  ],
+  "support": [
+   "The cliffs, the rock ledges and the far rim of the gorge",
+   "The cliffs",
+   "the rock ledges",
+   "the far rim of the gorge"
+  ],
+  "overlay": [
+   "reflection on water",
+   "reflections",
+   "water spray",
+   "mist",
+   "haze",
+   "fog",
+   "sky",
+   "clouds",
+   "text",
+   "signage",
+   "lens glare"
+  ]
+ },
+ "thresholds": {
+  "t_dyn": 0.33725490196078434,
+  "t_sup": 0.403921568627451,
+  "t_ovl": 0.4196078431372549,
+  "band": 0.08,
+  "floors": {
+   "dyn": 0.3,
+   "sup": 0.3,
+   "ovl": 0.35
+  },
+  "morph": 7,
+  "border": 0.04,
+  "support_erode": 5,
+  "overlay_medium": false,
+  "rule": "dyn = p_dyn>=t_dyn+band & p_dyn>p_sup; overlay = p_ovl>=t_ovl & ~dyn; sup = p_sup>=t_sup+band & ~dyn & ~overlay & border, eroded 5x5; uncertain = rest; t = max(Otsu(p), floor)"
+ },
+ "p_stats": {
+  "p_dyn_mean": 0.12206634879112244,
+  "p_dyn_max": 0.8928996920585632,
+  "p_sup_mean": 0.40615159273147583,
+  "p_sup_max": 0.6699841618537903,
+  "p_ovl_mean": 0.22189661860466003,
+  "p_ovl_max": 0.9024268388748169
+ },
+ "coverage": {
+  "support_frac": 0.35678836137820513,
+  "dynamic_frac": 0.09767127403846154,
+  "overlay_frac": 0.07060797275641026,
+  "uncertain_frac": 0.4749323918269231,
+  "support_frac_latent": 0.3596153846153846,
+  "dynamic_frac_latent": 0.09791666666666667,
+  "overlay_frac_latent": 0.07115384615384615,
+  "uncertain_frac_latent": 0.4703525641025641,
+  "support_frac_eval": 0.35717963705188155,
+  "dynamic_frac_eval": 0.0978275996437319,
+  "support_px_eval": 51331,
+  "eval_size": [
+   499,
+   288
+  ],
+  "latent_size": [
+   104,
+   60
+  ],
+  "pixel_size": [
+   832,
+   480
+  ]
+ },
+ "abstain_static": [],
+ "abstain_motion": [],
+ "abstain": false,
+ "abstain_reasons": [],
+ "review": "unreviewed (automatic CLIPSeg mask; see review_manifest.json)",
+ "files_sha256": {
+  "labels.png": "2bcbbec4fe615cf14b0d7a62791f38e3d2090ccdec6882b9ab48d5162a32353f",
+  "support.png": "a50afff508156ef41f14bbcfda772ec38d29ab1280493a995d94aa3addac2f64",
+  "support_latent.png": "4a7f98418e48856e9672fd56b8fb783cfeb3d074f6850da6dbf312acaa7cb3de",
+  "dynamic.png": "f5f331e622783bdc3ab51de301f1a0dae6fed8b3ab433fe4eed72332ea8c189d",
+  "dynamic_latent.png": "075e507302c3f8090881c440d77411fff1439f9069b2d2321556dc4f9ee9f99f",
+  "overlay.png": "1ccb038069cfb77de29b7361538de29a34e3fb062e74197f56be33514534d0cd",
+  "overlay_latent.png": "d4f3b5c5c122eeb6d37be9190f224dbc2a54e8791f39de1bd98de06f5d4cff26",
+  "uncertain.png": "286ee91a721142266fa796d50763677d8b3be4b8fb329793b24dbf2dfa4734e7",
+  "uncertain_latent.png": "de594d88134346861c3159e493a9194694b3c50147a279febeae22022ac99fa1",
+  "p_dyn.png": "26297468ed187754735fdbe415499898345c407b52a069a800a9a19282b1b229",
+  "p_sup.png": "6d68ea0113c5418c40df2817f53976059231bd58170e85e15544049e470f09c3",
+  "p_ovl.png": "3863924ef6d177c83971dbe90b350fe12f583cdd5ecefd715fe3a31eb9ab2c70"
+ },
+ "elapsed_s": 4.08,
+ "time": "2026-11-10T00:45:08+0000"
+}
