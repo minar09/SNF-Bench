@@ -1,0 +1,250 @@
+{
+ "status": "complete",
+ "track": "i2v",
+ "model": "self_forcing_i2v",
+ "scene": "pq0092",
+ "suite": "i2v",
+ "role": "journal matched-horizon development scores",
+ "role_note": "within-rollout trajectory of one 240 s render; never pool with historical whole-file records",
+ "window_policy": "window ending at H, 60 s",
+ "window_rule": "961 frames [16(H-60), 16H], clamped to end at the last rendered frame",
+ "render": {
+  "dir": "videos/journal_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/240s",
+  "file": "Two red candles in brass holders on a wooden table. Recorded by a fixed tripod camera, unmoving. The.mp4",
+  "sha256": "033fd5731ec3236f430c2778d81188df0c3761fe984c83b7730994176776e880",
+  "frames": 3841,
+  "fps": 16,
+  "width": 832,
+  "height": 480,
+  "setting": "region-forcing run_eval_ours.sh METHOD=self_forcing python command replicated; adapted wrapper, not native",
+  "category": "combustion",
+  "seed": 0,
+  "checkpoint_sha256": "a0413986d9734e02c09504e1520f5697ba6df731bb2f0f35577485e9cc8f56a3"
+ },
+ "prompt": "Two red candles in brass holders on a wooden table. Recorded by a fixed tripod camera, unmoving. The candlesticks, the brass holders, the table and the wall hold their positions. The flame on the left candle flickers, licking upward. Soft indoor daylight.",
+ "prompt_sha256": "53eeeeca33269748a92ae420b02c133320819460f3fbc47066918018fec36e75",
+ "conditioning_image": {
+  "path": "videos/public_bench/conditioning/pq0092.jpg",
+  "abspath": "/home/minar/snf-bench/videos/public_bench/conditioning/pq0092.jpg",
+  "sha256": "347756fcad49ee9b8beddca1f1153dd5e6b97f727e088717e859125609f680f2",
+  "manifest": "manifest/public_figure_set_2026_11_05.json",
+  "manifest_sha256": "6ff1ac4d92a31bffe36049531b173903b81d232f193b3a209f5c476736fb6a3b",
+  "licence": "CC BY 4.0",
+  "benchmark": "Physics-IQ (Motamed et al., WACV 2026)"
+ },
+ "dims": [
+  "i2v_subject",
+  "i2v_background"
+ ],
+ "values": {
+  "60": {
+   "i2v_subject": 0.9809477785602212,
+   "i2v_background": 0.9786704115569592
+  },
+  "120": {
+   "i2v_subject": 0.8992570253834128,
+   "i2v_background": 0.8949023509398102
+  },
+  "240": {
+   "i2v_subject": 0.9221026643924415,
+   "i2v_background": 0.9376854145340623
+  }
+ },
+ "horizons": {
+  "60": {
+   "input": {
+    "path": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/snf/prefixes/p060.mp4",
+    "frames": 961,
+    "sha256": "061573ccf668e070805616540f0dfb280fed24cd4fb2fecd40eadf7b5d22efe1",
+    "verified": "cut here by score_matched_t2v.cut_prefix; framemd5 identical to source (60 s window = p060 prefix)",
+    "first": 0,
+    "last": 960,
+    "window_end_s": 60.0
+   },
+   "staged_name": "pq0092 camera static-0.mp4",
+   "stage": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h060/stage",
+   "video_s": 60.0,
+   "unit": {
+    "cmd": "/usr/bin/time -v -o /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h060/logs/h060.time.txt /home/minar/miniconda3/envs/vbench_fd18/bin/python evaluate_i2v.py --mode custom_input --videos_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h060/stage/videos --custom_image_folder /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h060/stage/images --output_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h060/out --dimension i2v_subject i2v_background",
+    "cwd": "/home/minar/VBench-fd18",
+    "rc": 0,
+    "log": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h060/logs/h060.log",
+    "wall_s": 83.94,
+    "max_rss_kb": 10451092,
+    "gpu_peak_mib_child": 2773,
+    "gpu_device_used_mib_peak": 2776,
+    "gpu_samples": 33,
+    "finished": "2026-11-12T02:29:33+0000"
+   },
+   "status": "complete",
+   "reason": "",
+   "values": {
+    "i2v_subject": 0.9809477785602212,
+    "i2v_background": 0.9786704115569592
+   },
+   "official": {
+    "i2v_subject": {
+     "official_aggregate": 0.9809477785602212,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h060/stage/images/pq0092 camera static.jpg"
+    },
+    "i2v_background": {
+     "official_aggregate": 0.9786704115569592,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h060/stage/images/pq0092 camera static.jpg"
+    }
+   },
+   "results_json": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h060/out/results_2026-11-12-02:28:10_eval_results.json",
+   "notes": []
+  },
+  "120": {
+   "input": {
+    "path": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v_windows/w120.mp4",
+    "frames": 961,
+    "first": 960,
+    "last": 1920,
+    "window_end_s": 120.0,
+    "sha256": "88f62776db760cc4f57cf2b47680153370dda384b268afdf78ccb78fdbda96a2",
+    "verified": "cut here (AIA score_horizon.seg_cmd); framemd5 identical to source frames [first,last]",
+    "cmd": "/home/minar/miniconda3/envs/helios/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2 -nostdin -hide_banner -v error -y -ss 60.000000 -i 'videos/journal_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/240s/Two red candles in brass holders on a wooden table. Recorded by a fixed tripod camera, unmoving. The.mp4' -map 0:v:0 -frames:v 961 -an -sn -dn -c:v libx264 -preset veryfast -qp 0 -pix_fmt yuv420p -fps_mode passthrough -threads 8 w120.mp4"
+   },
+   "staged_name": "pq0092 camera static-0.mp4",
+   "stage": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h120/stage",
+   "video_s": 60.0,
+   "unit": {
+    "cmd": "/usr/bin/time -v -o /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h120/logs/h120.time.txt /home/minar/miniconda3/envs/vbench_fd18/bin/python evaluate_i2v.py --mode custom_input --videos_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h120/stage/videos --custom_image_folder /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h120/stage/images --output_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h120/out --dimension i2v_subject i2v_background",
+    "cwd": "/home/minar/VBench-fd18",
+    "rc": 0,
+    "log": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h120/logs/h120.log",
+    "wall_s": 86.7,
+    "max_rss_kb": 10457124,
+    "gpu_peak_mib_child": 2773,
+    "gpu_device_used_mib_peak": 2776,
+    "gpu_samples": 36,
+    "finished": "2026-11-12T02:31:00+0000"
+   },
+   "status": "complete",
+   "reason": "",
+   "values": {
+    "i2v_subject": 0.8992570253834128,
+    "i2v_background": 0.8949023509398102
+   },
+   "official": {
+    "i2v_subject": {
+     "official_aggregate": 0.8992570253834128,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h120/stage/images/pq0092 camera static.jpg"
+    },
+    "i2v_background": {
+     "official_aggregate": 0.8949023509398102,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h120/stage/images/pq0092 camera static.jpg"
+    }
+   },
+   "results_json": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h120/out/results_2026-11-12-02:29:34_eval_results.json",
+   "notes": []
+  },
+  "240": {
+   "input": {
+    "path": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v_windows/w240.mp4",
+    "frames": 961,
+    "first": 2880,
+    "last": 3840,
+    "window_end_s": 240.0,
+    "sha256": "7e9246f9c1337bd2e22bf6e273a3164f509358dda1b6cf59219b05b0d89e1642",
+    "verified": "cut here (AIA score_horizon.seg_cmd); framemd5 identical to source frames [first,last]",
+    "cmd": "/home/minar/miniconda3/envs/helios/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2 -nostdin -hide_banner -v error -y -ss 180.000000 -i 'videos/journal_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/240s/Two red candles in brass holders on a wooden table. Recorded by a fixed tripod camera, unmoving. The.mp4' -map 0:v:0 -frames:v 961 -an -sn -dn -c:v libx264 -preset veryfast -qp 0 -pix_fmt yuv420p -fps_mode passthrough -threads 8 w240.mp4"
+   },
+   "staged_name": "pq0092 camera static-0.mp4",
+   "stage": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h240/stage",
+   "video_s": 60.0,
+   "unit": {
+    "cmd": "/usr/bin/time -v -o /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h240/logs/h240.time.txt /home/minar/miniconda3/envs/vbench_fd18/bin/python evaluate_i2v.py --mode custom_input --videos_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h240/stage/videos --custom_image_folder /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h240/stage/images --output_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h240/out --dimension i2v_subject i2v_background",
+    "cwd": "/home/minar/VBench-fd18",
+    "rc": 0,
+    "log": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h240/logs/h240.log",
+    "wall_s": 81.13,
+    "max_rss_kb": 10453628,
+    "gpu_peak_mib_child": 2773,
+    "gpu_device_used_mib_peak": 2776,
+    "gpu_samples": 33,
+    "finished": "2026-11-12T02:32:21+0000"
+   },
+   "status": "complete",
+   "reason": "",
+   "values": {
+    "i2v_subject": 0.9221026643924415,
+    "i2v_background": 0.9376854145340623
+   },
+   "official": {
+    "i2v_subject": {
+     "official_aggregate": 0.9221026643924415,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h240/stage/images/pq0092 camera static.jpg"
+    },
+    "i2v_background": {
+     "official_aggregate": 0.9376854145340623,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h240/stage/images/pq0092 camera static.jpg"
+    }
+   },
+   "results_json": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0092/vbench_i2v/u/h240/out/results_2026-11-12-02:31:01_eval_results.json",
+   "notes": []
+  }
+ },
+ "input_sha256": {
+  "60": "061573ccf668e070805616540f0dfb280fed24cd4fb2fecd40eadf7b5d22efe1",
+  "120": "88f62776db760cc4f57cf2b47680153370dda384b268afdf78ccb78fdbda96a2",
+  "240": "7e9246f9c1337bd2e22bf6e273a3164f509358dda1b6cf59219b05b0d89e1642"
+ },
+ "official": {
+  "repository": "https://github.com/Vchitect/VBench",
+  "revision": "fd18b3d055cb0fc6f066ca90fe2c3c8cbb698490",
+  "path": "/home/minar/VBench-fd18",
+  "entrypoint": "evaluate_i2v.py",
+  "entry_sha256": "7fe327bed1d246c1562013b68e2e1431d43756d7ddc575b9fe447d0f5ab13f61",
+  "args": [
+   "--mode",
+   "custom_input"
+  ],
+  "dimension": [
+   "i2v_subject",
+   "i2v_background"
+  ],
+  "python": "/home/minar/miniconda3/envs/vbench_fd18/bin/python",
+  "cwd": "/home/minar/VBench-fd18",
+  "env": {
+   "CUDA_VISIBLE_DEVICES": "3",
+   "PYTHONPATH": "/home/minar/VBench-fd18",
+   "VBENCH_CACHE_DIR": "/home/minar/.cache/vbench",
+   "TORCH_HUB": "/home/minar/.cache/torch/hub"
+  },
+  "dev_flag": null,
+  "env_records": {
+   "/home/minar/ar-image-animation/results/snf_v2/scores/_env/vbench_fd18_freeze.txt": "758540bc917ef1c25bef275fc476c89384c12814fb922eebf6abad642089047a",
+   "/home/minar/ar-image-animation/results/snf_v2/scores/_env/checkpoints.sha256": "57f5069211910588211f5f1074a4d3793982d1adbc5bc7979c83371855e45cb5",
+   "/home/minar/ar-image-animation/results/snf_v2/scores/_env/vbench_env.json": "af2f898524a3196de78d3ec6ce1a88809b92178499a940c27a666225d357966f"
+  }
+ },
+ "protocol": {
+  "path": "configs/vbench_incumbent_protocol.json",
+  "sha256": "22cc8daa89845f54cfe23247d9d175bfc088b1927280629a3cb1c1bd95151a66"
+ },
+ "deviations_from_protocol": [
+  "horizons are PREFIXES (long) or the 60 s window ending at H (i2v) of ONE 240 s rollout, not separate generations; never pool with the historical whole-file records",
+  "VBench-Long temporal_flickering (protocol dimension) is not in this suite: like AIA run_vbench \"long\" it needs separate static-filter / no-filter runs",
+  "VBench-I2V camera_motion (protocol dimension) is not run; one sample per image-prompt (protocol: 5)",
+  "i2v dims at 120/240 s are on the final 961-frame window, not the whole video (official loader holds all frames in memory); the 240 s window ends at the last rendered frame when the render has < 3841 frames",
+  "VBench-Long per-video value = mean of the official per-clip values (fd18b3d reorganize quirk makes the official per-video list per clip; for SC/BC the fused 0.5/0.5 per-clip values); official aggregate kept",
+  "one video per official invocation (AIA batched 8): adds the model-load overhead per horizon",
+  "prompts are read from the staged file names (no --prompt_file); none of these dims uses the prompt text"
+ ],
+ "imaging_quality_scale": null,
+ "notes": [],
+ "wall_s": 275.1,
+ "gpu_wall_s": 251.76999999999998,
+ "gpu_peak_mib_child": 2773,
+ "gpu": 3,
+ "tool": "snf-bench score_matched_vbench 1.0",
+ "tool_sha256": {
+  "score_matched_vbench.py": "8005fbff27d18fd5991875a117110fbf1e0f3af9e2cb760cceb7d13ec6c1a65f",
+  "score_matched_t2v.py": "fe8fc6c2672f579a6ba094410dc868c8b10d13b100d15e9dc9388134b8704aa7"
+ },
+ "command": "/home/minar/miniconda3/envs/snfeval/bin/python scripts/score_matched_vbench.py --track i2v --model self_forcing_i2v --scene pq0092 --suite i2v --gpu 3",
+ "host": "sg17",
+ "written": "2026-11-12T02:32:21+0000"
+}

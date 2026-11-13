@@ -1,0 +1,250 @@
+{
+ "status": "complete",
+ "track": "i2v",
+ "model": "self_forcing_i2v",
+ "scene": "pq0140",
+ "suite": "i2v",
+ "role": "journal matched-horizon development scores",
+ "role_note": "within-rollout trajectory of one 240 s render; never pool with historical whole-file records",
+ "window_policy": "window ending at H, 60 s",
+ "window_rule": "961 frames [16(H-60), 16H], clamped to end at the last rendered frame",
+ "render": {
+  "dir": "videos/journal_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/240s",
+  "file": "A scrap of smouldering paper on a glass board on a wooden table. Recorded by a fixed tripod camera, .mp4",
+  "sha256": "3000c270b29bdff6f3ec6e040fb2fedf225e2a90fe5a090d9103362bd6d01ecd",
+  "frames": 3841,
+  "fps": 16,
+  "width": 832,
+  "height": 480,
+  "setting": "region-forcing run_eval_ours.sh METHOD=self_forcing python command replicated; adapted wrapper, not native",
+  "category": "buoyant_plume",
+  "seed": 0,
+  "checkpoint_sha256": "a0413986d9734e02c09504e1520f5697ba6df731bb2f0f35577485e9cc8f56a3"
+ },
+ "prompt": "A scrap of smouldering paper on a glass board on a wooden table. Recorded by a fixed tripod camera, unmoving. The glass board, the table top and the back wall hold their positions. Thin grey smoke curls off the paper, rising upward. Bright window sidelight.",
+ "prompt_sha256": "ffb19a98408261f1e5f9501b4bc3bf23bc54cc105de792cd15e2a41265074665",
+ "conditioning_image": {
+  "path": "videos/public_bench/conditioning/pq0140.jpg",
+  "abspath": "/home/minar/snf-bench/videos/public_bench/conditioning/pq0140.jpg",
+  "sha256": "1f12a49d8810963ebc214537b1aaafd800915d5bd1b4dac9d6b3656b264ae9c1",
+  "manifest": "manifest/public_figure_set_2026_11_05.json",
+  "manifest_sha256": "6ff1ac4d92a31bffe36049531b173903b81d232f193b3a209f5c476736fb6a3b",
+  "licence": "CC BY 4.0",
+  "benchmark": "Physics-IQ (Motamed et al., WACV 2026)"
+ },
+ "dims": [
+  "i2v_subject",
+  "i2v_background"
+ ],
+ "values": {
+  "60": {
+   "i2v_subject": 0.9336827804706991,
+   "i2v_background": 0.9334400622360408
+  },
+  "120": {
+   "i2v_subject": 0.7804283286817371,
+   "i2v_background": 0.848838626574725
+  },
+  "240": {
+   "i2v_subject": 0.736750024985522,
+   "i2v_background": 0.7785340752638876
+  }
+ },
+ "horizons": {
+  "60": {
+   "input": {
+    "path": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/snf/prefixes/p060.mp4",
+    "frames": 961,
+    "sha256": "d6dab5cbbd8091dab05399f186d0c8575aab2c591a1f1eb5b61e8f69ae32616b",
+    "verified": "cut here by score_matched_t2v.cut_prefix; framemd5 identical to source (60 s window = p060 prefix)",
+    "first": 0,
+    "last": 960,
+    "window_end_s": 60.0
+   },
+   "staged_name": "pq0140 camera static-0.mp4",
+   "stage": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h060/stage",
+   "video_s": 60.0,
+   "unit": {
+    "cmd": "/usr/bin/time -v -o /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h060/logs/h060.time.txt /home/minar/miniconda3/envs/vbench_fd18/bin/python evaluate_i2v.py --mode custom_input --videos_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h060/stage/videos --custom_image_folder /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h060/stage/images --output_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h060/out --dimension i2v_subject i2v_background",
+    "cwd": "/home/minar/VBench-fd18",
+    "rc": 0,
+    "log": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h060/logs/h060.log",
+    "wall_s": 73.03999999999999,
+    "max_rss_kb": 10175624,
+    "gpu_peak_mib_child": 2773,
+    "gpu_device_used_mib_peak": 2776,
+    "gpu_samples": 30,
+    "finished": "2026-11-12T04:46:03+0000"
+   },
+   "status": "complete",
+   "reason": "",
+   "values": {
+    "i2v_subject": 0.9336827804706991,
+    "i2v_background": 0.9334400622360408
+   },
+   "official": {
+    "i2v_subject": {
+     "official_aggregate": 0.9336827804706991,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h060/stage/images/pq0140 camera static.jpg"
+    },
+    "i2v_background": {
+     "official_aggregate": 0.9334400622360408,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h060/stage/images/pq0140 camera static.jpg"
+    }
+   },
+   "results_json": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h060/out/results_2026-11-12-04:44:51_eval_results.json",
+   "notes": []
+  },
+  "120": {
+   "input": {
+    "path": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v_windows/w120.mp4",
+    "frames": 961,
+    "first": 960,
+    "last": 1920,
+    "window_end_s": 120.0,
+    "sha256": "54b6550fbc28ff7535e5e9e1b57fcd60bc6693f178abcde1f17971bf1bf953c7",
+    "verified": "cut here (AIA score_horizon.seg_cmd); framemd5 identical to source frames [first,last]",
+    "cmd": "/home/minar/miniconda3/envs/helios/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2 -nostdin -hide_banner -v error -y -ss 60.000000 -i 'videos/journal_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/240s/A scrap of smouldering paper on a glass board on a wooden table. Recorded by a fixed tripod camera, .mp4' -map 0:v:0 -frames:v 961 -an -sn -dn -c:v libx264 -preset veryfast -qp 0 -pix_fmt yuv420p -fps_mode passthrough -threads 8 w120.mp4"
+   },
+   "staged_name": "pq0140 camera static-0.mp4",
+   "stage": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h120/stage",
+   "video_s": 60.0,
+   "unit": {
+    "cmd": "/usr/bin/time -v -o /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h120/logs/h120.time.txt /home/minar/miniconda3/envs/vbench_fd18/bin/python evaluate_i2v.py --mode custom_input --videos_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h120/stage/videos --custom_image_folder /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h120/stage/images --output_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h120/out --dimension i2v_subject i2v_background",
+    "cwd": "/home/minar/VBench-fd18",
+    "rc": 0,
+    "log": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h120/logs/h120.log",
+    "wall_s": 75.84,
+    "max_rss_kb": 10452820,
+    "gpu_peak_mib_child": 2773,
+    "gpu_device_used_mib_peak": 2776,
+    "gpu_samples": 31,
+    "finished": "2026-11-12T04:47:19+0000"
+   },
+   "status": "complete",
+   "reason": "",
+   "values": {
+    "i2v_subject": 0.7804283286817371,
+    "i2v_background": 0.848838626574725
+   },
+   "official": {
+    "i2v_subject": {
+     "official_aggregate": 0.7804283286817371,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h120/stage/images/pq0140 camera static.jpg"
+    },
+    "i2v_background": {
+     "official_aggregate": 0.848838626574725,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h120/stage/images/pq0140 camera static.jpg"
+    }
+   },
+   "results_json": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h120/out/results_2026-11-12-04:46:04_eval_results.json",
+   "notes": []
+  },
+  "240": {
+   "input": {
+    "path": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v_windows/w240.mp4",
+    "frames": 961,
+    "first": 2880,
+    "last": 3840,
+    "window_end_s": 240.0,
+    "sha256": "e2d002c546e0bcacef6a038b5733a283f28d8e49c6886a5aec3ab45c39be61bc",
+    "verified": "cut here (AIA score_horizon.seg_cmd); framemd5 identical to source frames [first,last]",
+    "cmd": "/home/minar/miniconda3/envs/helios/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2 -nostdin -hide_banner -v error -y -ss 180.000000 -i 'videos/journal_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/240s/A scrap of smouldering paper on a glass board on a wooden table. Recorded by a fixed tripod camera, .mp4' -map 0:v:0 -frames:v 961 -an -sn -dn -c:v libx264 -preset veryfast -qp 0 -pix_fmt yuv420p -fps_mode passthrough -threads 8 w240.mp4"
+   },
+   "staged_name": "pq0140 camera static-0.mp4",
+   "stage": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h240/stage",
+   "video_s": 60.0,
+   "unit": {
+    "cmd": "/usr/bin/time -v -o /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h240/logs/h240.time.txt /home/minar/miniconda3/envs/vbench_fd18/bin/python evaluate_i2v.py --mode custom_input --videos_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h240/stage/videos --custom_image_folder /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h240/stage/images --output_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h240/out --dimension i2v_subject i2v_background",
+    "cwd": "/home/minar/VBench-fd18",
+    "rc": 0,
+    "log": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h240/logs/h240.log",
+    "wall_s": 91.07,
+    "max_rss_kb": 10452144,
+    "gpu_peak_mib_child": 2773,
+    "gpu_device_used_mib_peak": 2776,
+    "gpu_samples": 37,
+    "finished": "2026-11-12T04:48:50+0000"
+   },
+   "status": "complete",
+   "reason": "",
+   "values": {
+    "i2v_subject": 0.736750024985522,
+    "i2v_background": 0.7785340752638876
+   },
+   "official": {
+    "i2v_subject": {
+     "official_aggregate": 0.736750024985522,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h240/stage/images/pq0140 camera static.jpg"
+    },
+    "i2v_background": {
+     "official_aggregate": 0.7785340752638876,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h240/stage/images/pq0140 camera static.jpg"
+    }
+   },
+   "results_json": "raw_matched_2026_11_10/i2v/self_forcing_i2v/pq0140/vbench_i2v/u/h240/out/results_2026-11-12-04:47:20_eval_results.json",
+   "notes": []
+  }
+ },
+ "input_sha256": {
+  "60": "d6dab5cbbd8091dab05399f186d0c8575aab2c591a1f1eb5b61e8f69ae32616b",
+  "120": "54b6550fbc28ff7535e5e9e1b57fcd60bc6693f178abcde1f17971bf1bf953c7",
+  "240": "e2d002c546e0bcacef6a038b5733a283f28d8e49c6886a5aec3ab45c39be61bc"
+ },
+ "official": {
+  "repository": "https://github.com/Vchitect/VBench",
+  "revision": "fd18b3d055cb0fc6f066ca90fe2c3c8cbb698490",
+  "path": "/home/minar/VBench-fd18",
+  "entrypoint": "evaluate_i2v.py",
+  "entry_sha256": "7fe327bed1d246c1562013b68e2e1431d43756d7ddc575b9fe447d0f5ab13f61",
+  "args": [
+   "--mode",
+   "custom_input"
+  ],
+  "dimension": [
+   "i2v_subject",
+   "i2v_background"
+  ],
+  "python": "/home/minar/miniconda3/envs/vbench_fd18/bin/python",
+  "cwd": "/home/minar/VBench-fd18",
+  "env": {
+   "CUDA_VISIBLE_DEVICES": "2",
+   "PYTHONPATH": "/home/minar/VBench-fd18",
+   "VBENCH_CACHE_DIR": "/home/minar/.cache/vbench",
+   "TORCH_HUB": "/home/minar/.cache/torch/hub"
+  },
+  "dev_flag": null,
+  "env_records": {
+   "/home/minar/ar-image-animation/results/snf_v2/scores/_env/vbench_fd18_freeze.txt": "758540bc917ef1c25bef275fc476c89384c12814fb922eebf6abad642089047a",
+   "/home/minar/ar-image-animation/results/snf_v2/scores/_env/checkpoints.sha256": "57f5069211910588211f5f1074a4d3793982d1adbc5bc7979c83371855e45cb5",
+   "/home/minar/ar-image-animation/results/snf_v2/scores/_env/vbench_env.json": "af2f898524a3196de78d3ec6ce1a88809b92178499a940c27a666225d357966f"
+  }
+ },
+ "protocol": {
+  "path": "configs/vbench_incumbent_protocol.json",
+  "sha256": "22cc8daa89845f54cfe23247d9d175bfc088b1927280629a3cb1c1bd95151a66"
+ },
+ "deviations_from_protocol": [
+  "horizons are PREFIXES (long) or the 60 s window ending at H (i2v) of ONE 240 s rollout, not separate generations; never pool with the historical whole-file records",
+  "VBench-Long temporal_flickering (protocol dimension) is not in this suite: like AIA run_vbench \"long\" it needs separate static-filter / no-filter runs",
+  "VBench-I2V camera_motion (protocol dimension) is not run; one sample per image-prompt (protocol: 5)",
+  "i2v dims at 120/240 s are on the final 961-frame window, not the whole video (official loader holds all frames in memory); the 240 s window ends at the last rendered frame when the render has < 3841 frames",
+  "VBench-Long per-video value = mean of the official per-clip values (fd18b3d reorganize quirk makes the official per-video list per clip; for SC/BC the fused 0.5/0.5 per-clip values); official aggregate kept",
+  "one video per official invocation (AIA batched 8): adds the model-load overhead per horizon",
+  "prompts are read from the staged file names (no --prompt_file); none of these dims uses the prompt text"
+ ],
+ "imaging_quality_scale": null,
+ "notes": [],
+ "wall_s": 268.5,
+ "gpu_wall_s": 239.95,
+ "gpu_peak_mib_child": 2773,
+ "gpu": 2,
+ "tool": "snf-bench score_matched_vbench 1.0",
+ "tool_sha256": {
+  "score_matched_vbench.py": "8005fbff27d18fd5991875a117110fbf1e0f3af9e2cb760cceb7d13ec6c1a65f",
+  "score_matched_t2v.py": "fe8fc6c2672f579a6ba094410dc868c8b10d13b100d15e9dc9388134b8704aa7"
+ },
+ "command": "/home/minar/miniconda3/envs/snfeval/bin/python scripts/score_matched_vbench.py --track i2v --model self_forcing_i2v --scene pq0140 --suite i2v --gpu 2",
+ "host": "sg17",
+ "written": "2026-11-12T04:48:50+0000"
+}

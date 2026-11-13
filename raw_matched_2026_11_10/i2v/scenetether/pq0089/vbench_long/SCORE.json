@@ -1,0 +1,1682 @@
+{
+ "status": "complete",
+ "track": "i2v",
+ "model": "scenetether",
+ "scene": "pq0089",
+ "suite": "long",
+ "role": "journal matched-horizon development scores",
+ "role_note": "within-rollout trajectory of one 240 s render; never pool with historical whole-file records",
+ "window_policy": "prefix",
+ "window_rule": "first 16*H+1 frames of the rollout; 240 s = the whole file",
+ "render": {
+  "dir": "videos/journal_matched_2026_11_10/i2v/scenetether/pq0089/240s",
+  "file": "An overfull glass under a dispenser tap in a baking tray. Recorded by a fixed tripod camera, unmovin.mp4",
+  "sha256": "263d8882b53352c4d1e49cb29d9862f79b97a2625529f7ce06c5482ed240c2f1",
+  "frames": 3841,
+  "fps": 16,
+  "width": 832,
+  "height": 480,
+  "setting": "locked SceneTether argv; only output folder, data path, horizon (force_num_frames 960, num_output_frames 961) and eval_first_n=1 changed, as AIA tools/oos/run_oos_samples_oct28.py",
+  "category": "falling_water",
+  "seed": 42,
+  "checkpoint_sha256": "8f899a016dffb9539788fac82c6200e43ef6e23b6e61ec6b885bb507a760ce42"
+ },
+ "prompt": "An overfull glass under a dispenser tap in a baking tray. Recorded by a fixed tripod camera, unmoving. The dispenser, the wicker stand, the glass and the metal tray hold their positions. Red juice spills over the glass rim and runs down its sides top to bottom. Soft indoor daylight.",
+ "prompt_sha256": "1a10783f201809053cbaebfaba4d6160a91c5d774521b20a6c8545d04917a3c8",
+ "conditioning_image": {
+  "path": "videos/public_bench/conditioning/pq0089.jpg",
+  "abspath": "/home/minar/snf-bench/videos/public_bench/conditioning/pq0089.jpg",
+  "sha256": "420615c187f44d49f63359efc9f05d0a42551cd57835b70ddf473bcb82899da3",
+  "manifest": "manifest/public_figure_set_2026_11_05.json",
+  "manifest_sha256": "6ff1ac4d92a31bffe36049531b173903b81d232f193b3a209f5c476736fb6a3b",
+  "licence": "CC BY 4.0",
+  "benchmark": "Physics-IQ (Motamed et al., WACV 2026)"
+ },
+ "dims": [
+  "subject_consistency",
+  "background_consistency",
+  "motion_smoothness",
+  "dynamic_degree",
+  "aesthetic_quality",
+  "imaging_quality"
+ ],
+ "values": {
+  "60": {
+   "subject_consistency": 0.986278484816559,
+   "background_consistency": 0.9765316343853409,
+   "motion_smoothness": 0.9944433897032356,
+   "dynamic_degree": 0.12903225806451613,
+   "aesthetic_quality": 0.5466626498007006,
+   "imaging_quality": 0.7665676479185781
+  },
+  "120": {
+   "subject_consistency": 0.9861672611378997,
+   "background_consistency": 0.9765787463729582,
+   "motion_smoothness": 0.9945303794761217,
+   "dynamic_degree": 0.06557377049180328,
+   "aesthetic_quality": 0.5400975976811081,
+   "imaging_quality": 0.7668296852659006
+  },
+  "240": {
+   "subject_consistency": 0.9859211217376981,
+   "background_consistency": 0.9763174431657186,
+   "motion_smoothness": 0.9944942396157372,
+   "dynamic_degree": 0.08264462809917356,
+   "aesthetic_quality": 0.5395249689906096,
+   "imaging_quality": 0.7670258412085287
+  }
+ },
+ "horizons": {
+  "60": {
+   "input": {
+    "path": "raw_matched_2026_11_10/i2v/scenetether/pq0089/snf/prefixes/p060.mp4",
+    "frames": 961,
+    "sha256": "76b4427eb49db3a6a61f69aa0103f273fc6521c287dfc83ace33b1242b704084",
+    "verified": "existing prefix; framemd5 re-verified identical to source",
+    "first": 0,
+    "last": 960
+   },
+   "staged_name": "pq0089-0.mp4",
+   "stage": "raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h060/stage",
+   "video_s": 60.0,
+   "unit": {
+    "cmd": "/usr/bin/time -v -o /home/minar/snf-bench/raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h060/logs/h060.time.txt /home/minar/miniconda3/envs/vbench_fd18/bin/python vbench2_beta_long/eval_long.py --mode long_custom_input --dev_flag --clip_length_config clip_length_mix.yaml --sb_clip2clip_feat_extractor dinov2 --bg_clip2clip_feat_extractor dreamsim --videos_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h060/stage --output_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h060/out --dimension subject_consistency background_consistency motion_smoothness dynamic_degree aesthetic_quality imaging_quality",
+    "cwd": "/home/minar/VBench-fd18",
+    "rc": 0,
+    "log": "raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h060/logs/h060.log",
+    "wall_s": 316.24,
+    "max_rss_kb": 9048272,
+    "gpu_peak_mib_child": 4465,
+    "gpu_device_used_mib_peak": 4468,
+    "gpu_samples": 127,
+    "finished": "2026-11-12T07:25:28+0000"
+   },
+   "split_clips": {
+    "rule": "official split_video_into_clips(duration=2); clips re-encoded by torchvision.io.write_video",
+    "n_clips": 31,
+    "matches_plan": true,
+    "clips": [
+     {
+      "file": "pq0089-0_000.mp4",
+      "start": 0,
+      "end_exclusive": 32,
+      "sha256": "bc62f78248460cd6bb0258343560bb33be8e0192d2794166cf993c906298b61d"
+     },
+     {
+      "file": "pq0089-0_001.mp4",
+      "start": 32,
+      "end_exclusive": 64,
+      "sha256": "a34fef4e4df7a41f2b053f19721d5c6409695195ab6b5fc089c230270e0f7f89"
+     },
+     {
+      "file": "pq0089-0_002.mp4",
+      "start": 64,
+      "end_exclusive": 96,
+      "sha256": "25e10ec227bd1c57a3cfe284689f69c8661f7da835cfe46c34903ae5db9010cb"
+     },
+     {
+      "file": "pq0089-0_003.mp4",
+      "start": 96,
+      "end_exclusive": 128,
+      "sha256": "1d06165d1f51445ae3536cfbe644c634b22ab2f43abab45d652d9d8fbff47c4a"
+     },
+     {
+      "file": "pq0089-0_004.mp4",
+      "start": 128,
+      "end_exclusive": 160,
+      "sha256": "0e0f816b0947729fe75174ca34870b406dd4c3a0d3237fd75c6479ac9f4a9911"
+     },
+     {
+      "file": "pq0089-0_005.mp4",
+      "start": 160,
+      "end_exclusive": 192,
+      "sha256": "321eb6074db097cb40199ef924033f69affe4ff40808e2ef707bc775e4e1088b"
+     },
+     {
+      "file": "pq0089-0_006.mp4",
+      "start": 192,
+      "end_exclusive": 224,
+      "sha256": "9e517ce240e92b785977f7c9e2095f99125b1c72635db3f9db2d3dc56f782ae9"
+     },
+     {
+      "file": "pq0089-0_007.mp4",
+      "start": 224,
+      "end_exclusive": 256,
+      "sha256": "11022a362ac218065b83b725038f7f07a398c5220eb54547c1d3ea2eedddbb1f"
+     },
+     {
+      "file": "pq0089-0_008.mp4",
+      "start": 256,
+      "end_exclusive": 288,
+      "sha256": "4f88a8384dcc3def061795430f8514fe747b4db4fea5096d3b77c340210aee68"
+     },
+     {
+      "file": "pq0089-0_009.mp4",
+      "start": 288,
+      "end_exclusive": 320,
+      "sha256": "d562275b6ed3ac2db4d4acad3ecee209703bf4afb768f5bc3569c2abd6b3dffa"
+     },
+     {
+      "file": "pq0089-0_010.mp4",
+      "start": 320,
+      "end_exclusive": 352,
+      "sha256": "26df01a7dbf5309848ec8baa5c9745fce98c64538378ccb79ef960ddd0f34f74"
+     },
+     {
+      "file": "pq0089-0_011.mp4",
+      "start": 352,
+      "end_exclusive": 384,
+      "sha256": "ceefeeabb9871974d308374792e0c5f4984d185363839e1e9c912d2e1d7a2b2c"
+     },
+     {
+      "file": "pq0089-0_012.mp4",
+      "start": 384,
+      "end_exclusive": 416,
+      "sha256": "d776081a5b8a602aaea3e398e06ae482c56bc2fba0f97b2e6cc2ba4a4b25bfd2"
+     },
+     {
+      "file": "pq0089-0_013.mp4",
+      "start": 416,
+      "end_exclusive": 448,
+      "sha256": "6c215ed87a30c1e14dc1c72dda015e47f7c9198e5ba9c8b2753e90e7f4bd0999"
+     },
+     {
+      "file": "pq0089-0_014.mp4",
+      "start": 448,
+      "end_exclusive": 480,
+      "sha256": "0a35e5939fbe4184266e898fbbc56d7923fc42155b0bb9d44ec6b9b4de933d5b"
+     },
+     {
+      "file": "pq0089-0_015.mp4",
+      "start": 480,
+      "end_exclusive": 512,
+      "sha256": "c548aef8c403e87602f203e938f0114241c39b4db86c850732d218fe433dd361"
+     },
+     {
+      "file": "pq0089-0_016.mp4",
+      "start": 512,
+      "end_exclusive": 544,
+      "sha256": "8a0d4f0f437c5bcd5ddb0399e8d213dd9e1e9f181cf63e502848eeabbadc0ab6"
+     },
+     {
+      "file": "pq0089-0_017.mp4",
+      "start": 544,
+      "end_exclusive": 576,
+      "sha256": "721c886a40e2a22087f1a375c7c50bdf590fd73c81259b616613f858accfbd60"
+     },
+     {
+      "file": "pq0089-0_018.mp4",
+      "start": 576,
+      "end_exclusive": 608,
+      "sha256": "04265c3d2523eb110cb2434cfc958dd4697e2c0f2a9c16fd0fd9a55e18784eb5"
+     },
+     {
+      "file": "pq0089-0_019.mp4",
+      "start": 608,
+      "end_exclusive": 640,
+      "sha256": "fb4eb3bfde39405fb3ea32e3b4b0022e0161e00e45666169ffe9d83fecbaba18"
+     },
+     {
+      "file": "pq0089-0_020.mp4",
+      "start": 640,
+      "end_exclusive": 672,
+      "sha256": "c3d0eab636aa366b5e18a7c0f92b9ae51d13196086e412006d83bdaaaffc6dee"
+     },
+     {
+      "file": "pq0089-0_021.mp4",
+      "start": 672,
+      "end_exclusive": 704,
+      "sha256": "6db35a555ca24e86b401c08ca5e53ba40db492b1264f8dfaa8a26fc9531fad54"
+     },
+     {
+      "file": "pq0089-0_022.mp4",
+      "start": 704,
+      "end_exclusive": 736,
+      "sha256": "248ba90d754f551c57f26f2a9770d2561e9eb3032f167b75b0b8c0e450a7f179"
+     },
+     {
+      "file": "pq0089-0_023.mp4",
+      "start": 736,
+      "end_exclusive": 768,
+      "sha256": "45400653600c297566170650651751f425e54ec53c7d7c9f9562dd7827c0851c"
+     },
+     {
+      "file": "pq0089-0_024.mp4",
+      "start": 768,
+      "end_exclusive": 800,
+      "sha256": "d25b9b58a025783900f7e8fa56672ef54b1a205f1dc0a1dc0bb887160df4d6ee"
+     },
+     {
+      "file": "pq0089-0_025.mp4",
+      "start": 800,
+      "end_exclusive": 832,
+      "sha256": "7085e32b2c92a3f7b7ba6c8ae939d23079ef6d6f69ba2b1121b047e67272a8d7"
+     },
+     {
+      "file": "pq0089-0_026.mp4",
+      "start": 832,
+      "end_exclusive": 864,
+      "sha256": "a50ac0fb4f2338b508bb9766d21a5d47f194c46ca157963d14f88a0ec57e558a"
+     },
+     {
+      "file": "pq0089-0_027.mp4",
+      "start": 864,
+      "end_exclusive": 896,
+      "sha256": "1bd42f835bbc7dc8804e398cb165ca74506c06ec33faab1fed8ac43724ae5e57"
+     },
+     {
+      "file": "pq0089-0_028.mp4",
+      "start": 896,
+      "end_exclusive": 928,
+      "sha256": "0d37391b63c0c64465628d6281c8d9495714c142906c6170f1364ca384d3d9f9"
+     },
+     {
+      "file": "pq0089-0_029.mp4",
+      "start": 928,
+      "end_exclusive": 960,
+      "sha256": "60f707c64a87109a8aaba87e6a9be54fc37f3b25f7fde9a20ba4c4c306f9921c"
+     },
+     {
+      "file": "pq0089-0_030.mp4",
+      "start": 929,
+      "end_exclusive": 961,
+      "sha256": "08763449c9b47e4f223d9be9d449de2f9d745da6aff6d99c1521e472d85fd510"
+     }
+    ]
+   },
+   "per_clip": "raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h060/per_clip.json",
+   "status": "complete",
+   "reason": "",
+   "values": {
+    "subject_consistency": 0.986278484816559,
+    "background_consistency": 0.9765316343853409,
+    "motion_smoothness": 0.9944433897032356,
+    "dynamic_degree": 0.12903225806451613,
+    "aesthetic_quality": 0.5466626498007006,
+    "imaging_quality": 0.7665676479185781
+   },
+   "official": {
+    "subject_consistency": {
+     "official_aggregate": 0.986278484816559,
+     "n_clips": 31,
+     "n_clips_official_plan": 31,
+     "inclip_mean": 0.9873601088724823,
+     "clip2clip": 0.8476182262102763,
+     "mapped_clip2clip": 0.9851968607606357
+    },
+    "background_consistency": {
+     "official_aggregate": 0.9765316343853409,
+     "n_clips": 31,
+     "n_clips_official_plan": 31,
+     "inclip_mean": 0.9743078194101196,
+     "clip2clip": 0.9610732942819595,
+     "mapped_clip2clip": 0.9787554493605618
+    },
+    "motion_smoothness": {
+     "official_aggregate": 0.9944433897032356,
+     "n_clips": 31,
+     "n_clips_official_plan": 31
+    },
+    "dynamic_degree": {
+     "official_aggregate": 0.12903225806451613,
+     "n_clips": 31,
+     "n_clips_official_plan": 31
+    },
+    "aesthetic_quality": {
+     "official_aggregate": 0.5466626498007006,
+     "n_clips": 31,
+     "n_clips_official_plan": 31
+    },
+    "imaging_quality": {
+     "official_aggregate": 0.7665676479185781,
+     "n_clips": 31,
+     "n_clips_official_plan": 31
+    }
+   },
+   "results_json": "raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h060/out/results_2026-11-12-07:20:14_eval_results.json",
+   "notes": []
+  },
+  "120": {
+   "input": {
+    "path": "raw_matched_2026_11_10/i2v/scenetether/pq0089/snf/prefixes/p120.mp4",
+    "frames": 1921,
+    "sha256": "1c7e8a228dcc47b086404c556f2ae6a2eec242545a087e5f39340395899478f3",
+    "verified": "existing prefix; framemd5 re-verified identical to source",
+    "first": 0,
+    "last": 1920
+   },
+   "staged_name": "pq0089-0.mp4",
+   "stage": "raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h120/stage",
+   "video_s": 120.0,
+   "unit": {
+    "cmd": "/usr/bin/time -v -o /home/minar/snf-bench/raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h120/logs/h120.time.txt /home/minar/miniconda3/envs/vbench_fd18/bin/python vbench2_beta_long/eval_long.py --mode long_custom_input --dev_flag --clip_length_config clip_length_mix.yaml --sb_clip2clip_feat_extractor dinov2 --bg_clip2clip_feat_extractor dreamsim --videos_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h120/stage --output_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h120/out --dimension subject_consistency background_consistency motion_smoothness dynamic_degree aesthetic_quality imaging_quality",
+    "cwd": "/home/minar/VBench-fd18",
+    "rc": 0,
+    "log": "raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h120/logs/h120.log",
+    "wall_s": 694.58,
+    "max_rss_kb": 13986820,
+    "gpu_peak_mib_child": 5069,
+    "gpu_device_used_mib_peak": 5072,
+    "gpu_samples": 271,
+    "finished": "2026-11-12T07:37:03+0000"
+   },
+   "split_clips": {
+    "rule": "official split_video_into_clips(duration=2); clips re-encoded by torchvision.io.write_video",
+    "n_clips": 61,
+    "matches_plan": true,
+    "clips": [
+     {
+      "file": "pq0089-0_000.mp4",
+      "start": 0,
+      "end_exclusive": 32,
+      "sha256": "bc62f78248460cd6bb0258343560bb33be8e0192d2794166cf993c906298b61d"
+     },
+     {
+      "file": "pq0089-0_001.mp4",
+      "start": 32,
+      "end_exclusive": 64,
+      "sha256": "a34fef4e4df7a41f2b053f19721d5c6409695195ab6b5fc089c230270e0f7f89"
+     },
+     {
+      "file": "pq0089-0_002.mp4",
+      "start": 64,
+      "end_exclusive": 96,
+      "sha256": "25e10ec227bd1c57a3cfe284689f69c8661f7da835cfe46c34903ae5db9010cb"
+     },
+     {
+      "file": "pq0089-0_003.mp4",
+      "start": 96,
+      "end_exclusive": 128,
+      "sha256": "1d06165d1f51445ae3536cfbe644c634b22ab2f43abab45d652d9d8fbff47c4a"
+     },
+     {
+      "file": "pq0089-0_004.mp4",
+      "start": 128,
+      "end_exclusive": 160,
+      "sha256": "0e0f816b0947729fe75174ca34870b406dd4c3a0d3237fd75c6479ac9f4a9911"
+     },
+     {
+      "file": "pq0089-0_005.mp4",
+      "start": 160,
+      "end_exclusive": 192,
+      "sha256": "321eb6074db097cb40199ef924033f69affe4ff40808e2ef707bc775e4e1088b"
+     },
+     {
+      "file": "pq0089-0_006.mp4",
+      "start": 192,
+      "end_exclusive": 224,
+      "sha256": "9e517ce240e92b785977f7c9e2095f99125b1c72635db3f9db2d3dc56f782ae9"
+     },
+     {
+      "file": "pq0089-0_007.mp4",
+      "start": 224,
+      "end_exclusive": 256,
+      "sha256": "11022a362ac218065b83b725038f7f07a398c5220eb54547c1d3ea2eedddbb1f"
+     },
+     {
+      "file": "pq0089-0_008.mp4",
+      "start": 256,
+      "end_exclusive": 288,
+      "sha256": "4f88a8384dcc3def061795430f8514fe747b4db4fea5096d3b77c340210aee68"
+     },
+     {
+      "file": "pq0089-0_009.mp4",
+      "start": 288,
+      "end_exclusive": 320,
+      "sha256": "d562275b6ed3ac2db4d4acad3ecee209703bf4afb768f5bc3569c2abd6b3dffa"
+     },
+     {
+      "file": "pq0089-0_010.mp4",
+      "start": 320,
+      "end_exclusive": 352,
+      "sha256": "26df01a7dbf5309848ec8baa5c9745fce98c64538378ccb79ef960ddd0f34f74"
+     },
+     {
+      "file": "pq0089-0_011.mp4",
+      "start": 352,
+      "end_exclusive": 384,
+      "sha256": "ceefeeabb9871974d308374792e0c5f4984d185363839e1e9c912d2e1d7a2b2c"
+     },
+     {
+      "file": "pq0089-0_012.mp4",
+      "start": 384,
+      "end_exclusive": 416,
+      "sha256": "d776081a5b8a602aaea3e398e06ae482c56bc2fba0f97b2e6cc2ba4a4b25bfd2"
+     },
+     {
+      "file": "pq0089-0_013.mp4",
+      "start": 416,
+      "end_exclusive": 448,
+      "sha256": "6c215ed87a30c1e14dc1c72dda015e47f7c9198e5ba9c8b2753e90e7f4bd0999"
+     },
+     {
+      "file": "pq0089-0_014.mp4",
+      "start": 448,
+      "end_exclusive": 480,
+      "sha256": "0a35e5939fbe4184266e898fbbc56d7923fc42155b0bb9d44ec6b9b4de933d5b"
+     },
+     {
+      "file": "pq0089-0_015.mp4",
+      "start": 480,
+      "end_exclusive": 512,
+      "sha256": "c548aef8c403e87602f203e938f0114241c39b4db86c850732d218fe433dd361"
+     },
+     {
+      "file": "pq0089-0_016.mp4",
+      "start": 512,
+      "end_exclusive": 544,
+      "sha256": "8a0d4f0f437c5bcd5ddb0399e8d213dd9e1e9f181cf63e502848eeabbadc0ab6"
+     },
+     {
+      "file": "pq0089-0_017.mp4",
+      "start": 544,
+      "end_exclusive": 576,
+      "sha256": "721c886a40e2a22087f1a375c7c50bdf590fd73c81259b616613f858accfbd60"
+     },
+     {
+      "file": "pq0089-0_018.mp4",
+      "start": 576,
+      "end_exclusive": 608,
+      "sha256": "04265c3d2523eb110cb2434cfc958dd4697e2c0f2a9c16fd0fd9a55e18784eb5"
+     },
+     {
+      "file": "pq0089-0_019.mp4",
+      "start": 608,
+      "end_exclusive": 640,
+      "sha256": "fb4eb3bfde39405fb3ea32e3b4b0022e0161e00e45666169ffe9d83fecbaba18"
+     },
+     {
+      "file": "pq0089-0_020.mp4",
+      "start": 640,
+      "end_exclusive": 672,
+      "sha256": "c3d0eab636aa366b5e18a7c0f92b9ae51d13196086e412006d83bdaaaffc6dee"
+     },
+     {
+      "file": "pq0089-0_021.mp4",
+      "start": 672,
+      "end_exclusive": 704,
+      "sha256": "6db35a555ca24e86b401c08ca5e53ba40db492b1264f8dfaa8a26fc9531fad54"
+     },
+     {
+      "file": "pq0089-0_022.mp4",
+      "start": 704,
+      "end_exclusive": 736,
+      "sha256": "248ba90d754f551c57f26f2a9770d2561e9eb3032f167b75b0b8c0e450a7f179"
+     },
+     {
+      "file": "pq0089-0_023.mp4",
+      "start": 736,
+      "end_exclusive": 768,
+      "sha256": "45400653600c297566170650651751f425e54ec53c7d7c9f9562dd7827c0851c"
+     },
+     {
+      "file": "pq0089-0_024.mp4",
+      "start": 768,
+      "end_exclusive": 800,
+      "sha256": "d25b9b58a025783900f7e8fa56672ef54b1a205f1dc0a1dc0bb887160df4d6ee"
+     },
+     {
+      "file": "pq0089-0_025.mp4",
+      "start": 800,
+      "end_exclusive": 832,
+      "sha256": "7085e32b2c92a3f7b7ba6c8ae939d23079ef6d6f69ba2b1121b047e67272a8d7"
+     },
+     {
+      "file": "pq0089-0_026.mp4",
+      "start": 832,
+      "end_exclusive": 864,
+      "sha256": "a50ac0fb4f2338b508bb9766d21a5d47f194c46ca157963d14f88a0ec57e558a"
+     },
+     {
+      "file": "pq0089-0_027.mp4",
+      "start": 864,
+      "end_exclusive": 896,
+      "sha256": "1bd42f835bbc7dc8804e398cb165ca74506c06ec33faab1fed8ac43724ae5e57"
+     },
+     {
+      "file": "pq0089-0_028.mp4",
+      "start": 896,
+      "end_exclusive": 928,
+      "sha256": "0d37391b63c0c64465628d6281c8d9495714c142906c6170f1364ca384d3d9f9"
+     },
+     {
+      "file": "pq0089-0_029.mp4",
+      "start": 928,
+      "end_exclusive": 960,
+      "sha256": "60f707c64a87109a8aaba87e6a9be54fc37f3b25f7fde9a20ba4c4c306f9921c"
+     },
+     {
+      "file": "pq0089-0_030.mp4",
+      "start": 960,
+      "end_exclusive": 992,
+      "sha256": "3c7ef20dccef2c862bdc37fca885a24026e4d480d5bc9b3531c00ece2f72c29f"
+     },
+     {
+      "file": "pq0089-0_031.mp4",
+      "start": 992,
+      "end_exclusive": 1024,
+      "sha256": "4bda83eb584583850231210be664a3f6fa1d61be93130c319449ac63d11da45a"
+     },
+     {
+      "file": "pq0089-0_032.mp4",
+      "start": 1024,
+      "end_exclusive": 1056,
+      "sha256": "7a1304dee6bdda88475fd4ad0bac29fdeaf26f9bdd3babbe3f29277aac408fe9"
+     },
+     {
+      "file": "pq0089-0_033.mp4",
+      "start": 1056,
+      "end_exclusive": 1088,
+      "sha256": "4264ec0dd45e5de451ada42ba23e8ef013627d4f857b98caa0ed6bf2e4c6bd1c"
+     },
+     {
+      "file": "pq0089-0_034.mp4",
+      "start": 1088,
+      "end_exclusive": 1120,
+      "sha256": "00d454256293846c4bde3d3e3f38896dd8bc79317e7df33aa9f26bc3403d3f77"
+     },
+     {
+      "file": "pq0089-0_035.mp4",
+      "start": 1120,
+      "end_exclusive": 1152,
+      "sha256": "c09382b1c3febf6a788fc2029c31b9bac684c8173ee178ed6ee27578656b3ccc"
+     },
+     {
+      "file": "pq0089-0_036.mp4",
+      "start": 1152,
+      "end_exclusive": 1184,
+      "sha256": "864f353de79b3748ffafa188b89fa81b08d6a7e1c6c4ffbd47c30838a56c91ba"
+     },
+     {
+      "file": "pq0089-0_037.mp4",
+      "start": 1184,
+      "end_exclusive": 1216,
+      "sha256": "6e7e06691f1c189b3aa3d926221a53b6047c51b539fca7d84ad16fd8dce5ec09"
+     },
+     {
+      "file": "pq0089-0_038.mp4",
+      "start": 1216,
+      "end_exclusive": 1248,
+      "sha256": "976dee3ffed185f6f55a737142f92146643ad2b8c07b393539374e259b993ac2"
+     },
+     {
+      "file": "pq0089-0_039.mp4",
+      "start": 1248,
+      "end_exclusive": 1280,
+      "sha256": "62b8654d99766769ac82fb97468480e753aabe85acfef3d0dc6c3050c45e94f8"
+     },
+     {
+      "file": "pq0089-0_040.mp4",
+      "start": 1280,
+      "end_exclusive": 1312,
+      "sha256": "f18bf5f00c2bb6fdec25f1e37d1eba55b0c0243dae81ed629adfb5f7630f34c6"
+     },
+     {
+      "file": "pq0089-0_041.mp4",
+      "start": 1312,
+      "end_exclusive": 1344,
+      "sha256": "4c13dff3e7f6aca6b86a1db6094bd766c793024e4b886d57b74500991e6eb551"
+     },
+     {
+      "file": "pq0089-0_042.mp4",
+      "start": 1344,
+      "end_exclusive": 1376,
+      "sha256": "04791bb61cc3f0584e7f7d76c179a1e3585ce732d5208db2d9b11ba194959e74"
+     },
+     {
+      "file": "pq0089-0_043.mp4",
+      "start": 1376,
+      "end_exclusive": 1408,
+      "sha256": "7eed5ba06649bcd27ec4aae152ba4c9f7c46540f29ff2328e59446ece49a6048"
+     },
+     {
+      "file": "pq0089-0_044.mp4",
+      "start": 1408,
+      "end_exclusive": 1440,
+      "sha256": "19840ba4cced07af319942b0583eb26942d05fcaee8469375cbfdd60d0e3972c"
+     },
+     {
+      "file": "pq0089-0_045.mp4",
+      "start": 1440,
+      "end_exclusive": 1472,
+      "sha256": "f1b8b7b81b82b9883bc691edf1e19672b438eaa3ed6e66e2cae2a53dd58f6c2d"
+     },
+     {
+      "file": "pq0089-0_046.mp4",
+      "start": 1472,
+      "end_exclusive": 1504,
+      "sha256": "d21d3f10453299c8132b58a12d66f86969bcdacd5a3fbb923b435221efe775cf"
+     },
+     {
+      "file": "pq0089-0_047.mp4",
+      "start": 1504,
+      "end_exclusive": 1536,
+      "sha256": "d52a1623e7ac02e08f7542de18987ad87743f62d77a421c0529189360451ed5e"
+     },
+     {
+      "file": "pq0089-0_048.mp4",
+      "start": 1536,
+      "end_exclusive": 1568,
+      "sha256": "2e608938315cd1c8c435a94d3abe1429d3bee90366e5ac873278d2c11f01bc90"
+     },
+     {
+      "file": "pq0089-0_049.mp4",
+      "start": 1568,
+      "end_exclusive": 1600,
+      "sha256": "2a5bbb73b31d6a5d3e33983a0bb64d43d15c75fced337f43b29cfabf23ec4060"
+     },
+     {
+      "file": "pq0089-0_050.mp4",
+      "start": 1600,
+      "end_exclusive": 1632,
+      "sha256": "9e3ad02394d0d70d198422aff7c76613780dddd34779be7e77a00905f2290d86"
+     },
+     {
+      "file": "pq0089-0_051.mp4",
+      "start": 1632,
+      "end_exclusive": 1664,
+      "sha256": "fe1ebc397c458f5e277a107aa3dc4df2e3a70649f5048b9a2104d41d9f6e04b1"
+     },
+     {
+      "file": "pq0089-0_052.mp4",
+      "start": 1664,
+      "end_exclusive": 1696,
+      "sha256": "ea33af07999df2a267e347f424f59fe8c67b803fb84eefc0f9d8e79412dc0a86"
+     },
+     {
+      "file": "pq0089-0_053.mp4",
+      "start": 1696,
+      "end_exclusive": 1728,
+      "sha256": "fe3af0d16384252d57ff63853c720966496fed44b3132b34c770aed033423653"
+     },
+     {
+      "file": "pq0089-0_054.mp4",
+      "start": 1728,
+      "end_exclusive": 1760,
+      "sha256": "8bfad0a56b9f9475efc08cf9e054dec95d1834e9a96703d04c5e2bfb9b70d853"
+     },
+     {
+      "file": "pq0089-0_055.mp4",
+      "start": 1760,
+      "end_exclusive": 1792,
+      "sha256": "498d851e5d27620c8c08ddb267753e2005ec14b6d0bbbd5360331f4b559d0ec6"
+     },
+     {
+      "file": "pq0089-0_056.mp4",
+      "start": 1792,
+      "end_exclusive": 1824,
+      "sha256": "28eda374df57debc1d08486f0fd55e67d1a15e01b196a1159e8c8e18e730f778"
+     },
+     {
+      "file": "pq0089-0_057.mp4",
+      "start": 1824,
+      "end_exclusive": 1856,
+      "sha256": "0747922a4cd8fd4fe3632c1b94ea8f6b5369d41603358ac469fd27c4581f2397"
+     },
+     {
+      "file": "pq0089-0_058.mp4",
+      "start": 1856,
+      "end_exclusive": 1888,
+      "sha256": "6b84b9381041baeae7e46eea9db504c9faf27e78241b4d55150ebf99022b7608"
+     },
+     {
+      "file": "pq0089-0_059.mp4",
+      "start": 1888,
+      "end_exclusive": 1920,
+      "sha256": "b3f0115036949ff9de6c79a336d2bdef45082cae2b4becff6c2f25b3c1856481"
+     },
+     {
+      "file": "pq0089-0_060.mp4",
+      "start": 1889,
+      "end_exclusive": 1921,
+      "sha256": "84a686a3566e7ec871e3e9e3720a00075f21f1f31f99207d0348e97c14db2dfc"
+     }
+    ]
+   },
+   "per_clip": "raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h120/per_clip.json",
+   "status": "complete",
+   "reason": "",
+   "values": {
+    "subject_consistency": 0.9861672611378997,
+    "background_consistency": 0.9765787463729582,
+    "motion_smoothness": 0.9945303794761217,
+    "dynamic_degree": 0.06557377049180328,
+    "aesthetic_quality": 0.5400975976811081,
+    "imaging_quality": 0.7668296852659006
+   },
+   "official": {
+    "subject_consistency": {
+     "official_aggregate": 0.9861672611378997,
+     "n_clips": 61,
+     "n_clips_official_plan": 61,
+     "inclip_mean": 0.9869824226636346,
+     "clip2clip": 0.8489904681841532,
+     "mapped_clip2clip": 0.9853520996121646
+    },
+    "background_consistency": {
+     "official_aggregate": 0.9765787463729582,
+     "n_clips": 61,
+     "n_clips_official_plan": 61,
+     "inclip_mean": 0.9747485519401109,
+     "clip2clip": 0.9590295458833377,
+     "mapped_clip2clip": 0.9784089408058054
+    },
+    "motion_smoothness": {
+     "official_aggregate": 0.9945303794761217,
+     "n_clips": 61,
+     "n_clips_official_plan": 61
+    },
+    "dynamic_degree": {
+     "official_aggregate": 0.06557377049180328,
+     "n_clips": 61,
+     "n_clips_official_plan": 61
+    },
+    "aesthetic_quality": {
+     "official_aggregate": 0.5400975976811081,
+     "n_clips": 61,
+     "n_clips_official_plan": 61
+    },
+    "imaging_quality": {
+     "official_aggregate": 0.7668296852659006,
+     "n_clips": 61,
+     "n_clips_official_plan": 61
+    }
+   },
+   "results_json": "raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h120/out/results_2026-11-12-07:25:30_eval_results.json",
+   "notes": []
+  },
+  "240": {
+   "input": {
+    "path": "videos/journal_matched_2026_11_10/i2v/scenetether/pq0089/240s/An overfull glass under a dispenser tap in a baking tray. Recorded by a fixed tripod camera, unmovin.mp4",
+    "frames": 3841,
+    "first": 0,
+    "last": 3840,
+    "sha256": "263d8882b53352c4d1e49cb29d9862f79b97a2625529f7ce06c5482ed240c2f1",
+    "verified": "original render file"
+   },
+   "staged_name": "pq0089-0.mp4",
+   "stage": "raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h240/stage",
+   "video_s": 240.0,
+   "unit": {
+    "cmd": "/usr/bin/time -v -o /home/minar/snf-bench/raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h240/logs/h240.time.txt /home/minar/miniconda3/envs/vbench_fd18/bin/python vbench2_beta_long/eval_long.py --mode long_custom_input --dev_flag --clip_length_config clip_length_mix.yaml --sb_clip2clip_feat_extractor dinov2 --bg_clip2clip_feat_extractor dreamsim --videos_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h240/stage --output_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h240/out --dimension subject_consistency background_consistency motion_smoothness dynamic_degree aesthetic_quality imaging_quality",
+    "cwd": "/home/minar/VBench-fd18",
+    "rc": 0,
+    "log": "raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h240/logs/h240.log",
+    "wall_s": 1256.02,
+    "max_rss_kb": 23295288,
+    "gpu_peak_mib_child": 5695,
+    "gpu_device_used_mib_peak": 5698,
+    "gpu_samples": 494,
+    "finished": "2026-11-12T07:57:59+0000"
+   },
+   "split_clips": {
+    "rule": "official split_video_into_clips(duration=2); clips re-encoded by torchvision.io.write_video",
+    "n_clips": 121,
+    "matches_plan": true,
+    "clips": [
+     {
+      "file": "pq0089-0_000.mp4",
+      "start": 0,
+      "end_exclusive": 32,
+      "sha256": "bc62f78248460cd6bb0258343560bb33be8e0192d2794166cf993c906298b61d"
+     },
+     {
+      "file": "pq0089-0_001.mp4",
+      "start": 32,
+      "end_exclusive": 64,
+      "sha256": "a34fef4e4df7a41f2b053f19721d5c6409695195ab6b5fc089c230270e0f7f89"
+     },
+     {
+      "file": "pq0089-0_002.mp4",
+      "start": 64,
+      "end_exclusive": 96,
+      "sha256": "25e10ec227bd1c57a3cfe284689f69c8661f7da835cfe46c34903ae5db9010cb"
+     },
+     {
+      "file": "pq0089-0_003.mp4",
+      "start": 96,
+      "end_exclusive": 128,
+      "sha256": "1d06165d1f51445ae3536cfbe644c634b22ab2f43abab45d652d9d8fbff47c4a"
+     },
+     {
+      "file": "pq0089-0_004.mp4",
+      "start": 128,
+      "end_exclusive": 160,
+      "sha256": "0e0f816b0947729fe75174ca34870b406dd4c3a0d3237fd75c6479ac9f4a9911"
+     },
+     {
+      "file": "pq0089-0_005.mp4",
+      "start": 160,
+      "end_exclusive": 192,
+      "sha256": "321eb6074db097cb40199ef924033f69affe4ff40808e2ef707bc775e4e1088b"
+     },
+     {
+      "file": "pq0089-0_006.mp4",
+      "start": 192,
+      "end_exclusive": 224,
+      "sha256": "9e517ce240e92b785977f7c9e2095f99125b1c72635db3f9db2d3dc56f782ae9"
+     },
+     {
+      "file": "pq0089-0_007.mp4",
+      "start": 224,
+      "end_exclusive": 256,
+      "sha256": "11022a362ac218065b83b725038f7f07a398c5220eb54547c1d3ea2eedddbb1f"
+     },
+     {
+      "file": "pq0089-0_008.mp4",
+      "start": 256,
+      "end_exclusive": 288,
+      "sha256": "4f88a8384dcc3def061795430f8514fe747b4db4fea5096d3b77c340210aee68"
+     },
+     {
+      "file": "pq0089-0_009.mp4",
+      "start": 288,
+      "end_exclusive": 320,
+      "sha256": "d562275b6ed3ac2db4d4acad3ecee209703bf4afb768f5bc3569c2abd6b3dffa"
+     },
+     {
+      "file": "pq0089-0_010.mp4",
+      "start": 320,
+      "end_exclusive": 352,
+      "sha256": "26df01a7dbf5309848ec8baa5c9745fce98c64538378ccb79ef960ddd0f34f74"
+     },
+     {
+      "file": "pq0089-0_011.mp4",
+      "start": 352,
+      "end_exclusive": 384,
+      "sha256": "ceefeeabb9871974d308374792e0c5f4984d185363839e1e9c912d2e1d7a2b2c"
+     },
+     {
+      "file": "pq0089-0_012.mp4",
+      "start": 384,
+      "end_exclusive": 416,
+      "sha256": "d776081a5b8a602aaea3e398e06ae482c56bc2fba0f97b2e6cc2ba4a4b25bfd2"
+     },
+     {
+      "file": "pq0089-0_013.mp4",
+      "start": 416,
+      "end_exclusive": 448,
+      "sha256": "6c215ed87a30c1e14dc1c72dda015e47f7c9198e5ba9c8b2753e90e7f4bd0999"
+     },
+     {
+      "file": "pq0089-0_014.mp4",
+      "start": 448,
+      "end_exclusive": 480,
+      "sha256": "0a35e5939fbe4184266e898fbbc56d7923fc42155b0bb9d44ec6b9b4de933d5b"
+     },
+     {
+      "file": "pq0089-0_015.mp4",
+      "start": 480,
+      "end_exclusive": 512,
+      "sha256": "c548aef8c403e87602f203e938f0114241c39b4db86c850732d218fe433dd361"
+     },
+     {
+      "file": "pq0089-0_016.mp4",
+      "start": 512,
+      "end_exclusive": 544,
+      "sha256": "8a0d4f0f437c5bcd5ddb0399e8d213dd9e1e9f181cf63e502848eeabbadc0ab6"
+     },
+     {
+      "file": "pq0089-0_017.mp4",
+      "start": 544,
+      "end_exclusive": 576,
+      "sha256": "721c886a40e2a22087f1a375c7c50bdf590fd73c81259b616613f858accfbd60"
+     },
+     {
+      "file": "pq0089-0_018.mp4",
+      "start": 576,
+      "end_exclusive": 608,
+      "sha256": "04265c3d2523eb110cb2434cfc958dd4697e2c0f2a9c16fd0fd9a55e18784eb5"
+     },
+     {
+      "file": "pq0089-0_019.mp4",
+      "start": 608,
+      "end_exclusive": 640,
+      "sha256": "fb4eb3bfde39405fb3ea32e3b4b0022e0161e00e45666169ffe9d83fecbaba18"
+     },
+     {
+      "file": "pq0089-0_020.mp4",
+      "start": 640,
+      "end_exclusive": 672,
+      "sha256": "c3d0eab636aa366b5e18a7c0f92b9ae51d13196086e412006d83bdaaaffc6dee"
+     },
+     {
+      "file": "pq0089-0_021.mp4",
+      "start": 672,
+      "end_exclusive": 704,
+      "sha256": "6db35a555ca24e86b401c08ca5e53ba40db492b1264f8dfaa8a26fc9531fad54"
+     },
+     {
+      "file": "pq0089-0_022.mp4",
+      "start": 704,
+      "end_exclusive": 736,
+      "sha256": "248ba90d754f551c57f26f2a9770d2561e9eb3032f167b75b0b8c0e450a7f179"
+     },
+     {
+      "file": "pq0089-0_023.mp4",
+      "start": 736,
+      "end_exclusive": 768,
+      "sha256": "45400653600c297566170650651751f425e54ec53c7d7c9f9562dd7827c0851c"
+     },
+     {
+      "file": "pq0089-0_024.mp4",
+      "start": 768,
+      "end_exclusive": 800,
+      "sha256": "d25b9b58a025783900f7e8fa56672ef54b1a205f1dc0a1dc0bb887160df4d6ee"
+     },
+     {
+      "file": "pq0089-0_025.mp4",
+      "start": 800,
+      "end_exclusive": 832,
+      "sha256": "7085e32b2c92a3f7b7ba6c8ae939d23079ef6d6f69ba2b1121b047e67272a8d7"
+     },
+     {
+      "file": "pq0089-0_026.mp4",
+      "start": 832,
+      "end_exclusive": 864,
+      "sha256": "a50ac0fb4f2338b508bb9766d21a5d47f194c46ca157963d14f88a0ec57e558a"
+     },
+     {
+      "file": "pq0089-0_027.mp4",
+      "start": 864,
+      "end_exclusive": 896,
+      "sha256": "1bd42f835bbc7dc8804e398cb165ca74506c06ec33faab1fed8ac43724ae5e57"
+     },
+     {
+      "file": "pq0089-0_028.mp4",
+      "start": 896,
+      "end_exclusive": 928,
+      "sha256": "0d37391b63c0c64465628d6281c8d9495714c142906c6170f1364ca384d3d9f9"
+     },
+     {
+      "file": "pq0089-0_029.mp4",
+      "start": 928,
+      "end_exclusive": 960,
+      "sha256": "60f707c64a87109a8aaba87e6a9be54fc37f3b25f7fde9a20ba4c4c306f9921c"
+     },
+     {
+      "file": "pq0089-0_030.mp4",
+      "start": 960,
+      "end_exclusive": 992,
+      "sha256": "3c7ef20dccef2c862bdc37fca885a24026e4d480d5bc9b3531c00ece2f72c29f"
+     },
+     {
+      "file": "pq0089-0_031.mp4",
+      "start": 992,
+      "end_exclusive": 1024,
+      "sha256": "4bda83eb584583850231210be664a3f6fa1d61be93130c319449ac63d11da45a"
+     },
+     {
+      "file": "pq0089-0_032.mp4",
+      "start": 1024,
+      "end_exclusive": 1056,
+      "sha256": "7a1304dee6bdda88475fd4ad0bac29fdeaf26f9bdd3babbe3f29277aac408fe9"
+     },
+     {
+      "file": "pq0089-0_033.mp4",
+      "start": 1056,
+      "end_exclusive": 1088,
+      "sha256": "4264ec0dd45e5de451ada42ba23e8ef013627d4f857b98caa0ed6bf2e4c6bd1c"
+     },
+     {
+      "file": "pq0089-0_034.mp4",
+      "start": 1088,
+      "end_exclusive": 1120,
+      "sha256": "00d454256293846c4bde3d3e3f38896dd8bc79317e7df33aa9f26bc3403d3f77"
+     },
+     {
+      "file": "pq0089-0_035.mp4",
+      "start": 1120,
+      "end_exclusive": 1152,
+      "sha256": "c09382b1c3febf6a788fc2029c31b9bac684c8173ee178ed6ee27578656b3ccc"
+     },
+     {
+      "file": "pq0089-0_036.mp4",
+      "start": 1152,
+      "end_exclusive": 1184,
+      "sha256": "864f353de79b3748ffafa188b89fa81b08d6a7e1c6c4ffbd47c30838a56c91ba"
+     },
+     {
+      "file": "pq0089-0_037.mp4",
+      "start": 1184,
+      "end_exclusive": 1216,
+      "sha256": "6e7e06691f1c189b3aa3d926221a53b6047c51b539fca7d84ad16fd8dce5ec09"
+     },
+     {
+      "file": "pq0089-0_038.mp4",
+      "start": 1216,
+      "end_exclusive": 1248,
+      "sha256": "976dee3ffed185f6f55a737142f92146643ad2b8c07b393539374e259b993ac2"
+     },
+     {
+      "file": "pq0089-0_039.mp4",
+      "start": 1248,
+      "end_exclusive": 1280,
+      "sha256": "62b8654d99766769ac82fb97468480e753aabe85acfef3d0dc6c3050c45e94f8"
+     },
+     {
+      "file": "pq0089-0_040.mp4",
+      "start": 1280,
+      "end_exclusive": 1312,
+      "sha256": "f18bf5f00c2bb6fdec25f1e37d1eba55b0c0243dae81ed629adfb5f7630f34c6"
+     },
+     {
+      "file": "pq0089-0_041.mp4",
+      "start": 1312,
+      "end_exclusive": 1344,
+      "sha256": "4c13dff3e7f6aca6b86a1db6094bd766c793024e4b886d57b74500991e6eb551"
+     },
+     {
+      "file": "pq0089-0_042.mp4",
+      "start": 1344,
+      "end_exclusive": 1376,
+      "sha256": "04791bb61cc3f0584e7f7d76c179a1e3585ce732d5208db2d9b11ba194959e74"
+     },
+     {
+      "file": "pq0089-0_043.mp4",
+      "start": 1376,
+      "end_exclusive": 1408,
+      "sha256": "7eed5ba06649bcd27ec4aae152ba4c9f7c46540f29ff2328e59446ece49a6048"
+     },
+     {
+      "file": "pq0089-0_044.mp4",
+      "start": 1408,
+      "end_exclusive": 1440,
+      "sha256": "19840ba4cced07af319942b0583eb26942d05fcaee8469375cbfdd60d0e3972c"
+     },
+     {
+      "file": "pq0089-0_045.mp4",
+      "start": 1440,
+      "end_exclusive": 1472,
+      "sha256": "f1b8b7b81b82b9883bc691edf1e19672b438eaa3ed6e66e2cae2a53dd58f6c2d"
+     },
+     {
+      "file": "pq0089-0_046.mp4",
+      "start": 1472,
+      "end_exclusive": 1504,
+      "sha256": "d21d3f10453299c8132b58a12d66f86969bcdacd5a3fbb923b435221efe775cf"
+     },
+     {
+      "file": "pq0089-0_047.mp4",
+      "start": 1504,
+      "end_exclusive": 1536,
+      "sha256": "d52a1623e7ac02e08f7542de18987ad87743f62d77a421c0529189360451ed5e"
+     },
+     {
+      "file": "pq0089-0_048.mp4",
+      "start": 1536,
+      "end_exclusive": 1568,
+      "sha256": "2e608938315cd1c8c435a94d3abe1429d3bee90366e5ac873278d2c11f01bc90"
+     },
+     {
+      "file": "pq0089-0_049.mp4",
+      "start": 1568,
+      "end_exclusive": 1600,
+      "sha256": "2a5bbb73b31d6a5d3e33983a0bb64d43d15c75fced337f43b29cfabf23ec4060"
+     },
+     {
+      "file": "pq0089-0_050.mp4",
+      "start": 1600,
+      "end_exclusive": 1632,
+      "sha256": "9e3ad02394d0d70d198422aff7c76613780dddd34779be7e77a00905f2290d86"
+     },
+     {
+      "file": "pq0089-0_051.mp4",
+      "start": 1632,
+      "end_exclusive": 1664,
+      "sha256": "fe1ebc397c458f5e277a107aa3dc4df2e3a70649f5048b9a2104d41d9f6e04b1"
+     },
+     {
+      "file": "pq0089-0_052.mp4",
+      "start": 1664,
+      "end_exclusive": 1696,
+      "sha256": "ea33af07999df2a267e347f424f59fe8c67b803fb84eefc0f9d8e79412dc0a86"
+     },
+     {
+      "file": "pq0089-0_053.mp4",
+      "start": 1696,
+      "end_exclusive": 1728,
+      "sha256": "fe3af0d16384252d57ff63853c720966496fed44b3132b34c770aed033423653"
+     },
+     {
+      "file": "pq0089-0_054.mp4",
+      "start": 1728,
+      "end_exclusive": 1760,
+      "sha256": "8bfad0a56b9f9475efc08cf9e054dec95d1834e9a96703d04c5e2bfb9b70d853"
+     },
+     {
+      "file": "pq0089-0_055.mp4",
+      "start": 1760,
+      "end_exclusive": 1792,
+      "sha256": "498d851e5d27620c8c08ddb267753e2005ec14b6d0bbbd5360331f4b559d0ec6"
+     },
+     {
+      "file": "pq0089-0_056.mp4",
+      "start": 1792,
+      "end_exclusive": 1824,
+      "sha256": "28eda374df57debc1d08486f0fd55e67d1a15e01b196a1159e8c8e18e730f778"
+     },
+     {
+      "file": "pq0089-0_057.mp4",
+      "start": 1824,
+      "end_exclusive": 1856,
+      "sha256": "0747922a4cd8fd4fe3632c1b94ea8f6b5369d41603358ac469fd27c4581f2397"
+     },
+     {
+      "file": "pq0089-0_058.mp4",
+      "start": 1856,
+      "end_exclusive": 1888,
+      "sha256": "6b84b9381041baeae7e46eea9db504c9faf27e78241b4d55150ebf99022b7608"
+     },
+     {
+      "file": "pq0089-0_059.mp4",
+      "start": 1888,
+      "end_exclusive": 1920,
+      "sha256": "b3f0115036949ff9de6c79a336d2bdef45082cae2b4becff6c2f25b3c1856481"
+     },
+     {
+      "file": "pq0089-0_060.mp4",
+      "start": 1920,
+      "end_exclusive": 1952,
+      "sha256": "f122288bcc85ebd2706216dd39024449e4b5d27b088ad1cfb8af716641204001"
+     },
+     {
+      "file": "pq0089-0_061.mp4",
+      "start": 1952,
+      "end_exclusive": 1984,
+      "sha256": "1f99b585f20d76d399c758fe44e1e80072de218e82e3eccdd0d559ad06d4bd86"
+     },
+     {
+      "file": "pq0089-0_062.mp4",
+      "start": 1984,
+      "end_exclusive": 2016,
+      "sha256": "c9b5b495186703ae8aa8c162d5db57628580dbbebc68a6c5630a0f512f0e868f"
+     },
+     {
+      "file": "pq0089-0_063.mp4",
+      "start": 2016,
+      "end_exclusive": 2048,
+      "sha256": "bf2f6e256258ea02f65cb305f23bfc11f774dc6f4cdde13eb9f2972ce0af52c1"
+     },
+     {
+      "file": "pq0089-0_064.mp4",
+      "start": 2048,
+      "end_exclusive": 2080,
+      "sha256": "46c09d78e4e502569ce0661b528cc94280f9accfb0a133e6d2fab4ad5339a7b5"
+     },
+     {
+      "file": "pq0089-0_065.mp4",
+      "start": 2080,
+      "end_exclusive": 2112,
+      "sha256": "2115efd06fa8d0f00874977c8c54a3e2e5453f2e7118cf16f6510d9bb45fb4c8"
+     },
+     {
+      "file": "pq0089-0_066.mp4",
+      "start": 2112,
+      "end_exclusive": 2144,
+      "sha256": "627d7af65cba2ce26aa910c8f5cc02cab6dcca2f5a95ba58319680efe148c9f8"
+     },
+     {
+      "file": "pq0089-0_067.mp4",
+      "start": 2144,
+      "end_exclusive": 2176,
+      "sha256": "9e77ea17d0993523c9970e1e438ef3f01c6f3c29b9551d571c4b8d64fed7aa3b"
+     },
+     {
+      "file": "pq0089-0_068.mp4",
+      "start": 2176,
+      "end_exclusive": 2208,
+      "sha256": "2bf908444ccdd1cd9bce3adf923cb410e45dad6df8f5c609f4486ac26a317792"
+     },
+     {
+      "file": "pq0089-0_069.mp4",
+      "start": 2208,
+      "end_exclusive": 2240,
+      "sha256": "cc3f9693f21eda51c2f97b8727f84505d18df9b43347906ffd0ae814da5cf890"
+     },
+     {
+      "file": "pq0089-0_070.mp4",
+      "start": 2240,
+      "end_exclusive": 2272,
+      "sha256": "1f44373deda83f5a2abea29f78dce63e3a1ca0078702056f55001f9de7fbd762"
+     },
+     {
+      "file": "pq0089-0_071.mp4",
+      "start": 2272,
+      "end_exclusive": 2304,
+      "sha256": "3244fbecb9e9c7df59897e0e23e707d3344f5d5b6d994c7051821b3a3ca92c49"
+     },
+     {
+      "file": "pq0089-0_072.mp4",
+      "start": 2304,
+      "end_exclusive": 2336,
+      "sha256": "d9eb02edd5f033dc4a7eb810df432187c3884429a165de680431059bacaa19a3"
+     },
+     {
+      "file": "pq0089-0_073.mp4",
+      "start": 2336,
+      "end_exclusive": 2368,
+      "sha256": "b3288f4dac6f97aaee6656f51573113a5d5b2365768a94a72cfa6eb07a5d89a1"
+     },
+     {
+      "file": "pq0089-0_074.mp4",
+      "start": 2368,
+      "end_exclusive": 2400,
+      "sha256": "808a1656cad5942651bb8551cc85fc73a65fcb48a3026a24dcdfc58177c62225"
+     },
+     {
+      "file": "pq0089-0_075.mp4",
+      "start": 2400,
+      "end_exclusive": 2432,
+      "sha256": "721263541a1337b96ec17713a97ea1ecedcd9deb83db396825bafefc049714e9"
+     },
+     {
+      "file": "pq0089-0_076.mp4",
+      "start": 2432,
+      "end_exclusive": 2464,
+      "sha256": "dfd30cc90ca84615898f25567cdb1ece91bdde3daa5e7982f3802044700c7737"
+     },
+     {
+      "file": "pq0089-0_077.mp4",
+      "start": 2464,
+      "end_exclusive": 2496,
+      "sha256": "8ad7f68434e1b8717afd93626a0951e304feefc27831f76cba6cfc68bb87bc63"
+     },
+     {
+      "file": "pq0089-0_078.mp4",
+      "start": 2496,
+      "end_exclusive": 2528,
+      "sha256": "80f0f9b99cc98b6bb6390873fe91be444d4bffec5cbe8d58d2cce4ddd88bf98a"
+     },
+     {
+      "file": "pq0089-0_079.mp4",
+      "start": 2528,
+      "end_exclusive": 2560,
+      "sha256": "5c6ee47a53f3234c3c46349a96e453e6345e4733674f84806b7ce7afa51b3459"
+     },
+     {
+      "file": "pq0089-0_080.mp4",
+      "start": 2560,
+      "end_exclusive": 2592,
+      "sha256": "1c62098ef4255d640aad4feb8684ce3ea5deb40052eec535c0900d4fd4e0e8a2"
+     },
+     {
+      "file": "pq0089-0_081.mp4",
+      "start": 2592,
+      "end_exclusive": 2624,
+      "sha256": "1a4910c99e387bd98589fcf7896246b4dad50cdf6c64242ccba0f73e6619740b"
+     },
+     {
+      "file": "pq0089-0_082.mp4",
+      "start": 2624,
+      "end_exclusive": 2656,
+      "sha256": "f0d92083d3771a5ca9df9970183ee5c70a71aba1d26a88fef980f45839658760"
+     },
+     {
+      "file": "pq0089-0_083.mp4",
+      "start": 2656,
+      "end_exclusive": 2688,
+      "sha256": "35ef609c178fddeeeb316419f06426c74b902a162157f0c85251619a9bcd3b45"
+     },
+     {
+      "file": "pq0089-0_084.mp4",
+      "start": 2688,
+      "end_exclusive": 2720,
+      "sha256": "4b954b3233b23fb92a76d2f901640e8301ffd2ed03f439c568f16a2aac068b35"
+     },
+     {
+      "file": "pq0089-0_085.mp4",
+      "start": 2720,
+      "end_exclusive": 2752,
+      "sha256": "711224a99bafb5ed52dcd0450cc245b4d052e078fd2b076382b34888954c7d72"
+     },
+     {
+      "file": "pq0089-0_086.mp4",
+      "start": 2752,
+      "end_exclusive": 2784,
+      "sha256": "b30c3a6dded55ca4f1f388fe3b63fea8e7e0b397bdc0b80a2c41ea22052ae9d3"
+     },
+     {
+      "file": "pq0089-0_087.mp4",
+      "start": 2784,
+      "end_exclusive": 2816,
+      "sha256": "306781fa72ac916f18ceae651e0e2b00aa92fe8f92979196f97860099d18155f"
+     },
+     {
+      "file": "pq0089-0_088.mp4",
+      "start": 2816,
+      "end_exclusive": 2848,
+      "sha256": "42bb1bcbdba2da667b6184417c9712be5db9e39a0a5837f829821aff8154e6bc"
+     },
+     {
+      "file": "pq0089-0_089.mp4",
+      "start": 2848,
+      "end_exclusive": 2880,
+      "sha256": "97694aa40d66736ae0c7c6ef9a988d81b6b73cb34ed3c029f63042b51c1fd323"
+     },
+     {
+      "file": "pq0089-0_090.mp4",
+      "start": 2880,
+      "end_exclusive": 2912,
+      "sha256": "dd6328d2ed210dea00969eed950b32cfd9a83a0dc9ee7c405c799c60739fda2e"
+     },
+     {
+      "file": "pq0089-0_091.mp4",
+      "start": 2912,
+      "end_exclusive": 2944,
+      "sha256": "e0448f25f7665a2f6770d1829ce2b77e9d27daf25c963ed460ae98512f1386be"
+     },
+     {
+      "file": "pq0089-0_092.mp4",
+      "start": 2944,
+      "end_exclusive": 2976,
+      "sha256": "67f90ddb689484eb655ff47af3749143f7b65b3bbfaea8623624ca270195ca84"
+     },
+     {
+      "file": "pq0089-0_093.mp4",
+      "start": 2976,
+      "end_exclusive": 3008,
+      "sha256": "ee5a19026a251bf4573b9bed9da88e7bcc86d70411fdec8e3d725ab8a25755ec"
+     },
+     {
+      "file": "pq0089-0_094.mp4",
+      "start": 3008,
+      "end_exclusive": 3040,
+      "sha256": "a8fd7844c6fd5f250df1ed35033f366a49d2413abe34f77e126aa9e06118dade"
+     },
+     {
+      "file": "pq0089-0_095.mp4",
+      "start": 3040,
+      "end_exclusive": 3072,
+      "sha256": "9a4d270959cec6f75f8899ad6ecf5ce2d0f51960776ec0fd9a10c19b3ef4b324"
+     },
+     {
+      "file": "pq0089-0_096.mp4",
+      "start": 3072,
+      "end_exclusive": 3104,
+      "sha256": "7d730d714aa80e4645e6b4b05f196988e23eee1edb3581241af04d9d5a34e624"
+     },
+     {
+      "file": "pq0089-0_097.mp4",
+      "start": 3104,
+      "end_exclusive": 3136,
+      "sha256": "b8a431e24b4ca21d99befcf97a41269e6f5edda1fd995cf42fd78d2b6d6108ab"
+     },
+     {
+      "file": "pq0089-0_098.mp4",
+      "start": 3136,
+      "end_exclusive": 3168,
+      "sha256": "12ba3357fd2d035abc0f7dd57bd9b9798b07d5ee8e6871e57124979a13b886b5"
+     },
+     {
+      "file": "pq0089-0_099.mp4",
+      "start": 3168,
+      "end_exclusive": 3200,
+      "sha256": "41447b78cad09edca722b7657d7790df955f9d5d4f630f0ecdf66193ce64ddd5"
+     },
+     {
+      "file": "pq0089-0_100.mp4",
+      "start": 3200,
+      "end_exclusive": 3232,
+      "sha256": "fe36f8f5e41065ea08118089693fcb7a8ecfa8e3f395ea6cc08f89780a15940e"
+     },
+     {
+      "file": "pq0089-0_101.mp4",
+      "start": 3232,
+      "end_exclusive": 3264,
+      "sha256": "a4d6dde79bce35cbd454c2624b7a3613fbd063e7dd12095c8d3abd98a85377a9"
+     },
+     {
+      "file": "pq0089-0_102.mp4",
+      "start": 3264,
+      "end_exclusive": 3296,
+      "sha256": "43abff78123f6afb71c1624bac37c5deaa983fb4f2788516449829d4efc72186"
+     },
+     {
+      "file": "pq0089-0_103.mp4",
+      "start": 3296,
+      "end_exclusive": 3328,
+      "sha256": "f8388a762a9953504966213a3a43d15461f939d190f419b2af8a7c4de3e0b34a"
+     },
+     {
+      "file": "pq0089-0_104.mp4",
+      "start": 3328,
+      "end_exclusive": 3360,
+      "sha256": "8dc885cd96fd31b0bac18805f11e0b7ab3e98843d6122b76f62a38900e774f87"
+     },
+     {
+      "file": "pq0089-0_105.mp4",
+      "start": 3360,
+      "end_exclusive": 3392,
+      "sha256": "0f0f0eef40b42872662b0492fad734637c2053145386f69d9382c0263e7a3871"
+     },
+     {
+      "file": "pq0089-0_106.mp4",
+      "start": 3392,
+      "end_exclusive": 3424,
+      "sha256": "7f4cfce7659689c73240b2b0e4d38365e10153261590950ea038f4aaa96b7710"
+     },
+     {
+      "file": "pq0089-0_107.mp4",
+      "start": 3424,
+      "end_exclusive": 3456,
+      "sha256": "9cc2ef4b71858db2893c817df43b7a11e63b42d2a03c8d5bba47e695edbd8238"
+     },
+     {
+      "file": "pq0089-0_108.mp4",
+      "start": 3456,
+      "end_exclusive": 3488,
+      "sha256": "a9bcb044dce71a180d2a7f556dc445746d1d5b43a40247074102c86666bc0e07"
+     },
+     {
+      "file": "pq0089-0_109.mp4",
+      "start": 3488,
+      "end_exclusive": 3520,
+      "sha256": "aa64f7f75b8b7050e0820c4b84c864d06280060aa861d58cc29e15bfa3798379"
+     },
+     {
+      "file": "pq0089-0_110.mp4",
+      "start": 3520,
+      "end_exclusive": 3552,
+      "sha256": "2310425bd842ee23510432901f1cdef1e6dd0bb5a2806ae55052257857a66c0d"
+     },
+     {
+      "file": "pq0089-0_111.mp4",
+      "start": 3552,
+      "end_exclusive": 3584,
+      "sha256": "4469ca2c0ba8b72c37e10436613caa0270160304a791fb8abb5b851f95a9f953"
+     },
+     {
+      "file": "pq0089-0_112.mp4",
+      "start": 3584,
+      "end_exclusive": 3616,
+      "sha256": "29e7aaedde0e92c568525c0798faf712ed30923100262625222196e9324f476a"
+     },
+     {
+      "file": "pq0089-0_113.mp4",
+      "start": 3616,
+      "end_exclusive": 3648,
+      "sha256": "1fdb51cd306c3df8e402ea992f4fd03eaad2aff73bcd9a36702750fa32e9dbd3"
+     },
+     {
+      "file": "pq0089-0_114.mp4",
+      "start": 3648,
+      "end_exclusive": 3680,
+      "sha256": "1ef5da55820a70c2e8cedfd9a96aecab047ea48873687c5631d8d599fc735530"
+     },
+     {
+      "file": "pq0089-0_115.mp4",
+      "start": 3680,
+      "end_exclusive": 3712,
+      "sha256": "85d359b149aacb6ab9b2a5fed253044c21e1dcb56ac0ee81bb4c2163a18763e5"
+     },
+     {
+      "file": "pq0089-0_116.mp4",
+      "start": 3712,
+      "end_exclusive": 3744,
+      "sha256": "298d776aff7849a7645884bd859c65e1ce367d185de1199fe5f7394014cd5a12"
+     },
+     {
+      "file": "pq0089-0_117.mp4",
+      "start": 3744,
+      "end_exclusive": 3776,
+      "sha256": "e15d5d1518d60f32e03698b4ae3e0c43ee9d15a104040cdf5061bf58c713afcf"
+     },
+     {
+      "file": "pq0089-0_118.mp4",
+      "start": 3776,
+      "end_exclusive": 3808,
+      "sha256": "bd8705139c8dc01c39f5df1c87e81d447f1db882ec62fa62bd9bd4dc186a01e2"
+     },
+     {
+      "file": "pq0089-0_119.mp4",
+      "start": 3808,
+      "end_exclusive": 3840,
+      "sha256": "23b9992482451fd2c8b0f9866f54085bc90456c0890f24941038550f53fd2af2"
+     },
+     {
+      "file": "pq0089-0_120.mp4",
+      "start": 3809,
+      "end_exclusive": 3841,
+      "sha256": "8f78b51df037289ba10a4d3a2f0dd9383d377a0ede99396295ef9b508e40ee27"
+     }
+    ]
+   },
+   "per_clip": "raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h240/per_clip.json",
+   "status": "complete",
+   "reason": "",
+   "values": {
+    "subject_consistency": 0.9859211217376981,
+    "background_consistency": 0.9763174431657186,
+    "motion_smoothness": 0.9944942396157372,
+    "dynamic_degree": 0.08264462809917356,
+    "aesthetic_quality": 0.5395249689906096,
+    "imaging_quality": 0.7670258412085287
+   },
+   "official": {
+    "subject_consistency": {
+     "official_aggregate": 0.9859211217376981,
+     "n_clips": 121,
+     "n_clips_official_plan": 121,
+     "inclip_mean": 0.9867129395545815,
+     "clip2clip": 0.8470210539797942,
+     "mapped_clip2clip": 0.9851293039208147
+    },
+    "background_consistency": {
+     "official_aggregate": 0.9763174431657186,
+     "n_clips": 121,
+     "n_clips_official_plan": 121,
+     "inclip_mean": 0.9743615895136292,
+     "clip2clip": 0.9583194533983866,
+     "mapped_clip2clip": 0.9782732968178073
+    },
+    "motion_smoothness": {
+     "official_aggregate": 0.9944942396157372,
+     "n_clips": 121,
+     "n_clips_official_plan": 121
+    },
+    "dynamic_degree": {
+     "official_aggregate": 0.08264462809917356,
+     "n_clips": 121,
+     "n_clips_official_plan": 121
+    },
+    "aesthetic_quality": {
+     "official_aggregate": 0.5395249689906096,
+     "n_clips": 121,
+     "n_clips_official_plan": 121
+    },
+    "imaging_quality": {
+     "official_aggregate": 0.7670258412085289,
+     "n_clips": 121,
+     "n_clips_official_plan": 121
+    }
+   },
+   "results_json": "raw_matched_2026_11_10/i2v/scenetether/pq0089/vbench_long/u/h240/out/results_2026-11-12-07:37:05_eval_results.json",
+   "notes": []
+  }
+ },
+ "input_sha256": {
+  "60": "76b4427eb49db3a6a61f69aa0103f273fc6521c287dfc83ace33b1242b704084",
+  "120": "1c7e8a228dcc47b086404c556f2ae6a2eec242545a087e5f39340395899478f3",
+  "240": "263d8882b53352c4d1e49cb29d9862f79b97a2625529f7ce06c5482ed240c2f1"
+ },
+ "official": {
+  "repository": "https://github.com/Vchitect/VBench",
+  "revision": "fd18b3d055cb0fc6f066ca90fe2c3c8cbb698490",
+  "path": "/home/minar/VBench-fd18",
+  "entrypoint": "vbench2_beta_long/eval_long.py",
+  "entry_sha256": "a4804167eab96e0911cf1fbdc54fb9e850e91195edae5dacf256b8b2fcb4869e",
+  "args": [
+   "--mode",
+   "long_custom_input",
+   "--dev_flag",
+   "--clip_length_config",
+   "clip_length_mix.yaml",
+   "--sb_clip2clip_feat_extractor",
+   "dinov2",
+   "--bg_clip2clip_feat_extractor",
+   "dreamsim"
+  ],
+  "dimension": [
+   "subject_consistency",
+   "background_consistency",
+   "motion_smoothness",
+   "dynamic_degree",
+   "aesthetic_quality",
+   "imaging_quality"
+  ],
+  "python": "/home/minar/miniconda3/envs/vbench_fd18/bin/python",
+  "cwd": "/home/minar/VBench-fd18",
+  "env": {
+   "CUDA_VISIBLE_DEVICES": "3",
+   "PYTHONPATH": "/home/minar/VBench-fd18",
+   "VBENCH_CACHE_DIR": "/home/minar/.cache/vbench",
+   "TORCH_HUB": "/home/minar/.cache/torch/hub"
+  },
+  "dev_flag": {
+   "weights": {
+    "w_inclip_sb": 0.5,
+    "w_clip2clip_sb": 0.5,
+    "w_inclip_bg": 0.5,
+    "w_clip2clip_bg": 0.5
+   },
+   "slow_fast_params_sha256": "f23ca51d0b19028a7b6ab87f88d90cde77591f67664cfa7bb53d77b158e39d3c",
+   "mapping_tables": {
+    "subject_mapping_table.yaml": "ad6c730b772577d573594ce1ace40e7a70c29ed6b026325589697061cdb86269",
+    "background_mapping_table.yaml": "47cc19bd7f22907e7c6515f0181d2c032187842d5d1686a238d0341ac2e5a440"
+   }
+  },
+  "env_records": {
+   "/home/minar/ar-image-animation/results/snf_v2/scores/_env/vbench_fd18_freeze.txt": "758540bc917ef1c25bef275fc476c89384c12814fb922eebf6abad642089047a",
+   "/home/minar/ar-image-animation/results/snf_v2/scores/_env/checkpoints.sha256": "57f5069211910588211f5f1074a4d3793982d1adbc5bc7979c83371855e45cb5",
+   "/home/minar/ar-image-animation/results/snf_v2/scores/_env/vbench_env.json": "af2f898524a3196de78d3ec6ce1a88809b92178499a940c27a666225d357966f"
+  }
+ },
+ "protocol": {
+  "path": "configs/vbench_incumbent_protocol.json",
+  "sha256": "22cc8daa89845f54cfe23247d9d175bfc088b1927280629a3cb1c1bd95151a66"
+ },
+ "deviations_from_protocol": [
+  "horizons are PREFIXES (long) or the 60 s window ending at H (i2v) of ONE 240 s rollout, not separate generations; never pool with the historical whole-file records",
+  "VBench-Long temporal_flickering (protocol dimension) is not in this suite: like AIA run_vbench \"long\" it needs separate static-filter / no-filter runs",
+  "VBench-I2V camera_motion (protocol dimension) is not run; one sample per image-prompt (protocol: 5)",
+  "i2v dims at 120/240 s are on the final 961-frame window, not the whole video (official loader holds all frames in memory); the 240 s window ends at the last rendered frame when the render has < 3841 frames",
+  "VBench-Long per-video value = mean of the official per-clip values (fd18b3d reorganize quirk makes the official per-video list per clip; for SC/BC the fused 0.5/0.5 per-clip values); official aggregate kept",
+  "one video per official invocation (AIA batched 8): adds the model-load overhead per horizon",
+  "prompts are read from the staged file names (no --prompt_file); none of these dims uses the prompt text"
+ ],
+ "imaging_quality_scale": "imaging_quality: official per-clip MUSIQ values are on 0-100 and the official aggregate divides by 100; every value here is on 0-1",
+ "notes": [],
+ "wall_s": 2275.0,
+ "gpu_wall_s": 2266.84,
+ "gpu_peak_mib_child": 5695,
+ "gpu": 3,
+ "tool": "snf-bench score_matched_vbench 1.0",
+ "tool_sha256": {
+  "score_matched_vbench.py": "8005fbff27d18fd5991875a117110fbf1e0f3af9e2cb760cceb7d13ec6c1a65f",
+  "score_matched_t2v.py": "fe8fc6c2672f579a6ba094410dc868c8b10d13b100d15e9dc9388134b8704aa7"
+ },
+ "command": "/home/minar/miniconda3/envs/snfeval/bin/python scripts/score_matched_vbench.py --track i2v --model scenetether --scene pq0089 --suite long --gpu 3",
+ "host": "sg17",
+ "written": "2026-11-12T07:57:59+0000"
+}

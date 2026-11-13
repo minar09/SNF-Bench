@@ -1,0 +1,250 @@
+{
+ "status": "complete",
+ "track": "i2v",
+ "model": "cfpp_f2s",
+ "scene": "vb161950",
+ "suite": "i2v",
+ "role": "journal matched-horizon development scores",
+ "role_note": "within-rollout trajectory of one 240 s render; never pool with historical whole-file records",
+ "window_policy": "window ending at H, 60 s",
+ "window_rule": "961 frames [16(H-60), 16H], clamped to end at the last rendered frame",
+ "render": {
+  "dir": "videos/journal_matched_2026_11_10/i2v/cfpp_f2s/vb161950/240s",
+  "file": "A tall waterfall dropping from a green cliff onto a gravel plain. Recorded by a fixed tripod camera,.mp4",
+  "sha256": "32bb4ba0fdb5c07e939bbff36a46be7548d423ee0a12d1632b39701879b9202e",
+  "frames": 3837,
+  "fps": 16,
+  "width": 832,
+  "height": 480,
+  "setting": "region-forcing run_eval_ours.sh METHOD=f2s_framewise python command replicated; adapted, not native",
+  "category": "falling_water",
+  "seed": 0,
+  "checkpoint_sha256": "8f899a016dffb9539788fac82c6200e43ef6e23b6e61ec6b885bb507a760ce42"
+ },
+ "prompt": "A tall waterfall dropping from a green cliff onto a gravel plain. Recorded by a fixed tripod camera, unmoving. The cliff faces, the grassy slopes and the gravel bank hold their positions. White water plunges from the lip into the pool top to bottom. Bright midday sun.",
+ "prompt_sha256": "fbc6c392c6910d3a0f659fb3aceaf8cdd641c9e0c21407d774468a0137b76356",
+ "conditioning_image": {
+  "path": "videos/public_bench/conditioning/vb161950.jpg",
+  "abspath": "/home/minar/snf-bench/videos/public_bench/conditioning/vb161950.jpg",
+  "sha256": "9a6cda07eee54680edf2513eb453fd004a1d24488858899c76882375039118ae",
+  "manifest": "manifest/public_figure_set_2026_11_05.json",
+  "manifest_sha256": "6ff1ac4d92a31bffe36049531b173903b81d232f193b3a209f5c476736fb6a3b",
+  "licence": "Pexels License",
+  "benchmark": "VBench-I2V image suite (Huang et al., VBench++)"
+ },
+ "dims": [
+  "i2v_subject",
+  "i2v_background"
+ ],
+ "values": {
+  "60": {
+   "i2v_subject": 0.9673156524449588,
+   "i2v_background": 0.9590769502520562
+  },
+  "120": {
+   "i2v_subject": 0.8499462784454226,
+   "i2v_background": 0.8351660962030292
+  },
+  "240": {
+   "i2v_subject": 0.8438998507708311,
+   "i2v_background": 0.7887686973810195
+  }
+ },
+ "horizons": {
+  "60": {
+   "input": {
+    "path": "raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/snf/prefixes/p060.mp4",
+    "frames": 961,
+    "sha256": "2999afbb8e582ae6f56b70ced8446f01de8636edca93b64ae553927026fe7151",
+    "verified": "cut here by score_matched_t2v.cut_prefix; framemd5 identical to source (60 s window = p060 prefix)",
+    "first": 0,
+    "last": 960,
+    "window_end_s": 60.0
+   },
+   "staged_name": "vb161950 camera static-0.mp4",
+   "stage": "raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h060/stage",
+   "video_s": 60.0,
+   "unit": {
+    "cmd": "/usr/bin/time -v -o /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h060/logs/h060.time.txt /home/minar/miniconda3/envs/vbench_fd18/bin/python evaluate_i2v.py --mode custom_input --videos_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h060/stage/videos --custom_image_folder /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h060/stage/images --output_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h060/out --dimension i2v_subject i2v_background",
+    "cwd": "/home/minar/VBench-fd18",
+    "rc": 0,
+    "log": "raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h060/logs/h060.log",
+    "wall_s": 86.15,
+    "max_rss_kb": 10448616,
+    "gpu_peak_mib_child": 2773,
+    "gpu_device_used_mib_peak": 2776,
+    "gpu_samples": 34,
+    "finished": "2026-11-12T01:00:43+0000"
+   },
+   "status": "complete",
+   "reason": "",
+   "values": {
+    "i2v_subject": 0.9673156524449588,
+    "i2v_background": 0.9590769502520562
+   },
+   "official": {
+    "i2v_subject": {
+     "official_aggregate": 0.9673156524449588,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h060/stage/images/vb161950 camera static.jpg"
+    },
+    "i2v_background": {
+     "official_aggregate": 0.9590769502520562,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h060/stage/images/vb161950 camera static.jpg"
+    }
+   },
+   "results_json": "raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h060/out/results_2026-11-12-00:59:18_eval_results.json",
+   "notes": []
+  },
+  "120": {
+   "input": {
+    "path": "raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v_windows/w120.mp4",
+    "frames": 961,
+    "first": 960,
+    "last": 1920,
+    "window_end_s": 120.0,
+    "sha256": "e4be088956e942edde7020f522352e9a516768b67f3aa01bc110a8981397ffe6",
+    "verified": "cut here (AIA score_horizon.seg_cmd); framemd5 identical to source frames [first,last]",
+    "cmd": "/home/minar/miniconda3/envs/helios/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2 -nostdin -hide_banner -v error -y -ss 60.000000 -i 'videos/journal_matched_2026_11_10/i2v/cfpp_f2s/vb161950/240s/A tall waterfall dropping from a green cliff onto a gravel plain. Recorded by a fixed tripod camera,.mp4' -map 0:v:0 -frames:v 961 -an -sn -dn -c:v libx264 -preset veryfast -qp 0 -pix_fmt yuv420p -fps_mode passthrough -threads 8 w120.mp4"
+   },
+   "staged_name": "vb161950 camera static-0.mp4",
+   "stage": "raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h120/stage",
+   "video_s": 60.0,
+   "unit": {
+    "cmd": "/usr/bin/time -v -o /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h120/logs/h120.time.txt /home/minar/miniconda3/envs/vbench_fd18/bin/python evaluate_i2v.py --mode custom_input --videos_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h120/stage/videos --custom_image_folder /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h120/stage/images --output_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h120/out --dimension i2v_subject i2v_background",
+    "cwd": "/home/minar/VBench-fd18",
+    "rc": 0,
+    "log": "raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h120/logs/h120.log",
+    "wall_s": 79.95,
+    "max_rss_kb": 10447644,
+    "gpu_peak_mib_child": 2773,
+    "gpu_device_used_mib_peak": 2776,
+    "gpu_samples": 32,
+    "finished": "2026-11-12T01:02:03+0000"
+   },
+   "status": "complete",
+   "reason": "",
+   "values": {
+    "i2v_subject": 0.8499462784454226,
+    "i2v_background": 0.8351660962030292
+   },
+   "official": {
+    "i2v_subject": {
+     "official_aggregate": 0.8499462784454226,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h120/stage/images/vb161950 camera static.jpg"
+    },
+    "i2v_background": {
+     "official_aggregate": 0.8351660962030292,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h120/stage/images/vb161950 camera static.jpg"
+    }
+   },
+   "results_json": "raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h120/out/results_2026-11-12-01:00:44_eval_results.json",
+   "notes": []
+  },
+  "240": {
+   "input": {
+    "path": "raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v_windows/w240.mp4",
+    "frames": 961,
+    "first": 2876,
+    "last": 3836,
+    "window_end_s": 239.75,
+    "sha256": "3651d625b3cbc93c1811360789239b9565794391a6c16b1e94962e732b7b9d2c",
+    "verified": "cut here (AIA score_horizon.seg_cmd); framemd5 identical to source frames [first,last]",
+    "cmd": "/home/minar/miniconda3/envs/helios/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2 -nostdin -hide_banner -v error -y -ss 179.750000 -i 'videos/journal_matched_2026_11_10/i2v/cfpp_f2s/vb161950/240s/A tall waterfall dropping from a green cliff onto a gravel plain. Recorded by a fixed tripod camera,.mp4' -map 0:v:0 -frames:v 961 -an -sn -dn -c:v libx264 -preset veryfast -qp 0 -pix_fmt yuv420p -fps_mode passthrough -threads 8 w240.mp4"
+   },
+   "staged_name": "vb161950 camera static-0.mp4",
+   "stage": "raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h240/stage",
+   "video_s": 60.0,
+   "unit": {
+    "cmd": "/usr/bin/time -v -o /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h240/logs/h240.time.txt /home/minar/miniconda3/envs/vbench_fd18/bin/python evaluate_i2v.py --mode custom_input --videos_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h240/stage/videos --custom_image_folder /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h240/stage/images --output_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h240/out --dimension i2v_subject i2v_background",
+    "cwd": "/home/minar/VBench-fd18",
+    "rc": 0,
+    "log": "raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h240/logs/h240.log",
+    "wall_s": 81.35,
+    "max_rss_kb": 10044108,
+    "gpu_peak_mib_child": 2773,
+    "gpu_device_used_mib_peak": 2776,
+    "gpu_samples": 33,
+    "finished": "2026-11-12T01:03:24+0000"
+   },
+   "status": "complete",
+   "reason": "",
+   "values": {
+    "i2v_subject": 0.8438998507708311,
+    "i2v_background": 0.7887686973810195
+   },
+   "official": {
+    "i2v_subject": {
+     "official_aggregate": 0.8438998507708311,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h240/stage/images/vb161950 camera static.jpg"
+    },
+    "i2v_background": {
+     "official_aggregate": 0.7887686973810195,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h240/stage/images/vb161950 camera static.jpg"
+    }
+   },
+   "results_json": "raw_matched_2026_11_10/i2v/cfpp_f2s/vb161950/vbench_i2v/u/h240/out/results_2026-11-12-01:02:04_eval_results.json",
+   "notes": []
+  }
+ },
+ "input_sha256": {
+  "60": "2999afbb8e582ae6f56b70ced8446f01de8636edca93b64ae553927026fe7151",
+  "120": "e4be088956e942edde7020f522352e9a516768b67f3aa01bc110a8981397ffe6",
+  "240": "3651d625b3cbc93c1811360789239b9565794391a6c16b1e94962e732b7b9d2c"
+ },
+ "official": {
+  "repository": "https://github.com/Vchitect/VBench",
+  "revision": "fd18b3d055cb0fc6f066ca90fe2c3c8cbb698490",
+  "path": "/home/minar/VBench-fd18",
+  "entrypoint": "evaluate_i2v.py",
+  "entry_sha256": "7fe327bed1d246c1562013b68e2e1431d43756d7ddc575b9fe447d0f5ab13f61",
+  "args": [
+   "--mode",
+   "custom_input"
+  ],
+  "dimension": [
+   "i2v_subject",
+   "i2v_background"
+  ],
+  "python": "/home/minar/miniconda3/envs/vbench_fd18/bin/python",
+  "cwd": "/home/minar/VBench-fd18",
+  "env": {
+   "CUDA_VISIBLE_DEVICES": "3",
+   "PYTHONPATH": "/home/minar/VBench-fd18",
+   "VBENCH_CACHE_DIR": "/home/minar/.cache/vbench",
+   "TORCH_HUB": "/home/minar/.cache/torch/hub"
+  },
+  "dev_flag": null,
+  "env_records": {
+   "/home/minar/ar-image-animation/results/snf_v2/scores/_env/vbench_fd18_freeze.txt": "758540bc917ef1c25bef275fc476c89384c12814fb922eebf6abad642089047a",
+   "/home/minar/ar-image-animation/results/snf_v2/scores/_env/checkpoints.sha256": "57f5069211910588211f5f1074a4d3793982d1adbc5bc7979c83371855e45cb5",
+   "/home/minar/ar-image-animation/results/snf_v2/scores/_env/vbench_env.json": "af2f898524a3196de78d3ec6ce1a88809b92178499a940c27a666225d357966f"
+  }
+ },
+ "protocol": {
+  "path": "configs/vbench_incumbent_protocol.json",
+  "sha256": "22cc8daa89845f54cfe23247d9d175bfc088b1927280629a3cb1c1bd95151a66"
+ },
+ "deviations_from_protocol": [
+  "horizons are PREFIXES (long) or the 60 s window ending at H (i2v) of ONE 240 s rollout, not separate generations; never pool with the historical whole-file records",
+  "VBench-Long temporal_flickering (protocol dimension) is not in this suite: like AIA run_vbench \"long\" it needs separate static-filter / no-filter runs",
+  "VBench-I2V camera_motion (protocol dimension) is not run; one sample per image-prompt (protocol: 5)",
+  "i2v dims at 120/240 s are on the final 961-frame window, not the whole video (official loader holds all frames in memory); the 240 s window ends at the last rendered frame when the render has < 3841 frames",
+  "VBench-Long per-video value = mean of the official per-clip values (fd18b3d reorganize quirk makes the official per-video list per clip; for SC/BC the fused 0.5/0.5 per-clip values); official aggregate kept",
+  "one video per official invocation (AIA batched 8): adds the model-load overhead per horizon",
+  "prompts are read from the staged file names (no --prompt_file); none of these dims uses the prompt text"
+ ],
+ "imaging_quality_scale": null,
+ "notes": [],
+ "wall_s": 279.6,
+ "gpu_wall_s": 247.45000000000002,
+ "gpu_peak_mib_child": 2773,
+ "gpu": 3,
+ "tool": "snf-bench score_matched_vbench 1.0",
+ "tool_sha256": {
+  "score_matched_vbench.py": "8005fbff27d18fd5991875a117110fbf1e0f3af9e2cb760cceb7d13ec6c1a65f",
+  "score_matched_t2v.py": "fe8fc6c2672f579a6ba094410dc868c8b10d13b100d15e9dc9388134b8704aa7"
+ },
+ "command": "/home/minar/miniconda3/envs/snfeval/bin/python scripts/score_matched_vbench.py --track i2v --model cfpp_f2s --scene vb161950 --suite i2v --gpu 3",
+ "host": "sg17",
+ "written": "2026-11-12T01:03:24+0000"
+}

@@ -1,0 +1,250 @@
+{
+ "status": "complete",
+ "track": "i2v",
+ "model": "cfpp_f2s",
+ "scene": "pq0065",
+ "suite": "i2v",
+ "role": "journal matched-horizon development scores",
+ "role_note": "within-rollout trajectory of one 240 s render; never pool with historical whole-file records",
+ "window_policy": "window ending at H, 60 s",
+ "window_rule": "961 frames [16(H-60), 16H], clamped to end at the last rendered frame",
+ "render": {
+  "dir": "videos/journal_matched_2026_11_10/i2v/cfpp_f2s/pq0065/240s",
+  "file": "A drinks dispenser pouring into a glass on a wooden table. Recorded by a fixed tripod camera, unmovi.mp4",
+  "sha256": "9e5098200aa05f8bb59c0d5f5e31207565c02df30bd00044d47c5e2973cf153c",
+  "frames": 3837,
+  "fps": 16,
+  "width": 832,
+  "height": 480,
+  "setting": "region-forcing run_eval_ours.sh METHOD=f2s_framewise python command replicated; adapted, not native",
+  "category": "falling_water",
+  "seed": 0,
+  "checkpoint_sha256": "8f899a016dffb9539788fac82c6200e43ef6e23b6e61ec6b885bb507a760ce42"
+ },
+ "prompt": "A drinks dispenser pouring into a glass on a wooden table. Recorded by a fixed tripod camera, unmoving. The dispenser jar, its wicker stand, the glass and the table hold their positions. A thin red stream runs from the tap into the glass top to bottom. Soft indoor daylight.",
+ "prompt_sha256": "adb7d4e171f977d6103e6604f30a01c8b8f33a98dbcb5f52bc7b5d142801b200",
+ "conditioning_image": {
+  "path": "videos/public_bench/conditioning/pq0065.jpg",
+  "abspath": "/home/minar/snf-bench/videos/public_bench/conditioning/pq0065.jpg",
+  "sha256": "0316226e20cb89f8731b23ed8d74f19bee12aaba3f57e67d24ef36b620e2b52a",
+  "manifest": "manifest/public_figure_set_2026_11_05.json",
+  "manifest_sha256": "6ff1ac4d92a31bffe36049531b173903b81d232f193b3a209f5c476736fb6a3b",
+  "licence": "CC BY 4.0",
+  "benchmark": "Physics-IQ (Motamed et al., WACV 2026)"
+ },
+ "dims": [
+  "i2v_subject",
+  "i2v_background"
+ ],
+ "values": {
+  "60": {
+   "i2v_subject": 0.9922896586731077,
+   "i2v_background": 0.9783262287452816
+  },
+  "120": {
+   "i2v_subject": 0.9114587432704866,
+   "i2v_background": 0.9336965799704194
+  },
+  "240": {
+   "i2v_subject": 0.905199549086392,
+   "i2v_background": 0.9189623174071312
+  }
+ },
+ "horizons": {
+  "60": {
+   "input": {
+    "path": "raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/snf/prefixes/p060.mp4",
+    "frames": 961,
+    "sha256": "2a6a4948d1c26db4d13e0cc18e2db6faadaabce02e2fa719c3c427d6aa96e54a",
+    "verified": "cut here by score_matched_t2v.cut_prefix; framemd5 identical to source (60 s window = p060 prefix)",
+    "first": 0,
+    "last": 960,
+    "window_end_s": 60.0
+   },
+   "staged_name": "pq0065 camera static-0.mp4",
+   "stage": "raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h060/stage",
+   "video_s": 60.0,
+   "unit": {
+    "cmd": "/usr/bin/time -v -o /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h060/logs/h060.time.txt /home/minar/miniconda3/envs/vbench_fd18/bin/python evaluate_i2v.py --mode custom_input --videos_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h060/stage/videos --custom_image_folder /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h060/stage/images --output_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h060/out --dimension i2v_subject i2v_background",
+    "cwd": "/home/minar/VBench-fd18",
+    "rc": 0,
+    "log": "raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h060/logs/h060.log",
+    "wall_s": 74.44,
+    "max_rss_kb": 10451656,
+    "gpu_peak_mib_child": 2773,
+    "gpu_device_used_mib_peak": 2776,
+    "gpu_samples": 31,
+    "finished": "2026-11-12T06:00:18+0000"
+   },
+   "status": "complete",
+   "reason": "",
+   "values": {
+    "i2v_subject": 0.9922896586731077,
+    "i2v_background": 0.9783262287452816
+   },
+   "official": {
+    "i2v_subject": {
+     "official_aggregate": 0.9922896586731077,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h060/stage/images/pq0065 camera static.jpg"
+    },
+    "i2v_background": {
+     "official_aggregate": 0.9783262287452816,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h060/stage/images/pq0065 camera static.jpg"
+    }
+   },
+   "results_json": "raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h060/out/results_2026-11-12-05:59:05_eval_results.json",
+   "notes": []
+  },
+  "120": {
+   "input": {
+    "path": "raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v_windows/w120.mp4",
+    "frames": 961,
+    "first": 960,
+    "last": 1920,
+    "window_end_s": 120.0,
+    "sha256": "deaf48f1dc9b532d71cb0223e1e1ee988874b28902824885964b7d52335576e9",
+    "verified": "cut here (AIA score_horizon.seg_cmd); framemd5 identical to source frames [first,last]",
+    "cmd": "/home/minar/miniconda3/envs/helios/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2 -nostdin -hide_banner -v error -y -ss 60.000000 -i 'videos/journal_matched_2026_11_10/i2v/cfpp_f2s/pq0065/240s/A drinks dispenser pouring into a glass on a wooden table. Recorded by a fixed tripod camera, unmovi.mp4' -map 0:v:0 -frames:v 961 -an -sn -dn -c:v libx264 -preset veryfast -qp 0 -pix_fmt yuv420p -fps_mode passthrough -threads 8 w120.mp4"
+   },
+   "staged_name": "pq0065 camera static-0.mp4",
+   "stage": "raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h120/stage",
+   "video_s": 60.0,
+   "unit": {
+    "cmd": "/usr/bin/time -v -o /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h120/logs/h120.time.txt /home/minar/miniconda3/envs/vbench_fd18/bin/python evaluate_i2v.py --mode custom_input --videos_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h120/stage/videos --custom_image_folder /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h120/stage/images --output_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h120/out --dimension i2v_subject i2v_background",
+    "cwd": "/home/minar/VBench-fd18",
+    "rc": 0,
+    "log": "raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h120/logs/h120.log",
+    "wall_s": 76.44,
+    "max_rss_kb": 10454336,
+    "gpu_peak_mib_child": 2773,
+    "gpu_device_used_mib_peak": 2776,
+    "gpu_samples": 32,
+    "finished": "2026-11-12T06:01:35+0000"
+   },
+   "status": "complete",
+   "reason": "",
+   "values": {
+    "i2v_subject": 0.9114587432704866,
+    "i2v_background": 0.9336965799704194
+   },
+   "official": {
+    "i2v_subject": {
+     "official_aggregate": 0.9114587432704866,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h120/stage/images/pq0065 camera static.jpg"
+    },
+    "i2v_background": {
+     "official_aggregate": 0.9336965799704194,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h120/stage/images/pq0065 camera static.jpg"
+    }
+   },
+   "results_json": "raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h120/out/results_2026-11-12-06:00:19_eval_results.json",
+   "notes": []
+  },
+  "240": {
+   "input": {
+    "path": "raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v_windows/w240.mp4",
+    "frames": 961,
+    "first": 2876,
+    "last": 3836,
+    "window_end_s": 239.75,
+    "sha256": "d67baf936cb62f0c33bd7e50ae553b00fab78fbcab5672a50ee0d890add0f6a6",
+    "verified": "cut here (AIA score_horizon.seg_cmd); framemd5 identical to source frames [first,last]",
+    "cmd": "/home/minar/miniconda3/envs/helios/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2 -nostdin -hide_banner -v error -y -ss 179.750000 -i 'videos/journal_matched_2026_11_10/i2v/cfpp_f2s/pq0065/240s/A drinks dispenser pouring into a glass on a wooden table. Recorded by a fixed tripod camera, unmovi.mp4' -map 0:v:0 -frames:v 961 -an -sn -dn -c:v libx264 -preset veryfast -qp 0 -pix_fmt yuv420p -fps_mode passthrough -threads 8 w240.mp4"
+   },
+   "staged_name": "pq0065 camera static-0.mp4",
+   "stage": "raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h240/stage",
+   "video_s": 60.0,
+   "unit": {
+    "cmd": "/usr/bin/time -v -o /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h240/logs/h240.time.txt /home/minar/miniconda3/envs/vbench_fd18/bin/python evaluate_i2v.py --mode custom_input --videos_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h240/stage/videos --custom_image_folder /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h240/stage/images --output_path /home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h240/out --dimension i2v_subject i2v_background",
+    "cwd": "/home/minar/VBench-fd18",
+    "rc": 0,
+    "log": "raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h240/logs/h240.log",
+    "wall_s": 72.03999999999999,
+    "max_rss_kb": 10454016,
+    "gpu_peak_mib_child": 2773,
+    "gpu_device_used_mib_peak": 2776,
+    "gpu_samples": 30,
+    "finished": "2026-11-12T06:02:47+0000"
+   },
+   "status": "complete",
+   "reason": "",
+   "values": {
+    "i2v_subject": 0.905199549086392,
+    "i2v_background": 0.9189623174071312
+   },
+   "official": {
+    "i2v_subject": {
+     "official_aggregate": 0.905199549086392,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h240/stage/images/pq0065 camera static.jpg"
+    },
+    "i2v_background": {
+     "official_aggregate": 0.9189623174071312,
+     "image_path": "/home/minar/snf-bench/raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h240/stage/images/pq0065 camera static.jpg"
+    }
+   },
+   "results_json": "raw_matched_2026_11_10/i2v/cfpp_f2s/pq0065/vbench_i2v/u/h240/out/results_2026-11-12-06:01:36_eval_results.json",
+   "notes": []
+  }
+ },
+ "input_sha256": {
+  "60": "2a6a4948d1c26db4d13e0cc18e2db6faadaabce02e2fa719c3c427d6aa96e54a",
+  "120": "deaf48f1dc9b532d71cb0223e1e1ee988874b28902824885964b7d52335576e9",
+  "240": "d67baf936cb62f0c33bd7e50ae553b00fab78fbcab5672a50ee0d890add0f6a6"
+ },
+ "official": {
+  "repository": "https://github.com/Vchitect/VBench",
+  "revision": "fd18b3d055cb0fc6f066ca90fe2c3c8cbb698490",
+  "path": "/home/minar/VBench-fd18",
+  "entrypoint": "evaluate_i2v.py",
+  "entry_sha256": "7fe327bed1d246c1562013b68e2e1431d43756d7ddc575b9fe447d0f5ab13f61",
+  "args": [
+   "--mode",
+   "custom_input"
+  ],
+  "dimension": [
+   "i2v_subject",
+   "i2v_background"
+  ],
+  "python": "/home/minar/miniconda3/envs/vbench_fd18/bin/python",
+  "cwd": "/home/minar/VBench-fd18",
+  "env": {
+   "CUDA_VISIBLE_DEVICES": "2",
+   "PYTHONPATH": "/home/minar/VBench-fd18",
+   "VBENCH_CACHE_DIR": "/home/minar/.cache/vbench",
+   "TORCH_HUB": "/home/minar/.cache/torch/hub"
+  },
+  "dev_flag": null,
+  "env_records": {
+   "/home/minar/ar-image-animation/results/snf_v2/scores/_env/vbench_fd18_freeze.txt": "758540bc917ef1c25bef275fc476c89384c12814fb922eebf6abad642089047a",
+   "/home/minar/ar-image-animation/results/snf_v2/scores/_env/checkpoints.sha256": "57f5069211910588211f5f1074a4d3793982d1adbc5bc7979c83371855e45cb5",
+   "/home/minar/ar-image-animation/results/snf_v2/scores/_env/vbench_env.json": "af2f898524a3196de78d3ec6ce1a88809b92178499a940c27a666225d357966f"
+  }
+ },
+ "protocol": {
+  "path": "configs/vbench_incumbent_protocol.json",
+  "sha256": "22cc8daa89845f54cfe23247d9d175bfc088b1927280629a3cb1c1bd95151a66"
+ },
+ "deviations_from_protocol": [
+  "horizons are PREFIXES (long) or the 60 s window ending at H (i2v) of ONE 240 s rollout, not separate generations; never pool with the historical whole-file records",
+  "VBench-Long temporal_flickering (protocol dimension) is not in this suite: like AIA run_vbench \"long\" it needs separate static-filter / no-filter runs",
+  "VBench-I2V camera_motion (protocol dimension) is not run; one sample per image-prompt (protocol: 5)",
+  "i2v dims at 120/240 s are on the final 961-frame window, not the whole video (official loader holds all frames in memory); the 240 s window ends at the last rendered frame when the render has < 3841 frames",
+  "VBench-Long per-video value = mean of the official per-clip values (fd18b3d reorganize quirk makes the official per-video list per clip; for SC/BC the fused 0.5/0.5 per-clip values); official aggregate kept",
+  "one video per official invocation (AIA batched 8): adds the model-load overhead per horizon",
+  "prompts are read from the staged file names (no --prompt_file); none of these dims uses the prompt text"
+ ],
+ "imaging_quality_scale": null,
+ "notes": [],
+ "wall_s": 246.3,
+ "gpu_wall_s": 222.92,
+ "gpu_peak_mib_child": 2773,
+ "gpu": 2,
+ "tool": "snf-bench score_matched_vbench 1.0",
+ "tool_sha256": {
+  "score_matched_vbench.py": "8005fbff27d18fd5991875a117110fbf1e0f3af9e2cb760cceb7d13ec6c1a65f",
+  "score_matched_t2v.py": "fe8fc6c2672f579a6ba094410dc868c8b10d13b100d15e9dc9388134b8704aa7"
+ },
+ "command": "/home/minar/miniconda3/envs/snfeval/bin/python scripts/score_matched_vbench.py --track i2v --model cfpp_f2s --scene pq0065 --suite i2v --gpu 2",
+ "host": "sg17",
+ "written": "2026-11-12T06:02:47+0000"
+}
